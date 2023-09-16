@@ -1,4 +1,4 @@
-garages = [
+const garages = [
   { id: 1,
     valet_company_id: 1,
     address_line_1: '218 Lincoln Rd',
@@ -8,6 +8,7 @@ garages = [
     zip: 33139
     latitude: 25.790780,
     longitude: -80.130099,
+    hourly_rate: 21,
   },
   { id: 2,
     valet_company_id: 2,
@@ -18,6 +19,7 @@ garages = [
     zip: 33131
     latitude: 25.764502,
     longitude: -80.193252,
+    hourly_rate: 14,
   },
 ];
 

@@ -1,13 +1,13 @@
-companies = [
+const companies = [
   { id: 1,
-    name: 'Mr. Valet',
+    company_name: 'Mr. Valet',
     admin_email: 'user@email.com',
-    admin_password: '273498werhwf9ysdf@#$@8f',
+    admin_password: 'password',
   },
   { id: 2,
-    name: 'Valet Queen',
+    company_name: 'Valet Queen',
     admin_email: 'user2@email.com',
-    admin_password: 'sadflkjasjdf0848yrt93h4tn3###',
+    admin_password: 'password',
   },
 ];
 

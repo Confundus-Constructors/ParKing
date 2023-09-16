@@ -52,7 +52,7 @@ CREATE TABLE "parking_spots" (
   id serial PRIMARY KEY NOT NULL,
   garage_id INT NOT NULL,
   position VARCHAR NOT NULL,
-  current_status VARCHAR NOT NULL CHECK(current_status IN ('available', 'reserved', 'occupied')),
+  is_available BOOLEAN NOT NULL,
   FOREIGN KEY ("garage_id") REFERENCES "garages"(id)
 );
 
@@ -70,8 +70,8 @@ CREATE TABLE "transactions" (
   user_id INT NOT NULL,
   vehicle_id INT NOT NULL,
   garage_id INT NOT NULL,
-  parking_spot_id INT NOT NULL,
-  employee_id INT NOT NULL,
+  parking_spot_id INT,
+  employee_id INT,
   qr_code BYTEA NOT NULL,
   reservation_start_time TIMESTAMP NOT NULL,
   reservation_end_time TIMESTAMP NOT NULL,
