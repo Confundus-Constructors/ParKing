@@ -15,7 +15,7 @@ module.exports = {
   },
   queryCountReservationTimes: (time1, time2) => {
     return client.query(
-    `SELECT COUNT (id), garage_id
+    `SELECT CAST(COUNT(id) AS INT), garage_id
     FROM transactions
     WHERE reservation_start_time >= '${time1}'
     AND reservation_end_time <= '${time2}'
@@ -24,7 +24,7 @@ module.exports = {
   },
   queryCountParkingSpots: () => {
     return client.query(
-    `SELECT COUNT (id), garage_id
+    `SELECT CAST(COUNT(id) AS INT), garage_id
     FROM parking_spots
     WHERE is_available = true
     GROUP BY garage_id`

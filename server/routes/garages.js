@@ -2,6 +2,7 @@ const express = require('express');
 const garageRouter = express.Router();
 const path = require('path');
 const model = require('../models');
+const controller = require('../controllers');
 
 garageRouter.get('/', async (req, res) => {
   // technically should read req.query for address
@@ -17,14 +18,10 @@ garageRouter.get('/', async (req, res) => {
   // add number of spots available
   const garageData = await model.queryAll('garages'); //[ {garage}, {garage} ]
   const transactionCount = await model.queryCountReservationTimes(obj.start_date, obj.end_date);
-  //[ {count, garage_id}, {count, garage_id} ]
   const parkingSpotCount = await model.queryCountParkingSpots();
-  //[ {count, garage_id}, {count, garage_id} ]
-  const test = parkingSpotCount.rows.map((garage) => {
-    let count = Number(garage.count);
-    let result = count;
 
-  })
+  const availableSpots = controller.subtractReservedSpots(parkingSpotCount.rows, transactionCount.rows);
+  const result = controller.nestCountIntoGarageData(garageData.rows, availableSpots);
   // grab all transactions that fall between dates
   // subtract count of transactions from parking_spots is_available
   // append count to each record
@@ -33,7 +30,7 @@ garageRouter.get('/', async (req, res) => {
   const transactionCountrows = transactionCount.rows;
   const parkingSpotCountrows = parkingSpotCount.rows;
 
-  res.status(201).send({garageDatarows, transactionCountrows, parkingSpotCountrows});
+  res.status(201).send(result);
 });
 
 module.exports = garageRouter;
