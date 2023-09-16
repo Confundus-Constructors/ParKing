@@ -5,7 +5,7 @@ const users = [
     email: 'michaelcuellar@email.com',
     password: 'password',
     phone: '1234567890',
-    is_employeee: false;
+    is_employee: false,
   },
   { id: 2,
     first_name: 'Michael',
@@ -13,7 +13,7 @@ const users = [
     email: 'michaelcuellar@workemail.com',
     password: 'password',
     phone: '1234567890',
-    is_employeee: true;
+    is_employee: true,
   },
   { id: 3,
     first_name: 'Daniel',
@@ -21,7 +21,7 @@ const users = [
     email: 'danielpark@email.com',
     password: 'password',
     phone: '1234567890',
-    is_employeee: false;
+    is_employee: false,
   },
   { id: 4,
     first_name: 'Daniel',
@@ -29,7 +29,7 @@ const users = [
     email: 'danielpark@workemail.com',
     password: 'password',
     phone: '1234567890',
-    is_employeee: true;
+    is_employee: true,
   },
   { id: 5,
     first_name: 'Amelia',
@@ -37,7 +37,7 @@ const users = [
     email: 'ameiliali@email.com',
     password: 'password',
     phone: '1234567890',
-    is_employeee: false;
+    is_employee: false,
   },
   { id: 6,
     first_name: 'Ameilia',
@@ -45,7 +45,7 @@ const users = [
     email: 'ameiliali@workemail.com',
     password: 'password',
     phone: '1234567890',
-    is_employeee: true;
+    is_employee: true,
   },
   { id: 7,
     first_name: 'Beck',
@@ -53,7 +53,7 @@ const users = [
     email: 'beckbaimouradov@email.com',
     password: 'password',
     phone: '1234567890',
-    is_employeee: false;
+    is_employee: false,
   },
   { id: 8,
     first_name: 'Beck',
@@ -61,7 +61,7 @@ const users = [
     email: 'beckbaimouradov@workemail.com',
     password: 'password',
     phone: '1234567890',
-    is_employeee: true;
+    is_employee: true,
   },
   { id: 9,
     first_name: 'Lederius',
@@ -69,7 +69,7 @@ const users = [
     email: 'lederiusfranklin@email.com',
     password: 'password',
     phone: '1234567890',
-    is_employeee: false;
+    is_employee: false,
   },
   { id: 10,
     first_name: 'Lederius',
@@ -77,7 +77,7 @@ const users = [
     email: 'lederiusfranklin@workemail.com',
     password: 'password',
     phone: '1234567890',
-    is_employeee: true;
+    is_employee: true,
   },
   { id: 11,
     first_name: 'Jon',
@@ -85,7 +85,7 @@ const users = [
     email: 'jonwilliams@email.com',
     password: 'password',
     phone: '1234567890',
-    is_employeee: false;
+    is_employee: false,
   },
   { id: 12,
     first_name: 'Jon',
@@ -93,7 +93,7 @@ const users = [
     email: 'jonwilliams@workemail.com',
     password: 'password',
     phone: '1234567890',
-    is_employeee: true;
+    is_employee: true,
   },
   { id: 13,
     first_name: 'Kurt',
@@ -101,7 +101,7 @@ const users = [
     email: 'kurtvardeman@email.com',
     password: 'password',
     phone: '1234567890',
-    is_employeee: false;
+    is_employee: false,
   },
   { id: 14,
     first_name: 'Kurt',
@@ -109,7 +109,7 @@ const users = [
     email: 'kurtvardeman@workemail.com',
     password: 'password',
     phone: '1234567890',
-    is_employeee: true;
+    is_employee: true,
   },
 ];
 

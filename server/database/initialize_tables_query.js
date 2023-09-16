@@ -42,8 +42,8 @@ CREATE TABLE "garages" (
   city VARCHAR NOT NULL,
   state VARCHAR NOT NULL,
   zip VARCHAR NOT NULL,
-  latitude INTEGER NOT NULL,
-  longitude INTEGER NOT NULL,
+  latitude DOUBLE PRECISION NOT NULL,
+  longitude DOUBLE PRECISION NOT NULL,
   hourly_rate INTEGER NOT NULL,
   FOREIGN KEY ("valet_company_id") REFERENCES "valet_company"(id)
 );
@@ -60,7 +60,8 @@ CREATE TABLE "employees" (
   id serial PRIMARY KEY NOT NULL,
   garage_id INT NOT NULL,
   valet_company_id INT NOT NULL,
-  name VARCHAR NOT NULL,
+  user_id INT NOT NULL,
+  FOREIGN KEY ("user_id") REFERENCES "users"(id),
   FOREIGN KEY ("garage_id") REFERENCES "garages"(id),
   FOREIGN KEY ("valet_company_id") REFERENCES "valet_company"(id)
 );
@@ -72,12 +73,13 @@ CREATE TABLE "transactions" (
   garage_id INT NOT NULL,
   parking_spot_id INT,
   employee_id INT,
-  qr_code BYTEA NOT NULL,
+  /*qr_code BYTEA NOT NULL,*/
+  qr_code BYTEA,
   reservation_start_time TIMESTAMP NOT NULL,
   reservation_end_time TIMESTAMP NOT NULL,
   check_in_time TIMESTAMP,
   check_out_time TIMESTAMP,
-  current_status VARCHAR NOT NULL CHECK(current_status IN ('reserved', 'checked_in', 'checked_out')),
+  current_status VARCHAR NOT NULL CHECK(current_status IN ('reserved', 'checked-in', 'checked-out')),
   active BOOLEAN NOT NULL,
   photo BYTEA,
   FOREIGN KEY ("user_id") REFERENCES "users"(id),

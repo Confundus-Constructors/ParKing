@@ -8,26 +8,34 @@ const employeesData = require('../../exampleData/employees');
 const vehiclesData = require('../../exampleData/vehicles');
 const transactionsData = require('../../exampleData/transactions');
 
-client.query(query)
-  .then(() => {
-    seedTables('users', usersData);
-    seedTables('valet_company', valetCompanyData);
-    seedTables('garages', garagesData);
-    seedTables('parking_spots', parkingSpotsData);
-    seedTables('employees', employeesData);
-    seedTables('vehicles', vehiclesData);
-    seedTables('transactions', transactionsData);
-  })
-  .catch((err) => console.log(err));
+(async () => {
+  try {
+    await client.query(query);
+    await seedTables('users', usersData);
+    await seedTables('valet_company', valetCompanyData);
+    await seedTables('garages', garagesData);
+    await seedTables('parking_spots', parkingSpotsData);
+    await seedTables('employees', employeesData);
+    await seedTables('vehicles', vehiclesData);
+    await seedTables('transactions', transactionsData);
+    await client.end();
+  } catch (err) {
+    console.error(err);
+  } finally {
+    // Close the client connection if needed
+    // client.end();
+  }
+})();
 
   const seedTables = async (table, data) => {
     try {
-      const columns = Object.keys(data[0]); // Assuming all objects have the same keys
+      let columns = Object.keys(data[0]);
+      const valuePlaceholders = columns.map((col, index) => `$${index + 1}`).join(', ');
       const values = data.map((rowData) => {
         return columns.map((col) => rowData[col]);
       });
 
-      const query = `INSERT INTO ${table} (${columns.join(', ')}) VALUES ($1, $2, $3, $4, $5, $6, $7, ...)`;
+      const query = `INSERT INTO ${table} (${columns.join(', ')}) VALUES (${valuePlaceholders})`;
 
       // Use a transaction to ensure data consistency
       await client.query('BEGIN');
