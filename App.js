@@ -5,6 +5,7 @@ import UHP from './client/user/components/UserHomePage';
 import Welcome from './client/user/components/Welcome';
 import React, { useState } from 'react';
 // import { router } from 'expro-router';
+import CarCard from './client/valet/components/CarCard.jsx';
 
 export default function App() {
   const [ emp, setEmp ] = useState(true);
@@ -19,5 +20,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-  },
+  }
 });
