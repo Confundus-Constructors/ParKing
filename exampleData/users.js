@@ -4,6 +4,7 @@ users = [
     last_name: 'Smith',
     email: 'johnsmith@gmail.com',
     phone: '123456789',
+    is_employeee: false;
   },
   { id: 2,
     first_name: 'Jane',
