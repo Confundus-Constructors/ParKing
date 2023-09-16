@@ -5,7 +5,6 @@ require('dotenv').config();
 // const userRoute = require('./routes/users');
 // const restRouter = require('./routes/transactions.js');
 
-
 const port = process.env.SERVER_PORT || 3001;
 
 app.listen(port, () => {
