@@ -1,6 +1,13 @@
 import { SafeAreaView, Text, Image, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import LoginCustomButton from './LoginCustomButton';
-import UserTabs from './UserTabs.jsx'
+import UserTabs from './UserTabs.jsx';
+import * as Font from 'expo-font';
+
+async function loadFonts() {
+  await Font.loadAsync({
+    'Oswald-Medium': require('../../../assets/fonts/Oswald-Medium.ttf'),  // adjust the path accordingly
+  });
+};
 
 const Welcome = () => {
   return (
@@ -62,6 +69,7 @@ const styles = StyleSheet.create({
     color: '#171412',
     alignSelf: 'center',
     textDecorationLine: 'underline',
+    fontFamily: 'Oswald-Medium',
   },
 })
 export default Welcome;
