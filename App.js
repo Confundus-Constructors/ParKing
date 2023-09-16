@@ -3,12 +3,13 @@ import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import ValetTabs from './client/valet/components/ValetTabs';
 import UHP from './client/user/components/UserHomePage'
 import React, { useState } from 'react';
-// import { router } from 'expro-router';
+// import { router } from 'expo-router';
 
 export default function App() {
   const [ emp, setEmp ] = useState(true);
   return (
-    <UHP/>
+    // <UHP/>
+      <ValetTabs/>
   );
 }
 
