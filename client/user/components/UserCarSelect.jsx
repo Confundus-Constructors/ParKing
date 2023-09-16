@@ -1,7 +1,9 @@
 import { View,Text,Image,TextInput,ScrollView,StyleSheet } from 'react-native';
 
-export default ValetHomeScreen = () => {
+const Select = () => {
   return (
-    <View><Text>Hi</Text></View>
+    <View></View>
   )
 }
+
+export default Select;

@@ -1,12 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import ValetTabs from './client/valet/components/ValetTabs';
+import UHP from './client/user/components/UserHomePage'
+import React, { useState } from 'react';
+// import { router } from 'expro-router';
 
 export default function App() {
+  const [ emp, setEmp ] = useState(true);
   return (
-    <View style={styles.container}>
-      <Text>It Works!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <UHP/>
   );
 }
 

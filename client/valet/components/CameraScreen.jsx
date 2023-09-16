@@ -1,7 +1,7 @@
 import { View,Text,Image,TextInput,ScrollView,StyleSheet } from 'react-native';
 
-export default ValetHomeScreen = () => {
+export default CameraScreen = () => {
   return (
-    <View><Text>Hi</Text></View>
+   <Text>Camera</Text>
   )
 }
