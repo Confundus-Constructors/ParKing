@@ -5,6 +5,7 @@ require('dotenv').config();
 // const userRoute = require('./routes/users');
 // const restRouter = require('./routes/transactions.js');
 const garageRouter = require('./routes/garages.js');
+const vehicleRouter = require('./routes/vehicles.js');
 
 // app.use(express.static(path.join(__dirname, "../public")));
 // app.use(bodyParser.json());
@@ -13,6 +14,7 @@ const garageRouter = require('./routes/garages.js');
 // app.use('/users', userRoute);
 // app.use('/transactions', transactionsRoute);
 app.use('/garages', garageRouter);
+app.use('/vehicles', vehicleRouter);
 
 const port = process.env.SERVER_PORT || 3001;
 
