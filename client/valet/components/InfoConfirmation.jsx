@@ -25,6 +25,7 @@ export default InfoConfirmation = ({navigation, route}) => {
     setConfirmed('false');
     setImage(null);
     setModalVisible(false);
+    navigation.navigate('QRScanner');
   }
 
   useEffect(() => {
