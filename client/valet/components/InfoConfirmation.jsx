@@ -6,12 +6,17 @@ import AnimatedLoader from "react-native-animated-loader";
 export default InfoConfirmation = ({navigation, route}) => {
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [confirmed, setConfirmed] = useState(true);
   const [parkingSpot, setParkingSpot] = useState('');
   const [image, setImage] = useState();
+  const [confirming, setConfirming] = useState(false);
 
   const handleConfirm = () => {
-    setModalVisible(true)
+    setConfirming(true);
+    setTimeout(() => {
+      setConfirming(false);
+      setModalVisible(true);
+    }, 2000)
+
   };
 
   const addPic = () => {
@@ -22,9 +27,8 @@ export default InfoConfirmation = ({navigation, route}) => {
     //send information to server
     //clear states
     setParkingSpot('');
-    setConfirmed('false');
-    setImage(null);
     setModalVisible(false);
+    setImage(null);
     navigation.navigate('QRScanner');
   }
 
@@ -46,49 +50,44 @@ export default InfoConfirmation = ({navigation, route}) => {
           <Text style={styles.buttonTitle} onPress={handleConfirm}>Confirm Details</Text>
         </TouchableOpacity>
       </View>
-      <Modal visible={modalVisible} style={styles.modalContainer}>
-        <View style={styles.modalView}>
-          {!confirmed?
-          <View>
-            <Text style={styles.modalText}>Confirming</Text>
-            {/* <AnimatedLoader
-              visible={true}
-              overlayColor="rgba(255,255,255,0.75)"
-              animationStyle={styles.lottie}
-              speed={1}>
-              <Text>Doing something...</Text>
-            </AnimatedLoader> */}
-          </View>
-          :
-          <View>
-            <Text style={styles.confirmed}>Checked In ✓</Text>
-            <Text style={styles.modalText}>Please park the car and then enter the parking location</Text>
-            <TextInput style={styles.input}></TextInput>
-            <Text style={styles.modalText}>Please take a picture of the car in it's spot. Include the license plate if possibled</Text>
-            {!image ? <TouchableOpacity style={styles.picButton} onPress={addPic}>
-              <Text style={styles.buttonTitle}>Add Picture</Text>
-            </TouchableOpacity>
-            :
+      {confirming ?
+      <AnimatedLoader
+        visible={true}
+        overlayColor="rgba(255,255,255,0.75)"
+        animationStyle={styles.lottie}
+        speed={1}>
+        <Text>Confirming</Text>
+      </AnimatedLoader> : null }
+        <Modal visible={modalVisible} style={styles.modalContainer}>
+          <View style={styles.modalView}>
             <View>
-            <TouchableOpacity style={styles.picButton} onPress={addPic}>
-              <Text style={styles.buttonTitle}>Retake</Text>
-            </TouchableOpacity>
-            {/* <Pressable onPress={() => {console.log('hi')}}> */}
-              <Image
-                style={styles.image}
-                source={{
-                  uri: image,
-                }}
-              />
-            {/* </Pressable> */}
-            <TouchableOpacity style={styles.picButton} onPress={handleSubmit}>
-              <Text style={styles.buttonTitle}>Submit</Text>
-            </TouchableOpacity>
-            </View>}
+              <Text style={styles.confirmed}>Checked In ✓</Text>
+              <Text style={styles.modalText}>Please park the car and then enter the parking location</Text>
+              <TextInput style={styles.input}></TextInput>
+              <Text style={styles.modalText}>Please take a picture of the car in it's spot. Include the license plate if possibled</Text>
+              {!image ? <TouchableOpacity style={styles.picButton} onPress={addPic}>
+                <Text style={styles.buttonTitle}>Add Picture</Text>
+              </TouchableOpacity>
+              :
+              <View>
+              <TouchableOpacity style={styles.picButton} onPress={addPic}>
+                <Text style={styles.buttonTitle}>Retake</Text>
+              </TouchableOpacity>
+              {/* <Pressable onPress={() => {console.log('hi')}}> */}
+                <Image
+                  style={styles.image}
+                  source={{
+                    uri: image,
+                  }}
+                />
+              {/* </Pressable> */}
+              <TouchableOpacity style={styles.picButton} onPress={handleSubmit}>
+                <Text style={styles.buttonTitle}>Submit</Text>
+              </TouchableOpacity>
+              </View>}
+            </View>
           </View>
-          }
-        </View>
-      </Modal>
+        </Modal>
     </View>
   )
 }
