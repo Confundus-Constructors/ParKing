@@ -1,5 +1,12 @@
 import React from 'react';
 import { Text, TouchableOpacity, StyleSheet } from 'react-native';
+import * as Font from 'expo-font';
+
+async function loadFonts() {
+  await Font.loadAsync({
+    'Oswald-Medium': require('../../../assets/fonts/Oswald-Medium.ttf'),  // adjust the path accordingly
+  });
+};
 
 const LoginCustomButton = ({ title, color, textStyle, style, ...props }) => {
     return (
@@ -18,7 +25,7 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: 16,
-        fontFamily: 'Oswald-Medium'
+        fontFamily: 'Oswald-Medium',
     },
 });
 
