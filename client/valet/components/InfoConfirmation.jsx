@@ -1,4 +1,4 @@
-import { Alert, SafeAreaView, Pressable, TouchableOpacity, View, Text, TextInput, StyleSheet, Image } from 'react-native';
+import { Alert, SafeAreaView, Touchable, Pressable, TouchableOpacity, View, ScrollView, Text, TextInput, StyleSheet, Image } from 'react-native';
 import { useState, useEffect } from 'react';
 import { Modal, Portal, PaperProvider } from 'react-native-paper';
 import AnimatedLoader from "react-native-animated-loader";
@@ -73,12 +73,14 @@ export default InfoConfirmation = ({navigation, route}) => {
             <TouchableOpacity style={styles.picButton} onPress={addPic}>
               <Text style={styles.buttonTitle}>Retake</Text>
             </TouchableOpacity>
-            <Image
-              style={styles.image}
-              source={{
-                uri: image,
-              }}
-            />
+            {/* <Pressable onPress={() => {console.log('hi')}}> */}
+              <Image
+                style={styles.image}
+                source={{
+                  uri: image,
+                }}
+              />
+            {/* </Pressable> */}
             <TouchableOpacity style={styles.picButton} onPress={handleSubmit}>
               <Text style={styles.buttonTitle}>Submit</Text>
             </TouchableOpacity>
@@ -107,7 +109,7 @@ const styles = StyleSheet.create({
     shadowOffset: {width: -2, height: 4},
     shadowOpacity: 1,
     shadowRadius: 3,
-    justifyContent: 'flex-start',
+    // justifyContent: 'flex-start',
     padding: 50
   },
   button: {
@@ -129,14 +131,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   modalContainer: {
-    alignItems:'center'
+    alignItems:'center',
+    justifyContent:'flex-end'
   },
   modalView: {
     backgroundColor: 'white',
     borderRadius: 30,
     padding: 40,
     width: 380,
-    height: 'auto',
+    height: 600,
   },
   lottie: {
     width: 100,
