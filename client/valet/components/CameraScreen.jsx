@@ -2,8 +2,9 @@ import { Alert, SafeAreaView, View,Text,Image,TextInput,ScrollView,StyleSheet } 
 import { Camera, CameraType } from 'expo-camera';
 import { useState, useEffect } from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import CameraMain from './CameraMain'
-
+import CameraMain from './CameraMain';
+import QRScanner from './QRScanner';
+import InfoConfirmation from './InfoConfirmation';
 
 export default CameraScreen = ({navigation}) => {
 
@@ -14,8 +15,38 @@ export default CameraScreen = ({navigation}) => {
         headerShown: true
       }}
       >
+         {/* <Stack.Screen
+          name="QRScanner"
+          component={QRScanner}
+          options={{
+            title: 'ParKing',
+            headerStyle: {
+              backgroundColor: 'black',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontSize: 30,
+              fontWeight: 'bold'
+            }
+          }}
+          /> */}
+          <Stack.Screen
+          name="InfoConfirmation"
+          component={InfoConfirmation}
+          options={{
+            title: 'ParKing',
+            headerStyle: {
+              backgroundColor: 'black',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontSize: 30,
+              fontWeight: 'bold'
+            }
+          }}
+          />
         <Stack.Screen
-          name="Camera"
+          name="CameraMain"
           component={CameraMain}
           options={{
             title: 'ParKing',
