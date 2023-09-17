@@ -14,32 +14,17 @@ export default CameraScreen = ({navigation}) => {
   const [image, setImage] = useState();
 
 
-  useEffect(() => {
-    navigation.addListener(
-
-      'focus', () => {
-        // console.log(permission);
-        // if (permission) {
-          requestPermission();
-        // } else if (!permission) {
-      //     Alert.alert('Camera Permission Denied','Please Allow Camera Access in Settings')
-      //   }
-      // })},
-      })},
-    []);
-
-    const handlePress = async () => {
-      console.log(cameraRef);
-      if (cameraRef) {
-        try {
-        const newPhoto = await cameraRef.current.takePictureAsync();
-        setImage = (newPhoto.uri);
-        } catch(e) {
-          console.log(e);
-        }
+  const handlePress = async () => {
+    if (cameraRef) {
+      try {
+      const newPhoto = await cameraRef.current.takePictureAsync();
+      // setImage = (newPhoto.uri);
+      navigation.navigate('InfoConfirmation', {image: newPhoto.uri})
+      } catch(e) {
+        console.log(e);
       }
-
     }
+  }
 
     if (permission !== null && permission.granted) {
       return (
