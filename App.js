@@ -65,8 +65,11 @@ export default function App() {
     // <UHP />
     <Welcome />
     // <SignUpScreen />
+    <CarManage />
+    // <Reserve />
+    // <Select />
     // <ValetTabs/>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
