@@ -17,8 +17,12 @@ module.exports = {
     return client.query(
     `SELECT CAST(COUNT(id) AS INT), garage_id
     FROM transactions
-    WHERE reservation_start_time >= '${time1}'
-    AND reservation_end_time <= '${time2}'
+    WHERE
+    (reservation_end_time >= '${time1}' AND reservation_end_time <= '${time2}')
+    OR
+    (reservation_start_time >= '${time1}' AND reservation_start_time <= '${time2}')
+    OR
+    (reservation_start_time <= '${time1}' AND reservation_end_time >= '${time2}')
     GROUP BY garage_id`
     );
   },
@@ -26,7 +30,6 @@ module.exports = {
     return client.query(
     `SELECT CAST(COUNT(id) AS INT), garage_id
     FROM parking_spots
-    WHERE is_available = true
     GROUP BY garage_id`
     );
   }
