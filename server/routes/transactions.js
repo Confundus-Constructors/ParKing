@@ -34,7 +34,7 @@ transactionRouter.get('/:qr_code', async (req, res) => {
         res.status(404).send('No record found for the provided QR code.');
       }
 
-    } else if (current_status === 'checked-in') {
+    } else if (current_status === 'checked-in' || current_status === 'picking-up') {
       console.log('checking out');
       // update values and return ps_id
       const data = await model.queryReservationUponCheckout(qr_code);
@@ -96,7 +96,7 @@ transactionRouter.put('/:qr_code', async (req, res) => {
       await model.updateParkingSpotStatusCheckIn(ps_id);
       res.status(201).send('Check-in complete.');
 
-    } else if (current_status === 'checked-in') {
+    } else if (current_status === 'checked-in' || current_status === 'picking-up') {
       console.log('checking out');
       // update values and return ps_id
       const parking_spot = await model.updateReservationCheckOut(qr_code);

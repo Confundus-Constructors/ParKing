@@ -79,7 +79,7 @@ CREATE TABLE "transactions" (
   reservation_end_time TIMESTAMP NOT NULL,
   check_in_time TIMESTAMP,
   check_out_time TIMESTAMP,
-  current_status VARCHAR NOT NULL CHECK(current_status IN ('reserved', 'checked-in', 'checked-out')),
+  current_status VARCHAR NOT NULL CHECK(current_status IN ('reserved', 'checked-in', 'picking-up', 'checked-out')),
   active BOOLEAN NOT NULL,
   photo VARCHAR,
   FOREIGN KEY ("user_id") REFERENCES "users"(id),
