@@ -34,6 +34,4 @@ garageRouter.get('/', async (req, res) => {
   res.status(201).send(result);
 });
 
-garageRouter.get('/')
-
 module.exports = garageRouter;

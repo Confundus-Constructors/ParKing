@@ -13,6 +13,9 @@ module.exports = {
   queryAllWhere: (table, whereCol, whereCondition) => {
     return client.query(`SELECT * FROM ${table} WHERE ${whereCol} = ${whereCondition}`)
   },
+  queryReservations: (garageId, status) => {
+    return client.query(`SELECT * FROM transactions WHERE garage_id = ${garageId} AND current_status = '${status}' ORDER BY reservation_start_time`)
+  },
   queryCountReservationTimes: (time1, time2) => {
     return client.query(
       `SELECT CAST(COUNT(id) AS INT), garage_id
