@@ -3,8 +3,7 @@ import { useState, useEffect } from 'react';
 import { Modal, Portal, PaperProvider } from 'react-native-paper';
 import AnimatedLoader from "react-native-animated-loader";
 
-export default InfoConfirmation = ({navigation, route}) => {
-
+export default Checkin = ({navigation, route}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [parkingSpot, setParkingSpot] = useState('');
   const [image, setImage] = useState();
@@ -15,8 +14,8 @@ export default InfoConfirmation = ({navigation, route}) => {
     setTimeout(() => {
       setConfirming(false);
       setModalVisible(true);
+      // navigation.navigate('QRScanner');
     }, 2000)
-
   };
 
   const addPic = () => {
@@ -50,44 +49,50 @@ export default InfoConfirmation = ({navigation, route}) => {
           <Text style={styles.buttonTitle} onPress={handleConfirm}>Confirm Details</Text>
         </TouchableOpacity>
       </View>
-      {confirming ?
+      <Modal visible={confirming} >
+        <View style={styles.confirmingView}>
+          <Text style={styles.waitingText}>Waiting For Confirmation From Owner</Text>
+          <Image style={styles.loadingGif} source={require('./../../../assets/loading.gif')} ></Image>
+        </View>
+      </Modal>
+      {/* {confirming ?
       <AnimatedLoader
         visible={true}
         overlayColor="rgba(255,255,255,0.75)"
         animationStyle={styles.lottie}
         speed={1}>
         <Text>Confirming</Text>
-      </AnimatedLoader> : null }
-        <Modal visible={modalVisible} style={styles.modalContainer}>
-          <View style={styles.modalView}>
+      </AnimatedLoader> : null } */}
+      <Modal visible={modalVisible}>
+        <View style={styles.modalView}>
+          <View>
+            <Text style={styles.confirmed}>Checked In ✓</Text>
+            <Text style={styles.modalText}>Please park the car and then enter the parking location</Text>
+            <TextInput style={styles.input}></TextInput>
+            <Text style={styles.modalText}>Please take a picture of the car in its spot. Include the license plate if possibled</Text>
+            {!image ? <TouchableOpacity style={styles.picButton} onPress={addPic}>
+              <Text style={styles.buttonTitle}>Add Picture</Text>
+            </TouchableOpacity>
+            :
             <View>
-              <Text style={styles.confirmed}>Checked In ✓</Text>
-              <Text style={styles.modalText}>Please park the car and then enter the parking location</Text>
-              <TextInput style={styles.input}></TextInput>
-              <Text style={styles.modalText}>Please take a picture of the car in it's spot. Include the license plate if possibled</Text>
-              {!image ? <TouchableOpacity style={styles.picButton} onPress={addPic}>
-                <Text style={styles.buttonTitle}>Add Picture</Text>
-              </TouchableOpacity>
-              :
-              <View>
-              <TouchableOpacity style={styles.picButton} onPress={addPic}>
-                <Text style={styles.buttonTitle}>Retake</Text>
-              </TouchableOpacity>
-              {/* <Pressable onPress={() => {console.log('hi')}}> */}
-                <Image
-                  style={styles.image}
-                  source={{
-                    uri: image,
-                  }}
-                />
-              {/* </Pressable> */}
-              <TouchableOpacity style={styles.picButton} onPress={handleSubmit}>
-                <Text style={styles.buttonTitle}>Submit</Text>
-              </TouchableOpacity>
-              </View>}
-            </View>
+            <TouchableOpacity style={styles.picButton} onPress={addPic}>
+              <Text style={styles.buttonTitle}>Retake</Text>
+            </TouchableOpacity>
+            {/* <Pressable onPress={() => {console.log('hi')}}> */}
+              <Image
+                style={styles.image}
+                source={{
+                  uri: image,
+                }}
+              />
+            {/* </Pressable> */}
+            <TouchableOpacity style={styles.picButton} onPress={handleSubmit}>
+              <Text style={styles.buttonTitle}>Submit</Text>
+            </TouchableOpacity>
+            </View>}
           </View>
-        </Modal>
+        </View>
+      </Modal>
     </View>
   )
 }
@@ -95,9 +100,10 @@ export default InfoConfirmation = ({navigation, route}) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#A9927D',
-    flex: 1,
+    // flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    height: '100%'
   },
   formContainer: {
     backgroundColor: 'white',
@@ -136,9 +142,11 @@ const styles = StyleSheet.create({
   modalView: {
     backgroundColor: 'white',
     borderRadius: 30,
-    padding: 40,
-    width: 380,
-    height: 600,
+    padding: 30,
+    width: '95%',
+    height: 'auto',
+    alignSelf: 'center',
+    // justifySelf: 'center'
   },
   lottie: {
     width: 100,
@@ -150,12 +158,12 @@ const styles = StyleSheet.create({
   confirmed: {
     color: 'green',
     textAlign: 'center',
-    marginBottom: 30,
+    marginBottom: 20,
     fontSize: 30
   },
   input: {
     marginTop: 20,
-    marginBottom: 40,
+    marginBottom: 20,
     fontSize: 22,
     borderBottomColor: 'black',
     borderBottomWidth: 1,
@@ -173,6 +181,27 @@ const styles = StyleSheet.create({
     height: 100,
     width: 50,
     alignSelf: 'center'
+  },
+  waitingText: {
+    fontSize: 20,
+  },
+  loadingGif: {
+    height: 50
+  },
+  waitingContainer: {
+    backgroundColor: 'white',
+    height: 'auto'
+  },
+  confirmingView: {
+    height: 'auto',
+    alignItems:'center',
+    justifyContent:'center',
+    padding: 30,
+    borderRadius: 30,
+    backgroundColor: 'white',
+    width: '95%',
+    alignSelf: 'center'
   }
-
 });
+
+

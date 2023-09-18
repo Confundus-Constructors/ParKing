@@ -17,8 +17,8 @@ export default QRScanner = ({navigation}) => {
   useEffect(() => {
     if (scanData) {
       //send call to back end to get res/user information based on
-      //navigtae to new screen
-      navigation.navigate('InfoConfirmation')
+      //navigtae to new screen bas
+      navigation.navigate('CheckIn')
     }
   }, [scanData])
 

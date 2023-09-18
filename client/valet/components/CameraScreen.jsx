@@ -4,7 +4,9 @@ import { useState, useEffect } from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import CameraMain from './CameraMain';
 import QRScanner from './QRScanner';
-import InfoConfirmation from './InfoConfirmation';
+// import InfoConfirmation from './InfoConfirmation';
+import CheckIn from './CheckIn';
+import CheckOut from './CheckOut';
 
 export default CameraScreen = ({navigation}) => {
 
@@ -31,8 +33,23 @@ export default CameraScreen = ({navigation}) => {
           }}
           />
           <Stack.Screen
-          name="InfoConfirmation"
-          component={InfoConfirmation}
+          name="CheckIn"
+          component={CheckIn}
+          options={{
+            title: 'ParKing',
+            headerStyle: {
+              backgroundColor: 'black',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontSize: 30,
+              fontWeight: 'bold'
+            }
+          }}
+          />
+          <Stack.Screen
+          name="CheckOut"
+          component={CheckOut}
           options={{
             title: 'ParKing',
             headerStyle: {

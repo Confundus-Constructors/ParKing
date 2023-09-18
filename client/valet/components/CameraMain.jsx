@@ -2,10 +2,6 @@ import { Alert, Pressable, TouchableOpacity,View,Text,StyleSheet } from 'react-n
 import { Camera, CameraType } from 'expo-camera';
 import { useState, useEffect, useRef } from 'react';
 import { BarCodeScanner } from 'expo-barcode-scanner';
-// import {
-//   useFonts as useOswald,
-//   Oswald_400Regular,
-// } from "@expo-google-fonts/oswald";
 
 export default CameraScreen = ({navigation}) => {
   const cameraRef = useRef();
@@ -19,7 +15,7 @@ export default CameraScreen = ({navigation}) => {
       try {
       const newPhoto = await cameraRef.current.takePictureAsync();
       // setImage = (newPhoto.uri);
-      navigation.navigate('InfoConfirmation', {image: newPhoto.uri})
+      navigation.navigate('CheckIn', {image: newPhoto.uri})
       } catch(e) {
         console.log(e);
       }
@@ -28,14 +24,6 @@ export default CameraScreen = ({navigation}) => {
 
     if (permission !== null && permission.granted) {
       return (
-        // <View style={styles.selectionContainer}>
-        //   <Pressable style={styles.selectionButton} onPress={handlePress}>
-        //     <Text style={styles.text}>Take Picture</Text>
-        //   </Pressable>
-        //   <Pressable style={styles.selectionButton} onPress={handlePress}>
-        //     <Text style={styles.text}>Scan QR Code</Text>
-        //   </Pressable>
-        // </View>
         <View>
           <Camera
            barCodeScannerSettings={{
