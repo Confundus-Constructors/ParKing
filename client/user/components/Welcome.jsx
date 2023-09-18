@@ -14,6 +14,9 @@ async function loadFonts() {
 const Welcome = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const onSignInPressed = () => {
+    console.warn('Sign In Pressed');
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -29,6 +32,7 @@ const Welcome = () => {
           style={styles.button}
           textStyle={{ ...styles.commonFont, color: '#A9927D' }}
           title="Sign In"
+          onPress={onSignInPressed}
           color="#171412"
         />
         <CustomButton
@@ -49,7 +53,7 @@ const Welcome = () => {
       </SafeAreaView>
 
       <TouchableOpacity>
-        <Text style={styles.clickableText}>Do not have an account? CREATE ONE</Text>
+        <Text style={styles.clickableText}>Already have an account? LOG IN</Text>
       </TouchableOpacity>
 
     </SafeAreaView>
@@ -88,7 +92,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     textDecorationLine: 'underline',
     fontFamily: 'Oswald-Medium',
-    fontSize: 16,
   },
 
   text: {

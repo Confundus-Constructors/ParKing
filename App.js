@@ -44,7 +44,8 @@ export default function App() {
   }
 
   return (
-    <CarManage />
+    <Welcome />
+    // <CarManage />
     // <ValetTabs/>
   );
 }
