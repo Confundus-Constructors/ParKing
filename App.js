@@ -47,16 +47,12 @@ export default function App() {
   }
 
   return (
-    // <Welcome />
-    // <SignUpScreen />
-    // <ConfirmEmailScreen />
-    // <ForgorPasswordScreen />
-    // <NewPasswordScreen />
+
     <Navigation />
 
 
 
-    // // <CarManage />
+    // <CarManage />
     // <Reserve />
     // <Select />
     // <ValetTabs/>
