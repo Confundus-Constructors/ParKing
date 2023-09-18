@@ -88,6 +88,35 @@ module.exports = {
       WHERE qr_code = '${conf_number}'`
     );
   },
+  queryReservationUponCheckout: (conf_number) => {
+    return client.query(
+      `SELECT qr_code,
+      CONCAT(us.first_name,' ', us.last_name) as "user",
+      vs.make_model,
+      vs.color,
+      vs.license_plate,
+      reservation_start_time,
+      reservation_end_time,
+      gs.address_line_1 as "garage",
+      ps.position as "parking_spot_number"
+
+      FROM transactions ts
+
+      INNER JOIN parking_spots ps
+      ON ps.id = ts.parking_spot_id
+
+      INNER JOIN users us
+      ON us.id = ts.user_id
+
+      INNER JOIN vehicles vs
+      ON vs.id = ts.vehicle_id
+
+      INNER JOIN garages gs
+      ON gs.id = ts.garage_id
+
+      WHERE qr_code = '${conf_number}'`
+    );
+  },
   updateReservationCheckIn: (conf_number, ps_id) => {
     const currentDate = new Date();
     const formattedDate = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')} ${String(currentDate.getHours()).padStart(2, '0')}:${String(currentDate.getMinutes()).padStart(2, '0')}:${String(currentDate.getSeconds()).padStart(2, '0')}`;
