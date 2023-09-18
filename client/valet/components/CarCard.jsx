@@ -1,6 +1,9 @@
 import React, {useState} from 'react';
-import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, Image, Button} from 'react-native';
 import {launchCamera} from 'react-native-image-picker';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faCamera } from '@fortawesome/free-solid-svg-icons';
+
 
 
 const CarCard = () => {
@@ -33,10 +36,10 @@ const CarCard = () => {
         <View>
           <Text style={styles.boldText}>Reservation ID: [Value]</Text>
           <Text style={styles.boldText}>Owner: [Value]</Text>
-           <Text>{"\n"}</Text>
-          <Text>Make: [Value]</Text>
-          <Text>Color: [Value]</Text>
-          <Text>License Plate: [Value]</Text>
+
+          <Text style={styles.carInfo}>Make: [Value]</Text>
+          <Text style={styles.boldText}>Color: [Value]</Text>
+          <Text style={styles.boldText}>License Plate: [Value]</Text>
         </View>
 
         <View>
@@ -44,7 +47,8 @@ const CarCard = () => {
             {imageSource ? (
               <Image source={imageSource} style={styles.image} />
             ) : (
-              <Image source={require('../../../assets/icon.png')} style={styles.image} />
+              <FontAwesomeIcon icon={faCamera} style={{color: "#a9927d"}} size={80} fade-size={'lg'}/>
+
             )}
           </TouchableOpacity>
       </View>
@@ -53,13 +57,18 @@ const CarCard = () => {
 
       <View style={styles.row}>
         <View>
-          <Text>Arrives:  [Value]</Text>
-          <Text>Departs: [Value]</Text>
+          <Text style={styles.boldText}>Arrives:  [Value]</Text>
+          <Text style={styles.boldText}>Departs: [Value]</Text>
         </View>
         <View>
-          <Text>Garage: [Value]</Text>
-          <Text>Spot ID: [Value]</Text>
+          <Text style={styles.boldText}>Garage: [Value]</Text>
+          <Text style={styles.boldText}>Spot ID: [Value]</Text>
         </View>
+    </View>
+    <View style={styles.buttonContainer}>
+      <TouchableOpacity style={styles.button} onPress={() => console.log('Button pressed!')}>
+      <Text style={styles.buttonText}>Check In</Text>
+      </TouchableOpacity>
     </View>
   </SafeAreaView>
 
@@ -68,32 +77,71 @@ const CarCard = () => {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#E0E0E0',
     padding: 10,
-    borderWidth: 1,
-    borderColor: 'gray',
     borderRadius: 0,
-    marginTop: 50,
+    marginTop: 20,
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+
+    // Android shadow style
+    elevation: 5
   },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 15,
+    marginTop: 5,
+    marginLeft: 2,
   },
   boldText: {
     fontWeight: 'bold',
   },
   box: {
     width: 200,
-    height: 150,
+    height: 130,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'lightgray',
+    backgroundColor: '#ffffff',
+    borderRadius: 10,
+    marginRight: 5,
   },
   image: {
     width: 100,
     height: 100,
     resizeMode: 'contain',
   },
+  carInfo: {
+    marginTop: 25,
+    fontWeight: 'bold',
+  },
+  buttonContainer: {
+    alignItems: 'center',
+  },
+  button: {
+    backgroundColor: '#49111c',
+    padding: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+    width: '98%',
+    marginBottom: 5,
+    marginTop: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.7,
+    shadowRadius: 2,
+
+    // Android shadow style
+    elevation: 5
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 16,
+}
 });
 
 export default CarCard;
