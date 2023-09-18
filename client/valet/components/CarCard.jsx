@@ -72,7 +72,15 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'gray',
     borderRadius: 0,
-    marginTop: 50,
+    marginTop: 5,
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+
+    // Android shadow style
+    elevation: 5
   },
   row: {
     flexDirection: 'row',
@@ -83,8 +91,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   box: {
-    width: 200,
-    height: 150,
+    width: 190,
+    height: 130,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'lightgray',
