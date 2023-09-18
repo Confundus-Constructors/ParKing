@@ -77,16 +77,24 @@ const CarCard = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#D3D3D3',
+    backgroundColor: '#E0E0E0',
     padding: 10,
     borderRadius: 0,
     marginTop: 20,
     borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+
+    // Android shadow style
+    elevation: 5
   },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 5,
+    marginLeft: 2,
   },
   boldText: {
     fontWeight: 'bold',
@@ -118,7 +126,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
-    width: '90%',
+    width: '98%',
+    marginBottom: 5,
+    marginTop: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.7,
+    shadowRadius: 2,
+
+    // Android shadow style
+    elevation: 5
   },
   buttonText: {
     color: 'white',
