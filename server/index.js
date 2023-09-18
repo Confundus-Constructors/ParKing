@@ -23,6 +23,7 @@ const port = process.env.SERVER_PORT || 3001;
 app.get("/users", (req, res) => {
   req.query.length > 0 ? getUser(req, res) : getAll(req, res);
 });
+å;
 
 app.post("/users", (req, res) => {
   postUser(req, res);

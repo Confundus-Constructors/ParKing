@@ -6,12 +6,26 @@ import {
   ScrollView,
   StyleSheet,
   SafeAreaView,
+  TouchableOpacity,
+  Alert,
 } from "react-native";
+import React, { useEffect, useState } from "react";
 
-const Car = ({ data }) => {
+async function loadFonts() {
+  await Font.loadAsync({});
+}
+
+const Car = ({ data, set, index }) => {
+  const handlePress = () => {
+    Alert.alert("presssed");
+    set(index);
+  };
   return (
     <View style={styles.tile}>
-      <Text>{data}</Text>
+      <TouchableOpacity onPress={handlePress}>
+        <Text style={styles.title}>{data}</Text>
+        <Text style={styles.info}>License Plate Number: Example</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -21,10 +35,21 @@ export default Car;
 const styles = StyleSheet.create({
   tile: {
     width: "100%",
-    height: 200,
+    height: 100,
     backgroundColor: "rgb(225,225,225)",
-    alignItems: "center",
     marginTop: 10,
     borderRadius: 15,
+    padding: 30,
+    paddingTop: 20,
+    position: "relative",
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    fontFamily: "Oswald-Medium",
+  },
+  info: {
+    fontSize: 16,
+    fontFamily: "Oswald-Light",
   },
 });
