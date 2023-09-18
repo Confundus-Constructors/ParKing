@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#E0E0E0',
     padding: 10,
     borderRadius: 0,
-    marginTop: 20,
+    marginTop: 5,
     borderRadius: 10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 3 },
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   box: {
-    width: 200,
+    width: 190,
     height: 130,
     justifyContent: 'center',
     alignItems: 'center',
