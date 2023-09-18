@@ -18,11 +18,9 @@ export default function App() {
   const loadFonts = async () => {
     try {
       await SplashScreen.preventAutoHideAsync();
-
       await Font.loadAsync({
         'Oswald-Medium': require('./assets/fonts/Oswald-Medium.ttf'),
       });
-
       setFontLoaded(true);
     } catch (e) {
       console.warn(e);
@@ -41,6 +39,7 @@ export default function App() {
 
   return (
     <CarManage />
+    // <ValetTabs/>
   );
 }
 

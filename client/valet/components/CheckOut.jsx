@@ -1,7 +1,6 @@
 import { Alert, SafeAreaView, Touchable, Pressable, TouchableOpacity, View, ScrollView, Text, TextInput, StyleSheet, Image } from 'react-native';
 import { useState, useEffect } from 'react';
 import { Modal, Portal, PaperProvider } from 'react-native-paper';
-import AnimatedLoader from "react-native-animated-loader";
 
 export default CheckOut = ({navigation}) => {
 
