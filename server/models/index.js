@@ -14,7 +14,62 @@ module.exports = {
     return client.query(`SELECT * FROM ${table} WHERE ${whereCol} = ${whereCondition}`)
   },
   queryReservations: (garageId, status) => {
-    return client.query(`SELECT * FROM transactions WHERE garage_id = ${garageId} AND current_status = '${status}' ORDER BY reservation_start_time`)
+    return client.query(
+      `SELECT qr_code as confirmation_id,
+      CONCAT(us.first_name,' ', us.last_name) as "user",
+      vs.make_model,
+      vs.color,
+      vs.license_plate,
+      reservation_start_time,
+      reservation_end_time,
+      gs.address_line_1 as "garage"
+
+      FROM transactions ts
+
+      INNER JOIN users us
+      ON us.id = ts.user_id
+
+      INNER JOIN vehicles vs
+      ON vs.id = ts.vehicle_id
+
+      INNER JOIN garages gs
+      ON gs.id = ts.garage_id
+
+      WHERE garage_id = ${garageId}
+      AND current_status = '${status}'
+      ORDER BY reservation_start_time;`
+    );
+  },
+  queryReservationsParked: (garageId, status) => {
+    return client.query(
+      `SELECT qr_code as confirmation_id,
+      CONCAT(us.first_name,' ', us.last_name) as user,
+      vs.make_model,
+      vs.color,
+      vs.license_plate,
+      reservation_start_time,
+      reservation_end_time,
+      gs.address_line_1 as garage,
+      ps.position as parking_spot_number
+
+      FROM transactions ts
+
+      INNER JOIN parking_spots ps
+      ON ps.id = ts.parking_spot_id
+
+      INNER JOIN users us
+      ON us.id = ts.user_id
+
+      INNER JOIN vehicles vs
+      ON vs.id = ts.vehicle_id
+
+      INNER JOIN garages gs
+      ON gs.id = ts.garage_id
+
+      WHERE gs.id = ${garageId}
+      AND ts.current_status = '${status}'
+      ORDER BY ts.reservation_start_time;`
+    );
   },
   queryCountReservationTimes: (time1, time2) => {
     return client.query(
