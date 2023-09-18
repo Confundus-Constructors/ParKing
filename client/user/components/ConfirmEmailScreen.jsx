@@ -4,6 +4,7 @@ import CustomInput from './CustomInput';
 import UserTabs from './UserTabs.jsx';
 import * as Font from 'expo-font';
 import React, { useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 
 async function loadFonts() {
   await Font.loadAsync({
@@ -13,9 +14,10 @@ async function loadFonts() {
 
 const ConfirmEmailScreen = () => {
   const [code, setCode] = useState('');
+  const navigation = useNavigation();
 
   const onConfirmPressed = () => {
-    console.warn('Confirm Pressed');
+    navigation.navigate('UHP');
   };
 
   const onResendPressed = () => {
@@ -23,7 +25,8 @@ const ConfirmEmailScreen = () => {
   };
 
   const onBackSignInPressed = () => {
-    console.warn('Back to Sign In Pressed');
+    navigation.navigate('Welcome');
+
   };
 
 

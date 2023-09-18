@@ -4,6 +4,7 @@ import CustomInput from './CustomInput';
 import UserTabs from './UserTabs.jsx';
 import * as Font from 'expo-font';
 import React, { useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 
 async function loadFonts() {
   await Font.loadAsync({
@@ -14,8 +15,15 @@ async function loadFonts() {
 const Welcome = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const navigation = useNavigation();
+
+
+
+
   const onSignInPressed = () => {
-    console.warn('Sign In Pressed');
+
+    navigation.navigate('UHP');
   };
 
   const onSignInGooglePressed = () => {
@@ -27,11 +35,13 @@ const Welcome = () => {
   };
 
   const onForgotPassPressed = () => {
-    console.warn('Forgot Password Pressed');
+
+    navigation.navigate('ForgotPasswordScreen');
   };
 
   const onCreatePressed = () => {
-    console.warn('Create Account Pressed');
+
+    navigation.navigate('SignUpScreen');
   };
 
   return (
