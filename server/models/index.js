@@ -13,6 +13,12 @@ module.exports = {
   queryAllWhere: (table, whereCol, whereCondition) => {
     return client.query(`SELECT * FROM ${table} WHERE ${whereCol} = ${whereCondition}`)
   },
+  createTransaction: (columns, values) => {
+    const placeholders = values.map((_, index) => `$${index + 1}`).join(', ');
+    return client.query(
+      `INSERT INTO transactions(${columns}) VALUES(${placeholders});`, values
+    );
+  },
   queryReservations: (garageId, status) => {
     return client.query(
       `SELECT qr_code as confirmation_id,
