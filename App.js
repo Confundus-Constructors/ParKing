@@ -7,6 +7,7 @@ import SignUpScreen from './client/user/components/SignUpScreen';
 import ConfirmEmailScreen from './client/user/components/ConfirmEmailScreen';
 import ForgorPasswordScreen from './client/user/components/ForgotPasswordScreen';
 import NewPasswordScreen from './client/user/components/NewPasswordScreen';
+import Navigation from './client/user/navigation';
 import React, { useState, useEffect } from 'react';
 import * as SplashScreen from 'expo-splash-screen';
 import * as Font from 'expo-font';
@@ -52,7 +53,8 @@ export default function App() {
     // <SignUpScreen />
     // <ConfirmEmailScreen />
     // <ForgorPasswordScreen />
-    <NewPasswordScreen />
+    // <NewPasswordScreen />
+    <Navigation />
 
 
 
