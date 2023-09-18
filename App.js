@@ -20,6 +20,13 @@ export default function App() {
 
       await Font.loadAsync({
         'Oswald-Medium': require('./assets/fonts/Oswald-Medium.ttf'),
+        'Oswald-Regular': require('./assets/fonts/Oswald-Regular.ttf'),
+        'Oswald-Light': require('./assets/fonts/Oswald-Light.ttf'),
+        'Oswald-Bold': require('./assets/fonts/Oswald-Bold.ttf'),
+        'Oswald-ExtraLight': require('./assets/fonts/Oswald-ExtraLight.ttf'),
+        'Oswald-SemiBold': require('./assets/fonts/Oswald-SemiBold.ttf'),
+        'Oswald-VariableFont_wght': require('./assets/fonts/Oswald-VariableFont_wght.ttf'),
+
       });
 
       setFontLoaded(true);
