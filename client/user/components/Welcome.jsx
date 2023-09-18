@@ -12,9 +12,13 @@ async function loadFonts() {
 };
 
 const Welcome = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
   return (
     <SafeAreaView style={styles.container}>
-      <SafeAreaView>
+
+      <SafeAreaView style={styles.mainContent}>
         <Image style = {styles.image} source={require('../../../assets/app-logo.png')} />
         <Text style = {styles.text}>Create an account to reserve your parking spot.</Text>
 
@@ -48,26 +52,32 @@ const Welcome = () => {
         <Text style={styles.clickableText}>Do not have an account? CREATE ONE</Text>
       </TouchableOpacity>
 
-
     </SafeAreaView>
   )
 }
 
+
 const styles = StyleSheet.create({
+  mainContent: {
+    flex: 1,
+    justifyContent: 'center'
+  },
+
   image: {
     marginLeft: 30,
-    width: 240,
+    width: "60%",
     height: 100,
   },
 
   container:{
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     backgroundColor: '#D0D3D2',
+    paddingBottom: 20,
   },
 
   button: {
-    marginTop: 30,
+    marginTop: 15,
     width: 350,
     alignSelf: 'center',
   },
@@ -80,5 +90,15 @@ const styles = StyleSheet.create({
     fontFamily: 'Oswald-Medium',
     fontSize: 16,
   },
+
+  text: {
+    marginLeft: 20,
+    marginRight: 33,
+    marginBottom: 30,
+    fontSize: 23,
+    color: '#171412',
+    alignSelf: 'center',
+    fontFamily: 'Oswald-Bold',
+  }
 })
 export default Welcome;
