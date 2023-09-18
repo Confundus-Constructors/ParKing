@@ -5,6 +5,9 @@ import UserTabs from './UserTabs.jsx';
 import * as Font from 'expo-font';
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import { useForm, Controller } from "react-hook-form";
+
+const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 
 async function loadFonts() {
   await Font.loadAsync({
@@ -13,13 +16,15 @@ async function loadFonts() {
 };
 
 const SignUpScreen = () => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [phone, setPhone] = useState('');
+  // const [firstName, setFirstName] = useState('');
+  // const [lastName, setLastName] = useState('');
+  // const [phone, setPhone] = useState('');
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  // const [email, setEmail] = useState('');
+  // const [password, setPassword] = useState('');
+  // const [confirmPassword, setConfirmPassword] = useState('');
+  const { control, handleSubmit, watch, formState: {errors} } = useForm();
+  const pwd = watch('password');
 
   const navigation = useNavigation();
 
@@ -48,19 +53,21 @@ const SignUpScreen = () => {
         <Text style = {styles.text}>Create an account to reserve your parking spot.</Text>
 
 
-        <CustomInput placeholder="First Name" value={firstName} setValue={setFirstName} />
-        <CustomInput placeholder="Last Name" value={lastName} setValue={setLastName} />
-        <CustomInput placeholder="Phone Number" value={phone} setValue={setPhone} />
-        <CustomInput placeholder="Email" value={email} setValue={setEmail} />
-        <CustomInput placeholder="Password" value={password} setValue={setPassword} secureTextEntry={true} />
-        <CustomInput placeholder="Confirm Password" value={confirmPassword} setValue={setConfirmPassword} secureTextEntry={true} />
+        <CustomInput name="firstName" placeholder="First Name" control={control} rules={{required: 'First name is required'}} />
+        <CustomInput name="lastName" placeholder="Last Name" control={control} rules={{required: 'Last name is required'}} />
+        <CustomInput name="phoneNumber" placeholder="Phone Number" control={control} rules={{required: 'Phone number is required'}} />
+        <CustomInput name="email" placeholder="Email" control={control} rules={{pattern: {value: EMAIL_REGEX, message: 'Email is invalid'}}} />
+        <CustomInput name="password" placeholder="Password" control={control}
+          rules={{required: 'Password is required', minLength: {value: 8, message: 'Password must be at least 8 characters long'}}} secureTextEntry={true} />
+        <CustomInput name="confirmPassword" placeholder="Confirm Password" control={control}
+          rules={{validate: value => value === pwd || "Password don not match"}} value secureTextEntry={true} />
 
 
         <CustomButton
           style={styles.button}
           textStyle={{ ...styles.commonFont, color: '#A9927D' }}
           title="Register"
-          onPress={onRegisterPressed}
+          onPress={handleSubmit(onRegisterPressed)}
           color="#171412"
         />
 

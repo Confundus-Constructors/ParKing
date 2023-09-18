@@ -5,6 +5,9 @@ import UserTabs from './UserTabs.jsx';
 import * as Font from 'expo-font';
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import { useForm, Controller } from "react-hook-form";
+
+const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 
 async function loadFonts() {
   await Font.loadAsync({
@@ -13,15 +16,17 @@ async function loadFonts() {
 };
 
 const Welcome = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  // const [email, setEmail] = useState('');
+  // const [password, setPassword] = useState('');
+  const { control, handleSubmit, formState: {errors}, } = useForm();
 
   const navigation = useNavigation();
 
 
 
 
-  const onSignInPressed = () => {
+  const onSignInPressed = (data) => {
+    console.log(data);
 
     navigation.navigate('UHP');
   };
@@ -51,14 +56,25 @@ const Welcome = () => {
         <Image style = {styles.image} source={require('../../../assets/app-logo.png')} />
         <Text style = {styles.text}>Create an account to reserve your parking spot.</Text>
 
-        <CustomInput placeholder="Email" value={email} setValue={setEmail} />
-        <CustomInput placeholder="Password" value={password} setValue={setPassword} secureTextEntry={true} />
+        <CustomInput
+          name="Email"
+          placeholder="Email"
+          control={control}
+          rules={{required: 'Email is required', pattern: {value: EMAIL_REGEX, message: 'Email is invalid'}}}
+        />
+        <CustomInput
+          name="Password"
+          placeholder="Password"
+          control={control}
+          rules={{required: 'Password is required', minLength: {value: 8, message: 'Password must be at least 8 characters long'}}}
+          secureTextEntry={true}
+        />
 
         <CustomButton
           style={styles.button}
           textStyle={{ ...styles.commonFont, color: '#A9927D' }}
           title="Sign In"
-          onPress={onSignInPressed}
+          onPress={handleSubmit(onSignInPressed)}
           color="#171412"
         />
 
