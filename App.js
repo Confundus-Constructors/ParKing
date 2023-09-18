@@ -46,11 +46,11 @@ export default function App() {
   }
 
   return (
-    // <CarManage />
+    <CarManage />
     // <Reserve />
-    <Select />
+    // <Select />
     // <ValetTabs/>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
