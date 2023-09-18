@@ -26,7 +26,6 @@ export default function App() {
         'Oswald-ExtraLight': require('./assets/fonts/Oswald-ExtraLight.ttf'),
         'Oswald-SemiBold': require('./assets/fonts/Oswald-SemiBold.ttf'),
         'Oswald-VariableFont_wght': require('./assets/fonts/Oswald-VariableFont_wght.ttf'),
-
       });
       setFontLoaded(true);
     } catch (e) {
