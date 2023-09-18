@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { Modal, Portal, PaperProvider } from 'react-native-paper';
 import AnimatedLoader from "react-native-animated-loader";
 
-export default CheckOut = () => {
+export default CheckOut = ({navigation}) => {
 
   // const [confirming, setConfirming] = useState(false);
   const [waitingVisible, setWaitingVisible] = useState(false);
@@ -16,8 +16,12 @@ export default CheckOut = () => {
       setWaitingVisible(false);
       setConfirmationVisible(true);
     }, 2000)
-
   }
+
+  const handleExit = () => {
+    setConfirmationVisible(false);
+    navigation.navigate('QRScanner');
+  };
 
   return (
     <View style={styles.container}>
@@ -42,7 +46,7 @@ export default CheckOut = () => {
       </Modal>
       <Modal visible={confirmationVisible} style={styles.modalContainer}>
         <View style={styles.modalView}>
-          <Pressable onPress={()=> {setConfirmationVisible(false)}}>
+          <Pressable onPress={handleExit}>
             <Text style={styles.waitingText}>Confirmed!</Text>
           </Pressable>
         </View>

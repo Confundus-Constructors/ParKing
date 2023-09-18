@@ -18,7 +18,8 @@ export default QRScanner = ({navigation}) => {
     if (scanData) {
       //send call to back end to get res/user information based on
       //navigtae to new screen bas
-      navigation.navigate('CheckIn')
+      // navigation.navigate('CheckOut');
+      navigation.navigate('CheckIn');
     }
   }, [scanData])
 
