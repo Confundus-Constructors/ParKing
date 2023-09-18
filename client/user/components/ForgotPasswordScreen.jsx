@@ -5,6 +5,9 @@ import UserTabs from './UserTabs.jsx';
 import * as Font from 'expo-font';
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import { useForm } from "react-hook-form";
+
+const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 
 async function loadFonts() {
   await Font.loadAsync({
@@ -13,10 +16,14 @@ async function loadFonts() {
 };
 
 const ForgotPasswordScreen = () => {
-  const [Email, setEmail] = useState('');
+  const { control, handleSubmit, formState: {errors}, } = useForm();
+
+  // const [Email, setEmail] = useState('');
   const navigation = useNavigation();
 
-  const onSendPressed = () => {
+  const onSendPressed = (data) => {
+    // console.warn(data);
+
     navigation.navigate('NewPasswordScreen');
   };
 
@@ -36,7 +43,7 @@ const ForgotPasswordScreen = () => {
         <Text style = {styles.text}>Reset your password</Text>
 
 
-        <CustomInput placeholder="Enter your Email" value={Email} setValue={setEmail} />
+        <CustomInput name="email" placeholder="Email" control={control} rules={{required: 'Email is required', pattern: {value: EMAIL_REGEX, message: 'Email is invalid'}}} />
 
 
 
@@ -44,7 +51,7 @@ const ForgotPasswordScreen = () => {
           style={styles.button}
           textStyle={{ ...styles.commonFont, color: '#A9927D' }}
           title="Send"
-          onPress={onSendPressed}
+          onPress={handleSubmit(onSendPressed)}
           color="#171412"
         />
 

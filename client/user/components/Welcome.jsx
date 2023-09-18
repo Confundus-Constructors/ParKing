@@ -7,6 +7,8 @@ import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useForm, Controller } from "react-hook-form";
 
+const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+
 async function loadFonts() {
   await Font.loadAsync({
     'Oswald-Medium': require('../../../assets/fonts/Oswald-Medium.ttf'),  // adjust the path accordingly
@@ -16,7 +18,7 @@ async function loadFonts() {
 const Welcome = () => {
   // const [email, setEmail] = useState('');
   // const [password, setPassword] = useState('');
-  const { control, handleSubmit } = useForm();
+  const { control, handleSubmit, formState: {errors}, } = useForm();
 
   const navigation = useNavigation();
 
@@ -54,8 +56,19 @@ const Welcome = () => {
         <Image style = {styles.image} source={require('../../../assets/app-logo.png')} />
         <Text style = {styles.text}>Create an account to reserve your parking spot.</Text>
 
-        <CustomInput name="Email" placeholder="Email" control={control} />
-        <CustomInput name="Password" placeholder="Password" control={control} secureTextEntry={true} />
+        <CustomInput
+          name="Email"
+          placeholder="Email"
+          control={control}
+          rules={{required: 'Email is required', pattern: {value: EMAIL_REGEX, message: 'Email is invalid'}}}
+        />
+        <CustomInput
+          name="Password"
+          placeholder="Password"
+          control={control}
+          rules={{required: 'Password is required', minLength: {value: 8, message: 'Password must be at least 8 characters long'}}}
+          secureTextEntry={true}
+        />
 
         <CustomButton
           style={styles.button}
