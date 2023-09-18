@@ -5,6 +5,7 @@ import UserTabs from './UserTabs.jsx';
 import * as Font from 'expo-font';
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import { useForm, Controller } from "react-hook-form";
 
 async function loadFonts() {
   await Font.loadAsync({
@@ -13,15 +14,17 @@ async function loadFonts() {
 };
 
 const Welcome = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  // const [email, setEmail] = useState('');
+  // const [password, setPassword] = useState('');
+  const { control, handleSubmit } = useForm();
 
   const navigation = useNavigation();
 
 
 
 
-  const onSignInPressed = () => {
+  const onSignInPressed = (data) => {
+    console.log(data);
 
     navigation.navigate('UHP');
   };
@@ -51,14 +54,14 @@ const Welcome = () => {
         <Image style = {styles.image} source={require('../../../assets/app-logo.png')} />
         <Text style = {styles.text}>Create an account to reserve your parking spot.</Text>
 
-        <CustomInput placeholder="Email" value={email} setValue={setEmail} />
-        <CustomInput placeholder="Password" value={password} setValue={setPassword} secureTextEntry={true} />
+        <CustomInput name="Email" placeholder="Email" control={control} />
+        <CustomInput name="Password" placeholder="Password" control={control} secureTextEntry={true} />
 
         <CustomButton
           style={styles.button}
           textStyle={{ ...styles.commonFont, color: '#A9927D' }}
           title="Sign In"
-          onPress={onSignInPressed}
+          onPress={handleSubmit(onSignInPressed)}
           color="#171412"
         />
 

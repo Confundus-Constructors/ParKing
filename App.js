@@ -58,7 +58,7 @@ export default function App() {
 
     // // <CarManage />
     // <Reserve />
-    <Select />
+    // <Select />
     // <ValetTabs/>
   );
 }
