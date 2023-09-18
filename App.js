@@ -47,20 +47,21 @@ export default function App() {
   }
 
   return (
+    //<CarManage />
     // <Welcome />
     // <SignUpScreen />
     // <ConfirmEmailScreen />
     // <ForgorPasswordScreen />
     // <NewPasswordScreen />
-    <Navigation />
+    //<Navigation />
 
 
 
     // // <CarManage />
     // <Reserve />
-    <Select />
+    // <Select />
     // <ValetTabs/>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
