@@ -7,7 +7,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "start-serv": "nodemon ./server/index.js"
+    "start-serv": "nodemon ./server/index.js",
+    "seed": "node ./server/database/initialize_tables_query.js"
   },
   "dependencies": {
     "@expo-google-fonts/oswald": "^0.2.3",

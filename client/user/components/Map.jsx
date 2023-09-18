@@ -40,7 +40,11 @@ const Map = () => {
         <MapView
           showsUserLocation={true}
           style={styles.map}
-
+          zoomEnabled = {true}
+          maxZoomLevel={20}
+          onPress={e =>
+            console.log('this will be valet garage', e.nativeEvent.coordinate)
+        }
         >
         </MapView>
     </SafeAreaView>
