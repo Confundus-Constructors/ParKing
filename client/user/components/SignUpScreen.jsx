@@ -12,82 +12,73 @@ async function loadFonts() {
   });
 };
 
-const Welcome = () => {
+const SignUpScreen = () => {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [phone, setPhone] = useState('');
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   const navigation = useNavigation();
 
-
-
-
-  const onSignInPressed = () => {
-
-    navigation.navigate('UHP');
+  const onRegisterPressed = () => {
+    navigation.navigate('ConfirmEmailScreen');
   };
 
-  const onSignInGooglePressed = () => {
-    console.warn('Sign In Google Pressed');
+  const onTermOfUsePressed = () => {
+    console.warn('Term of Use Pressed');
   };
 
-  const onSignInFacebookPressed = () => {
-    console.warn('Sign In FacebookPressed');
+  const onPrivacyPressed = () => {
+    console.warn('Privacy Pressed');
   };
 
-  const onForgotPassPressed = () => {
-
-    navigation.navigate('ForgotPasswordScreen');
+  const onGoSignInPressed = () => {
+    navigation.navigate('Welcome');
   };
 
-  const onCreatePressed = () => {
-
-    navigation.navigate('SignUpScreen');
-  };
 
   return (
     <SafeAreaView style={styles.container}>
 
       <SafeAreaView style={styles.mainContent}>
-        <Image style = {styles.image} source={require('../../../assets/app-logo.png')} />
+
         <Text style = {styles.text}>Create an account to reserve your parking spot.</Text>
 
+
+        <CustomInput placeholder="First Name" value={firstName} setValue={setFirstName} />
+        <CustomInput placeholder="Last Name" value={lastName} setValue={setLastName} />
+        <CustomInput placeholder="Phone Number" value={phone} setValue={setPhone} />
         <CustomInput placeholder="Email" value={email} setValue={setEmail} />
         <CustomInput placeholder="Password" value={password} setValue={setPassword} secureTextEntry={true} />
+        <CustomInput placeholder="Confirm Password" value={confirmPassword} setValue={setConfirmPassword} secureTextEntry={true} />
+
 
         <CustomButton
           style={styles.button}
           textStyle={{ ...styles.commonFont, color: '#A9927D' }}
-          title="Sign In"
-          onPress={onSignInPressed}
+          title="Register"
+          onPress={onRegisterPressed}
           color="#171412"
         />
 
-        <TouchableOpacity >
-          <Text onPress={onForgotPassPressed} style={styles.clickableText}>Forgot password?</Text>
-        </TouchableOpacity>
+        <Text style={styles.term}>
+          By registering, you confirm that you accept our <Text onPress={onTermOfUsePressed} style={styles.link}>Terms of Use</Text> and <Text onPress={onPrivacyPressed} style={styles.link}>Privacy Policy</Text>.
+        </Text>
 
-        <CustomButton
-          style={styles.button}
-          textStyle={{ ...styles.commonFont, color: '#171412' }}
-          title="Continue With Google"
-          onPress={onSignInGooglePressed}
-          color="#A9927D"
-        />
-        <CustomButton
-          style={styles.button}
-          textStyle={{ ...styles.commonFont, color: '#D0D3D2' }}
-          title="Continue With Facebook"
-          onPress={onSignInFacebookPressed}
-          color="#49111C"
-        />
+
+
         <TouchableOpacity>
           <Text style={styles.clickableText}>Continue as Guest</Text>
         </TouchableOpacity>
       </SafeAreaView>
 
       <TouchableOpacity>
-        <Text onPress={onCreatePressed} style={styles.clickableText}>Do not have an account? CREATE ONE</Text>
+        <Text onPress={onGoSignInPressed} style={styles.clickableText}>Already have an account? SIGN IN</Text>
       </TouchableOpacity>
+
 
     </SafeAreaView>
   )
@@ -135,6 +126,22 @@ const styles = StyleSheet.create({
     color: '#171412',
     alignSelf: 'center',
     fontFamily: 'Oswald-Bold',
+  },
+
+  term: {
+    marginLeft: 33,
+    marginRight: 33,
+    marginBottom: 30,
+    marginTop: 10,
+    fontSize: 14,
+    color: '#171412',
+    alignSelf: 'center',
+    fontFamily: 'Oswald-Light',
+  },
+
+  link: {
+    color: '#49111C',
+
   }
 })
-export default Welcome;
+export default SignUpScreen;

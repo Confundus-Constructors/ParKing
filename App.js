@@ -1,14 +1,15 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, SafeAreaView } from "react-native";
-import ValetTabs from "./client/valet/components/ValetTabs";
-import UHP from "./client/user/components/UserHomePage";
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import ValetTabs from './client/valet/components/ValetTabs';
+import UHP from './client/user/components/UserHomePage';
 import Reserve from "./client/user/components/UserReserve";
-import Welcome from "./client/user/components/Welcome";
+
 import Select from "./client/user/components/UserCarSelect";
-import React, { useState, useEffect } from "react";
-import * as SplashScreen from "expo-splash-screen";
-import * as Font from "expo-font";
-import AppLoading from "expo-app-loading";
+import Navigation from './client/user/navigation';
+import React, { useState, useEffect } from 'react';
+import * as SplashScreen from 'expo-splash-screen';
+import * as Font from 'expo-font';
+import AppLoading from 'expo-app-loading';
 
 // import { router } from 'expro-router';
 import CarManage from "./client/valet/components/CarManage.jsx";
@@ -46,7 +47,17 @@ export default function App() {
   }
 
   return (
-    <CarManage />
+    //<CarManage />
+    // <Welcome />
+    // <SignUpScreen />
+    // <ConfirmEmailScreen />
+    // <ForgorPasswordScreen />
+    // <NewPasswordScreen />
+    //<Navigation />
+
+
+
+    // // <CarManage />
     // <Reserve />
     // <Select />
     // <ValetTabs/>
