@@ -51,7 +51,7 @@ export default function App() {
     // <Select />
     // <UHP />
     <Welcome />
-    // <CarManage />
+    // <SignUpScreen />
     // <ValetTabs/>
   );
 }
