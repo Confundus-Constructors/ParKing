@@ -115,6 +115,42 @@ transactionRouter.put('/:qr_code', async (req, res) => {
 
 });
 
+transactionRouter.post('/:qr_code', async (req, res) => {
+  try {
+    // const data = req.body;
+    const data = {
+      user_id: 3,
+      vehicle_id: 5,
+      garage_id: 1,
+      qr_code: 'asdfj8234505l',
+      reservation_start_time: "2023-09-17 02:24:00",
+      reservation_end_time: "2023-09-17 08:24:00",
+    };
+
+    const staticData = {
+      check_in_time: null,
+      check_out_time: null,
+      parking_spot_id: null,
+      employee_id: null,
+      current_status: 'reserved',
+      active: true,
+    };
+
+    const combinedData = {...data, ... staticData};
+    const columns = Object.keys(combinedData);
+    const values = Object.values(combinedData);
+
+    console.log({columns, values});
+
+    await model.createTransaction(columns, values);
+  } catch (err) {
+    console.log('an error occurred on transaction/:qr_code route', err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+module.exports = transactionRouter;
+
 // original
 // transactionRouter.get('/:qr_code', async (req, res) => {
 //   try {
@@ -167,5 +203,3 @@ transactionRouter.put('/:qr_code', async (req, res) => {
 //   }
 
 // });
-
-module.exports = transactionRouter;
