@@ -5,6 +5,7 @@ const app = express();
 require("dotenv").config();
 // const userRoute = require('./routes/users');
 // const restRouter = require('./routes/transactions.js');
+const transactionRouter = require("./routes/transactions.js");
 const garageRouter = require("./routes/garages.js");
 const vehicleRouter = require("./routes/vehicles.js");
 const { getUser, postUser, getAll } = require("./routes/users");

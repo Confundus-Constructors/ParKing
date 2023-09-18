@@ -91,7 +91,7 @@ module.exports = {
   updateReservationCheckIn: (conf_number, ps_id) => {
     const currentDate = new Date();
     const formattedDate = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')} ${String(currentDate.getHours()).padStart(2, '0')}:${String(currentDate.getMinutes()).padStart(2, '0')}:${String(currentDate.getSeconds()).padStart(2, '0')}`;
-    console.log(formattedDate);
+    // console.log(formattedDate);
       return client.query(
         `UPDATE transactions
         SET check_in_time = '${formattedDate}',
@@ -110,7 +110,7 @@ module.exports = {
   updateReservationCheckOut: (conf_number) => {
     const currentDate = new Date();
     const formattedDate = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')} ${String(currentDate.getHours()).padStart(2, '0')}:${String(currentDate.getMinutes()).padStart(2, '0')}:${String(currentDate.getSeconds()).padStart(2, '0')}`;
-    console.log(formattedDate);
+    // console.log(formattedDate);
       return client.query(
         `UPDATE transactions
         SET check_out_time = '${formattedDate}',

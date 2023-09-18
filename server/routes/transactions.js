@@ -11,7 +11,7 @@ transactionRouter.get('/:qr_code', async (req, res) => {
     // query to find if it's checked-in
     const status = await model.queryReservationStatus(qr_code);
     const current_status = status.rows[0].current_status;
-    console.log(current_status);
+    // console.log(current_status);
 
     // checking in
     if (current_status === 'reserved') {
@@ -27,7 +27,7 @@ transactionRouter.get('/:qr_code', async (req, res) => {
       // combine
       transactionObj.parking_spot_number = position;
 
-      console.log({transactionObj});
+      // console.log({transactionObj});
 
       await model.updateReservationCheckIn(qr_code, ps_id);
       await model.updateParkingSpotStatusCheckIn(ps_id);
