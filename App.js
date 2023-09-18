@@ -9,6 +9,7 @@ import * as Font from 'expo-font';
 import AppLoading from 'expo-app-loading';
 
 // import { router } from 'expro-router';
+import CarManage from './client/valet/components/CarManage.jsx';
 
 export default function App() {
   const [isFontLoaded, setFontLoaded] = useState(false);
@@ -39,7 +40,7 @@ export default function App() {
   }
 
   return (
-    <Welcome />
+    <CarManage />
   );
 }
 
@@ -49,5 +50,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-  },
+  }
 });
