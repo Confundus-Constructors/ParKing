@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import ValetTabs from './client/valet/components/ValetTabs';
 import UHP from './client/user/components/UserHomePage';
 import Welcome from './client/user/components/Welcome';
+import SignUpScreen from './client/user/components/SignUpScreen';
 import React, { useState, useEffect } from 'react';
 import * as SplashScreen from 'expo-splash-screen';
 import * as Font from 'expo-font';
@@ -44,7 +45,8 @@ export default function App() {
   }
 
   return (
-    <Welcome />
+    // <Welcome />
+    <SignUpScreen />
     // <CarManage />
     // <ValetTabs/>
   );
