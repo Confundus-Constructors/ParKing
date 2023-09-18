@@ -2,8 +2,9 @@ const path = require("path");
 const express = require("express");
 const app = express();
 require('dotenv').config();
+
 // const userRoute = require('./routes/users');
-// const restRouter = require('./routes/transactions.js');
+const transactionRouter = require('./routes/transactions.js');
 const garageRouter = require('./routes/garages.js');
 const vehicleRouter = require('./routes/vehicles.js');
 
@@ -12,7 +13,7 @@ const vehicleRouter = require('./routes/vehicles.js');
 // app.use(bodyParser.urlencoded({extended: true}));
 
 // app.use('/users', userRoute);
-// app.use('/transactions', transactionsRoute);
+app.use('/transactions', transactionRouter);
 app.use('/garages', garageRouter);
 app.use('/vehicles', vehicleRouter);
 
