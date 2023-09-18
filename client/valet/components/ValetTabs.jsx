@@ -6,6 +6,7 @@ import Icon from 'react-native-ico-material-design';
 import { Ionicons } from "@expo/vector-icons";
 import CameraScreen from './CameraScreen';
 import CarsScreen from './CarsScreen';
+import { StatusBar } from 'react-native'
 
 
 export default ValetTabs = () => {
@@ -22,6 +23,7 @@ export default ValetTabs = () => {
 
   return (
     <NavigationContainer theme={navTheme}>
+      <StatusBar  barStyle="light-content" translucent={true} />
       <Tab.Navigator
       barStyle={{ backgroundColor: 'black' }}
       activeColor="white"

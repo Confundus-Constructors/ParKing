@@ -9,6 +9,7 @@ import * as Font from 'expo-font';
 import AppLoading from 'expo-app-loading';
 
 // import { router } from 'expro-router';
+import CarManage from './client/valet/components/CarManage.jsx';
 
 export default function App() {
   const [isFontLoaded, setFontLoaded] = useState(false);
@@ -17,7 +18,6 @@ export default function App() {
   const loadFonts = async () => {
     try {
       await SplashScreen.preventAutoHideAsync();
-
       await Font.loadAsync({
         'Oswald-Medium': require('./assets/fonts/Oswald-Medium.ttf'),
         'Oswald-Regular': require('./assets/fonts/Oswald-Regular.ttf'),
@@ -28,7 +28,6 @@ export default function App() {
         'Oswald-VariableFont_wght': require('./assets/fonts/Oswald-VariableFont_wght.ttf'),
 
       });
-
       setFontLoaded(true);
     } catch (e) {
       console.warn(e);
@@ -46,7 +45,8 @@ export default function App() {
   }
 
   return (
-    <Welcome />
+    <CarManage />
+    // <ValetTabs/>
   );
 }
 
@@ -56,5 +56,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-  },
+  }
 });
