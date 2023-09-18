@@ -7,6 +7,8 @@ import Welcome from "./client/user/components/Welcome";
 import Select from "./client/user/components/UserCarSelect";
 import SignUpScreen from "./client/user/components/SignUpScreen";
 import ConfirmEmailScreen from "./client/user/components/ConfirmEmailScreen";
+import ForgorPasswordScreen from "./client/user/components/ForgotPasswordScreen";
+import NewPasswordScreen from "./client/user/components/NewPasswordScreen";
 import React, { useState, useEffect } from "react";
 import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
@@ -48,9 +50,9 @@ export default function App() {
   }
 
   return (
-    // <Welcome />
-    // <SignUpScreen />
     // <ConfirmEmailScreen />
+    // <ForgorPasswordScreen />
+    // <NewPasswordScreen />
     // <CarManage />
     // <Reserve />
     // <Select />
