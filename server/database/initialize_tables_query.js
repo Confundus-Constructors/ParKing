@@ -74,7 +74,7 @@ CREATE TABLE "transactions" (
   parking_spot_id INT,
   employee_id INT,
   /*qr_code BYTEA NOT NULL,*/
-  qr_code BYTEA,
+  qr_code VARCHAR,
   reservation_start_time TIMESTAMP NOT NULL,
   reservation_end_time TIMESTAMP NOT NULL,
   check_in_time TIMESTAMP,
