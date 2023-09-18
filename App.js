@@ -52,11 +52,12 @@ export default function App() {
 
 
 
+
     // <CarManage />
     // <Reserve />
     // <Select />
     // <ValetTabs/>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
