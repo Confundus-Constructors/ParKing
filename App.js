@@ -47,12 +47,13 @@ export default function App() {
   }
 
   return (
+    //<CarManage />
     // <Welcome />
     // <SignUpScreen />
     // <ConfirmEmailScreen />
     // <ForgorPasswordScreen />
     // <NewPasswordScreen />
-    <Navigation />
+    //<Navigation />
 
 
 
@@ -60,7 +61,7 @@ export default function App() {
     // <Reserve />
     // <Select />
     // <ValetTabs/>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
