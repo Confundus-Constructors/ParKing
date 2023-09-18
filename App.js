@@ -38,8 +38,8 @@ export default function App() {
   }
 
   return (
-    // <CarManage />
-    <ValetTabs/>
+    <CarManage />
+    // <ValetTabs/>
   );
 }
 
