@@ -1,6 +1,6 @@
 import { SafeAreaView,Text,Image,TextInput,ScrollSafeAreaView,StyleSheet } from 'react-native';
 import { Button } from '@rneui/themed';
-import UserTabs from './UserTabs.jsx'
+// import UserTabs from './UserTabs.jsx'
 
 const UHP = () => {
   return (
