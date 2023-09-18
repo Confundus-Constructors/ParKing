@@ -95,6 +95,7 @@ module.exports = {
       WHERE qr_code = '${conf_number}'`
     );
   },
+
   updateReservationCheckIn: (conf_number, ps_id) => {
     const currentDate = new Date();
     const formattedDate = `${currentDate.getFullYear()}-${String(
