@@ -33,6 +33,12 @@
         {
           "cameraPermission": "Allow $(ParKing) to access your camera."
         }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow ParKing to use your location to find the closest valet service to you."
+        }
       ]
     ]
   }

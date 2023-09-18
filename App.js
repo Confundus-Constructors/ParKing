@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import ValetTabs from './client/valet/components/ValetTabs';
+import Map from './client/user/components/Map';
 import UHP from './client/user/components/UserHomePage';
 import Welcome from './client/user/components/Welcome';
 import React, { useState, useEffect } from 'react';
@@ -38,7 +39,8 @@ export default function App() {
   }
 
   return (
-    <CarManage />
+    <Map />
+    // <CarManage />
     // <ValetTabs/>
   );
 }
