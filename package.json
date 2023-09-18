@@ -10,6 +10,7 @@
     "start-serv": "nodemon ./server/index.js"
   },
   "dependencies": {
+    "@expo-google-fonts/oswald": "^0.2.3",
     "@react-navigation/material-bottom-tabs": "^6.2.16",
     "@react-navigation/native": "^6.1.7",
     "@react-navigation/stack": "^6.3.17",
@@ -19,7 +20,10 @@
     "ejs": "^3.1.9",
     "expo": "~49.0.10",
     "expo-app-loading": "^2.1.1",
+    "expo-barcode-scanner": "~12.5.3",
+    "expo-camera": "~13.4.4",
     "expo-constants": "~14.4.2",
+    "expo-font": "~11.4.0",
     "expo-font": "~11.4.0",
     "expo-linking": "~5.0.2",
     "expo-router": "^2.0.0",
