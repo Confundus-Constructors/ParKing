@@ -1,6 +1,11 @@
 const client = require("../database/db");
 
 module.exports = {
+  getAll: (req, res) => {
+    client.query("SELECT * FROM users").then((result) => {
+      res.send(result);
+    });
+  },
   getUser: (req, res) => {
     let { email, password } = req.query;
     console.log(email, password);
@@ -18,23 +23,30 @@ module.exports = {
         res.send(400, err);
       });
   },
-  postUser: (req, res) => {
+  postUser: async (req, res) => {
     let { firstname, lastname, password, email, phone } = req.body;
     let employee = false;
     console.log(firstname, lastname, email, password, phone);
+    await resetSerial();
     client
-      .query("INSERT INTO users values($1,$2,$3,$4,$5,$6,$7)", [
-        firstname,
-        lastname,
-        password,
-        email,
-        phone,
-      ])
+      .query(
+        "INSERT INTO users (id,first_name, last_name, password, email, phone, is_employee ) VALUES ( DEFAULT, $1, $2, $3, $4,$5,$6)",
+        [firstname, lastname, password, email, phone, employee]
+      )
       .then((query) => {
         res.send(200, query);
       })
       .catch((err) => {
+        console.log(err);
         res.send(400, err);
       });
   },
+};
+
+const resetSerial = () => {
+  client
+    .query("SELECT setval('users_id_seq', (select max(id) from users)")
+    .catch((err) => {
+      console.log(err);
+    });
 };
