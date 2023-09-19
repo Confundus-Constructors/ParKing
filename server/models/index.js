@@ -1,17 +1,24 @@
-const client = require('../database/db');
+const client = require("../database/db");
 
 module.exports = {
   insertEntry: (table, obj) => {
     const columns = Object.keys(obj);
     const values = Object.values(obj);
-    const valuePlaceholders = columns.map((col, index) => `$${index + 1}`).join(', ');
-    return client.query(`INSERT INTO ${table} (${columns}) VALUES (${valuePlaceholders})`, values)
+    const valuePlaceholders = columns
+      .map((col, index) => `$${index + 1}`)
+      .join(", ");
+    return client.query(
+      `INSERT INTO ${table} (${columns}) VALUES (${valuePlaceholders})`,
+      values
+    );
   },
   queryAll: (table) => {
-    return client.query(`SELECT * FROM ${table}`)
+    return client.query(`SELECT * FROM ${table}`);
   },
   queryAllWhere: (table, whereCol, whereCondition) => {
-    return client.query(`SELECT * FROM ${table} WHERE ${whereCol} = ${whereCondition}`)
+    return client.query(
+      `SELECT * FROM ${table} WHERE ${whereCol} = ${whereCondition}`
+    );
   },
   queryCountReservationTimes: (time1, time2) => {
     return client.query(
@@ -88,6 +95,7 @@ module.exports = {
       WHERE qr_code = '${conf_number}'`
     );
   },
+
   updateReservationCheckIn: (conf_number, ps_id) => {
     const currentDate = new Date();
     const formattedDate = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')} ${String(currentDate.getHours()).padStart(2, '0')}:${String(currentDate.getMinutes()).padStart(2, '0')}:${String(currentDate.getSeconds()).padStart(2, '0')}`;
@@ -98,7 +106,7 @@ module.exports = {
         current_status = 'checked-in',
         parking_spot_id = ${ps_id}
         WHERE qr_code = '${conf_number}';`
-      );
+    );
   },
   updateParkingSpotStatusCheckIn: (ps_id) => {
     return client.query(`
@@ -119,13 +127,13 @@ module.exports = {
         active = false
         WHERE qr_code = '${conf_number}'
         RETURNING parking_spot_id;`
-      );
+    );
   },
   updateParkingSpotStatusCheckOut: (ps_id) => {
     return client.query(`
       UPDATE parking_spots
       SET is_available = true
-      WHERE id = '${ps_id}';`
-    );
+      WHERE id = '${ps_id}';`);
   },
 };
+

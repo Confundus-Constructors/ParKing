@@ -2,6 +2,7 @@ const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
+
 require("dotenv").config();
 // const userRoute = require('./routes/users');
 // const restRouter = require('./routes/transactions.js');
@@ -15,15 +16,16 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // app.use('/users', userRoute);
-app.use('/transactions', transactionRouter);
-app.use('/garages', garageRouter);
-app.use('/vehicles', vehicleRouter);
+app.use("/transactions", transactionRouter);
+app.use("/garages", garageRouter);
+app.use("/vehicles", vehicleRouter);
 
 const port = process.env.SERVER_PORT || 3001;
 
 app.get("/users", (req, res) => {
   req.query.length > 0 ? getUser(req, res) : getAll(req, res);
 });
+
 
 app.post("/users", (req, res) => {
   postUser(req, res);

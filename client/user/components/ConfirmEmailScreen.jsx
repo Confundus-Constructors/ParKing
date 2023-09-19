@@ -5,6 +5,7 @@ import UserTabs from './UserTabs.jsx';
 import * as Font from 'expo-font';
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import { useForm, Controller } from "react-hook-form";
 
 async function loadFonts() {
   await Font.loadAsync({
@@ -13,7 +14,8 @@ async function loadFonts() {
 };
 
 const ConfirmEmailScreen = () => {
-  const [code, setCode] = useState('');
+  // const [code, setCode] = useState('');
+  const { control, handleSubmit, formState: {errors} } = useForm();
   const navigation = useNavigation();
 
   const onConfirmPressed = () => {
@@ -38,7 +40,7 @@ const ConfirmEmailScreen = () => {
         <Text style = {styles.text}>Confirm your email</Text>
 
 
-        <CustomInput placeholder="Enter your confirmation code" value={code} setValue={setCode} />
+        <CustomInput name="code" placeholder="Enter your confirmation code" control={control} rules={{required: 'Confirmation Code is required'}} />
 
 
 
@@ -46,7 +48,7 @@ const ConfirmEmailScreen = () => {
           style={styles.button}
           textStyle={{ ...styles.commonFont, color: '#A9927D' }}
           title="Confirm"
-          onPress={onConfirmPressed}
+          onPress={handleSubmit(onConfirmPressed)}
           color="#171412"
         />
 
