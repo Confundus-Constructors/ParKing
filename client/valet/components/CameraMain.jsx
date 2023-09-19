@@ -3,7 +3,6 @@ import { Camera, CameraType } from 'expo-camera';
 import { useState, useEffect, useRef } from 'react';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import axios from 'axios';
-import { dataUriToBuffer } from 'data-uri-to-buffer';
 
 export default CameraScreen = ({navigation}) => {
   const cameraRef = useRef();
@@ -30,7 +29,7 @@ export default CameraScreen = ({navigation}) => {
       type: 'text/plain',
     });
     // console.log("BLOOOOB", blob);
-    axios.post(`http://localhost:3000/image`, {image: 'blob'})
+    axios.post(`http://localhost:3000/image`, {image: 'Image Test'})
     navigation.navigate('CheckIn', {image: image})
   }
 
