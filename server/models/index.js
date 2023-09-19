@@ -312,6 +312,9 @@ module.exports = {
       WHERE id = '${ps_id}';`);
   },
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c64ee74d66ad75b991ae6cdacb4e5955008c10a4
   updateCarPhoto: (qr_code, blob) => {
     return client.query(`
     UPDATE transactions

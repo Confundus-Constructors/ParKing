@@ -39,7 +39,10 @@ function PickTab() {
 const CarManage = ({navigation}) => {
 
   return (
+<<<<<<< HEAD
 
+=======
+>>>>>>> c64ee74d66ad75b991ae6cdacb4e5955008c10a4
     <SafeAreaView style={{ flex: 1 }}>
     <NavigationContainer>
       <Tab.Navigator
