@@ -2,6 +2,7 @@ const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
+const model = require('./models/index.js');
 
 require("dotenv").config();
 // const userRoute = require('./routes/users');
@@ -31,7 +32,27 @@ app.post("/users", (req, res) => {
 });
 
 app.post("/image", (req, res) => {
-  console.log(req.body);
+  console.log(req.body.image);
+  model.updateCarPhoto(1, req.body.image)
+  .then((result) => {
+    console.log(result);
+    res.end("Picture Updated")
+  })
+  .catch(() => {
+    res.status(404).send('Error wile updating picture');
+  })
+});
+
+app.get("/image", (req, res) => {
+  // console.log(req.body);
+  model.getCarPhoto(1)
+  .then((result) => {
+    res.json(result.rows)
+  })
+  .catch((err) => {
+    console.log(err);
+    res.status(404).send('Error while getting picture');
+  })
 });
 
 app.listen(port, () => {
