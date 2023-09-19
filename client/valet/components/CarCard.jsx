@@ -1,6 +1,9 @@
 import React, {useState} from 'react';
 import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import {launchCamera} from 'react-native-image-picker';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faCamera } from '@fortawesome/free-solid-svg-icons';
+
 
 
 const CarCard = () => {
@@ -44,7 +47,7 @@ const CarCard = () => {
             {imageSource ? (
               <Image source={imageSource} style={styles.image} />
             ) : (
-              <Image source={require('../../../assets/icon.png')} style={styles.image} />
+              <FontAwesomeIcon icon={faCamera} style={{color: "#a9927d"}} />
             )}
           </TouchableOpacity>
       </View>
