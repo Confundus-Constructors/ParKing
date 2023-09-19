@@ -3,6 +3,7 @@ const garageRouter = express.Router();
 const path = require('path');
 const model = require('../models');
 const controller = require('../controllers');
+const crypto = require('crypto');
 
 garageRouter.get('/', async (req, res) => {
   // technically should read req.query for address
@@ -33,5 +34,28 @@ garageRouter.get('/', async (req, res) => {
 
   res.status(201).send(result);
 });
+
+// garageRouter.get('/test', async (req, res) => {
+//   // try {
+//   //   const responseArray = await controller.lookupLatLong(req.query.location);
+//   //   const responseData = responseArray.data;
+//   //   const latitude = responseData.locations[0].referencePosition.latitude;
+//   //   const longitude = responseData.locations[0].referencePosition.longitude;
+//   //   // console.log({latitude, longitude});
+
+//   //   const result = await model.queryGaragesByDistanceTest(latitude, longitude)
+
+//   //   res.status(201).send(result);
+//   // } catch (err) {
+//   //   console.log('an error occurred on garages test route', err);
+//   //   res.status(500).send('Internal Server Error');
+//   // }
+// });
+
+// garageRouter.get('/test_crpyto', async (req, res) => {
+//   const crypto = require('crypto');
+//   const conf_code = crypto.randomBytes(8).toString('base64');
+//   res.status(201).send({conf_code});
+// })
 
 module.exports = garageRouter;
