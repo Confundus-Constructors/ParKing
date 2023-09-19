@@ -24,7 +24,8 @@ CREATE TABLE "vehicles" (
   license_plate VARCHAR NOT NULL,
   color VARCHAR,
   user_id INT NOT NULL,
-  FOREIGN KEY ("user_id") REFERENCES "users"(id)
+  FOREIGN KEY ("user_id") REFERENCES "users"(id),
+  CONSTRAINT unique_license_plate UNIQUE (license_plate)
 );
 
 CREATE TABLE "valet_company" (
