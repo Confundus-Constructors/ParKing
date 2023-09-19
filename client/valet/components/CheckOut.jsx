@@ -3,18 +3,14 @@ import { useState, useEffect } from 'react';
 import { Modal, Portal, PaperProvider } from 'react-native-paper';
 import axios from 'axios';
 
-export default CheckOut = ({navigation}) => {
+export default CheckOut = ({navigation,  route}) => {
 
-  // useEffect(() => {
-  //   axios.get('http//localhost:3000/')
-  // })
 
-  // const [confirming, setConfirming] = useState(false);
+  const [carInfo, setCarInfo] = useState({});
   const [waitingVisible, setWaitingVisible] = useState(false);
   const [confirmationVisible, setConfirmationVisible] = useState(false);
 
   const handleReturn = () => {
-    // console.log(waitingVisible);
     setWaitingVisible(true);
     setTimeout(() => {
       setWaitingVisible(false);
@@ -27,17 +23,31 @@ export default CheckOut = ({navigation}) => {
     navigation.navigate('QRScanner');
   };
 
+  const capitalizeString = (string) => {
+    if (string) {
+      return string[0].toUpperCase() + string.slice(1,string.length).toLowerCase();
+    }
+    else {
+      return null;
+    }
+  };
+
+  useEffect(() => {
+    console.log(route.params.carInfo);
+    setCarInfo(route.params.carInfo);
+  },[route.params]);
+
   return (
     <View style={styles.container}>
       <View style={styles.formContainer}>
         <Text style={styles.text}>Please bring out the following vehicle and press the 'Vehicle Returned' button after returning vehicle</Text>
         <Text style={styles.text}>Reservation ID: </Text>
-        <Text style={styles.text}>Spot: </Text>
-        <Text style={styles.text}>Owner:</Text>
-        <Text style={styles.text}>Make:</Text>
-        <Text style={styles.text}>Color:</Text>
-        <Text style={styles.text}>License Plate:</Text>
-        <Image style={styles.carPic}></Image>
+        <Text style={styles.text}>{'Spot: ' + carInfo.parking_spot_number} </Text>
+        <Text style={styles.text}>{'Owner: ' + carInfo.user}</Text>
+        <Text style={styles.text}>{'Make: ' + carInfo.make_model}</Text>
+        <Text style={styles.text}>{'Color: ' + capitalizeString(carInfo.color)}</Text>
+        <Text style={styles.text}>{'License Plate: ' + carInfo.license_plate}</Text>
+        <Image src={carInfo.photo} style={styles.carPic}></Image>
         <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonTitle} onPress={handleReturn}>Vehicle Returned</Text>
         </TouchableOpacity>
@@ -76,7 +86,6 @@ const styles = StyleSheet.create({
     shadowOffset: {width: -2, height: 4},
     shadowOpacity: 1,
     shadowRadius: 3,
-    // justifyContent: 'flex-start',
     padding: 50
   },
   button: {
@@ -110,11 +119,6 @@ const styles = StyleSheet.create({
   modalContainer: {
     alignItems:'center',
     justifyContent:'center'
-    // // width: '90%',
-    // marginLeft: 10,
-    // marginRight: 10,
-    // borderRadius: 30,
-    // backgroundColor: 'white',
   },
   lottie: {
     width: 100,

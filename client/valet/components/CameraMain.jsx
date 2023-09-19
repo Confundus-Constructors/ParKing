@@ -10,6 +10,7 @@ export default CameraScreen = ({navigation}) => {
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const [image, setImage] = useState();
   const [taken, setTaken] = useState(false);
+  const [blob, setBlob] = useState();
 
   const handleTakePic = async () => {
     if (cameraRef) {
@@ -17,7 +18,10 @@ export default CameraScreen = ({navigation}) => {
       const newPhoto = await cameraRef.current.takePictureAsync();
       cameraRef.current.pausePreview();
       setTaken(true);
+      const blob = await (await fetch(newPhoto.uri)).blob();
+      // console.log(blob);
       setImage(newPhoto.uri);
+      setBlob(blob);
       } catch(e) {
         console.log(e);
       }
@@ -25,12 +29,7 @@ export default CameraScreen = ({navigation}) => {
   }
 
   const handleUsePic = () => {
-    const blob = new Blob([image], {
-      type: 'text/plain',
-    });
-    // console.log("BLOOOOB", blob);
-    axios.post(`http://localhost:3000/image`, {image: 'Image Test'})
-    navigation.navigate('CheckIn', {image: image})
+    navigation.navigate('CheckIn', {image: image, blob: blob})
   }
 
   const handleRetake =( ) => {
