@@ -140,9 +140,10 @@ transactionRouter.post('/:qr_code', async (req, res) => {
     const columns = Object.keys(combinedData);
     const values = Object.values(combinedData);
 
-    console.log({columns, values});
+    // console.log({columns, values});
 
     await model.createTransaction(columns, values);
+    res.status(201).send('Created')
   } catch (err) {
     console.log('an error occurred on transaction/:qr_code route', err);
     res.status(500).send('Internal Server Error');
