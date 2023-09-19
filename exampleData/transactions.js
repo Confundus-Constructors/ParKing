@@ -13,7 +13,7 @@ const transactions = [
     check_out_time: "2023-09-12 05:24:00",
     current_status: 'checked-out',
     active: false,
-    photo: null,
+    photo: null
   },
   { id: 2,
     user_id: 3,
@@ -29,7 +29,7 @@ const transactions = [
     check_out_time: null,
     current_status: 'reserved',
     active: true,
-    photo: null,
+    photo: null
   },
   { id: 3,
     user_id: 3,
@@ -45,7 +45,7 @@ const transactions = [
     check_out_time: null,
     current_status: 'checked-in',
     active: true,
-    photo: 'https://images.pexels.com/photos/1319515/pexels-photo-1319515.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+    photo: null
   },
   { id: 4,
     user_id: 3,
@@ -61,7 +61,7 @@ const transactions = [
     check_out_time: null,
     current_status: 'picking-up',
     active: true,
-    photo: 'https://hips.hearstapps.com/hmg-prod/images/2023-porsche-911-dakar-fd-152-1674829952.jpg?crop=0.572xw:0.429xh;0.231xw,0.355xh&resize=1200:*',
+    photo: null,
   },
 ];
 
