@@ -309,6 +309,13 @@ module.exports = {
       UPDATE parking_spots
       SET is_available = true
       WHERE id = '${ps_id}';`);
+  },
+  updateEarlyCheckout: (conf_number) => {
+    return client.query(
+      `UPDATE transactions
+      SET current_status = 'picking-up'
+      WHERE qr_code = '${conf_number}';
+    `);
   }
 };
 
