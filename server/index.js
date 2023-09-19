@@ -34,28 +34,27 @@ app.post("/users", (req, res) => {
   postUser(req, res);
 });
 
-app.post("/image", (req, res) => {
+app.post("/image", async (req, res) => {
   console.log(req.body.image);
-  model
-    .updateCarPhoto(1, req.body.image)
-    .then((result) => {
-      console.log(result);
-      res.end("Picture Updated");
-    })
-    .catch(() => {
-      res.status(404).send("Error wile updating picture");
-    });
+  await model.updateCarPhoto("test2", req.body.image);
+  // .then((result) => {
+  //   console.log(result);
+  res.end("Picture Updated");
+  // })
+  // .catch(() => {
+  // res.status(404).send('Error wile updating picture');
+  // })
 });
 
 app.get("/image", (req, res) => {
   model
-    .getCarPhoto(1)
+    .getCarPhoto("test2")
     .then((result) => {
-      res.json(result.rows);
+      console.log(result);
+      res.json(result);
     })
-    .catch((err) => {
-      console.log(err);
-      res.status(404).send("Error while getting picture");
+    .catch(() => {
+      res.status(404).send("Error wile getting picture");
     });
 });
 

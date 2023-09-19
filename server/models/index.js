@@ -284,8 +284,14 @@ module.exports = {
   },
   updateCarPhoto: (qr_code, blob) => {
     return client.query(`
-    UPDATE transaction
-    SET photo = ${blob}
+    UPDATE transactions
+    SET photo = '${blob}'
+    WHERE qr_code = '${qr_code}';`);
+  },
+  getCarPhoto: (qr_code) => {
+    return client.query(`
+    SELECT photo
+    FROM transactions
     WHERE qr_code = '${qr_code}';`);
   },
 };
