@@ -30,26 +30,30 @@ garageRouter.get('/', async (req, res) => {
   }
 });
 
-// garageRouter.get('/test', async (req, res) => {
-//   try {
-//     let garageData;
-//     const responseArray = await controller.lookupLatLong(req.query.location);
-//     const responseData = responseArray.data;
+garageRouter.get('/test', async (req, res) => {
+  try {
+    // let garageData;
+    // const responseArray = await controller.lookupLatLong(req.query.location);
+    // const responseData = responseArray.data;
 
-//     if (responseData.locations.length > 0) {
-//       const latitude = responseData.locations[0].referencePosition.latitude;
-//       const longitude = responseData.locations[0].referencePosition.longitude;
-//       garageData = await model.queryGaragesByDistanceTest(latitude, longitude);
-//     } else {
-//       // if api doesn't return anything
-//       garageData = await model.queryAll('garages');
-//     }
+    // if (responseData.locations.length > 0) {
+      // const latitude = responseData.locations[0].referencePosition.latitude;
+      // const longitude = responseData.locations[0].referencePosition.longitude;
+      const latitude = 25.790780;
+      const longitude = -80.130099;
+      const garageData = await model.queryGaragesByDistanceTest(latitude, longitude);
+    // } else {
+    //   // if api doesn't return anything
+    //   garageData = await model.queryAll('garages');
+    // }
+    const data = garageData.rows;
+    console.log(data);
 
-//     res.status(201).send(data);
-//   } catch (err) {
-//     console.log('an error occurred on garages test route', err);
-//     res.status(500).send('Internal Server Error');
-//   }
-// });
+    res.status(201).send(data);
+  } catch (err) {
+    console.log('an error occurred on garages test route', err);
+    res.status(500).send('Internal Server Error');
+  }
+});
 
 module.exports = garageRouter;
