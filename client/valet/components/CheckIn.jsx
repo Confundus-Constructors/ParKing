@@ -59,29 +59,19 @@ export default Checkin = ({navigation, route}) => {
           <Image style={styles.loadingGif} source={require('./../../../assets/loading.gif')} ></Image>
         </View>
       </Modal>
-      {/* {confirming ?
-      <AnimatedLoader
-        visible={true}
-        overlayColor="rgba(255,255,255,0.75)"
-        animationStyle={styles.lottie}
-        speed={1}>
-        <Text>Confirming</Text>
-      </AnimatedLoader> : null } */}
       <Modal visible={modalVisible}>
         <View style={styles.modalView}>
           <View>
             <Text style={styles.confirmed}>Checked In ✓</Text>
             <Text style={styles.modalText}>Please park the car and then enter the parking location</Text>
-            <TextInput style={styles.input}></TextInput>
-            <Text style={styles.modalText}>Please take a picture of the car in its spot. Include the license plate if possibled</Text>
+            <Text style={styles.modalText}>Parking Spot: ____</Text>
+            <Text style={styles.modalText}>Please take a picture of the car in its spot. Include the license plate if possible</Text>
             {!image ? <TouchableOpacity style={styles.picButton} onPress={addPic}>
               <Text style={styles.buttonTitle}>Add Picture</Text>
             </TouchableOpacity>
             :
             <View>
-            <TouchableOpacity style={styles.picButton} onPress={addPic}>
-              <Text style={styles.buttonTitle}>Retake</Text>
-            </TouchableOpacity>
+
             {/* <Pressable onPress={() => {console.log('hi')}}> */}
               <Image
                 style={styles.image}
@@ -90,9 +80,15 @@ export default Checkin = ({navigation, route}) => {
                 }}
               />
             {/* </Pressable> */}
-            <TouchableOpacity style={styles.picButton} onPress={handleSubmit}>
-              <Text style={styles.buttonTitle}>Submit</Text>
-            </TouchableOpacity>
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity style={styles.picButton} onPress={addPic}>
+                <Text style={styles.buttonTitle}>Retake</Text>
+              </TouchableOpacity>
+              <Text>   </Text>
+              <TouchableOpacity style={styles.picButton} onPress={handleSubmit}>
+                <Text style={styles.buttonTitle}>Submit</Text>
+              </TouchableOpacity>
+            </View>
             </View>}
           </View>
         </View>
@@ -118,7 +114,6 @@ const styles = StyleSheet.create({
     shadowOffset: {width: -2, height: 4},
     shadowOpacity: 1,
     shadowRadius: 3,
-    // justifyContent: 'flex-start',
     padding: 50
   },
   button: {
@@ -157,7 +152,8 @@ const styles = StyleSheet.create({
     height: 30,
   },
   modalText: {
-    fontSize: 22
+    fontSize: 22,
+    marginBottom: 20
   },
   confirmed: {
     color: 'green',
@@ -174,6 +170,7 @@ const styles = StyleSheet.create({
   },
   picButton: {
     backgroundColor: '#49111C',
+    flex: 1,
     borderRadius: 20,
     height: 50,
     justifyContent: 'center',
@@ -182,9 +179,10 @@ const styles = StyleSheet.create({
   },
   image: {
     marginTop: 10,
-    height: 100,
-    width: 50,
-    alignSelf: 'center'
+    height: 180,
+    width: 200,
+    alignSelf: 'center',
+    borderRadius: 20
   },
   waitingText: {
     fontSize: 20,
@@ -205,6 +203,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     width: '95%',
     alignSelf: 'center'
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
   }
 });
 

@@ -31,7 +31,7 @@ export default CameraScreen = ({navigation}) => {
               fontWeight: 'bold'
             }
           }}
-          />
+          />*/}
           <Stack.Screen
           name="CheckIn"
           component={CheckIn}
@@ -46,7 +46,7 @@ export default CameraScreen = ({navigation}) => {
               fontWeight: 'bold'
             }
           }}
-          /> */}
+          />
           <Stack.Screen
           name="CheckOut"
           component={CheckOut}
