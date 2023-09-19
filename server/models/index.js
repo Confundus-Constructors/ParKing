@@ -223,6 +223,25 @@ module.exports = {
       WHERE qr_code = '${conf_number}'`
     );
   },
+  queryReservationUserId: (user_id) => {
+    return client.query(
+      `SELECT qr_code,
+      vs.license_plate,
+      reservation_start_time,
+      reservation_end_time,
+      CONCAT(gs.address_line_1,' ',gs.city,', ',gs.state,' ',gs.zip) as "parking_address"
+
+      FROM transactions ts
+
+      INNER JOIN vehicles vs
+      ON vs.id = ts.vehicle_id
+
+      INNER JOIN garages gs
+      ON gs.id = ts.garage_id
+
+      WHERE ts.user_id = '${user_id}'`
+    );
+  },
   queryReservationUponCheckout: (conf_number) => {
     return client.query(
       `SELECT qr_code,
@@ -303,6 +322,13 @@ module.exports = {
     SELECT photo
     FROM transactions
     WHERE qr_code = '${qr_code}';`)
+  },
+  updateEarlyCheckout: (conf_number) => {
+    return client.query(
+      `UPDATE transactions
+      SET current_status = 'picking-up'
+      WHERE qr_code = '${conf_number}';
+    `);
   }
 };
 

@@ -15,6 +15,7 @@ import React, { useState, useEffect } from "react";
 import UserTabs from "./UserTabs.jsx";
 import axios from "axios";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { useNavigation } from '@react-navigation/native';
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 async function loadFonts() {
@@ -25,6 +26,7 @@ const UHP = () => {
   const userId = 1;
   const [location, setLoc] = useState("");
   const [modalVisible, setModalVisible] = useState(true);
+  const navigation = useNavigation();
 
   //#region calendar date time picker
   const [sDate, setSDate] = useState("Today");
@@ -65,6 +67,11 @@ const UHP = () => {
         end_date: eTime,
       },
     });
+  };
+
+  const onBackSignInPressed = () => {
+    navigation.navigate('Welcome');
+
   };
 
   return (
@@ -144,10 +151,15 @@ const UHP = () => {
             onPush={handlePush}
             color="#171412"
           />
+
+        <TouchableOpacity>
+          <Text onPress={onBackSignInPressed} style={styles.clickableText}>Back to Sign In</Text>
+        </TouchableOpacity>
           {/* <Icon /> */}
         </View>
       </Modal>
       {/* <UserTabs/> */}
+
     </SafeAreaView>
   );
 };

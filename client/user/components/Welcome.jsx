@@ -1,11 +1,15 @@
-import { SafeAreaView, Text, Image, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { SafeAreaView, Text, Image, TextInput, StyleSheet, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import CustomButton from './CustomButton';
 import CustomInput from './CustomInput';
 import UserTabs from './UserTabs.jsx';
 import * as Font from 'expo-font';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useForm, Controller } from "react-hook-form";
+import { FIREBASE_AUTH } from '../../../FirebaseConfig.ts';
+import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
+
+import { User } from 'firebase/auth';
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 
@@ -18,17 +22,41 @@ async function loadFonts() {
 const Welcome = () => {
   // const [email, setEmail] = useState('');
   // const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    onAuthStateChanged(FIREBASE_AUTH, (user) => {
+      console.log("Before setting user:", user);
+        setUser(user);
+        console.log("After setting user:", user);
+
+    });
+  }, []);
+
+
+
   const { control, handleSubmit, formState: {errors}, } = useForm();
 
   const navigation = useNavigation();
+  const auth = FIREBASE_AUTH;
 
 
+  const onSignInPressed = async(data) => {
+    // console.log(data);
 
-
-  const onSignInPressed = (data) => {
-    console.log(data);
-
-    navigation.navigate('UHP');
+    // navigation.navigate('UHP');
+    setLoading(true);
+    try {
+      const response = await signInWithEmailAndPassword(auth, data.Email, data.Password);
+      console.log('herererererererer', response);
+      navigation.navigate('UHP');
+    } catch (error) {
+      console.log(error);
+      alert('Sign in failed. Please try again.' + error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const onSignInGooglePressed = () => {
@@ -50,63 +78,69 @@ const Welcome = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.container}
+    >
+        <SafeAreaView style={{ flex: 1 }}>
+            <ScrollView contentContainerStyle={styles.scrollContainer}>
+                <SafeAreaView style={styles.mainContent}>
+                    <Image style={styles.image} source={require('../../../assets/app-logo.png')} />
+                    <Text style={styles.text}>Create an account to reserve your parking spot.</Text>
 
-      <SafeAreaView style={styles.mainContent}>
-        <Image style = {styles.image} source={require('../../../assets/app-logo.png')} />
-        <Text style = {styles.text}>Create an account to reserve your parking spot.</Text>
+                    <CustomInput
+                        name="Email"
+                        placeholder="Email"
+                        control={control}
+                        rules={{ required: 'Email is required', pattern: { value: EMAIL_REGEX, message: 'Email is invalid' } }}
+                    />
+                    <CustomInput
+                        name="Password"
+                        placeholder="Password"
+                        control={control}
+                        rules={{ required: 'Password is required', minLength: { value: 8, message: 'Password must be at least 8 characters long' } }}
+                        secureTextEntry={true}
+                    />
 
-        <CustomInput
-          name="Email"
-          placeholder="Email"
-          control={control}
-          rules={{required: 'Email is required', pattern: {value: EMAIL_REGEX, message: 'Email is invalid'}}}
-        />
-        <CustomInput
-          name="Password"
-          placeholder="Password"
-          control={control}
-          rules={{required: 'Password is required', minLength: {value: 8, message: 'Password must be at least 8 characters long'}}}
-          secureTextEntry={true}
-        />
+                    <CustomButton
+                        style={styles.button}
+                        textStyle={{ ...styles.commonFont, color: '#A9927D' }}
+                        title="Sign In"
+                        onPress={handleSubmit(onSignInPressed)}
+                        color="#171412"
+                    />
 
-        <CustomButton
-          style={styles.button}
-          textStyle={{ ...styles.commonFont, color: '#A9927D' }}
-          title="Sign In"
-          onPress={handleSubmit(onSignInPressed)}
-          color="#171412"
-        />
+                    <TouchableOpacity>
+                        <Text onPress={onForgotPassPressed} style={styles.clickableText}>Forgot password?</Text>
+                    </TouchableOpacity>
 
-        <TouchableOpacity >
-          <Text onPress={onForgotPassPressed} style={styles.clickableText}>Forgot password?</Text>
-        </TouchableOpacity>
+                    <CustomButton
+                        style={styles.button}
+                        textStyle={{ ...styles.commonFont, color: '#171412' }}
+                        title="Continue With Google"
+                        onPress={onSignInGooglePressed}
+                        color="#A9927D"
+                    />
+                    <CustomButton
+                        style={styles.button}
+                        textStyle={{ ...styles.commonFont, color: '#D0D3D2' }}
+                        title="Continue With Facebook"
+                        onPress={onSignInFacebookPressed}
+                        color="#49111C"
+                    />
+                    <TouchableOpacity>
+                        <Text style={styles.clickableText}>Continue as Guest</Text>
+                    </TouchableOpacity>
+                </SafeAreaView>
 
-        <CustomButton
-          style={styles.button}
-          textStyle={{ ...styles.commonFont, color: '#171412' }}
-          title="Continue With Google"
-          onPress={onSignInGooglePressed}
-          color="#A9927D"
-        />
-        <CustomButton
-          style={styles.button}
-          textStyle={{ ...styles.commonFont, color: '#D0D3D2' }}
-          title="Continue With Facebook"
-          onPress={onSignInFacebookPressed}
-          color="#49111C"
-        />
-        <TouchableOpacity>
-          <Text style={styles.clickableText}>Continue as Guest</Text>
-        </TouchableOpacity>
-      </SafeAreaView>
+                <TouchableOpacity>
+                    <Text onPress={onCreatePressed} style={styles.clickableText}>Do not have an account? CREATE ONE</Text>
+                </TouchableOpacity>
+            </ScrollView>
+        </SafeAreaView>
+    </KeyboardAvoidingView>
+);
 
-      <TouchableOpacity>
-        <Text onPress={onCreatePressed} style={styles.clickableText}>Do not have an account? CREATE ONE</Text>
-      </TouchableOpacity>
-
-    </SafeAreaView>
-  )
 }
 
 
@@ -117,6 +151,7 @@ const styles = StyleSheet.create({
   },
 
   image: {
+    marginTop: 90,
     marginLeft: 30,
     width: "60%",
     height: 100,
