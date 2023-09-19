@@ -63,7 +63,6 @@ module.exports = {
       apiKey: `${process.env.PTV_AUTH}`
     }
 
-
     const result = await axios.get('https://api.myptv.com/geocoding/v1/locations/by-address', {params: obj, headers: authObj})
     return result;
   },

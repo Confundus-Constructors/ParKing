@@ -3,7 +3,6 @@ const garageRouter = express.Router();
 const path = require('path');
 const model = require('../models');
 const controller = require('../controllers');
-const crypto = require('crypto');
 
 garageRouter.get('/', async (req, res) => {
   try {
@@ -16,9 +15,7 @@ garageRouter.get('/', async (req, res) => {
       const parkingSpotCount = await model.queryCountParkingSpots();
 
       if (parkingSpotCount.rows.length > 0 && transactionCount.rows.length > 0) {
-        // subtract reserved spots from available spots
         const availableSpots = controller.subtractReservedSpots(parkingSpotCount.rows, transactionCount.rows);
-        // nest into garage obj
         result = controller.nestCountIntoGarageData(garageData.rows, availableSpots);
       } else {
         result = garageData.rows;
