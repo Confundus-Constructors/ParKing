@@ -17,7 +17,7 @@ export default CameraScreen = ({navigation}) => {
         headerShown: true
       }}
       >
-         <Stack.Screen
+         {/* <Stack.Screen
           name="QRScanner"
           component={QRScanner}
           options={{
@@ -46,7 +46,7 @@ export default CameraScreen = ({navigation}) => {
               fontWeight: 'bold'
             }
           }}
-          />
+          /> */}
           <Stack.Screen
           name="CheckOut"
           component={CheckOut}

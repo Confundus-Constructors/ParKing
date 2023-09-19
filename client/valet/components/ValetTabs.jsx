@@ -6,8 +6,8 @@ import Icon from 'react-native-ico-material-design';
 import { Ionicons } from "@expo/vector-icons";
 import CameraScreen from './CameraScreen';
 import CarsScreen from './CarsScreen';
-import { StatusBar } from 'react-native'
-
+import { StatusBar } from 'react-native';
+import Calendar from './Calendar';
 
 export default ValetTabs = () => {
   const theme = useTheme();
@@ -45,6 +45,36 @@ export default ValetTabs = () => {
           }}
         />
         <Tab.Screen
+          name="Calendar"
+          component={Calendar}
+          options={{
+            tabBarIcon: (tabInfo) => {
+              return (
+                <Ionicons
+                  name="calendar"
+                  size={24}
+                  color={tabInfo.focused ? "white" : "gray"}
+                />
+              );
+            }
+          }}
+        />
+        <Tab.Screen
+          name="Cars"
+          component={CarsScreen}
+          options={{
+            tabBarIcon: (tabInfo) => {
+              return (
+                <Ionicons
+                  name="car"
+                  size={24}
+                  color={tabInfo.focused ? "white" : "gray"}
+                />
+              );
+            }
+          }}
+        />
+        <Tab.Screen
           name="Camera"
           component={CameraScreen}
           options={{
@@ -59,23 +89,7 @@ export default ValetTabs = () => {
             }
           }}
         />
-        <Tab.Screen
-          name="Cars"
-          component={ValetHomeScreen}
-          options={{
-            tabBarIcon: (tabInfo) => {
-              return (
-                <Ionicons
-                  name="car"
-                  size={24}
-                  color={tabInfo.focused ? "white" : "gray"}
-                />
-              );
-            }
-          }}
-        />
       </Tab.Navigator>
     </NavigationContainer>
   )
 };
-//rip

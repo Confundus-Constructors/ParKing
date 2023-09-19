@@ -1,18 +1,16 @@
 import React from 'react';
 import CarCard from './CarCard.jsx'
-import {View} from 'react-native';
+import {ScrollView} from 'react-native';
 
 const CarManage = () => {
 
   return (
-    <View>
+    <ScrollView>
       <CarCard />
       <CarCard />
       <CarCard />
-    </View>
+    </ScrollView>
   )
-
-
 }
 
 export default CarManage;
