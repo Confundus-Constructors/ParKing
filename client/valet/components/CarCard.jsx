@@ -6,7 +6,8 @@ import { faCamera } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 
 
-const CarCard = ({info,  buttonText}) => {
+
+const CarCard = ({navigation, info,  buttonText}) => {
   const [imageSource, setImageSource] = useState(null);
   const date1 = new Date(info.reservation_start_time);
   const date2 = new Date(info.reservation_end_time);
@@ -98,7 +99,8 @@ const CarCard = ({info,  buttonText}) => {
         </View>
     </View>
     <View style={styles.buttonContainer}>
-      <TouchableOpacity style={styles.button} onPress={() => console.log('Button pressed!')}>
+
+      <TouchableOpacity style={styles.button} onPress={() => {navigation.navigate('CheckIn')}}>
       <Text style={styles.buttonText}>{buttonText ? buttonText : 'Check Out'}</Text>
       </TouchableOpacity>
     </View>

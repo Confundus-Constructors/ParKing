@@ -12,7 +12,8 @@ const transactions = [
     check_in_time: "2023-09-12 03:24:00",
     check_out_time: "2023-09-12 05:24:00",
     current_status: 'checked-out',
-    active: false
+    active: false,
+    photo: null
   },
   { id: 2,
     user_id: 3,
@@ -27,7 +28,8 @@ const transactions = [
     check_in_time: null,
     check_out_time: null,
     current_status: 'reserved',
-    active: true
+    active: true,
+    photo: null
   },
   { id: 3,
     user_id: 3,
@@ -42,7 +44,24 @@ const transactions = [
     check_in_time: "2023-09-15 03:24:00",
     check_out_time: null,
     current_status: 'checked-in',
-    active: true
+    active: true,
+    photo: "file:///var/mobile/Containers/Data/Application/75BEC23C-884D-4958-8C01-2CA9B303FD3A/Library/Caches/ExponentExperienceData/%2540anonymous%252FParKing-20854ef5-8574-45b7-935f-2d5e13acb61d/Camera/CA2A91FE-2B4B-4EC2-86D1-119E228BA26E.jpg"
+  },
+  { id: 4,
+    user_id: 3,
+    vehicle_id: 4,
+    garage_id: 1,
+    parking_spot_id: 1,
+    employee_id: 1,
+    qr_code: 'test4',
+    // qr_code: Buffer.from('5468697320697320616E6F74686572206578616D706C6520424C4F422064617461', 'hex'),
+    reservation_start_time: "2023-09-14 03:24:00",
+    reservation_end_time: "2023-09-20 03:24:00",
+    check_in_time: "2023-09-14 03:24:00",
+    check_out_time: null,
+    current_status: 'picking-up',
+    active: true,
+    photo: null,
   },
 ];
 

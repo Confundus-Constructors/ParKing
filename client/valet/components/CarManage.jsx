@@ -36,7 +36,7 @@ function PickTab() {
   )
 }
 
-const CarManage = () => {
+const CarManage = ({navigation}) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
