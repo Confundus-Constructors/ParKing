@@ -6,6 +6,8 @@ import * as Font from 'expo-font';
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useForm, Controller } from "react-hook-form";
+import { FIREBASE_AUTH } from '../../../FirebaseConfig.ts';
+import {signInWithEmailAndPassword} from 'firebase/auth';
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 
@@ -18,17 +20,28 @@ async function loadFonts() {
 const Welcome = () => {
   // const [email, setEmail] = useState('');
   // const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
   const { control, handleSubmit, formState: {errors}, } = useForm();
 
   const navigation = useNavigation();
+  const auth = FIREBASE_AUTH;
 
 
+  const onSignInPressed = async(data) => {
+    // console.log(data);
 
-
-  const onSignInPressed = (data) => {
-    console.log(data);
-
-    navigation.navigate('UHP');
+    // navigation.navigate('UHP');
+    setLoading(true);
+    try {
+      const response = await signInWithEmailAndPassword(auth, data.Email, data.Password);
+      console.log(response);
+      navigation.navigate('UHP');
+    } catch (error) {
+      console.log(error);
+      alert('Sign in failed. Please try again.' + error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const onSignInGooglePressed = () => {
