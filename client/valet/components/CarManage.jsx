@@ -3,6 +3,11 @@ import CarCard from './CarCard.jsx'
 import {View, Text, SafeAreaView} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import Reserved from './Reserved.jsx';
+import Parked from './Parked.jsx';
+import Pickups from './Pickups.jsx';
+
+
 
 
 const Tab = createMaterialTopTabNavigator();
@@ -26,7 +31,7 @@ function ParkedTab() {
 function PickTab() {
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>Puckups</Text>
+      <Text>Pickups</Text>
     </SafeAreaView>
   )
 }
@@ -50,9 +55,9 @@ const CarManage = () => {
           backgroundColor: 'black',
         },
       }}>
-        <Tab.Screen name="Reserved" component={CarCard} />
-        <Tab.Screen name="Parked" component={ParkedTab} />
-        <Tab.Screen name="Pickups" component={PickTab} />
+        <Tab.Screen name="Reserved" component={Reserved} />
+        <Tab.Screen name="Parked" component={Parked} />
+        <Tab.Screen name="Pickups" component={Pickups} />
       </Tab.Navigator>
     </NavigationContainer>
     </SafeAreaView>

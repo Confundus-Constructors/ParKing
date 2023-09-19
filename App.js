@@ -55,9 +55,9 @@ export default function App() {
     // <ConfirmEmailScreen />
     // <ForgotPasswordScreen />
     // <NewPasswordScreen />
-    // <CarManage />
+    <CarManage />
     // <Reserve />
-    <Navigation />
+    // <Navigation />
     // <Select />
     // <UHP />
     // <Welcome />
