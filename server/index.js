@@ -31,30 +31,6 @@ app.post("/users", (req, res) => {
   postUser(req, res);
 });
 
-app.post("/image", (req, res) => {
-  console.log(req.body.image);
-  model.updateCarPhoto(1, req.body.image)
-  .then((result) => {
-    console.log(result);
-    res.end("Picture Updated")
-  })
-  .catch(() => {
-    res.status(404).send('Error wile updating picture');
-  })
-});
-
-app.get("/image", (req, res) => {
-  // console.log(req.body);
-  model.getCarPhoto(1)
-  .then((result) => {
-    res.json(result.rows)
-  })
-  .catch((err) => {
-    console.log(err);
-    res.status(404).send('Error while getting picture');
-  })
-});
-
 app.listen(port, () => {
   console.log(`Listening at port http://${process.env.HOST}:${port}`);
 });

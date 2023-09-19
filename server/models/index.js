@@ -146,7 +146,7 @@ module.exports = {
     return client.query(
       `SELECT photo
       FROM transactions
-      Where id = ${conf_number}`
+      WHERE id = ${conf_number}`
     )
   }
 };

@@ -19,6 +19,8 @@
     "@react-navigation/stack": "^6.3.17",
     "@rneui/themed": "^4.0.0-rc.8",
     "axios": "^1.5.0",
+    "data-uri-to-buffer": "^5.0.1",
+    "dataurl-to-blob": "^0.0.1",
     "dotenv": "^16.3.1",
     "ejs": "^3.1.9",
     "expo": "~49.0.10",
