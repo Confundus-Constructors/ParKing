@@ -24,7 +24,8 @@ CREATE TABLE "vehicles" (
   license_plate VARCHAR NOT NULL,
   color VARCHAR,
   user_id INT NOT NULL,
-  FOREIGN KEY ("user_id") REFERENCES "users"(id)
+  FOREIGN KEY ("user_id") REFERENCES "users"(id),
+  CONSTRAINT unique_license_plate UNIQUE (license_plate)
 );
 
 CREATE TABLE "valet_company" (
@@ -79,9 +80,9 @@ CREATE TABLE "transactions" (
   reservation_end_time TIMESTAMP NOT NULL,
   check_in_time TIMESTAMP,
   check_out_time TIMESTAMP,
-  current_status VARCHAR NOT NULL CHECK(current_status IN ('reserved', 'checked-in', 'checked-out')),
+  current_status VARCHAR NOT NULL CHECK(current_status IN ('reserved', 'checked-in', 'picking-up', 'checked-out')),
   active BOOLEAN NOT NULL,
-  photo BYTEA,
+  photo VARCHAR,
   FOREIGN KEY ("user_id") REFERENCES "users"(id),
   FOREIGN KEY ("vehicle_id") REFERENCES "vehicles"(id),
   FOREIGN KEY ("garage_id") REFERENCES "garages"(id),
