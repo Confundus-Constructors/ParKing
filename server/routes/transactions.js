@@ -80,8 +80,8 @@ transactionRouter.get('/users/:user_id', async (req, res) => {
     const data = await model.queryReservationUserId(user_id); // get most data
 
     if (data.rows.length > 0) {
-      const transactionObj = data.rows[0];
-      res.status(201).send(transactionObj);
+      const transactionArray = data.rows;
+      res.status(201).send(transactionArray);
     } else {
       res.status(404).send('No record found for the provided QR code.');
     }

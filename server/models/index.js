@@ -165,7 +165,7 @@ module.exports = {
       vs.license_plate,
       reservation_start_time,
       reservation_end_time,
-      CONCAT(gs.address_line_1,' ',gs.city,' ',gs.state,' ',gs.state) as "parking_address"
+      CONCAT(gs.address_line_1,' ',gs.city,', ',gs.state,' ',gs.zip) as "parking_address"
 
       FROM transactions ts
 
