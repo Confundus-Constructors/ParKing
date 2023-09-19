@@ -21,9 +21,10 @@ module.exports = {
     );
   },
   createTransaction: (columns, values) => {
-    const placeholders = values.map((_, index) => `$${index + 1}`).join(', ');
+    const placeholders = values.map((_, index) => `$${index + 1}`).join(", ");
     return client.query(
-      `INSERT INTO transactions(${columns}) VALUES(${placeholders});`, values
+      `INSERT INTO transactions(${columns}) VALUES(${placeholders});`,
+      values
     );
   },
   queryReservations: (garageId, status) => {
@@ -258,5 +259,13 @@ module.exports = {
       UPDATE parking_spots
       SET is_available = true
       WHERE id = '${ps_id}';`);
+  },
+  updateEarlyCheckout: (conf_number) => {
+    return client.query(
+      `UPDATE transactions
+      SET current_status = 'picking-up'
+      WHERE qr_code = '${conf_number}';
+    `
+    );
   },
 };
