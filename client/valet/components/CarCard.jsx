@@ -36,14 +36,31 @@ const CarCard = ({info,  buttonText}) => {
     <SafeAreaView className="text-lg" style={styles.container}>
 
       <View style={styles.row}>
-        <View>
-          <Text style={styles.boldText}>Reservation ID: {info.confirmation_id}</Text>
-          <Text style={styles.boldText}>Owner: {info.user}</Text>
+      <View style={styles.row}>
+    <View>
+        <Text style={styles.row}>
+            <Text style={styles.boldText}>Reservation ID: </Text>
+            <Text>{info.confirmation_id}</Text>
+        </Text>
+        <Text style={styles.row}>
+            <Text style={styles.boldText}>Owner: </Text>
+            <Text style={styles.user}>{info.user}</Text>
+        </Text>
+        <Text style={styles.row}>
+            <Text style={styles.boldText}>Make: </Text>
+            <Text style={styles.carInfo}>{info.make_model}</Text>
+        </Text>
+        <Text style={styles.row}>
+            <Text style={styles.boldText}>Color: </Text>
+            <Text>{info.color}</Text>
+        </Text>
+        <Text style={styles.row}>
+            <Text style={styles.boldText}>License Plate: </Text>
+            <Text>{info.license_plate}</Text>
+        </Text>
+    </View>
+</View>
 
-          <Text style={styles.carInfo}>Make: {info.make_model}</Text>
-          <Text style={styles.boldText}>Color: {info.color}</Text>
-          <Text style={styles.boldText}>License Plate: {info.license_plate}</Text>
-        </View>
 
         <View>
           <TouchableOpacity style={styles.box} onPress={selectImage}>
@@ -60,12 +77,24 @@ const CarCard = ({info,  buttonText}) => {
 
       <View style={styles.row}>
         <View>
-          <Text style={styles.boldText}>Arrival: {date1.toLocaleString()}</Text>
-          <Text style={styles.boldText}>Depart: {date2.toLocaleString()}</Text>
+        <Text style={styles.row}>
+          <Text style={styles.boldText}>Arrival: </Text>
+          <Text>{date1.toLocaleString()}</Text>
+        </Text>
+        <Text style={styles.row}>
+          <Text style={styles.boldText}>Depart: </Text>
+          <Text>{date2.toLocaleString()}</Text>
+        </Text>
         </View>
         <View>
+        <Text style={styles.row}>
           <Text style={styles.boldText}>Garage: </Text>
+          <Text>{}</Text>
+        </Text>
+        <Text style={styles.row}>
           <Text style={styles.boldText}>Spot ID: </Text>
+          <Text>__</Text>
+        </Text>
         </View>
     </View>
     <View style={styles.buttonContainer}>
@@ -96,8 +125,8 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 5,
-    marginLeft: 2,
+    marginTop: 2,
+    marginLeft: 3,
   },
   boldText: {
     fontWeight: 'bold',
@@ -117,8 +146,7 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   carInfo: {
-    marginTop: 25,
-    fontWeight: 'bold',
+    marginTop: 15,
   },
   buttonContainer: {
     alignItems: 'center',
@@ -144,7 +172,10 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     fontSize: 16,
-}
+},
+  user: {
+    marginTop: 1,
+  }
 });
 
 export default CarCard;
