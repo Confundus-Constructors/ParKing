@@ -3,11 +3,13 @@ import CustomButton from './CustomButton';
 import CustomInput from './CustomInput';
 import UserTabs from './UserTabs.jsx';
 import * as Font from 'expo-font';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useForm, Controller } from "react-hook-form";
 import { FIREBASE_AUTH } from '../../../FirebaseConfig.ts';
-import {signInWithEmailAndPassword} from 'firebase/auth';
+import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
+
+import { User } from 'firebase/auth';
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 
@@ -21,6 +23,19 @@ const Welcome = () => {
   // const [email, setEmail] = useState('');
   // const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    onAuthStateChanged(FIREBASE_AUTH, (user) => {
+      console.log("Before setting user:", user);
+        setUser(user);
+        console.log("After setting user:", user);
+
+    });
+  }, []);
+
+
+
   const { control, handleSubmit, formState: {errors}, } = useForm();
 
   const navigation = useNavigation();
@@ -34,7 +49,7 @@ const Welcome = () => {
     setLoading(true);
     try {
       const response = await signInWithEmailAndPassword(auth, data.Email, data.Password);
-      console.log(response);
+      console.log('herererererererer', response);
       navigation.navigate('UHP');
     } catch (error) {
       console.log(error);

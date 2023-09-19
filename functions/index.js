@@ -8,8 +8,8 @@ admin.initializeApp();
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "your-email@gmail.com",
-    pass: "your-email-password",
+    user: "confundusbo@gmail.com",
+    pass: "blueocean",
   },
 });
 
@@ -24,12 +24,13 @@ exports.sendVerificationCode = functions.https.onCall(async (data, context) => {
   await admin.firestore().collection("verificationCodes").add({
     email: userEmail,
     code: code,
-    timestamp: admin.firestore.FieldValue.serverTimestamp(),
+    // eslint-disable-next-line max-len
+    timestamp: admin.firestore.Timestamp.fromDate(new Date(Date.now() + 15*60*1000)), // expires in 15 minutes
   });
 
   // Send email with the code
   await transporter.sendMail({
-    from: "your-email@gmail.com",
+    from: "confundusbo@gmail.com",
     to: userEmail,
     subject: "Your Verification Code",
     text: "Your verification code is: " + code,
