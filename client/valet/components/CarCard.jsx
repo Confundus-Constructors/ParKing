@@ -1,13 +1,16 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, Image, Button} from 'react-native';
 import {launchCamera} from 'react-native-image-picker';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCamera } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
 
 
-
-const CarCard = () => {
+const CarCard = ({info,  buttonText}) => {
   const [imageSource, setImageSource] = useState(null);
+  const date1 = new Date(info.reservation_start_time);
+  const date2 = new Date(info.reservation_end_time);
+
 
   const selectImage = () => {
     const options = {
@@ -34,12 +37,12 @@ const CarCard = () => {
 
       <View style={styles.row}>
         <View>
-          <Text style={styles.boldText}>Reservation ID: [Value]</Text>
-          <Text style={styles.boldText}>Owner: [Value]</Text>
+          <Text style={styles.boldText}>Reservation ID: {info.confirmation_id}</Text>
+          <Text style={styles.boldText}>Owner: {info.user}</Text>
 
-          <Text style={styles.carInfo}>Make: [Value]</Text>
-          <Text style={styles.boldText}>Color: [Value]</Text>
-          <Text style={styles.boldText}>License Plate: [Value]</Text>
+          <Text style={styles.carInfo}>Make: {info.make_model}</Text>
+          <Text style={styles.boldText}>Color: {info.color}</Text>
+          <Text style={styles.boldText}>License Plate: {info.license_plate}</Text>
         </View>
 
         <View>
@@ -57,17 +60,17 @@ const CarCard = () => {
 
       <View style={styles.row}>
         <View>
-          <Text style={styles.boldText}>Arrives:  [Value]</Text>
-          <Text style={styles.boldText}>Departs: [Value]</Text>
+          <Text style={styles.boldText}>Arrival: {date1.toLocaleString()}</Text>
+          <Text style={styles.boldText}>Depart: {date2.toLocaleString()}</Text>
         </View>
         <View>
-          <Text style={styles.boldText}>Garage: [Value]</Text>
-          <Text style={styles.boldText}>Spot ID: [Value]</Text>
+          <Text style={styles.boldText}>Garage: </Text>
+          <Text style={styles.boldText}>Spot ID: </Text>
         </View>
     </View>
     <View style={styles.buttonContainer}>
       <TouchableOpacity style={styles.button} onPress={() => console.log('Button pressed!')}>
-      <Text style={styles.buttonText}>Check In</Text>
+      <Text style={styles.buttonText}>{buttonText ? buttonText : 'Check Out'}</Text>
       </TouchableOpacity>
     </View>
   </SafeAreaView>
