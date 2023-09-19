@@ -1,6 +1,5 @@
 const client = require('./db.js');
 const query = require('./initialize_tables_query.js');
-const seq_query = require('./alter_sequence_query.js');
 const usersData = require('../../exampleData/users');
 const valetCompanyData = require('../../exampleData/valet_companies');
 const garagesData = require('../../exampleData/garages');
@@ -17,12 +16,6 @@ alterStatementsArray = [
   "SELECT setval('parking_spots_id_seq', (SELECT MAX(id) FROM parking_spots));",
   "SELECT setval('employees_id_seq', (SELECT MAX(id) FROM employees));",
   "SELECT setval('transactions_id_seq', (SELECT MAX(id) FROM transactions));",
-  // `ALTER SEQUENCE "vehicles_id_seq" RESTART WITH (SELECT MAX(id) + 1 FROM "vehicles");`,
-  // `ALTER SEQUENCE "valet_company_id_seq" RESTART WITH (SELECT MAX(id) + 1 FROM "valet_company");`,
-  // `ALTER SEQUENCE "garages_id_seq" RESTART WITH (SELECT MAX(id) + 1 FROM "garages");`,
-  // `ALTER SEQUENCE "parking_spots_id_seq" RESTART WITH (SELECT MAX(id) + 1 FROM "parking_spots");`,
-  // `ALTER SEQUENCE "employees_id_seq" RESTART WITH (SELECT MAX(id) + 1 FROM "employees");`,
-  // `ALTER SEQUENCE "transactions_id_seq" RESTART WITH (SELECT MAX(id) + 1 FROM "transactions");`,
 ];
 
 (async () => {
