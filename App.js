@@ -3,13 +3,17 @@ import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import ValetTabs from './client/valet/components/ValetTabs';
 import UHP from './client/user/components/UserHomePage';
 import Reserve from "./client/user/components/UserReserve";
-
 import Select from "./client/user/components/UserCarSelect";
+import SignUpScreen from "./client/user/components/SignUpScreen";
+import ConfirmEmailScreen from "./client/user/components/ConfirmEmailScreen";
+import ForgotPasswordScreen from "./client/user/components/ForgotPasswordScreen";
+import NewPasswordScreen from "./client/user/components/NewPasswordScreen";
 import Navigation from './client/user/navigation';
 import React, { useState, useEffect } from 'react';
 import * as SplashScreen from 'expo-splash-screen';
 import * as Font from 'expo-font';
 import AppLoading from 'expo-app-loading';
+
 
 // import { router } from 'expro-router';
 import CarManage from "./client/valet/components/CarManage.jsx";
@@ -47,14 +51,16 @@ export default function App() {
   }
 
   return (
-
-    <Navigation />
-
-
-
+    // <ConfirmEmailScreen />
+    // <ForgotPasswordScreen />
+    // <NewPasswordScreen />
     // <CarManage />
     // <Reserve />
+    <Navigation />
     // <Select />
+    // <UHP />
+    // <Welcome />
+    // <SignUpScreen />
     // <ValetTabs/>
   );
 }

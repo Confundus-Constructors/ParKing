@@ -1,10 +1,9 @@
 const client = require("../database/db");
+const queryAll = require("../models/index");
 
 module.exports = {
   getAll: (req, res) => {
-    client.query("SELECT * FROM users").then((result) => {
-      res.send(result);
-    });
+    queryAll("users");
   },
   getUser: (req, res) => {
     let { email, password } = req.query;
