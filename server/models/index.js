@@ -138,7 +138,14 @@ module.exports = {
   updateCarPhoto: (conf_number, image) => {
     return client.query(
       `UPDATE transactions
-      Set photo = ${image}
+      SET photo = ${image}
+      WHERE id = ${conf_number}`
+    )
+  },
+  getCarPhoto: (conf_number) => {
+    return client.query(
+      `SELECT photo
+      FROM transactions
       Where id = ${conf_number}`
     )
   }
