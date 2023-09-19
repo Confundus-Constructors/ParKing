@@ -62,7 +62,7 @@ export default function App() {
     <Welcome />
     // <SignUpScreen />
     // <ValetTabs/>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
