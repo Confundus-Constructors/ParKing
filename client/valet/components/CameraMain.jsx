@@ -2,6 +2,7 @@ import { Alert, Pressable, TouchableOpacity,View,Text,StyleSheet } from 'react-n
 import { Camera, CameraType } from 'expo-camera';
 import { useState, useEffect, useRef } from 'react';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import axios from 'axios';
 
 export default CameraScreen = ({navigation}) => {
   const cameraRef = useRef();
@@ -24,6 +25,7 @@ export default CameraScreen = ({navigation}) => {
   }
 
   const handleUsePic = () => {
+    axios.post(`http://localhost:3000/image`, {image: image})
     navigation.navigate('CheckIn', {image: image})
   }
 
