@@ -47,7 +47,8 @@ const CarCard = () => {
             {imageSource ? (
               <Image source={imageSource} style={styles.image} />
             ) : (
-              <FontAwesomeIcon icon={faCamera} style={{color: "#a9927d"}} />
+              <FontAwesomeIcon icon={faCamera} style={{color: "#a9927d"}} size={80} fade-size={'lg'}/>
+
             )}
           </TouchableOpacity>
       </View>
