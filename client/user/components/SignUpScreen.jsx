@@ -6,6 +6,9 @@ import * as Font from 'expo-font';
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useForm, Controller } from "react-hook-form";
+import { FIREBASE_AUTH } from '../../../FirebaseConfig.ts';
+import {createUserWithEmailAndPassword} from 'firebase/auth';
+
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 
@@ -23,13 +26,25 @@ const SignUpScreen = () => {
   // const [email, setEmail] = useState('');
   // const [password, setPassword] = useState('');
   // const [confirmPassword, setConfirmPassword] = useState('');
+  const [loading, setLoading] = useState(false);
   const { control, handleSubmit, watch, formState: {errors} } = useForm();
   const pwd = watch('password');
 
   const navigation = useNavigation();
+  const auth = FIREBASE_AUTH;
 
-  const onRegisterPressed = () => {
-    navigation.navigate('ConfirmEmailScreen');
+  const onRegisterPressed = async(data) => {
+    console.log(data);
+    setLoading(true);
+    try { const response = await createUserWithEmailAndPassword(auth, data.email, data.password);
+      console.log(response);
+      navigation.navigate('ConfirmEmailScreen');
+    } catch (error) {
+      console.log(error);
+      alert('Sign up failed. Please try again.' + error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const onTermOfUsePressed = () => {
