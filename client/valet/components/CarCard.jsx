@@ -80,11 +80,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#E0E0E0',
     padding: 10,
     borderRadius: 0,
-<<<<<<< HEAD
-    marginTop: 20,
-=======
     marginTop: 5,
->>>>>>> f83130e (carmanage tabs done)
     borderRadius: 10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 3 },
@@ -104,11 +100,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   box: {
-<<<<<<< HEAD
-    width: 200,
-=======
     width: 190,
->>>>>>> f83130e (carmanage tabs done)
     height: 130,
     justifyContent: 'center',
     alignItems: 'center',
