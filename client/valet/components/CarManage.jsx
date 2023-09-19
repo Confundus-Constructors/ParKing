@@ -52,7 +52,7 @@ const CarManage = () => {
           backgroundColor: '#a9927d',
         },
         indicatorStyle: {
-          backgroundColor: 'black',
+          backgroundColor: '#49111c',
         },
       }}>
         <Tab.Screen name="Reserved" component={Reserved} />

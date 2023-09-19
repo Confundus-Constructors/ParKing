@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View} from 'react-native';
+import { View } from 'react-native';
 import axios from 'axios';
 import CarCard from './CarCard.jsx';
 
@@ -7,24 +7,24 @@ import CarCard from './CarCard.jsx';
 const Pickups = ({garage = 1}) => {
   const [resInfo, setResInfo] = useState([])
 
-useEffect (() => {
-  axios.get(`http://localhost:3000/reservations/${garage}`, {
-    params: {
-      filter: 'picking-u'
-    }
-  })
-  .then(res => {
-    console.log('res log', res.data)
-    setResInfo(res.data)
-  })
-  .catch(err => console.log('Error fetching reserved', err))
-}, [garage])
+  useEffect (() => {
+    axios.get(`http://localhost:3000/reservations/${garage}`, {
+      params: {
+        filter: 'picking-u'
+      }
+    })
+    .then(res => {
+      console.log('res log', res.data)
+      setResInfo(res.data)
+    })
+    .catch(err => console.log('Error fetching reserved', err))
+  }, [garage])
 
-return (
-  <View>
-    {resInfo.map(res => <CarCard info={res}/>)}
-  </View>
-)
+  return (
+    <View>
+      {resInfo.map(res => <CarCard info={res}/>)}
+    </View>
+  )
 
 }
 
