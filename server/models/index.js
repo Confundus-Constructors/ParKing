@@ -290,6 +290,6 @@ module.exports = {
       UPDATE parking_spots
       SET is_available = true
       WHERE id = '${ps_id}';`);
-  },
+  }
 };
 
