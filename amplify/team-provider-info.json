@@ -1,0 +1,20 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-parking-staging-205918-authRole",
+      "UnauthRoleArn": "arn:aws:iam::025937848845:role/amplify-parking-staging-205918-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::025937848845:role/amplify-parking-staging-205918-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-parking-staging-205918-deployment",
+      "UnauthRoleName": "amplify-parking-staging-205918-unauthRole",
+      "StackName": "amplify-parking-staging-205918",
+      "StackId": "arn:aws:cloudformation:us-east-2:025937848845:stack/amplify-parking-staging-205918/3bb2f1a0-5666-11ee-9acb-065fb4c7530d",
+      "AmplifyAppId": "d1v97phr8vzsz5"
+    },
+    "categories": {
+      "auth": {
+        "ParKing": {}
+      }
+    }
+  }
+}

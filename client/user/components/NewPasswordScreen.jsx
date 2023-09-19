@@ -5,6 +5,7 @@ import UserTabs from './UserTabs.jsx';
 import * as Font from 'expo-font';
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import { useForm } from "react-hook-form";
 
 async function loadFonts() {
   await Font.loadAsync({
@@ -13,16 +14,15 @@ async function loadFonts() {
 };
 
 const NewPasswordScreen = () => {
-  const [code, setCode] = useState('');
-  const [newPassword, setNewPassword] = useState('');
+  // const [code, setCode] = useState('');
+  // const [newPassword, setNewPassword] = useState('');
+  const { control, handleSubmit, formState: {errors} } = useForm();
   const navigation = useNavigation();
 
 
   const onSubmitPressed = () => {
     navigation.navigate('UHP');
   };
-
-
 
   const onBackSignInPressed = () => {
     navigation.navigate('Welcome');
@@ -37,8 +37,8 @@ const NewPasswordScreen = () => {
         <Text style = {styles.text}>Reset your password</Text>
 
 
-        <CustomInput placeholder="Code" value={code} setValue={setCode} />
-        <CustomInput placeholder="Enter your new password" value={newPassword} setValue={setNewPassword} />
+        <CustomInput name="code" placeholder="Code"  control={control} rules={{required: 'Confirmation Code is required'}}/>
+        <CustomInput name="newPassword" placeholder="Enter your new password" control={control} rules={{required: 'Password is required', minLength: {value: 8, message: 'Password must be at least 8 characters long'}}} secureTextEntry/>
 
 
 
@@ -46,7 +46,7 @@ const NewPasswordScreen = () => {
           style={styles.button}
           textStyle={{ ...styles.commonFont, color: '#A9927D' }}
           title="Submit"
-          onPress={onSubmitPressed}
+          onPress={handleSubmit(onSubmitPressed)}
           color="#171412"
         />
 
