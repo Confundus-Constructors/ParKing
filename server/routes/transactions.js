@@ -17,7 +17,7 @@ transactionRouter.get('/confirmation', async (req, res) => {
 
 transactionRouter.get('/:qr_code', async (req, res) => {
   try {
-    console.log(req.params.qr_code)
+    // console.log(req.params.qr_code)
     const qr_code = req.params.qr_code
 
     // query to find if it's checked-in
@@ -42,7 +42,7 @@ transactionRouter.get('/:qr_code', async (req, res) => {
 
         res.status(201).send(transactionObj);
       } else {
-        res.status(404).send('No record found for the provided QR code.');
+        res.status(202).send({});
       }
 
     } else if (current_status === 'checked-in' || current_status === 'picking-up') {
@@ -54,7 +54,7 @@ transactionRouter.get('/:qr_code', async (req, res) => {
         transactionObj.status = current_status;
         res.status(201).send(transactionObj);
       } else {
-        res.status(404).send('No record found for the provided QR code.')
+        res.status(202).send({});
       }
 
     } else {
@@ -154,7 +154,7 @@ transactionRouter.post('/:qr_code', async (req, res) => {
     const values = Object.values(combinedData);
 
     await model.createTransaction(columns, values);
-    res.status(201).send('Created')
+    res.status(201).send('Created');
   } catch (err) {
     console.log('an error occurred on transaction/:qr_code route', err);
     res.status(500).send('Internal Server Error');
@@ -171,7 +171,7 @@ transactionRouter.get('/users/:user_id', async (req, res) => {
       const transactionArray = data.rows;
       res.status(201).send(transactionArray);
     } else {
-      res.status(404).send('No record found for the provided QR code.');
+      res.status(202).send([]);
     }
   } catch (err) {
     console.log('an error occurred on transaction/:qr_code route', err);
