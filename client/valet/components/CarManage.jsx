@@ -9,7 +9,7 @@ const Tab = createMaterialTopTabNavigator();
 function ResTab() {
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>Reservations</Text>
+      <CarCard />
     </SafeAreaView>
   )
 }
@@ -37,19 +37,19 @@ const CarManage = () => {
     <NavigationContainer>
       <Tab.Navigator
         tabBarOptions={{
-        activeTintColor: 'tomato',
-        inactiveTintColor: 'gray',
+        activeTintColor: 'white',
+        inactiveTintColor: '#49111c',
         labelStyle: {
           fontSize: 16,
         },
         style: {
-          backgroundColor: 'blue',
+          backgroundColor: '#a9927d',
         },
         indicatorStyle: {
-          backgroundColor: 'yellow',
+          backgroundColor: 'black',
         },
       }}>
-        <Tab.Screen name="Reserved" component={ResTab} />
+        <Tab.Screen name="Reserved" component={CarCard} />
         <Tab.Screen name="Parked" component={ParkedTab} />
         <Tab.Screen name="Pickups" component={PickTab} />
       </Tab.Navigator>
