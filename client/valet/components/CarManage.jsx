@@ -4,6 +4,7 @@ import {View, Text, SafeAreaView} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
+
 const Tab = createMaterialTopTabNavigator();
 
 function ResTab() {
