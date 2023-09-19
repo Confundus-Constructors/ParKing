@@ -59,7 +59,7 @@ export default function App() {
     <Navigation />
     // <Select />
     // <UHP />
-    <Welcome />
+    // <Welcome />
     // <SignUpScreen />
     // <ValetTabs/>
   )
