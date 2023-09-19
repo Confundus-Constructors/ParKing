@@ -1,8 +1,13 @@
 import {View} from 'react-native';
-// import QRCode from 'react-native-qrcode-svg';
+import QRCode from 'react-native-qrcode-svg';
 
 export default Home = () => {
   return (
-    <View></View>
+    <View style={{margin: 50}}>
+      <QRCode
+      value='test2'
+      size={300}>
+      </QRCode>
+    </View>
   )
 }

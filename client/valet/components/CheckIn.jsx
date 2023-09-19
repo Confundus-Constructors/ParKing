@@ -2,16 +2,19 @@ import { Alert, SafeAreaView, Touchable, Pressable, TouchableOpacity, View, Scro
 import { useState, useEffect } from 'react';
 import { Modal, Portal, PaperProvider } from 'react-native-paper';
 import axios from 'axios';
+import moment from 'moment';
 
 export default Checkin = ({navigation, route}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [parkingSpot, setParkingSpot] = useState('');
   const [image, setImage] = useState();
   const [confirming, setConfirming] = useState(false);
+  const [carInfo, setCarInfo] = useState({});
 
-  // useEffect(() => {
-  //   axios.post('/image')
-  // });
+  useEffect(() => {
+    console.log(route.params.carInfo);
+    setCarInfo(route.params.carInfo);
+  });
 
   const handleConfirm = () => {
     setConfirming(true);
@@ -35,22 +38,26 @@ export default Checkin = ({navigation, route}) => {
   }
 
   useEffect(() => {
-    if (route.params) {
-      // console.log(route.params.image)
+    if (route.params.image) {
       setImage(route.params.image);
     }
   }, [route.params]);
 
     console.log(image);
 
+  const capitalizeString = (string) => {
+    return string[0].toUpperCase() + string.slice(1,string.length).toLowerCase();
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.formContainer}>
-        <Text style={styles.text}>Reservation ID: </Text>
-        <Text style={styles.text}>Owner:</Text>
-        <Text style={styles.text}>Make:</Text>
-        <Text style={styles.text}>Color:</Text>
-        <Text style={styles.text}>License Plate:</Text>
+        <Text style={styles.text}>{'Owner: ' + carInfo.user}</Text>
+        <Text style={styles.text}>{'Make: ' + carInfo.make_model }</Text>
+        <Text style={styles.text}>{'Color: ' + capitalizeString(carInfo.color)}</Text>
+        <Text style={styles.text}>{'License Plate: ' + carInfo.license_plate}</Text>
+        <Text style={styles.text}>{'Reservation Start: ' + moment(carInfo.reservation_start_time).format("dddd, MMMM Do YYYY, h:mm:ss a")}  </Text>
+        <Text style={styles.text}>{'Reservation End: ' + moment(carInfo.reservation_end_time).format("dddd, MMMM Do YYYY, h:mm:ss a")}  </Text>
         <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonTitle} onPress={handleConfirm}>Confirm Details</Text>
         </TouchableOpacity>
@@ -66,7 +73,7 @@ export default Checkin = ({navigation, route}) => {
           <View>
             <Text style={styles.confirmed}>Checked In ✓</Text>
             <Text style={styles.modalText}>Please park the car and then enter the parking location</Text>
-            <Text style={styles.modalText}>Parking Spot: ____</Text>
+            <Text style={styles.modalText}>{'Parking Spot: ' + carInfo.spot} </Text>
             <Text style={styles.modalText}>Please take a picture of the car in its spot. Include the license plate if possible</Text>
             {!image?
             <TouchableOpacity style={styles.picButton} onPress={addPic}>
