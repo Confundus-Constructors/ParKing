@@ -35,22 +35,22 @@ garageRouter.get('/', async (req, res) => {
   res.status(201).send(result);
 });
 
-// garageRouter.get('/test', async (req, res) => {
-//   // try {
-//   //   const responseArray = await controller.lookupLatLong(req.query.location);
-//   //   const responseData = responseArray.data;
-//   //   const latitude = responseData.locations[0].referencePosition.latitude;
-//   //   const longitude = responseData.locations[0].referencePosition.longitude;
-//   //   // console.log({latitude, longitude});
+garageRouter.get('/test', async (req, res) => {
+  try {
+    const responseArray = await controller.lookupLatLong(req.query.location);
+    const responseData = responseArray.data;
+    const latitude = responseData.locations[0].referencePosition.latitude;
+    const longitude = responseData.locations[0].referencePosition.longitude;
+    // console.log({latitude, longitude});
 
-//   //   const result = await model.queryGaragesByDistanceTest(latitude, longitude)
+    const result = await model.queryGaragesByDistanceTest(latitude, longitude)
 
-//   //   res.status(201).send(result);
-//   // } catch (err) {
-//   //   console.log('an error occurred on garages test route', err);
-//   //   res.status(500).send('Internal Server Error');
-//   // }
-// });
+    res.status(201).send(result);
+  } catch (err) {
+    console.log('an error occurred on garages test route', err);
+    res.status(500).send('Internal Server Error');
+  }
+});
 
 // garageRouter.get('/test_crpyto', async (req, res) => {
 //   const crypto = require('crypto');
