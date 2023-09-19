@@ -1,4 +1,4 @@
-import { SafeAreaView, Text, Image, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { SafeAreaView, Text, Image, TextInput, StyleSheet, TouchableOpacity, ScrollView, Platform, KeyboardAvoidingView } from 'react-native';
 import CustomButton from './CustomButton';
 import CustomInput from './CustomInput';
 import UserTabs from './UserTabs.jsx';
@@ -62,52 +62,59 @@ const SignUpScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{flex: 1}}>
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          <SafeAreaView style={styles.mainContent}>
 
-      <SafeAreaView style={styles.mainContent}>
-
-        <Text style = {styles.text}>Create an account to reserve your parking spot.</Text>
-
-
-        <CustomInput name="firstName" placeholder="First Name" control={control} rules={{required: 'First name is required'}} />
-        <CustomInput name="lastName" placeholder="Last Name" control={control} rules={{required: 'Last name is required'}} />
-        <CustomInput name="phoneNumber" placeholder="Phone Number" control={control} rules={{required: 'Phone number is required'}} />
-        <CustomInput name="email" placeholder="Email" control={control} rules={{pattern: {value: EMAIL_REGEX, message: 'Email is invalid'}}} />
-        <CustomInput name="password" placeholder="Password" control={control}
-          rules={{required: 'Password is required', minLength: {value: 8, message: 'Password must be at least 8 characters long'}}} secureTextEntry={true} />
-        <CustomInput name="confirmPassword" placeholder="Confirm Password" control={control}
-          rules={{validate: value => value === pwd || "Password don not match"}} value secureTextEntry={true} />
+            <Text style = {styles.text}>Create an account to reserve your parking spot.</Text>
 
 
-        <CustomButton
-          style={styles.button}
-          textStyle={{ ...styles.commonFont, color: '#A9927D' }}
-          title="Register"
-          onPress={handleSubmit(onRegisterPressed)}
-          color="#171412"
-        />
-
-        <Text style={styles.term}>
-          By registering, you confirm that you accept our <Text onPress={onTermOfUsePressed} style={styles.link}>Terms of Use</Text> and <Text onPress={onPrivacyPressed} style={styles.link}>Privacy Policy</Text>.
-        </Text>
+            <CustomInput name="firstName" placeholder="First Name" control={control} rules={{required: 'First name is required'}} />
+            <CustomInput name="lastName" placeholder="Last Name" control={control} rules={{required: 'Last name is required'}} />
+            <CustomInput name="phoneNumber" placeholder="Phone Number" control={control} rules={{required: 'Phone number is required'}} />
+            <CustomInput name="email" placeholder="Email" control={control} rules={{required: 'Email is required', pattern: {value: EMAIL_REGEX, message: 'Email is invalid'}}} />
+            <CustomInput name="password" placeholder="Password" control={control}
+              rules={{required: 'Password is required', minLength: {value: 8, message: 'Password must be at least 8 characters long'}}} secureTextEntry={true} />
+            <CustomInput name="confirmPassword" placeholder="Confirm Password" control={control}
+              rules={{validate: value => value === pwd || "Password don not match"}} value secureTextEntry={true} />
 
 
+            <CustomButton
+              style={styles.button}
+              textStyle={{ ...styles.commonFont, color: '#A9927D' }}
+              title="Register"
+              onPress={handleSubmit(onRegisterPressed)}
+              color="#171412"
+            />
 
-        <TouchableOpacity>
-          <Text style={styles.clickableText}>Continue as Guest</Text>
-        </TouchableOpacity>
-      </SafeAreaView>
-
-      <TouchableOpacity>
-        <Text onPress={onGoSignInPressed} style={styles.clickableText}>Already have an account? SIGN IN</Text>
-      </TouchableOpacity>
+            <Text style={styles.term}>
+              By registering, you confirm that you accept our <Text onPress={onTermOfUsePressed} style={styles.link}>Terms of Use</Text> and <Text onPress={onPrivacyPressed} style={styles.link}>Privacy Policy</Text>.
+            </Text>
 
 
+
+            <TouchableOpacity>
+              <Text style={styles.clickableText}>Continue as Guest</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity>
+              <Text onPress={onGoSignInPressed} style={styles.clickableText}>Already have an account? SIGN IN</Text>
+            </TouchableOpacity>
+
+
+          </SafeAreaView>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   )
 }
 
 
 const styles = StyleSheet.create({
+  scrollContainer: {
+    flexGrow: 1
+  },
+
   mainContent: {
     flex: 1,
     justifyContent: 'center'
