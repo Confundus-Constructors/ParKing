@@ -1,12 +1,17 @@
 import { Alert, SafeAreaView, Touchable, Pressable, TouchableOpacity, View, ScrollView, Text, TextInput, StyleSheet, Image } from 'react-native';
 import { useState, useEffect } from 'react';
 import { Modal, Portal, PaperProvider } from 'react-native-paper';
+import axios from 'axios';
 
 export default Checkin = ({navigation, route}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [parkingSpot, setParkingSpot] = useState('');
   const [image, setImage] = useState();
   const [confirming, setConfirming] = useState(false);
+
+  useEffect(() => {
+    axios.get('/')
+  });
 
   const handleConfirm = () => {
     setConfirming(true);

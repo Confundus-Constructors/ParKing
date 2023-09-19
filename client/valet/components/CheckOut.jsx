@@ -1,8 +1,13 @@
 import { Alert, SafeAreaView, Touchable, Pressable, TouchableOpacity, View, ScrollView, Text, TextInput, StyleSheet, Image } from 'react-native';
 import { useState, useEffect } from 'react';
 import { Modal, Portal, PaperProvider } from 'react-native-paper';
+import axios from 'axios';
 
 export default CheckOut = ({navigation}) => {
+
+  // useEffect(() => {
+  //   axios.get('http//localhost:3000/')
+  // })
 
   // const [confirming, setConfirming] = useState(false);
   const [waitingVisible, setWaitingVisible] = useState(false);
@@ -43,11 +48,12 @@ export default CheckOut = ({navigation}) => {
           <Image style={styles.loadingGif} source={require('./../../../assets/loading.gif')} ></Image>
         </View>
       </Modal>
-      <Modal visible={confirmationVisible} style={styles.modalContainer}>
+      <Modal visible={confirmationVisible} style={styles.confirmedContainer}>
         <View style={styles.modalView}>
-          <Pressable onPress={handleExit}>
-            <Text style={styles.waitingText}>Confirmed!</Text>
-          </Pressable>
+          <Text style={styles.confirmed}>Confirmed!</Text>
+          <TouchableOpacity onPress={handleExit} style={styles.exitButton}>
+              <Text style={styles.exitText}> Exit</Text>
+          </TouchableOpacity>
         </View>
       </Modal>
     </View>
@@ -127,5 +133,29 @@ const styles = StyleSheet.create({
   },
   loadingGif: {
     height: 50
+  },
+  exitButton: {
+    marginTop: 20,
+    backgroundColor: '#49111C',
+    width: 200,
+    height: 50,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  confirmed: {
+    fontSize: 30,
+    color: 'green',
+    fontWeight: 'bold'
+  },
+  exitText: {
+    color: 'white',
+    fontSize: 30
+  },
+  confirmedContainer: {
+    // flex: 1,
+    // width: 300,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 })

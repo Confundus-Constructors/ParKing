@@ -60,11 +60,12 @@ export default function App() {
     // <Reservations />
     // <CarManage />
     // <Reserve />
+    // <Navigation />
     // <Select />
     // <UHP />
     // <Welcome />
     // <SignUpScreen />
-    // <ValetTabs/>
+    <ValetTabs/>
   );
 }
 
