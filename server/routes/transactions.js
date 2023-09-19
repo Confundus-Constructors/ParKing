@@ -74,6 +74,23 @@ transactionRouter.get('/parking_assignment/:qr_code', async (req, res) => {
   }
 });
 
+transactionRouter.get('/users/:user_id', async (req, res) => {
+  try {
+    const user_id = req.params.user_id;
+    const data = await model.queryReservationUserId(user_id); // get most data
+
+    if (data.rows.length > 0) {
+      const transactionObj = data.rows[0];
+      res.status(201).send(transactionObj);
+    } else {
+      res.status(404).send('No record found for the provided QR code.');
+    }
+  } catch (err) {
+    console.log('an error occurred on transaction/:qr_code route', err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 transactionRouter.put('/:qr_code', async (req, res) => {
   try {
     const qr_code = req.params.qr_code;
