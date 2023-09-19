@@ -1,10 +1,10 @@
 import { View,Text,Image,TextInput,ScrollView,StyleSheet } from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
-import CarManage from './CarManage';
+import Home from './Home';
 
 const Stack = createStackNavigator();
 
-export default CarsScreen = () => {
+export default HomeScreen = () => {
 
   return (
     <Stack.Navigator screenOptions={{
@@ -12,8 +12,8 @@ export default CarsScreen = () => {
     }}
     >
     <Stack.Screen
-        name="CarManage"
-        component={CarManage}
+        name="Home"
+        component={Home}
         options={{
           title: 'ParKing',
           headerStyle: {
