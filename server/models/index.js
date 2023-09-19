@@ -2,20 +2,23 @@ const client = require("../database/db");
 
 module.exports = {
   queryGaragesByDistanceTest: (lat, long) => {
-    client.query(
-      `SELECT id,
-      (
-        3959 *
-        acos(cos(radians(${lat})) *
-        cos(radians(latitude)) *
-        cos(radians(longitude) -
-        radians(${long})) +
-        sin(radians(${lat})) *
-        sin(radians(latitude)))
-     ) AS distance
-      FROM garages
-      HAVING distance < 50
-      ORDER BY distance`
+    return client.query(
+      `SELECT *
+      FROM (
+        SELECT *,
+          (
+            3959 *
+            acos(cos(radians(${lat})) *
+            cos(radians(latitude)) *
+            cos(radians(longitude) -
+            radians(${long})) +
+            sin(radians(${lat})) *
+            sin(radians(latitude)))
+          ) AS distance
+        FROM garages
+      ) AS subquery
+      WHERE distance < 50
+      ORDER BY distance;`
     );
   },
   insertEntry: (table, obj) => {
