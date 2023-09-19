@@ -8,9 +8,9 @@ async function loadFonts() {
   });
 };
 
-const LoginCustomButton = ({ title, color, textStyle, style, ...props }) => {
+const CustomButton = ({ title, color, textStyle, style, onPress, ...props }) => {
     return (
-        <TouchableOpacity style={[styles.button, style, { backgroundColor: color }]} {...props}>
+        <TouchableOpacity onPress={onPress} style={[styles.button, style, { backgroundColor: color }]} {...props}>
             <Text style={[styles.text, textStyle]}>{title}</Text>
         </TouchableOpacity>
     );
@@ -29,4 +29,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default LoginCustomButton;
+export default CustomButton;

@@ -21,9 +21,6 @@ const transactionsData = require('../../exampleData/transactions');
     await client.end();
   } catch (err) {
     console.error(err);
-  } finally {
-    // Close the client connection if needed
-    // client.end();
   }
 })();
 
@@ -37,7 +34,6 @@ const transactionsData = require('../../exampleData/transactions');
 
       const query = `INSERT INTO ${table} (${columns.join(', ')}) VALUES (${valuePlaceholders})`;
 
-      // Use a transaction to ensure data consistency
       await client.query('BEGIN');
       for (const rowValues of values) {
         await client.query(query, rowValues);
@@ -48,8 +44,5 @@ const transactionsData = require('../../exampleData/transactions');
     } catch (error) {
       console.error(`Error seeding ${table} table:`, error);
       await client.query('ROLLBACK');
-    } finally {
-      // You may or may not want to close the client connection here
-      // client.end();
     }
   };
