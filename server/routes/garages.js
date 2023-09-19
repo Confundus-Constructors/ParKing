@@ -22,7 +22,7 @@ garageRouter.get('/', async (req, res) => {
       }
       res.status(201).send(result);
     } else {
-      res.status(404).send('No garages found.');
+      res.status(202).send([]);
     }
   } catch (err) {
     console.log('an error occurred on garages test route', err);

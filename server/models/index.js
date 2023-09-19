@@ -17,7 +17,7 @@ module.exports = {
           ) AS distance
         FROM garages
       ) AS subquery
-      WHERE distance < 50
+      /*WHERE distance < 50*/
       ORDER BY distance;`
     );
   },
