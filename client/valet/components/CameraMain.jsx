@@ -8,40 +8,60 @@ export default CameraScreen = ({navigation}) => {
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const [image, setImage] = useState();
+  const [taken, setTaken] = useState(false);
 
-
-  const handlePress = async () => {
+  const handleTakePic = async () => {
     if (cameraRef) {
       try {
       const newPhoto = await cameraRef.current.takePictureAsync();
-      // setImage = (newPhoto.uri);
-      navigation.navigate('CheckIn', {image: newPhoto.uri})
+      cameraRef.current.pausePreview();
+      setTaken(true);
+      setImage(newPhoto.uri);
       } catch(e) {
         console.log(e);
       }
     }
   }
 
-    if (permission !== null && permission.granted) {
-      return (
-        <View>
-          <Camera
-           barCodeScannerSettings={{
-            barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr],
-          }}
-          ref={cameraRef}
-          style={styles.camera}
-          type={type}>
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity style={styles.button} onPress={handlePress}>
-                <Text style={styles.text}>Take Picture</Text>
-              </TouchableOpacity>
-            </View>
-          </Camera>
-        </View>
+  const handleUsePic = () => {
+    navigation.navigate('CheckIn', {image: image})
+  }
 
-      )
-    }
+  const handleRetake =( ) => {
+    setTaken(false);
+    cameraRef.current.resumePreview();
+  }
+
+  if (permission !== null && permission.granted) {
+    return (
+      <View>
+        <Camera
+          barCodeScannerSettings={{
+          barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr],
+        }}
+        ref={cameraRef}
+        style={styles.camera}
+        type={type}>
+          {!taken ?
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity style={styles.button} onPress={handleTakePic}>
+              <Text style={styles.text}>Take Picture</Text>
+            </TouchableOpacity>
+          </View> :
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity style={styles.button} onPress={handleUsePic}>
+              <Text style={styles.text}>Use Picture</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={handleRetake}>
+              <Text style={styles.text}>Retake</Text>
+            </TouchableOpacity>
+          </View>
+          }
+        </Camera>
+      </View>
+
+    )
+  }
 }
 
 const styles = StyleSheet.create({
@@ -62,7 +82,8 @@ const styles = StyleSheet.create({
     padding: 10,
     width: 250,
     height: 50,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginTop: 30
   },
   text: {
     color: 'white',
