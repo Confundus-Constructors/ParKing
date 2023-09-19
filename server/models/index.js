@@ -230,6 +230,7 @@ module.exports = {
       vs.make_model,
       vs.color,
       vs.license_plate,
+      photo,
       reservation_start_time,
       reservation_end_time,
       gs.address_line_1 as "garage",
@@ -290,6 +291,12 @@ module.exports = {
       UPDATE parking_spots
       SET is_available = true
       WHERE id = '${ps_id}';`);
+  },
+  updateCarPhoto: (qr_code, blob) => {
+    return client.query(`
+    UPDATE transaction
+    SET photo = ${blob}
+    WHERE qr_code = '${qr_code}';`)
   }
 };
 

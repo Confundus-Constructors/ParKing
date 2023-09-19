@@ -6,7 +6,7 @@ import { faCamera } from '@fortawesome/free-solid-svg-icons';
 
 
 
-const CarCard = () => {
+const CarCard = ({navigation}) => {
   const [imageSource, setImageSource] = useState(null);
 
   const selectImage = () => {
@@ -66,7 +66,7 @@ const CarCard = () => {
         </View>
     </View>
     <View style={styles.buttonContainer}>
-      <TouchableOpacity style={styles.button} onPress={() => console.log('Button pressed!')}>
+      <TouchableOpacity style={styles.button} onPress={() => {navigation.navigate('CheckIn')}}>
       <Text style={styles.buttonText}>Check In</Text>
       </TouchableOpacity>
     </View>

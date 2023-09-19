@@ -6,14 +6,15 @@ import moment from 'moment';
 
 export default Checkin = ({navigation, route}) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [parkingSpot, setParkingSpot] = useState('');
   const [image, setImage] = useState();
   const [confirming, setConfirming] = useState(false);
   const [carInfo, setCarInfo] = useState({});
 
   useEffect(() => {
-    console.log(route.params.carInfo);
-    setCarInfo(route.params.carInfo);
+    if (route.params && route.params.carInfo) {
+      console.log(route.params.carInfo);
+      setCarInfo(route.params.carInfo);
+    }
   });
 
   const handleConfirm = () => {
@@ -29,16 +30,15 @@ export default Checkin = ({navigation, route}) => {
   };
 
   const handleSubmit = () => {
-    //send information to server
-    //clear states
-    setParkingSpot('');
+    // axios.
     setModalVisible(false);
     setImage(null);
     navigation.navigate('QRScanner');
   }
 
   useEffect(() => {
-    if (route.params.image) {
+    if (route.params && route.params.image) {
+      console.log(route.params);
       setImage(route.params.image);
     }
   }, [route.params]);
@@ -46,7 +46,12 @@ export default Checkin = ({navigation, route}) => {
     console.log(image);
 
   const capitalizeString = (string) => {
-    return string[0].toUpperCase() + string.slice(1,string.length).toLowerCase();
+    if (string) {
+      return string[0].toUpperCase() + string.slice(1,string.length).toLowerCase();
+    }
+    else {
+      return null;
+    }
   };
 
   return (
@@ -73,7 +78,7 @@ export default Checkin = ({navigation, route}) => {
           <View>
             <Text style={styles.confirmed}>Checked In ✓</Text>
             <Text style={styles.modalText}>Please park the car and then enter the parking location</Text>
-            <Text style={styles.modalText}>{'Parking Spot: ' + carInfo.spot} </Text>
+            <Text style={styles.modalText}>{'Parking Spot: ' + carInfo.parking_spot_number} </Text>
             <Text style={styles.modalText}>Please take a picture of the car in its spot. Include the license plate if possible</Text>
             {!image?
             <TouchableOpacity style={styles.picButton} onPress={addPic}>

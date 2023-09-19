@@ -40,6 +40,7 @@ transactionRouter.get('/:qr_code', async (req, res) => {
       const data = await model.queryReservationUponCheckout(qr_code);
       if (data.rows.length > 0) {
         const transactionObj = data.rows[0];
+        transactionObj.status = current_status;
         res.status(201).send(transactionObj);
       } else {
         res.status(404).send('No record found for the provided QR code.')

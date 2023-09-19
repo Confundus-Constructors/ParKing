@@ -2,13 +2,13 @@ import React from 'react';
 import CarCard from './CarCard.jsx'
 import {ScrollView} from 'react-native';
 
-const CarManage = () => {
+const CarManage = ({navigation}) => {
 
   return (
     <ScrollView>
-      <CarCard />
-      <CarCard />
-      <CarCard />
+      <CarCard navigation={navigation}/>
+      <CarCard navigation={navigation}/>
+      <CarCard navigation={navigation}/>
     </ScrollView>
   )
 }
