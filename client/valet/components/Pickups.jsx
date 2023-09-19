@@ -10,7 +10,7 @@ const Pickups = ({garage = 1}) => {
   useEffect (() => {
     axios.get(`http://localhost:3000/reservations/${garage}`, {
       params: {
-        filter: 'picking-u'
+        filter: 'picking-up'
       }
     })
     .then(res => {
