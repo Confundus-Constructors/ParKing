@@ -9,6 +9,7 @@ export default Checkin = ({navigation, route}) => {
   const [image, setImage] = useState();
   const [confirming, setConfirming] = useState(false);
   const [carInfo, setCarInfo] = useState({});
+  const [blob, setBlob] = useState();
 
   useEffect(() => {
     if (route.params && route.params.carInfo) {
@@ -30,16 +31,22 @@ export default Checkin = ({navigation, route}) => {
   };
 
   const handleSubmit = () => {
-    // axios.
-    setModalVisible(false);
-    setImage(null);
-    navigation.navigate('QRScanner');
+    axios.post('https://051f-2603-7000-3900-7052-f0a4-43e1-9eb2-cce9.ngrok-free.app/image', {image: image, blob: blob})
+    .then(() => {
+      setModalVisible(false);
+      setImage(null);
+      navigation.navigate('QRScanner');
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   }
 
   useEffect(() => {
     if (route.params && route.params.image) {
       console.log(route.params);
       setImage(route.params.image);
+      setBlob(route.params.blob);
     }
   }, [route.params]);
 

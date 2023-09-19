@@ -81,7 +81,7 @@ CREATE TABLE "transactions" (
   check_out_time TIMESTAMP,
   current_status VARCHAR NOT NULL CHECK(current_status IN ('reserved', 'checked-in', 'picking-up', 'checked-out')),
   active BOOLEAN NOT NULL,
-  photo BYTEA,
+  photo VARCHAR,
   FOREIGN KEY ("user_id") REFERENCES "users"(id),
   FOREIGN KEY ("vehicle_id") REFERENCES "vehicles"(id),
   FOREIGN KEY ("garage_id") REFERENCES "garages"(id),
