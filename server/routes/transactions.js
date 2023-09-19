@@ -117,7 +117,7 @@ transactionRouter.put('/:qr_code', async (req, res) => {
 
 transactionRouter.post('/:qr_code', async (req, res) => {
   try {
-    const data = req.body;
+    const data = req.query;
     // const data = {
     //   user_id: 3,
     //   vehicle_id: 5,
@@ -137,7 +137,7 @@ transactionRouter.post('/:qr_code', async (req, res) => {
       photo: null,
     };
 
-    const combinedData = {...data, ... staticData};
+    const combinedData = {...data, ...staticData};
     const columns = Object.keys(combinedData);
     const values = Object.values(combinedData);
 
@@ -151,8 +151,9 @@ transactionRouter.post('/:qr_code', async (req, res) => {
 
 transactionRouter.get('/users/:user_id', async (req, res) => {
   try {
+    const filter = req.query.filter;
     const user_id = req.params.user_id;
-    const data = await model.queryReservationUserId(user_id); // get most data
+    const data = await model.queryReservationUserId(user_id, filter); // get most data
 
     if (data.rows.length > 0) {
       const transactionArray = data.rows;

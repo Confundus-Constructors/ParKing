@@ -177,7 +177,7 @@ module.exports = {
       WHERE qr_code = '${conf_number}'`
     );
   },
-  queryReservationUserId: (user_id) => {
+  queryReservationUserId: (user_id, filter) => {
     return client.query(
       `SELECT qr_code,
       vs.license_plate,
@@ -193,7 +193,8 @@ module.exports = {
       INNER JOIN garages gs
       ON gs.id = ts.garage_id
 
-      WHERE ts.user_id = '${user_id}'`
+      WHERE ts.user_id = '${user_id}'
+      AND ts.current_status = '${filter}'`
     );
   },
   queryReservationUponCheckout: (conf_number) => {
