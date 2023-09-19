@@ -135,5 +135,12 @@ module.exports = {
       SET is_available = true
       WHERE id = '${ps_id}';`);
   },
+  updateCarPhoto: (conf_number, image) => {
+    return client.query(
+      `UPDATE transactions
+      Set photo = ${image}
+      Where id = ${conf_number}`
+    )
+  }
 };
 

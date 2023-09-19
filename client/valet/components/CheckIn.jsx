@@ -9,16 +9,15 @@ export default Checkin = ({navigation, route}) => {
   const [image, setImage] = useState();
   const [confirming, setConfirming] = useState(false);
 
-  useEffect(() => {
-    axios.get('/')
-  });
+  // useEffect(() => {
+  //   axios.post('/image')
+  // });
 
   const handleConfirm = () => {
     setConfirming(true);
     setTimeout(() => {
       setConfirming(false);
       setModalVisible(true);
-      // navigation.navigate('QRScanner');
     }, 2000)
   };
 
@@ -37,9 +36,12 @@ export default Checkin = ({navigation, route}) => {
 
   useEffect(() => {
     if (route.params) {
+      // console.log(route.params.image)
       setImage(route.params.image);
     }
   }, [route.params]);
+
+    console.log(image);
 
   return (
     <View style={styles.container}>
@@ -66,26 +68,24 @@ export default Checkin = ({navigation, route}) => {
             <Text style={styles.modalText}>Please park the car and then enter the parking location</Text>
             <Text style={styles.modalText}>Parking Spot: ____</Text>
             <Text style={styles.modalText}>Please take a picture of the car in its spot. Include the license plate if possible</Text>
-            {!image ? <TouchableOpacity style={styles.picButton} onPress={addPic}>
+            {!image?
+            <TouchableOpacity style={styles.picButton} onPress={addPic}>
               <Text style={styles.buttonTitle}>Add Picture</Text>
             </TouchableOpacity>
             :
             <View>
-
-            {/* <Pressable onPress={() => {console.log('hi')}}> */}
               <Image
                 style={styles.image}
                 source={{
                   uri: image,
                 }}
               />
-            {/* </Pressable> */}
             <View style={styles.buttonContainer}>
-              <TouchableOpacity style={styles.picButton} onPress={addPic}>
+              <TouchableOpacity style={styles.picButtonTwins} onPress={addPic}>
                 <Text style={styles.buttonTitle}>Retake</Text>
               </TouchableOpacity>
               <Text>   </Text>
-              <TouchableOpacity style={styles.picButton} onPress={handleSubmit}>
+              <TouchableOpacity style={styles.picButtonTwins} onPress={handleSubmit}>
                 <Text style={styles.buttonTitle}>Submit</Text>
               </TouchableOpacity>
             </View>
@@ -170,6 +170,14 @@ const styles = StyleSheet.create({
   },
   picButton: {
     backgroundColor: '#49111C',
+    borderRadius: 20,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20
+  },
+  picButtonTwins: {
+    backgroundColor: '#49111C',
     flex: 1,
     borderRadius: 20,
     height: 50,
@@ -179,8 +187,8 @@ const styles = StyleSheet.create({
   },
   image: {
     marginTop: 10,
-    height: 180,
-    width: 200,
+    height: 160,
+    width: 160,
     alignSelf: 'center',
     borderRadius: 20
   },

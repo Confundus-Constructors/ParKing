@@ -29,6 +29,11 @@ app.get("/users", (req, res) => {
 app.post("/users", (req, res) => {
   postUser(req, res);
 });
+
+app.post("/image", (req, res) => {
+  console.log(req.body);
+});
+
 app.listen(port, () => {
   console.log(`Listening at port http://${process.env.HOST}:${port}`);
 });
