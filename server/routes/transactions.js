@@ -17,7 +17,8 @@ transactionRouter.get('/confirmation', async (req, res) => {
 
 transactionRouter.get('/:qr_code', async (req, res) => {
   try {
-    const qr_code = req.params.qr_code;
+    console.log(req.params.qr_code)
+    const qr_code = req.params.qr_code
 
     // query to find if it's checked-in
     const status = await model.queryReservationStatus(qr_code);
@@ -28,10 +29,9 @@ transactionRouter.get('/:qr_code', async (req, res) => {
     if (current_status === 'reserved') {
       console.log('checking in');
       const data = await model.queryReservationUponArrival(qr_code); // get most data
-
       if (data.rows.length > 0) {
         const transactionObj = data.rows[0];
-
+        transactionObj.status = current_status;
         // create query that returns smallest parking spot number in given transactions garage
         const parkingSpot = await model.querySmallestParkingSpot(qr_code);
         const ps_id = parkingSpot.rows[0].id;
