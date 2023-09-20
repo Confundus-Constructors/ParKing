@@ -32,6 +32,7 @@ async function loadFonts() {
 const Welcome = () => {
 
   const auth = FIREBASE_AUTH;
+  const [firstLogin, setFirstLogin] = useState(null);
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(null);
 
@@ -39,10 +40,29 @@ const Welcome = () => {
     iosClientId: '221488399738-k5otuspijkga9rkii95f7v6dit6i3k27.apps.googleusercontent.com'
   });
 
+  const checkLocalUser = async() => {
+    try {
+      setLoading(true);
+      const userJSON = await AsyncStorage.getItem('@user');
+      const userData = userJSON != null ? JSON.parse(userJSON) : null;
+      console.log("Local storage", userData);
+      setUser(userData);
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (authUser) => {
+    checkLocalUser();
+    const unsubscribe = onAuthStateChanged(auth, async(authUser) => {
       if (authUser) {
-        navigation.navigate('UHP');
+        console.log(JSON.stringify(authUser, null, 2));
+        setUser(authUser);
+        await AsyncStorage.setItem('@user', JSON.stringify(authUser));
+        // navigation.navigate('UHP');
       }
     });
 
@@ -54,13 +74,17 @@ const Welcome = () => {
       const { id_token } = response.params;
       const credential = GoogleAuthProvider.credential(id_token);
       signInWithCredential(auth, credential)
-        .then(result => {
-          // If needed, you can set the user state here
-          // setUser(result.user);
-        })
-        .catch(error => {
-          console.error("Firebase sign in error:", error);
-        });
+      .then((authResult) => {
+        if (authResult.user.firstLogin) {  // Replace 'firstLogin' with whatever field name you use in Firebase.
+          navigation.navigate('ConfirmEmailScreen');
+          // Optionally, update Firebase to set firstLogin to false for this user.
+        } else {
+          navigation.navigate('UHP');
+        }
+      })
+      .catch((error) => {
+        console.error("Error signing in with Google:", error);
+      });
     }
   }, [response]);
 
@@ -107,6 +131,11 @@ const Welcome = () => {
     navigation.navigate('SignUpScreen');
   };
 
+  const onGuestPressed = () => {
+
+      navigation.navigate('UHP');
+  };
+
   return (
     <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -144,6 +173,8 @@ const Welcome = () => {
                         <Text onPress={onForgotPassPressed} style={styles.clickableText}>Forgot password?</Text>
                     </TouchableOpacity>
 
+
+
                     <CustomButton
                         style={styles.button}
                         textStyle={{ ...styles.commonFont, color: '#171412' }}
@@ -159,7 +190,7 @@ const Welcome = () => {
                         color="#49111C"
                     />
                     <TouchableOpacity>
-                        <Text style={styles.clickableText}>Continue as Guest</Text>
+                        <Text onPress={onGuestPressed} style={styles.clickableText}>Continue as Guest</Text>
                     </TouchableOpacity>
                 </SafeAreaView>
 

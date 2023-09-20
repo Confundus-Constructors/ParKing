@@ -17,12 +17,16 @@ import axios from "axios";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from '@react-navigation/native';
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { FIREBASE_AUTH } from '../../../FirebaseConfig.ts';
+import { signOut } from "firebase/auth";
+
 
 async function loadFonts() {
   await Font.loadAsync({});
 }
 
 const UHP = () => {
+  const auth = FIREBASE_AUTH;
   const userId = 1;
   const [location, setLoc] = useState("");
   const [modalVisible, setModalVisible] = useState(true);
@@ -69,9 +73,13 @@ const UHP = () => {
     });
   };
 
-  const onBackSignInPressed = () => {
-    navigation.navigate('Welcome');
-
+  const signOutUser = async () => {
+    try {
+      await signOut(auth);
+      navigation.navigate('Welcome');
+    } catch (error) {
+      console.error("Error signing out: ", error);
+    }
   };
 
   return (
@@ -153,7 +161,7 @@ const UHP = () => {
           />
 
         <TouchableOpacity>
-          <Text onPress={onBackSignInPressed} style={styles.clickableText}>Back to Sign In</Text>
+          <Text onPress={signOutUser} style={styles.clickableText}>Sign Out</Text>
         </TouchableOpacity>
           {/* <Icon /> */}
         </View>
