@@ -100,7 +100,7 @@ export default Checkin = ({navigation, route}) => {
               <Image
                 style={styles.image}
                 source={{
-                  uri: image.uri,
+                  uri: image,
                 }}
               />
             <View style={styles.buttonContainer}>
