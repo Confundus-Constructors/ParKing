@@ -34,23 +34,16 @@ export default CheckOut = ({navigation,  route}) => {
     }
   };
 
-  axios('https://051f-2603-7000-3900-7052-f0a4-43e1-9eb2-cce9.ngrok-free.app/image')
+  useEffect(() => {
+    axios('https://051f-2603-7000-3900-7052-f0a4-43e1-9eb2-cce9.ngrok-free.app/image')
     .then((result) => {
-      console.log("RESULT FROM CALL")
       var base64 = result.data.rows[0].photo;
       var base64Pic = 'data:image/png;base64,' + base64;
       setImageSource(base64Pic);
-      // console.log(URL.createObjectURL(result.data.rows[0]));
-      console.log()
     })
     .catch((err) => {
       console.log(err);
     })
-
-
-  useEffect(() => {
-
-    // console.log(route.params.carInfo);
     setCarInfo(route.params.carInfo);
   },[route.params]);
 

@@ -9,23 +9,9 @@ import CarsScreen from './CarsScreen';
 import { StatusBar } from 'react-native';
 import CalendarScreen from './CalendarScreen';
 import { AdvancedImage } from 'cloudinary-react-native';
-import { Cloudinary } from "@cloudinary/url-gen";
+// import { Cloudinary } from "@cloudinary/url-gen";
 
 export default ValetTabs = () => {
-
-  const cld = new Cloudinary({
-    cloud: {
-      cloudName: 'parking'
-    },
-    url: {
-      secureDistribution: 'www.example.com',
-      secure: true
-    }
-  });
-
-  const myImage = cld.image('https://as1.ftcdn.net/jpg/03/12/92/50/220_F_312925006_AOeRF1Ic3qBUqNWk94RmT2eeaBS4L5lL.jpg');
-
-  console.log(myImage);
 
   const theme = useTheme();
   theme.colors.secondaryContainer = "transparent";

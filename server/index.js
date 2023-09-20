@@ -3,6 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
 const model = require('./models/index.js');
+const multer = require('multer');
 
 
 require("dotenv").config();
@@ -36,26 +37,21 @@ app.post("/users", (req, res) => {
 });
 
 app.post("/image", async (req, res) => {
-  // console.log(req.body.image);
-  await model.updateCarPhoto('test2', req.body.image)
-  .then((result) => {
-    // console.log(result);
-    res.end("Picture Updated")
-  })
-  .catch(() => {
+  try {
+    await model.updateCarPhoto('test2', req.body.image);
+    res.end("Picture Updated");
+  } catch (err) {
     res.status(404).send('Error wile updating picture');
-  })
+  }
 });
 
 app.get("/image", (req, res) => {
-  model.getCarPhoto('test2')
-  .then((result) => {
-    // console.log(result);
+  try {
+    model.getCarPhoto('test2');
     res.json(result)
-  })
-  .catch(() => {
+  } catch (err) {
     res.status(404).send('Error wile getting picture');
-  })
+  }
 });
 
 app.listen(port, () => {
