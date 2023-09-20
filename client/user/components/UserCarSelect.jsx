@@ -11,22 +11,39 @@ import Car from "./Car.jsx";
 import CustomButton from "./CustomButton.jsx";
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+import AddCar from './AddCar'
+import { useRoute } from "@react-navigation/native";
+
 // import crypto from "./crypto";
 
 const Select = () => {
+  const route = useRoute();
+  const id = route.params.id;
+  const time = route.params.time;
   const navigation = useNavigation();
-  const arr = ["Tesla Model X", "Mercedes E-Class", "Tesla Model 3"];
-  const [clicked, setClicked] = useState(2);
+  const [ cars,setCars ] = useState(["Tesla Model X", "Mercedes E-Class", "Tesla Model 3"]);
+  const [ selected, setSelected ] = useState({});
+  const [clicked, setClicked] = useState(0);
+  const [ see,setSee ] = useState(false);
 
+  useEffect(() => {
+    axios.get(`/vehicles/${id}`)
+      .then((result) => {
+        setCars(result);
+      })
+  })
   const handleComplete = () => {
-    navigation.navigate("Checkout");
+    navigation.navigate("Checkout", {data: route.params.data, vehicle: selected, id:id, time});
   };
+  const handleModal = () => {
+    setSee(true);
+  }
   return (
     <SafeAreaView style={styles.background}>
       {arr.map((carInfo, index) => {
         return (
           <View style={styles.width}>
-            <Car data={carInfo} key={carInfo} index={index} set={setClicked} />
+            <Car data={carInfo} key={carInfo} index={index} set={setClicked} setsel={setSelected} />
             {clicked === index ? (
               <View style={styles.check}>
                 <Text>&#x2713;</Text>
@@ -37,11 +54,13 @@ const Select = () => {
           </View>
         );
       })}
+      <AddCar see={see} set={setSee} id={id}/>
       <CustomButton
         style={styles.button}
         textStyle={{ ...styles.commonFont, color: "#D0D3D2" }}
         title="Add A Car"
         color="#171412"
+        onPress={handleModal}
       />
       <CustomButton
         style={styles.button}

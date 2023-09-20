@@ -11,21 +11,25 @@ import { Button } from "@rneui/themed";
 import CustomButton from "./CustomButton";
 import { useNavigation } from "@react-navigation/native";
 
-const Spot = () => {
+async function loadFonts() {
+  await Font.loadAsync({});
+}
+
+const Spot = ({ data,id,time }) => {
   const navigation = useNavigation();
   const handlePress = () => {
-    navigation.navigate("Select");
+    navigation.navigate("Select", { data: data,id:id,time:time});
   };
 
   return (
     <SafeAreaView>
       <View style={styles.Tile}>
         <View style={styles.line}>
-          <Text style={styles.Text}>Airport Center Parking </Text>
-          <Text style={styles.Text}>US $20.30</Text>
+          <Text style={styles.Text}>{data.address_line_1}</Text>
+          <Text style={styles.Text}>{data.hourly_rate}</Text>
         </View>
         <View style={styles.line2}>
-          <Text style={styles.Text2}>14 Spots Available</Text>
+          <Text style={styles.Text2}>{data.count} Spots Available</Text>
           <Text style={styles.Text2}>Per Hour</Text>
         </View>
         <CustomButton
@@ -58,10 +62,12 @@ const styles = StyleSheet.create({
   Text: {
     fontSize: 20,
     color: "#49111C",
+    fontFamily: "Oswald-Medium"
   },
   Text2: {
     fontSize: 16,
     color: "grey",
+    fontFamily: "Oswald-Medium"
   },
   line: {
     width: "100%",
