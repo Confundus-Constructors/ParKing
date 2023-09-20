@@ -99,10 +99,6 @@ const CarCard = ({navigation, info,  buttonText}) => {
         </View>
     </View>
     <View style={styles.buttonContainer}>
-<<<<<<< HEAD
-=======
-
->>>>>>> c64ee74d66ad75b991ae6cdacb4e5955008c10a4
       <TouchableOpacity style={styles.button} onPress={() => {navigation.navigate('CheckIn')}}>
       <Text style={styles.buttonText}>{buttonText ? buttonText : 'Check Out'}</Text>
       </TouchableOpacity>

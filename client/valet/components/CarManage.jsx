@@ -39,12 +39,8 @@ function PickTab() {
 const CarManage = ({navigation}) => {
 
   return (
-<<<<<<< HEAD
-
-=======
->>>>>>> c64ee74d66ad75b991ae6cdacb4e5955008c10a4
     <SafeAreaView style={{ flex: 1 }}>
-    <NavigationContainer>
+    {/* <NavigationContainer> */}
       <Tab.Navigator
         tabBarOptions={{
         activeTintColor: 'white',
@@ -63,7 +59,7 @@ const CarManage = ({navigation}) => {
         <Tab.Screen name="Parked" component={Parked} />
         <Tab.Screen name="Pickups" component={Pickups} />
       </Tab.Navigator>
-    </NavigationContainer>
+    {/* </NavigationContainer> */}
     </SafeAreaView>
   )
 }

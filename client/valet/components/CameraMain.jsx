@@ -19,7 +19,7 @@ export default CameraScreen = ({navigation}) => {
       cameraRef.current.pausePreview();
       setTaken(true);
       const blob = await (await fetch(newPhoto.uri)).blob();
-      // console.log(blob);
+      console.log(blob);
       setImage(newPhoto.uri);
       setBlob(blob);
       } catch(e) {

@@ -14,8 +14,9 @@ const vehicleRouter = require("./routes/vehicles.js");
 const { getUser, postUser, getAll } = require("./routes/users");
 
 // app.use(express.static(path.join(__dirname, "../public")));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({limit: '50mb', extended: true}));
+app.use(bodyParser.urlencoded({limit: "50mb", extended: true }));
+app.use(bodyParser.text({ limit: '200mb' }));
 
 // app.use('/users', userRoute);
 app.use('/reservations', reservationRouter);
@@ -34,21 +35,21 @@ app.post("/users", (req, res) => {
 });
 
 app.post("/image", async (req, res) => {
-  console.log(req.body.image);
+  // console.log(req.body.image);
   await model.updateCarPhoto('test2', req.body.image)
-  // .then((result) => {
-  //   console.log(result);
+  .then((result) => {
+    // console.log(result);
     res.end("Picture Updated")
-  // })
-  // .catch(() => {
-    // res.status(404).send('Error wile updating picture');
-  // })
+  })
+  .catch(() => {
+    res.status(404).send('Error wile updating picture');
+  })
 });
 
 app.get("/image", (req, res) => {
   model.getCarPhoto('test2')
   .then((result) => {
-    console.log(result);
+    // console.log(result);
     res.json(result)
   })
   .catch(() => {
