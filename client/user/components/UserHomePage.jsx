@@ -103,6 +103,7 @@ const UHP = () => {
   // };
   const onBackSignInPressed = () => {
     navigation.navigate("Welcome");
+  }
   const signOutUser = async () => {
     try {
       await signOut(auth);
@@ -111,16 +112,7 @@ const UHP = () => {
       console.error("Error signing out: ", error);
     }
   };
-
-  const signOutUser = async () => {
-    try {
-      await signOut(auth);
-      navigation.navigate('Welcome');
-    } catch (error) {
-      console.error("Error signing out: ", error);
-    }
-  };
-
+    
   return (
     <SafeAreaView style={styles.Outer}>
       <Text style={styles.text}>Reserve Your Spot</Text>
