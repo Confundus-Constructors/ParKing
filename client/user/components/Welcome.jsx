@@ -9,9 +9,11 @@ import { useForm, Controller } from "react-hook-form";
 import { FIREBASE_AUTH } from '../../../FirebaseConfig.ts';
 import * as Google from 'expo-auth-session/providers/google';
 import * as WebBrowser from 'expo-web-browser';
+import * as Facebook from 'expo-auth-session/providers/facebook';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   GoogleAuthProvider,
+  FacebookAuthProvider,
   onAuthStateChanged,
   signInWithCredential,
   signInWithEmailAndPassword
@@ -35,10 +37,20 @@ const Welcome = () => {
   const [firstLogin, setFirstLogin] = useState(null);
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(null);
+  const { control, handleSubmit, formState: {errors}, } = useForm();
+
+  const navigation = useNavigation();
 
   const [request, response, promptAsync] = Google.useAuthRequest({
     iosClientId: '221488399738-k5otuspijkga9rkii95f7v6dit6i3k27.apps.googleusercontent.com'
   });
+
+  const [request2, response2, promptAsync2] = Facebook.useAuthRequest({
+    clientId: "1012811586526206"
+  });
+
+
+
 
   const checkLocalUser = async() => {
     try {
@@ -75,7 +87,7 @@ const Welcome = () => {
       const credential = GoogleAuthProvider.credential(id_token);
       signInWithCredential(auth, credential)
       .then((authResult) => {
-        if (authResult.user.firstLogin) {  // Replace 'firstLogin' with whatever field name you use in Firebase.
+        if (authResult.user.firstLogin) {  // Replace 'firstLogin' with field name you use in Firebase.
           navigation.navigate('ConfirmEmailScreen');
           // Optionally, update Firebase to set firstLogin to false for this user.
         } else {
@@ -89,11 +101,30 @@ const Welcome = () => {
   }, [response]);
 
 
+  useEffect(() => {
+    if (response2?.type === 'success') {
+        const { token } = response2.params;
+        const credential = FacebookAuthProvider.credential(token);
+        signInWithCredential(auth, credential)
+        .then((authResult) => {
+            if (authResult.user.firstLogin) { // Replace 'firstLogin' with field name you use in Firebase.
+                navigation.navigate('ConfirmEmailScreen');
+                // Optionally, update Firebase to set firstLogin to false for this user.
+            } else {
+                navigation.navigate('UHP');
+            }
+        })
+        .catch((error) => {
+            console.error("Error signing in with Facebook:", error);
+        });
+    }
+}, [response2]);
 
 
-  const { control, handleSubmit, formState: {errors}, } = useForm();
 
-  const navigation = useNavigation();
+
+
+
 
 
   const onSignInPressed = async(data) => {
@@ -118,7 +149,8 @@ const Welcome = () => {
   };
 
   const onSignInFacebookPressed = () => {
-    console.warn('Sign In FacebookPressed');
+    // console.warn('Sign In FacebookPressed');
+    promptAsync2();
   };
 
   const onForgotPassPressed = () => {
