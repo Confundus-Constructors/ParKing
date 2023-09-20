@@ -1,19 +1,13 @@
-import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  SafeAreaView,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-  Button,
-} from "react-native";
-import { launchCamera } from "react-native-image-picker";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faCamera } from "@fortawesome/free-solid-svg-icons";
-import axios from "axios";
+import React, {useState, useEffect} from 'react';
+import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, Image, Button} from 'react-native';
+import {launchCamera} from 'react-native-image-picker';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faCamera } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
 
-const CarCard = ({ navigation }) => {
+
+
+const CarCard = ({navigation, info,  buttonText}) => {
   const [imageSource, setImageSource] = useState(null);
   const date1 = new Date(info.reservation_start_time);
   const date2 = new Date(info.reservation_end_time);
@@ -65,18 +59,12 @@ const CarCard = ({ navigation }) => {
             </Text>
           </View>
         </View>
-
         <View>
           <TouchableOpacity style={styles.box} onPress={selectImage}>
             {imageSource ? (
               <Image source={imageSource} style={styles.image} />
             ) : (
-              <FontAwesomeIcon
-                icon={faCamera}
-                style={{ color: "#a9927d" }}
-                size={80}
-                fade-size={"lg"}
-              />
+              <FontAwesomeIcon icon={faCamera} style={{color: "#a9927d"}} size={80} fade-size={'lg'}/>
             )}
           </TouchableOpacity>
         </View>
@@ -84,58 +72,52 @@ const CarCard = ({ navigation }) => {
 
       <View style={styles.row}>
         <View>
-          <Text style={styles.row}>
-            <Text style={styles.boldText}>Arrival: </Text>
-            <Text>{date1.toLocaleString()}</Text>
-          </Text>
-          <Text style={styles.row}>
-            <Text style={styles.boldText}>Depart: </Text>
-            <Text>{date2.toLocaleString()}</Text>
-          </Text>
+        <Text style={styles.row}>
+          <Text style={styles.boldText}>Arrival: </Text>
+          <Text>{date1.toLocaleString()}</Text>
+        </Text>
+        <Text style={styles.row}>
+          <Text style={styles.boldText}>Depart: </Text>
+          <Text>{date2.toLocaleString()}</Text>
+        </Text>
         </View>
         <View>
-          <Text style={styles.row}>
-            <Text style={styles.boldText}>Garage: </Text>
-            <Text>{}</Text>
-          </Text>
-          <Text style={styles.row}>
-            <Text style={styles.boldText}>Spot ID: </Text>
-            <Text>__</Text>
-          </Text>
+        <Text style={styles.row}>
+          <Text style={styles.boldText}>Garage: </Text>
+          <Text>{}</Text>
+        </Text>
+        <Text style={styles.row}>
+          <Text style={styles.boldText}>Spot ID: </Text>
+          <Text>__</Text>
+        </Text>
         </View>
-      </View>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => {
-            navigation.navigate("CheckIn");
-          }}
-        >
-          <Text style={styles.buttonText}>Check In</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+    </View>
+    <View style={styles.buttonContainer}>
+      <TouchableOpacity style={styles.button} onPress={() => {navigation.navigate('CheckIn')}}>
+      <Text style={styles.buttonText}>{buttonText ? buttonText : 'Check Out'}</Text>
+      </TouchableOpacity>
+    </View>
+  </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#E0E0E0",
+    backgroundColor: '#E0E0E0',
     padding: 10,
     borderRadius: 0,
     marginTop: 5,
     borderRadius: 10,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.3,
     shadowRadius: 2,
-
     // Android shadow style
-    elevation: 5,
+    elevation: 5
   },
   row: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     marginTop: 2,
     marginLeft: 3,
   },
@@ -145,9 +127,9 @@ const styles = StyleSheet.create({
   box: {
     width: 190,
     height: 130,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#ffffff",
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#ffffff',
     borderRadius: 10,
     marginRight: 5,
   },
@@ -187,6 +169,37 @@ const styles = StyleSheet.create({
   user: {
     marginTop: 1,
   },
+  carInfo: {
+    marginTop: 15,
+  },
+  buttonContainer: {
+    alignItems: 'center',
+  },
+  button: {
+    backgroundColor: '#49111c',
+    padding: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+    width: '98%',
+    marginBottom: 5,
+    marginTop: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.7,
+    shadowRadius: 2,
+
+    // Android shadow style
+    elevation: 5
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 16,
+},
+  user: {
+    marginTop: 1,
+  }
 });
 
 export default CarCard;

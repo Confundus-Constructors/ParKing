@@ -15,7 +15,7 @@ import React, { useState, useEffect } from "react";
 import UserTabs from "./UserTabs.jsx";
 import axios from "axios";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation } from '@react-navigation/native';
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { FIREBASE_AUTH } from '../../../FirebaseConfig.ts';
 import { signOut } from "firebase/auth";
@@ -112,6 +112,15 @@ const UHP = () => {
     }
   };
 
+  const signOutUser = async () => {
+    try {
+      await signOut(auth);
+      navigation.navigate('Welcome');
+    } catch (error) {
+      console.error("Error signing out: ", error);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.Outer}>
       <Text style={styles.text}>Reserve Your Spot</Text>
@@ -191,6 +200,7 @@ const UHP = () => {
         </View>
       </Modal>
       {/* <UserTabs/> */}
+
     </SafeAreaView>
   );
 };
