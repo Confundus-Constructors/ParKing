@@ -1,26 +1,6 @@
 const client = require("../database/db");
 
 module.exports = {
-  queryGaragesByDistanceTest: (lat, long) => {
-    return client.query(
-      `SELECT *
-      FROM (
-        SELECT *,
-          (
-            3959 *
-            acos(cos(radians(${lat})) *
-            cos(radians(latitude)) *
-            cos(radians(longitude) -
-            radians(${long})) +
-            sin(radians(${lat})) *
-            sin(radians(latitude)))
-          ) AS distance
-        FROM garages
-      ) AS subquery
-      /*WHERE distance < 50*/
-      ORDER BY distance;`
-    );
-  },
   insertEntry: (table, obj) => {
     const columns = Object.keys(obj);
     const values = Object.values(obj);
@@ -243,7 +223,7 @@ module.exports = {
       WHERE qr_code = '${conf_number}'`
     );
   },
-  queryReservationUserId: (user_id, filter) => {
+  queryReservationUserId: (user_id) => {
     return client.query(
       `SELECT qr_code,
       vs.license_plate,
@@ -259,8 +239,7 @@ module.exports = {
       INNER JOIN garages gs
       ON gs.id = ts.garage_id
 
-      WHERE ts.user_id = '${user_id}'
-      AND ts.current_status = '${filter}'`
+      WHERE ts.user_id = '${user_id}'`
     );
   },
   queryReservationUponCheckout: (conf_number) => {
@@ -295,10 +274,17 @@ module.exports = {
   },
   updateReservationCheckIn: (conf_number, ps_id) => {
     const currentDate = new Date();
-    const formattedDate = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')} ${String(currentDate.getHours()).padStart(2, '0')}:${String(currentDate.getMinutes()).padStart(2, '0')}:${String(currentDate.getSeconds()).padStart(2, '0')}`;
+    const formattedDate = `${currentDate.getFullYear()}-${String(
+      currentDate.getMonth() + 1
+    ).padStart(2, "0")}-${String(currentDate.getDate()).padStart(
+      2,
+      "0"
+    )} ${String(currentDate.getHours()).padStart(2, "0")}:${String(
+      currentDate.getMinutes()
+    ).padStart(2, "0")}:${String(currentDate.getSeconds()).padStart(2, "0")}`;
     // console.log(formattedDate);
-      return client.query(
-        `UPDATE transactions
+    return client.query(
+      `UPDATE transactions
         SET check_in_time = '${formattedDate}',
         current_status = 'checked-in',
         parking_spot_id = ${ps_id}
@@ -309,15 +295,21 @@ module.exports = {
     return client.query(`
       UPDATE parking_spots
       SET is_available = false
-      WHERE id = '${ps_id}';`
-    );
+      WHERE id = '${ps_id}';`);
   },
   updateReservationCheckOut: (conf_number) => {
     const currentDate = new Date();
-    const formattedDate = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')} ${String(currentDate.getHours()).padStart(2, '0')}:${String(currentDate.getMinutes()).padStart(2, '0')}:${String(currentDate.getSeconds()).padStart(2, '0')}`;
+    const formattedDate = `${currentDate.getFullYear()}-${String(
+      currentDate.getMonth() + 1
+    ).padStart(2, "0")}-${String(currentDate.getDate()).padStart(
+      2,
+      "0"
+    )} ${String(currentDate.getHours()).padStart(2, "0")}:${String(
+      currentDate.getMinutes()
+    ).padStart(2, "0")}:${String(currentDate.getSeconds()).padStart(2, "0")}`;
     // console.log(formattedDate);
-      return client.query(
-        `UPDATE transactions
+    return client.query(
+      `UPDATE transactions
         SET check_out_time = '${formattedDate}',
         reservation_end_time = '${formattedDate}',
         current_status = 'checked-out',
@@ -352,4 +344,3 @@ module.exports = {
     `);
   }
 };
-
