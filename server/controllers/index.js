@@ -1,6 +1,3 @@
-const axios = require('axios');
-require("dotenv").config();
-
 module.exports = {
   subtractReservedSpots: (availableCountPerGarage, reservedCountPerGarage) => {
     const parkingSpotCountsMap = new Map();
@@ -45,25 +42,5 @@ module.exports = {
     }
 
     return garageData;
-  },
-  lookupLatLong: async (address) => {
-    const array = address.split(' ');
-    const streetNumber = array[0];
-    const street = array[1];
-
-    const obj = {
-      country: 'US',
-      state: 'Florida',
-      locality: 'Miami',
-      street: street,
-      houseNumber: streetNumber,
-    }
-
-    const authObj = {
-      apiKey: `${process.env.PTV_AUTH}`
-    }
-
-    const result = await axios.get('https://api.myptv.com/geocoding/v1/locations/by-address', {params: obj, headers: authObj})
-    return result;
   },
 }

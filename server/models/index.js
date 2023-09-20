@@ -1,26 +1,6 @@
 const client = require("../database/db");
 
 module.exports = {
-  queryGaragesByDistanceTest: (lat, long) => {
-    return client.query(
-      `SELECT *
-      FROM (
-        SELECT *,
-          (
-            3959 *
-            acos(cos(radians(${lat})) *
-            cos(radians(latitude)) *
-            cos(radians(longitude) -
-            radians(${long})) +
-            sin(radians(${lat})) *
-            sin(radians(latitude)))
-          ) AS distance
-        FROM garages
-      ) AS subquery
-      /*WHERE distance < 50*/
-      ORDER BY distance;`
-    );
-  },
   insertEntry: (table, obj) => {
     const columns = Object.keys(obj);
     const values = Object.values(obj);
@@ -243,7 +223,7 @@ module.exports = {
       WHERE qr_code = '${conf_number}'`
     );
   },
-  queryReservationUserId: (user_id, filter) => {
+  queryReservationUserId: (user_id) => {
     return client.query(
       `SELECT qr_code,
       vs.license_plate,
@@ -259,8 +239,7 @@ module.exports = {
       INNER JOIN garages gs
       ON gs.id = ts.garage_id
 
-      WHERE ts.user_id = '${user_id}'
-      AND ts.current_status = '${filter}'`
+      WHERE ts.user_id = '${user_id}'`
     );
   },
   queryReservationUponCheckout: (conf_number) => {
