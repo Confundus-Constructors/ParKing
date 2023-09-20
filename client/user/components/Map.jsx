@@ -8,20 +8,19 @@ import * as Location from 'expo-location';
 const Map = () => {
   //query all garages in db
   //make child component for each garage
-  const [valetGarages, setValetGarages] = useState(null);
+  const [valetGarages, setValetGarages] = useState([]);
   const [status, requestPermission] = Location.useForegroundPermissions()
   const [location, setLocation] = useState({
     latitudeDelta: 0.01,
     longitudeDelta: 0.01,
   });
   const getGarages = function() {
-    console.log('in getGarage func')
     axios.get('http://localhost:3000/garages')
       .then(garages => {
         setValetGarages(garages.data);
+        console.log('garages: ', garages.data);
       })
       .catch(err => {
-        console.log('err: ');
         console.error(err);
       })
   };
@@ -36,9 +35,11 @@ const Map = () => {
         return;
       }
       let location = await Location.getCurrentPositionAsync({});
+      console.log('in async: ', location)
+      console.log('in async loca.coords.lata: ', location.coords.latitude)
       let newLocation = {
-        longitude: location.longitude,
-        latitude: location.latitude,
+        longitude: location.coords.longitude,
+        latitude: location.coords.latitude,
         latitudeDelta: 0.01,
         longitudeDelta: 0.01,
       }
@@ -54,67 +55,120 @@ const Map = () => {
   } else if (location) {
     text = JSON.stringify(location);
   }
-  const testRegion = {
-    latitude: 37.79035162611023,
-    longitude: -122.39719273185551,
+  const MiamiRegion = {
+    latitude: 25.761681,
+    longitude: -80.191788,
     latitudeDelta: 0.01,
     longitudeDelta: 0.01,
   };
-  const makeMarkers = () => {
+  const ShowGarages = () => {
     if (!valetGarages){
       return null
-    }else {
-      valetGarages.map(garage =>{
+    } else {
+      return valetGarages.map(garage =>{
         garageCordinates = {
-          latitude: garage.longitude,
-          longitude: garage.latitude,
+          latitude: garage.latitude,
+          longitude: garage.longitude,
           latitudeDelta: 0.01,
           longitudeDelta: 0.01
         }
+        console.log('garage coord: ', garageCordinates)
         return (
-          <Marker coordinate={garageCordinates}>
-            <CustomMarker />
+            <Marker
+            coordinate={garageCordinates}
+            key={garage.id}
+            pinColor="red"
+          >
+            <View >
+              <Text>Hourly Rate: {garage.hourly_rate}</Text>
+            </View>
           </Marker>
+
         )
       })
     }
+    console.log('get garages ran')
   }
+
   return (
+
     <SafeAreaView style={styles.container}>
-      {console.log('location: ', location)}
-      {console.log('garages!: ', valetGarages)}
-      <Text>In Maps component</Text>
-      <Text style={styles.paragraph}>{text}</Text>
+      <View style={styles.header}>
+        <Text>This will be header</Text>
+      </View>
       <MapView
         showsUserLocation={true}
         style={styles.map}
-        // minZoomLevel={15}
+        // minZoomLevel={18}
+        animateToRegion={location, 2000}
         zoomEnabled = {true}
         maxZoomLevel={20}
         onPress={e =>
           console.log('this will be valet garage', e.nativeEvent.coordinate)
         }
       >
-      <Marker coordinate={testRegion}
+      <Marker coordinate={MiamiRegion}
         pinColor="green"
        //dynamically create marker children all all garages
       />
+      {valetGarages.length > 0  ? (
+        valetGarages.map(garage =>{
+          console.log('garage in map: ', garage)
+          garageCordinates = {
+            latitude: garage.latitude,
+            longitude: garage.longitude,
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.01
+          }
+          return (
+              <Marker
+              coordinate={garageCordinates}
+              key={garage.id}
+              pinColor="red"
+              title={garage.valet_company_id} //would prefer name over id
+            />
+          )
+      })): null}
       </MapView>
-      {/* {makeMarkers()} */}
+      <View style={styles.footer}>
+        {/* list valet garages */}
+
+        <Text>This will be footer</Text>
+      </View>
     </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    ...StyleSheet.absoluteFillObject,
-    height: 400,
-    width: 400,
+    //...StyleSheet.absoluteFillObject,
+    // height: 400
+    // width: 400,
+    flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
   },
+  header:{
+    flex: 2,
+    //backgroundColor: '#000000',
+    color:'#a9a9a9',
+    width: '100%',
+    height: '150%',
+  },
+  footer:{
+    flex: 2,
+    //backgroundColor: '#000000',
+    color:'#a9a9a9',
+    width: '100%',
+    height: '150%',
+  },
   map: {
-    ...StyleSheet.absoluteFillObject,
+    //...StyleSheet.absoluteFillObject,
+    justifyContent: 'center',
+    //flex: 10,
+    // marginTop: '10em',
+    width: '100%',
+    height: '90%',
   },
   marker: {
     paddingVertical: 10,
@@ -123,7 +177,7 @@ const styles = StyleSheet.create({
     borderColor: "#eee",
     borderRadius: 5,
     elevation: 10,
-  },
+  }
 });
 
 export default Map;
