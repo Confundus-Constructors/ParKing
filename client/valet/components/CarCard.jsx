@@ -1,13 +1,17 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, Image, Button} from 'react-native';
 import {launchCamera} from 'react-native-image-picker';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCamera } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
 
 
 
-const CarCard = () => {
+const CarCard = ({navigation, info,  buttonText}) => {
   const [imageSource, setImageSource] = useState(null);
+  const date1 = new Date(info.reservation_start_time);
+  const date2 = new Date(info.reservation_end_time);
+
 
   const selectImage = () => {
     const options = {
@@ -33,14 +37,31 @@ const CarCard = () => {
     <SafeAreaView className="text-lg" style={styles.container}>
 
       <View style={styles.row}>
-        <View>
-          <Text style={styles.boldText}>Reservation ID: [Value]</Text>
-          <Text style={styles.boldText}>Owner: [Value]</Text>
+      <View style={styles.row}>
+    <View>
+        <Text style={styles.row}>
+            <Text style={styles.boldText}>Reservation ID: </Text>
+            <Text>{info.confirmation_id}</Text>
+        </Text>
+        <Text style={styles.row}>
+            <Text style={styles.boldText}>Owner: </Text>
+            <Text style={styles.user}>{info.user}</Text>
+        </Text>
+        <Text style={styles.row}>
+            <Text style={styles.boldText}>Make: </Text>
+            <Text style={styles.carInfo}>{info.make_model}</Text>
+        </Text>
+        <Text style={styles.row}>
+            <Text style={styles.boldText}>Color: </Text>
+            <Text>{info.color}</Text>
+        </Text>
+        <Text style={styles.row}>
+            <Text style={styles.boldText}>License Plate: </Text>
+            <Text>{info.license_plate}</Text>
+        </Text>
+    </View>
+</View>
 
-          <Text style={styles.carInfo}>Make: [Value]</Text>
-          <Text style={styles.boldText}>Color: [Value]</Text>
-          <Text style={styles.boldText}>License Plate: [Value]</Text>
-        </View>
 
         <View>
           <TouchableOpacity style={styles.box} onPress={selectImage}>
@@ -57,17 +78,29 @@ const CarCard = () => {
 
       <View style={styles.row}>
         <View>
-          <Text style={styles.boldText}>Arrives:  [Value]</Text>
-          <Text style={styles.boldText}>Departs: [Value]</Text>
+        <Text style={styles.row}>
+          <Text style={styles.boldText}>Arrival: </Text>
+          <Text>{date1.toLocaleString()}</Text>
+        </Text>
+        <Text style={styles.row}>
+          <Text style={styles.boldText}>Depart: </Text>
+          <Text>{date2.toLocaleString()}</Text>
+        </Text>
         </View>
         <View>
-          <Text style={styles.boldText}>Garage: [Value]</Text>
-          <Text style={styles.boldText}>Spot ID: [Value]</Text>
+        <Text style={styles.row}>
+          <Text style={styles.boldText}>Garage: </Text>
+          <Text>{}</Text>
+        </Text>
+        <Text style={styles.row}>
+          <Text style={styles.boldText}>Spot ID: </Text>
+          <Text>__</Text>
+        </Text>
         </View>
     </View>
     <View style={styles.buttonContainer}>
-      <TouchableOpacity style={styles.button} onPress={() => console.log('Button pressed!')}>
-      <Text style={styles.buttonText}>Check In</Text>
+      <TouchableOpacity style={styles.button} onPress={() => {navigation.navigate('CheckIn')}}>
+      <Text style={styles.buttonText}>{buttonText ? buttonText : 'Check Out'}</Text>
       </TouchableOpacity>
     </View>
   </SafeAreaView>
@@ -80,7 +113,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#E0E0E0',
     padding: 10,
     borderRadius: 0,
-    marginTop: 20,
+    marginTop: 5,
     borderRadius: 10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 3 },
@@ -93,14 +126,14 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 5,
-    marginLeft: 2,
+    marginTop: 2,
+    marginLeft: 3,
   },
   boldText: {
     fontWeight: 'bold',
   },
   box: {
-    width: 200,
+    width: 190,
     height: 130,
     justifyContent: 'center',
     alignItems: 'center',
@@ -114,8 +147,7 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   carInfo: {
-    marginTop: 25,
-    fontWeight: 'bold',
+    marginTop: 15,
   },
   buttonContainer: {
     alignItems: 'center',
@@ -141,7 +173,10 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     fontSize: 16,
-}
+},
+  user: {
+    marginTop: 1,
+  }
 });
 
 export default CarCard;

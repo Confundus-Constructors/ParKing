@@ -1,6 +1,26 @@
 const client = require("../database/db");
 
 module.exports = {
+  queryGaragesByDistanceTest: (lat, long) => {
+    return client.query(
+      `SELECT *
+      FROM (
+        SELECT *,
+          (
+            3959 *
+            acos(cos(radians(${lat})) *
+            cos(radians(latitude)) *
+            cos(radians(longitude) -
+            radians(${long})) +
+            sin(radians(${lat})) *
+            sin(radians(latitude)))
+          ) AS distance
+        FROM garages
+      ) AS subquery
+      /*WHERE distance < 50*/
+      ORDER BY distance;`
+    );
+  },
   insertEntry: (table, obj) => {
     const columns = Object.keys(obj);
     const values = Object.values(obj);
@@ -223,6 +243,26 @@ module.exports = {
       WHERE qr_code = '${conf_number}'`
     );
   },
+  queryReservationUserId: (user_id, filter) => {
+    return client.query(
+      `SELECT qr_code,
+      vs.license_plate,
+      reservation_start_time,
+      reservation_end_time,
+      CONCAT(gs.address_line_1,' ',gs.city,', ',gs.state,' ',gs.zip) as "parking_address"
+
+      FROM transactions ts
+
+      INNER JOIN vehicles vs
+      ON vs.id = ts.vehicle_id
+
+      INNER JOIN garages gs
+      ON gs.id = ts.garage_id
+
+      WHERE ts.user_id = '${user_id}'
+      AND ts.current_status = '${filter}'`
+    );
+  },
   queryReservationUponCheckout: (conf_number) => {
     return client.query(
       `SELECT qr_code,
@@ -230,6 +270,7 @@ module.exports = {
       vs.make_model,
       vs.color,
       vs.license_plate,
+      photo,
       reservation_start_time,
       reservation_end_time,
       gs.address_line_1 as "garage",
@@ -290,6 +331,25 @@ module.exports = {
       UPDATE parking_spots
       SET is_available = true
       WHERE id = '${ps_id}';`);
+  },
+  updateCarPhoto: (qr_code, image) => {
+    return client.query(`
+    UPDATE transactions
+    SET photo = '${image}'
+    WHERE qr_code = '${qr_code}';`)
+  },
+  getCarPhoto: (qr_code) => {
+    return client.query(`
+    SELECT photo
+    FROM transactions
+    WHERE qr_code = '${qr_code}';`)
+  },
+  updateEarlyCheckout: (conf_number) => {
+    return client.query(
+      `UPDATE transactions
+      SET current_status = 'picking-up'
+      WHERE qr_code = '${conf_number}';
+    `);
   }
 };
 

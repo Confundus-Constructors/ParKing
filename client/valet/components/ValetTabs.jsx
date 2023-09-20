@@ -8,8 +8,11 @@ import CameraScreen from './CameraScreen';
 import CarsScreen from './CarsScreen';
 import { StatusBar } from 'react-native';
 import CalendarScreen from './CalendarScreen';
+import { AdvancedImage } from 'cloudinary-react-native';
+// import { Cloudinary } from "@cloudinary/url-gen";
 
 export default ValetTabs = () => {
+
   const theme = useTheme();
   theme.colors.secondaryContainer = "transparent";
 

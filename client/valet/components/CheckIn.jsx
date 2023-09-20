@@ -2,55 +2,70 @@ import { Alert, SafeAreaView, Touchable, Pressable, TouchableOpacity, View, Scro
 import { useState, useEffect } from 'react';
 import { Modal, Portal, PaperProvider } from 'react-native-paper';
 import axios from 'axios';
+import moment from 'moment';
+import * as FileSystem from 'expo-file-system';
+
 
 export default Checkin = ({navigation, route}) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [parkingSpot, setParkingSpot] = useState('');
   const [image, setImage] = useState();
   const [confirming, setConfirming] = useState(false);
+  const [carInfo, setCarInfo] = useState({});
+  const [blob, setBlob] = useState();
 
-  // useEffect(() => {
-  //   axios.post('/image')
-  // });
+  useEffect(() => {
+    if (route.params && route.params.carInfo) {
+      // console.log(route.params.carInfo);
+      setCarInfo(route.params.carInfo);
+    }
+  });
 
   const handleConfirm = () => {
-    setConfirming(true);
-    setTimeout(() => {
-      setConfirming(false);
       setModalVisible(true);
-    }, 2000)
   };
 
   const addPic = () => {
     {navigation.navigate('CameraMain')};
   };
 
-  const handleSubmit = () => {
-    //send information to server
-    //clear states
-    setParkingSpot('');
-    setModalVisible(false);
-    setImage(null);
-    navigation.navigate('QRScanner');
+  const handleSubmit = async() => {
+    const base64 = await FileSystem.readAsStringAsync(image.uri, { encoding: 'base64' });
+    axios.post('https://051f-2603-7000-3900-7052-f0a4-43e1-9eb2-cce9.ngrok-free.app/image', {image: base64, blob: blob})
+    .then(() => {
+      setModalVisible(false);
+      setImage(null);
+      navigation.navigate('QRScanner');
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   }
 
   useEffect(() => {
-    if (route.params) {
-      // console.log(route.params.image)
+    if (route.params && route.params.image) {
       setImage(route.params.image);
+      setBlob(route.params.blob);
     }
   }, [route.params]);
 
-    console.log(image);
+  const capitalizeString = (string) => {
+    if (string) {
+      return string[0].toUpperCase() + string.slice(1,string.length).toLowerCase();
+    }
+    else {
+      return null;
+    }
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.formContainer}>
-        <Text style={styles.text}>Reservation ID: </Text>
-        <Text style={styles.text}>Owner:</Text>
-        <Text style={styles.text}>Make:</Text>
-        <Text style={styles.text}>Color:</Text>
-        <Text style={styles.text}>License Plate:</Text>
+        <Text style={styles.text}>{'Owner: ' + carInfo.user}</Text>
+        <Text style={styles.text}>{'Make: ' + carInfo.make_model }</Text>
+        <Text style={styles.text}>{'Color: ' + capitalizeString(carInfo.color)}</Text>
+        <Text style={styles.text}>{'License Plate: ' + carInfo.license_plate}</Text>
+        <Text style={styles.text}>{'Reservation Start: ' + moment(carInfo.reservation_start_time).format("dddd, MMMM Do YYYY, h:mm:ss a")}  </Text>
+        <Text style={styles.text}>{'Reservation End: ' + moment(carInfo.reservation_end_time).format("dddd, MMMM Do YYYY, h:mm:ss a")}  </Text>
         <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonTitle} onPress={handleConfirm}>Confirm Details</Text>
         </TouchableOpacity>
@@ -66,7 +81,7 @@ export default Checkin = ({navigation, route}) => {
           <View>
             <Text style={styles.confirmed}>Checked In ✓</Text>
             <Text style={styles.modalText}>Please park the car and then enter the parking location</Text>
-            <Text style={styles.modalText}>Parking Spot: ____</Text>
+            <Text style={styles.modalText}>{'Parking Spot: ' + carInfo.parking_spot_number} </Text>
             <Text style={styles.modalText}>Please take a picture of the car in its spot. Include the license plate if possible</Text>
             {!image?
             <TouchableOpacity style={styles.picButton} onPress={addPic}>
@@ -77,7 +92,7 @@ export default Checkin = ({navigation, route}) => {
               <Image
                 style={styles.image}
                 source={{
-                  uri: image,
+                  uri: image.uri,
                 }}
               />
             <View style={styles.buttonContainer}>
@@ -100,7 +115,6 @@ export default Checkin = ({navigation, route}) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#A9927D',
-    // flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     height: '100%'
@@ -145,7 +159,6 @@ const styles = StyleSheet.create({
     width: '95%',
     height: 'auto',
     alignSelf: 'center',
-    // justifySelf: 'center'
   },
   lottie: {
     width: 100,

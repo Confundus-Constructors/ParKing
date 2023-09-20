@@ -2,6 +2,7 @@ import { Alert, Button, Pressable, TouchableOpacity,View,Text,StyleSheet } from 
 import { Camera, CameraType } from 'expo-camera';
 import { useState, useEffect, useRef } from 'react';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import axios from 'axios';
 
 export default QRScanner = ({navigation}) => {
   const [permission, setPermission] = useState(false);
@@ -16,10 +17,18 @@ export default QRScanner = ({navigation}) => {
 
   useEffect(() => {
     if (scanData) {
-      //send call to back end to get res/user information based on
-      //navigtae to new screen bas
-      // navigation.navigate('CheckOut');
-      navigation.navigate('CheckIn');
+      axios('https://051f-2603-7000-3900-7052-f0a4-43e1-9eb2-cce9.ngrok-free.app/transactions/' + scanData)
+      .then((result) => {
+        // console.log(result.data);
+        if (result.data.status === 'reserved') {
+          navigation.navigate('CheckIn', params={carInfo: result.data});
+        } else if (result.data.status === 'checked-in') {
+          navigation.navigate('CheckOut', params={carInfo: result.data});
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      })
     }
   }, [scanData])
 
@@ -33,8 +42,8 @@ if (!permission) {
 
 const handleBarCodeScanned = ({type, data}) => {
   setScanData(data);
-  console.log(`Data: ${data}`);
-  console.log(`Type: ${type}`);
+  // console.log(`Data: ${data}`);
+  // console.log(`Type: ${type}`);
 };
 
   return (

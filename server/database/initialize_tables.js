@@ -8,6 +8,16 @@ const employeesData = require('../../exampleData/employees');
 const vehiclesData = require('../../exampleData/vehicles');
 const transactionsData = require('../../exampleData/transactions');
 
+
+alterStatementsArray = [
+  "SELECT setval('users_id_seq', (SELECT MAX(id) FROM users));",
+  "SELECT setval('vehicles_id_seq', (SELECT MAX(id) FROM vehicles));",
+  "SELECT setval('garages_id_seq', (SELECT MAX(id) FROM garages));",
+  "SELECT setval('parking_spots_id_seq', (SELECT MAX(id) FROM parking_spots));",
+  "SELECT setval('employees_id_seq', (SELECT MAX(id) FROM employees));",
+  "SELECT setval('transactions_id_seq', (SELECT MAX(id) FROM transactions));",
+];
+
 (async () => {
   try {
     await client.query(query);
@@ -18,6 +28,11 @@ const transactionsData = require('../../exampleData/transactions');
     await seedTables('employees', employeesData);
     await seedTables('vehicles', vehiclesData);
     await seedTables('transactions', transactionsData);
+    for (let element of alterStatementsArray) {
+      element.toString();
+      console.log(element);
+      await client.query(element);
+    }
     await client.end();
   } catch (err) {
     console.error(err);
