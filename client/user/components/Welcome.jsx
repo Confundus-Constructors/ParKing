@@ -121,12 +121,6 @@ const Welcome = () => {
 }, [response2]);
 
 
-
-
-
-
-
-
   const onSignInPressed = async(data) => {
     // console.log(data);
 
