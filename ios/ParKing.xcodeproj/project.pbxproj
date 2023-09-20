@@ -267,6 +267,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ParKing/Pods-ParKing-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+    
 		CD2816E4B1894982A8E39B6C /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

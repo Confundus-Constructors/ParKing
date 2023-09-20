@@ -332,10 +332,10 @@ module.exports = {
       SET is_available = true
       WHERE id = '${ps_id}';`);
   },
-  updateCarPhoto: (qr_code, blob) => {
+  updateCarPhoto: (qr_code, image) => {
     return client.query(`
     UPDATE transactions
-    SET photo = '${blob}'
+    SET photo = '${image}'
     WHERE qr_code = '${qr_code}';`)
   },
   getCarPhoto: (qr_code) => {

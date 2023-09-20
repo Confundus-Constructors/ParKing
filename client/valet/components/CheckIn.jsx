@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import { Modal, Portal, PaperProvider } from 'react-native-paper';
 import axios from 'axios';
 import moment from 'moment';
+import * as FileSystem from 'expo-file-system';
+
 
 export default Checkin = ({navigation, route}) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -13,25 +15,22 @@ export default Checkin = ({navigation, route}) => {
 
   useEffect(() => {
     if (route.params && route.params.carInfo) {
-      console.log(route.params.carInfo);
+      // console.log(route.params.carInfo);
       setCarInfo(route.params.carInfo);
     }
   });
 
   const handleConfirm = () => {
-    setConfirming(true);
-    setTimeout(() => {
-      setConfirming(false);
       setModalVisible(true);
-    }, 2000)
   };
 
   const addPic = () => {
     {navigation.navigate('CameraMain')};
   };
 
-  const handleSubmit = () => {
-    axios.post('https://051f-2603-7000-3900-7052-f0a4-43e1-9eb2-cce9.ngrok-free.app/image', {image: image, blob: blob})
+  const handleSubmit = async() => {
+    const base64 = await FileSystem.readAsStringAsync(image.uri, { encoding: 'base64' });
+    axios.post('https://051f-2603-7000-3900-7052-f0a4-43e1-9eb2-cce9.ngrok-free.app/image', {image: base64, blob: blob})
     .then(() => {
       setModalVisible(false);
       setImage(null);
@@ -44,13 +43,10 @@ export default Checkin = ({navigation, route}) => {
 
   useEffect(() => {
     if (route.params && route.params.image) {
-      console.log(route.params);
       setImage(route.params.image);
       setBlob(route.params.blob);
     }
   }, [route.params]);
-
-    console.log(image);
 
   const capitalizeString = (string) => {
     if (string) {
@@ -96,7 +92,7 @@ export default Checkin = ({navigation, route}) => {
               <Image
                 style={styles.image}
                 source={{
-                  uri: image,
+                  uri: image.uri,
                 }}
               />
             <View style={styles.buttonContainer}>
@@ -119,7 +115,6 @@ export default Checkin = ({navigation, route}) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#A9927D',
-    // flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     height: '100%'
@@ -164,7 +159,6 @@ const styles = StyleSheet.create({
     width: '95%',
     height: 'auto',
     alignSelf: 'center',
-    // justifySelf: 'center'
   },
   lottie: {
     width: 100,

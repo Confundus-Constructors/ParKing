@@ -40,7 +40,7 @@ const CarManage = ({navigation}) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-    <NavigationContainer>
+    {/* <NavigationContainer> */}
       <Tab.Navigator
         tabBarOptions={{
         activeTintColor: 'white',
@@ -59,7 +59,7 @@ const CarManage = ({navigation}) => {
         <Tab.Screen name="Parked" component={Parked} />
         <Tab.Screen name="Pickups" component={Pickups} />
       </Tab.Navigator>
-    </NavigationContainer>
+    {/* </NavigationContainer> */}
     </SafeAreaView>
   )
 }

@@ -45,7 +45,7 @@ const transactions = [
     check_out_time: null,
     current_status: 'checked-in',
     active: true,
-    photo: 'https://images.pexels.com/photos/1319515/pexels-photo-1319515.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+    photo: null
   },
   { id: 4,
     user_id: 3,
