@@ -5,15 +5,12 @@ import axios from 'axios';
 import moment from 'moment';
 import * as FileSystem from 'expo-file-system';
 
-<<<<<<< HEAD
 async function loadFonts() {
   await Font.loadAsync({
     'Oswald-Medium': require('../../../assets/fonts/Oswald-Medium.ttf'),  // adjust the path accordingly
   });
 };
 
-=======
->>>>>>> 4a76511ffe49751eb5baba88b878367fb349c540
 export default Checkin = ({navigation, route}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [image, setImage] = useState();
@@ -166,7 +163,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginBottom: 10,
     fontWeight: 'bold',
-    fontFamily: 'Oswald-Light',
+    fontFamily: 'Oswald-Medium',
   },
   modalContainer: {
     alignItems:'center',
