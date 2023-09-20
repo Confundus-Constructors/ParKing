@@ -31,7 +31,8 @@ const Select = () => {
       .then((result) => {
         setCars(result);
       })
-  })
+  },[see])
+
   const handleComplete = () => {
     navigation.navigate("Checkout", {data: route.params.data, vehicle: selected, id:id, time});
   };
