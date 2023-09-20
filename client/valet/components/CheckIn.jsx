@@ -22,11 +22,7 @@ export default Checkin = ({navigation, route}) => {
 
   const handleConfirm = () => {
       setModalVisible(true);
-      setConfirming(true);
       axios.put(`https://051f-2603-7000-3900-7052-f0a4-43e1-9eb2-cce9.ngrok-free.app/transactions/${route.params.qr_code}`)
-      .then(() => {
-        setConfirming(false);
-      })
       .catch((err) => {
         console.log(err);
       })
@@ -40,8 +36,10 @@ export default Checkin = ({navigation, route}) => {
 
   const handleSubmit = async() => {
     const base64 = await FileSystem.readAsStringAsync(image.uri, { encoding: 'base64' });
+    setConfirming(true);
     axios.post('https://051f-2603-7000-3900-7052-f0a4-43e1-9eb2-cce9.ngrok-free.app/image', {image: base64, blob: blob, qr_code: qrCode})
     .then(() => {
+      setConfirming(false);
       setModalVisible(false);
       setImage(null);
       navigation.navigate('QRScanner');
@@ -80,12 +78,7 @@ export default Checkin = ({navigation, route}) => {
           <Text style={styles.buttonTitle} onPress={handleConfirm}>Confirm Details</Text>
         </TouchableOpacity>
       </View>
-      <Modal visible={confirming} >
-        <View style={styles.confirmingView}>
-          <Text style={styles.waitingText}>Waiting For Confirmation From Owner</Text>
-          <Image style={styles.loadingGif} source={require('./../../../assets/loading.gif')} ></Image>
-        </View>
-      </Modal>
+
       <Modal visible={modalVisible}>
         <View style={styles.modalView}>
           <View>
@@ -116,6 +109,12 @@ export default Checkin = ({navigation, route}) => {
             </View>
             </View>}
           </View>
+        </View>
+      </Modal>
+      <Modal visible={confirming} >
+        <View style={styles.confirmingView}>
+          <Text style={styles.waitingText}>Uploading Image</Text>
+          <Image style={styles.loadingGif} source={require('./../../../assets/loading.gif')} ></Image>
         </View>
       </Modal>
     </View>
