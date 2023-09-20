@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const app = express();
 const model = require('./models/index.js');
 
+
 require("dotenv").config();
 // const userRoute = require('./routes/users');
 // const restRouter = require('./routes/transactions.js');
@@ -36,13 +37,13 @@ app.post("/users", (req, res) => {
 app.post("/image", async (req, res) => {
   console.log(req.body.image);
   await model.updateCarPhoto('test2', req.body.image)
-  // .then((result) => {
-  //   console.log(result);
+  .then((result) => {
+    console.log(result);
     res.end("Picture Updated")
-  // })
-  // .catch(() => {
-    // res.status(404).send('Error wile updating picture');
-  // })
+  })
+  .catch(() => {
+    res.status(404).send('Error wile updating picture');
+  })
 });
 
 app.get("/image", (req, res) => {
