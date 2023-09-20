@@ -40,6 +40,25 @@ module.exports = {
         res.send(400, err);
       });
   },
+  putUser: async (req, res) => {
+    let { password, email, device_token } = req.body;
+    await resetSerial();
+    client
+      .query(
+        `UPDATE users
+        SET device_token = '${device_token}'
+        WHERE email = '${email}'
+        AND password = '${password};'
+        `,
+      )
+      .then((query) => {
+        res.send(200, query);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.send(400, err);
+      });
+  },
 };
 
 const resetSerial = () => {

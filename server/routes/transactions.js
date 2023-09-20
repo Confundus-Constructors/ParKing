@@ -183,6 +183,10 @@ transactionRouter.put('/notify/:conf_id', async (req, res) => {
   try {
     const conf_id = req.params.conf_id;
     await model.updateEarlyCheckout(conf_id);
+    /* Jon needs:
+    -- valet's device token associated with transaction garage
+    -- parking spot number
+    */
     res.status(201).send('Notifying valets to retrieve your vehicle.');
   } catch (err) {
     console.log('an error occurred on transaction/:qr_code route', err);
