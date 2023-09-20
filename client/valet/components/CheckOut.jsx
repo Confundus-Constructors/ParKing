@@ -3,19 +3,31 @@ import { useState, useEffect } from 'react';
 import { Modal, Portal, PaperProvider } from 'react-native-paper';
 import axios from 'axios';
 
+async function loadFonts() {
+  await Font.loadAsync({
+    'Oswald-Medium': require('../../../assets/fonts/Oswald-Medium.ttf'),  // adjust the path accordingly
+  });
+};
+
 export default CheckOut = ({navigation,  route}) => {
 
-
   const [carInfo, setCarInfo] = useState({});
+  const [downloading, setDownloading] = useState(true);
   const [waitingVisible, setWaitingVisible] = useState(false);
   const [confirmationVisible, setConfirmationVisible] = useState(false);
+  const [imageSource, setImageSource] = useState('');
+
 
   const handleReturn = () => {
-    setWaitingVisible(true);
-    setTimeout(() => {
-      setWaitingVisible(false);
-      setConfirmationVisible(true);
-    }, 2000)
+    // setWaitingVisible(true);
+    axios.put(`https://051f-2603-7000-3900-7052-f0a4-43e1-9eb2-cce9.ngrok-free.app/transactions/${route.params.qr_code}`)
+      .then(() => {
+        // setWaitingVisible(false);
+        setConfirmationVisible(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
   }
 
   const handleExit = () => {
@@ -33,9 +45,18 @@ export default CheckOut = ({navigation,  route}) => {
   };
 
   useEffect(() => {
-    console.log(route.params.carInfo);
+    axios(`https://051f-2603-7000-3900-7052-f0a4-43e1-9eb2-cce9.ngrok-free.app/image/${route.params.qr_code}`)
+    .then((result) => {
+      var base64 = result.data.rows[0].photo;
+      var base64Pic = 'data:image/png;base64,' + base64;
+      setImageSource(base64Pic);
+      setDownloading(false);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
     setCarInfo(route.params.carInfo);
-  },[route.params]);
+  },[]);
 
   return (
     <View style={styles.container}>
@@ -47,7 +68,7 @@ export default CheckOut = ({navigation,  route}) => {
         <Text style={styles.text}>{'Make: ' + carInfo.make_model}</Text>
         <Text style={styles.text}>{'Color: ' + capitalizeString(carInfo.color)}</Text>
         <Text style={styles.text}>{'License Plate: ' + carInfo.license_plate}</Text>
-        <Image src={carInfo.photo} style={styles.carPic}></Image>
+        <Image src={imageSource} style={styles.carPic}></Image>
         <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonTitle} onPress={handleReturn}>Vehicle Returned</Text>
         </TouchableOpacity>
@@ -64,6 +85,12 @@ export default CheckOut = ({navigation,  route}) => {
           <TouchableOpacity onPress={handleExit} style={styles.exitButton}>
               <Text style={styles.exitText}> Exit</Text>
           </TouchableOpacity>
+        </View>
+      </Modal>
+      <Modal visible={downloading} >
+        <View style={styles.confirmingView}>
+          <Text style={styles.waitingText}>Downloading Image</Text>
+          <Image style={styles.loadingGif} source={require('./../../../assets/loading.gif')} ></Image>
         </View>
       </Modal>
     </View>
@@ -99,17 +126,20 @@ const styles = StyleSheet.create({
   buttonTitle: {
     color: 'white',
     borderRadius: 20,
-    fontSize: 25
+    fontSize: 25,
+    fontFamily: 'Oswald-Medium',
   },
   text: {
     fontSize: 18,
     marginBottom: 20,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    fontFamily: 'Oswald-Medium',
   },
   text: {
     fontSize: 18,
     marginBottom: 10,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    fontFamily: 'Oswald-Medium',
   },
   carPic: {
     height: 100,
@@ -134,6 +164,7 @@ const styles = StyleSheet.create({
   },
   waitingText: {
     fontSize: 20,
+    fontFamily: 'Oswald-Medium',
   },
   loadingGif: {
     height: 50
@@ -154,12 +185,21 @@ const styles = StyleSheet.create({
   },
   exitText: {
     color: 'white',
-    fontSize: 30
+    fontSize: 30,
+    fontFamily: 'Oswald-Medium',
   },
   confirmedContainer: {
-    // flex: 1,
-    // width: 300,
     justifyContent: 'center',
     alignItems: 'center'
-  }
+  },
+  confirmingView: {
+    height: 'auto',
+    alignItems:'center',
+    justifyContent:'center',
+    padding: 30,
+    borderRadius: 30,
+    backgroundColor: 'white',
+    width: '95%',
+    alignSelf: 'center'
+  },
 })

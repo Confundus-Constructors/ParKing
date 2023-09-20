@@ -3,8 +3,7 @@ import { View } from 'react-native';
 import axios from 'axios';
 import CarCard from './CarCard.jsx';
 
-
-const Reserved = ({garage = 1}) => {
+const Reserved = ({garage = 1, navigation}) => {
   const [resInfo, setResInfo] = useState([])
   const buttontext = 'Check In';
 
@@ -23,7 +22,7 @@ const Reserved = ({garage = 1}) => {
 
   return (
     <View>
-      {resInfo.map(res => <CarCard info={res} buttonText={buttontext}/>)}
+      {resInfo.map(res => <CarCard navigation={navigation} info={res} buttonText={buttontext}/>)}
     </View>
   )
 

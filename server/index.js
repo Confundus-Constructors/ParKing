@@ -3,6 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
 const model = require('./models/index.js');
+const multer = require('multer');
 
 require("dotenv").config();
 // const userRoute = require('./routes/users');
@@ -15,8 +16,9 @@ const testRouter = require("./routes/test.js");
 const { getUser, postUser, putUser, getAll } = require("./routes/users");
 
 // app.use(express.static(path.join(__dirname, "../public")));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({limit: '50mb', extended: true}));
+app.use(bodyParser.urlencoded({limit: "50mb", extended: true }));
+app.use(bodyParser.text({ limit: '200mb' }));
 
 // app.use('/users', userRoute);
 app.use('/reservations', reservationRouter);
@@ -40,26 +42,23 @@ app.put("/users", (req, res) => {
 });
 
 app.post("/image", async (req, res) => {
-  console.log(req.body.image);
-  await model.updateCarPhoto('test2', req.body.image)
-  // .then((result) => {
-  //   console.log(result);
-    res.end("Picture Updated")
-  // })
-  // .catch(() => {
-    // res.status(404).send('Error wile updating picture');
-  // })
+  try {
+   const result = await model.updateCarPhoto(req.body.qr_code, req.body.image);
+   console.log(req.body.qr_code);
+  //  console.log(result);
+    res.end("Picture Updated");
+  } catch (err) {
+    res.status(404).send('Error while updating picture');
+  }
 });
 
-app.get("/image", (req, res) => {
-  model.getCarPhoto('test2')
-  .then((result) => {
-    console.log(result);
+app.get("/image/:qr_code", async(req, res) => {
+  try {
+    const result = await model.getCarPhoto(req.params.qr_code);
     res.json(result)
-  })
-  .catch(() => {
-    res.status(404).send('Error wile getting picture');
-  })
+  } catch (err) {
+    res.status(404).send('Error while getting picture');
+  }
 });
 
 app.listen(port, () => {
