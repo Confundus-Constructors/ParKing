@@ -19,6 +19,8 @@ import {
 
 import { User } from 'firebase/auth';
 
+import axios from 'axios';
+
 WebBrowser.maybeCompleteAuthSession();
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
@@ -35,6 +37,7 @@ const Welcome = () => {
   const [firstLogin, setFirstLogin] = useState(null);
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(null);
+  const [userId, setUserId] = useState(null); // <-- Kurt added, this is userId from db
 
   const [request, response, promptAsync] = Google.useAuthRequest({
     iosClientId: '221488399738-k5otuspijkga9rkii95f7v6dit6i3k27.apps.googleusercontent.com'
@@ -104,6 +107,8 @@ const Welcome = () => {
     try {
       const response = await signInWithEmailAndPassword(auth, data.Email, data.Password);
       console.log('herererererererer', response);
+      // ---- KURT AND JON ADD PUT ROUTE ---- //
+      testingAuthPayload(response);
       navigation.navigate('UHP');
     } catch (error) {
       console.log(error);
@@ -134,6 +139,33 @@ const Welcome = () => {
   const onGuestPressed = () => {
 
       navigation.navigate('UHP');
+  };
+
+  const updateUserDeviceToken = (obj) => {
+    axios.put('http://localhost:3000/testing', obj)
+      .then((res) => {
+        // update a state with userId
+      })
+      .catch((err) => console.log(err))
+  };
+
+  const testingAuthPayload = (obj) => {
+    axios.post('http://localhost:3000/testing', obj)
+  };
+
+  const userSignInDatabase = (obj) => {
+    axios.get(
+      'http://localhost:3000/testing',
+      { params: {
+          email: email,
+          password: password,
+        }
+      }
+    )
+      .then((result) => {
+        // set a state with userId
+      })
+      .catch((err) => console.log(err))
   };
 
   return (
