@@ -77,13 +77,20 @@ const Welcome = () => {
       const { id_token } = response.params;
       const credential = GoogleAuthProvider.credential(id_token);
       signInWithCredential(auth, credential)
-      .then((authResult) => {
+      .then(async (authResult) => {
         if (authResult.user.firstLogin) {  // Replace 'firstLogin' with whatever field name you use in Firebase.
           navigation.navigate('ConfirmEmailScreen');
           // Optionally, update Firebase to set firstLogin to false for this user.
         } else {
-          // --- Kurt and Jon add PUT ROUTE here returning user ID --- //
-          navigation.navigate('UHP');
+          // ---- KURT AND JON ADD PUT ROUTE ---- //
+          const db_response = await updateUserDeviceToken( response.user, data.Password);
+          console.log('db_response: ', db_response.data);
+          if (db_response.data.is_employee) {
+            //navigation.navigate('VHP');
+            navigation.navigate('VHP'); // need to pass userId into
+          } else {
+            navigation.navigate('UHP'); // need to pass userId into
+          }
         }
       })
       .catch((error) => {
@@ -107,13 +114,17 @@ const Welcome = () => {
     setLoading(true);
     try {
       const response = await signInWithEmailAndPassword(auth, data.Email, data.Password);
-      console.log('herererererererer', response);
+      // console.log('herererererererer', response);
+
       // ---- KURT AND JON ADD PUT ROUTE ---- //
-      testingAuthPayload(response);
-      // if user is an employee
-        // go to michaels
-      // else
-      navigation.navigate('UHP');
+      const db_response = await updateUserDeviceToken( response.user, data.Password);
+      console.log('db_response: ', db_response.data);
+      if (db_response.data.is_employee) {
+        //navigation.navigate('VHP');
+        navigation.navigate('VHP'); // need to pass userId into
+      } else {
+        navigation.navigate('UHP'); // need to pass userId into
+      }
     } catch (error) {
       console.log(error);
       alert('Sign in failed. Please try again.' + error.message);
@@ -145,30 +156,16 @@ const Welcome = () => {
       navigation.navigate('UHP');
   };
 
-  // --- DATABASE Functions --- //
-  const updateUserDeviceToken = (obj) => {
-    axios.put('http://localhost:3000/testing', obj)
-      .then((res) => {
-        // update a state with userId
-      })
-      .catch((err) => console.log(err))
+  // --- START DATABASE FUNCTIONS --- //
+  const updateUserDeviceToken = (obj, password) => {
+    let payload = {
+      email: obj.email,
+      password: password,
+      stsTokenManager: obj.stsTokenManager,
+    }
+    return axios.put('http://localhost:3000/users', payload);
   };
-
-  const testingAuthPayload = (obj) => {
-    axios.post('http://localhost:3000/testing', obj)
-  };
-
-  const userSignInDatabase = (obj) => {
-    axios.get(
-      'http://localhost:3000/testing',
-      { params: {
-          email: email,
-          password: password,
-          device_token: device_token,
-        }
-      }
-    )
-  };
+  // --- END DATABASE FUNCTIONS --- //
 
   return (
     <KeyboardAvoidingView

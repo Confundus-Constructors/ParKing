@@ -42,23 +42,28 @@ module.exports = {
       });
   },
   putUser: async (req, res) => {
-    let { password, email, device_token } = req.body;
-    await resetSerial();
+    let { email, password, stsTokenManager } = req.body;
+    const device_token = stsTokenManager.accessToken;
+    // console.log({email, password, device_token});
+
     client
       .query(
         `UPDATE users
-        SET device_token = '${device_token}'
-        WHERE email = '${email}'
-        AND password = '${password};'
+        SET device_token = $1
+        WHERE email = $2
+        and password = $3
+        RETURNING id, is_employee;
         `,
+        [device_token, email, password]
       )
-      .then((query) => {
-        res.send(200, query);
-      })
-      .catch((err) => {
-        console.log(err);
-        res.send(400, err);
-      });
+        .then((query) => {
+          // console.log(query.rows);
+          res.status(201).send(query.rows[0]);
+        })
+        .catch((err) => {
+          console.log(err);
+          res.status(404).send(err);
+        });
   },
 };
 
