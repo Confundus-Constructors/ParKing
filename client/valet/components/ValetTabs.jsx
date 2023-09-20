@@ -8,18 +8,10 @@ import CameraScreen from "./CameraScreen";
 import CarsScreen from "./CarsScreen";
 import { StatusBar } from "react-native";
 import CalendarScreen from "./CalendarScreen";
-import { SafeAreaView, View, StyleSheet } from "react-native";
+import {SafeAreaView, View, StyleSheet} from 'react-native';
 // import { Cloudinary } from "@cloudinary/url-gen";
 
 export default ValetTabs = () => {
-  const [garageId, setGarageId] = useState(1);
-  const route = useRoute();
-  useEffect(() => {
-    if (route.params) {
-      setGarageId(route.params.data);
-    }
-  }, [route]);
-
   const theme = useTheme();
   theme.colors.secondaryContainer = "transparent";
 
@@ -33,14 +25,14 @@ export default ValetTabs = () => {
 
   return (
     <View style={styles.view}>
-      {/* // <NavigationContainer theme={navTheme}> */}
+    {/* // <NavigationContainer theme={navTheme}> */}
       <StatusBar barStyle="light-content" translucent={true} />
       <Tab.Navigator
         barStyle={{ backgroundColor: "black" }}
         activeColor="white"
         inactiveColor="gray"
       >
-        {/* <Tab.Screen
+        <Tab.Screen
           name="Home"
           component={HomeScreen}
           options={{
@@ -54,10 +46,9 @@ export default ValetTabs = () => {
               );
             },
           }}
-        /> */}
+        />
         <Tab.Screen
           name="Cars"
-          initialParams={{ garage: garageId }}
           component={CarsScreen}
           options={{
             tabBarIcon: (tabInfo) => {
@@ -101,25 +92,14 @@ export default ValetTabs = () => {
             },
           }}
         />
-        <Tab.Screen
-          name="Sign Out Screen"
-          component={SignOutScreen}
-          options={{
-            tabBarLabel: "Sign Out",
-            barTintColor: "white",
-            tabBarIcon: ({ color }) => (
-              <MaterialCommunityIcons name="exit-run" color={color} size={32} />
-            ),
-          }}
-        />
       </Tab.Navigator>
-      {/* // </NavigationContainer> */}
+    {/* // </NavigationContainer> */}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   view: {
-    flex: 1,
-  },
-});
+    flex:1
+  }
+})
