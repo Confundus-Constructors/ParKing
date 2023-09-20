@@ -8,7 +8,8 @@ garageRouter.get('/', async (req, res) => {
   try {
     const obj = req.query;
     let result;
-    const garageData = await model.queryAll('garages');
+    // const garageData = await model.queryAll('garages');
+    const garageData = await model.queryAllGarages();
 
     if (garageData.rows.length > 0) {
       const transactionCount = await model.queryCountReservationTimes(obj.start_date, obj.end_date);
