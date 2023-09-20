@@ -1,11 +1,9 @@
-import { Alert, LayoutAnimation, SafeAreaView, Touchable, Pressable, TouchableOpacity, View, ScrollView, Text, TextInput, StyleSheet, Image } from 'react-native';
+import { Alert, SafeAreaView, Touchable, Pressable, TouchableOpacity, View, ScrollView, Text, TextInput, StyleSheet, Image } from 'react-native';
 import { useState, useEffect } from 'react';
 import { Modal, Portal, PaperProvider } from 'react-native-paper';
 import axios from 'axios';
 import moment from 'moment';
 import * as FileSystem from 'expo-file-system';
-import { Dimensions } from 'react-native'
-import {host, port} from "../../../env.js";
 
 async function loadFonts() {
   await Font.loadAsync({
@@ -19,8 +17,7 @@ export default Checkin = ({navigation, route}) => {
   const [confirming, setConfirming] = useState(false);
   const [carInfo, setCarInfo] = useState({});
   const [blob, setBlob] = useState();
-  const [qrCode, setQRCode] = useState(route.params.qr_code);
-  const [big, setBig] = useState(false);
+  // const [qrCode, setQRCode] = useState(route.params.qr_code);
 
   useEffect(() => {
     if (route.params && route.params.carInfo) {
@@ -30,35 +27,27 @@ export default Checkin = ({navigation, route}) => {
 
   const handleConfirm = () => {
       setModalVisible(true);
-      axios.put(`http://${host}:${port}/transactions/${qrCode}`)
+      axios.put(`https://051f-2603-7000-3900-7052-f0a4-43e1-9eb2-cce9.ngrok-free.app/transactions/${route.params.qr_code}`)
       .catch((err) => {
         console.log(err);
       })
   };
 
-  const onPressCheck = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    setBig(!big);
-  }
+
 
   const addPic = () => {
-    navigation.navigate('CameraMain', {list: route.params.list});
+    {navigation.navigate('CameraMain')};
   };
 
   const handleSubmit = async() => {
-    const base64 = await FileSystem.readAsStringAsync(image, { encoding: 'base64' });
+    const base64 = await FileSystem.readAsStringAsync(image.uri, { encoding: 'base64' });
     setConfirming(true);
-    axios.post(`http://${host}:${port}/image`, {image: base64, blob: blob, qr_code: qrCode})
+    axios.post('https://051f-2603-7000-3900-7052-f0a4-43e1-9eb2-cce9.ngrok-free.app/image', {image: base64, blob: blob, qr_code: qrCode})
     .then(() => {
       setConfirming(false);
       setModalVisible(false);
       setImage(null);
-      console.log(route.params.list)
-      if (route.params.list) {
-        navigation.navigate('CarManage');
-      } else {
-        navigation.navigate('QRScanner');
-      }
+      navigation.navigate('QRScanner');
     })
     .catch((err) => {
       console.log(err);
@@ -81,9 +70,6 @@ export default Checkin = ({navigation, route}) => {
     }
   };
 
-  // var middleStyle = check === false ? {width: 20, height:20} : {width: "100%", height:"100%"};
-  // console.log(middleStyle);
-
   return (
     <View style={styles.container}>
       <View style={styles.formContainer}>
@@ -101,36 +87,22 @@ export default Checkin = ({navigation, route}) => {
       <Modal visible={modalVisible}>
         <View style={styles.modalView}>
           <View>
-            {!big ?
-            <View>
-               <Text style={styles.confirmed}>Checked In ✓</Text>
-               <Text style={styles.modalText}>Please park the car and then enter the parking location</Text>
-               <Text style={styles.modalText}>{'Parking Spot: ' + carInfo.parking_spot_number} </Text>
-               <Text style={styles.modalText}>Please take a picture of the car in its spot. Include the license plate if possible</Text>
-            </View>
-                : null}
+            <Text style={styles.confirmed}>Checked In ✓</Text>
+            <Text style={styles.modalText}>Please park the car and then enter the parking location</Text>
+            <Text style={styles.modalText}>{'Parking Spot: ' + carInfo.parking_spot_number} </Text>
+            <Text style={styles.modalText}>Please take a picture of the car in its spot. Include the license plate if possible</Text>
             {!image?
             <TouchableOpacity style={styles.picButton} onPress={addPic}>
               <Text style={styles.buttonTitle}>Add Picture</Text>
             </TouchableOpacity>
             :
             <View>
-              <TouchableOpacity onPress={onPressCheck}>
-                <Image
-                  style={{
-                      marginTop: 10,
-                      height: !big ? 160 : Dimensions.get('window').height,
-                      width: !big ? 160 : Dimensions.get('window').width,
-                      alignSelf: 'center',
-                      borderRadius: 20,
-                      resizeMode: "cover",
-                    }
-                  }
-                  source={{
-                    uri: image,
-                  }}
-                />
-              </TouchableOpacity>
+              <Image
+                style={styles.image}
+                source={{
+                  uri: image,
+                }}
+              />
             <View style={styles.buttonContainer}>
               <TouchableOpacity style={styles.picButtonTwins} onPress={addPic}>
                 <Text style={styles.buttonTitle}>Retake</Text>
@@ -251,16 +223,7 @@ const styles = StyleSheet.create({
     height: 160,
     width: 160,
     alignSelf: 'center',
-    borderRadius: 20,
-    resizeMode: "cover",
-  },
-  bigImage: {
-    // marginTop: 10,
-    height: '100%',
-    width: '100%',
-    // alignSelf: 'center',
-    // borderRadius: 20,
-    // resizeMode: "cover",
+    borderRadius: 20
   },
   waitingText: {
     fontSize: 20,
