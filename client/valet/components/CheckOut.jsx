@@ -3,8 +3,13 @@ import { useState, useEffect } from 'react';
 import { Modal, Portal, PaperProvider } from 'react-native-paper';
 import axios from 'axios';
 
-export default CheckOut = ({navigation,  route}) => {
+async function loadFonts() {
+  await Font.loadAsync({
+    'Oswald-Medium': require('../../../assets/fonts/Oswald-Medium.ttf'),  // adjust the path accordingly
+  });
+};
 
+export default CheckOut = ({navigation,  route}) => {
 
   const [carInfo, setCarInfo] = useState({});
   const [downloading, setDownloading] = useState(true);
@@ -121,17 +126,20 @@ const styles = StyleSheet.create({
   buttonTitle: {
     color: 'white',
     borderRadius: 20,
-    fontSize: 25
+    fontSize: 25,
+    fontFamily: 'Oswald-Medium',
   },
   text: {
     fontSize: 18,
     marginBottom: 20,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    fontFamily: 'Oswald-Medium',
   },
   text: {
     fontSize: 18,
     marginBottom: 10,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    fontFamily: 'Oswald-Medium',
   },
   carPic: {
     height: 100,
@@ -156,6 +164,7 @@ const styles = StyleSheet.create({
   },
   waitingText: {
     fontSize: 20,
+    fontFamily: 'Oswald-Medium',
   },
   loadingGif: {
     height: 50
@@ -176,7 +185,8 @@ const styles = StyleSheet.create({
   },
   exitText: {
     color: 'white',
-    fontSize: 30
+    fontSize: 30,
+    fontFamily: 'Oswald-Medium',
   },
   confirmedContainer: {
     justifyContent: 'center',
