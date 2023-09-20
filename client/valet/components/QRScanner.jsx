@@ -19,7 +19,7 @@ export default QRScanner = ({navigation}) => {
     if (scanData) {
       axios('https://051f-2603-7000-3900-7052-f0a4-43e1-9eb2-cce9.ngrok-free.app/transactions/' + scanData)
       .then((result) => {
-        console.log(result.data);
+        // console.log(result.data);
         if (result.data.status === 'reserved') {
           navigation.navigate('CheckIn', params={carInfo: result.data});
         } else if (result.data.status === 'checked-in') {

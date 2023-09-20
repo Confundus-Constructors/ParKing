@@ -9,6 +9,8 @@ export default CheckOut = ({navigation,  route}) => {
   const [carInfo, setCarInfo] = useState({});
   const [waitingVisible, setWaitingVisible] = useState(false);
   const [confirmationVisible, setConfirmationVisible] = useState(false);
+  const [imageSource, setImageSource] = useState('');
+
 
   const handleReturn = () => {
     setWaitingVisible(true);
@@ -32,8 +34,23 @@ export default CheckOut = ({navigation,  route}) => {
     }
   };
 
+  axios('https://051f-2603-7000-3900-7052-f0a4-43e1-9eb2-cce9.ngrok-free.app/image')
+    .then((result) => {
+      console.log("RESULT FROM CALL")
+      var base64 = result.data.rows[0].photo;
+      var base64Pic = 'data:image/png;base64,' + base64;
+      setImageSource(base64Pic);
+      // console.log(URL.createObjectURL(result.data.rows[0]));
+      console.log()
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+
+
   useEffect(() => {
-    console.log(route.params.carInfo);
+
+    // console.log(route.params.carInfo);
     setCarInfo(route.params.carInfo);
   },[route.params]);
 
@@ -47,7 +64,7 @@ export default CheckOut = ({navigation,  route}) => {
         <Text style={styles.text}>{'Make: ' + carInfo.make_model}</Text>
         <Text style={styles.text}>{'Color: ' + capitalizeString(carInfo.color)}</Text>
         <Text style={styles.text}>{'License Plate: ' + carInfo.license_plate}</Text>
-        <Image src={carInfo.photo} style={styles.carPic}></Image>
+        <Image src={imageSource} style={styles.carPic}></Image>
         <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonTitle} onPress={handleReturn}>Vehicle Returned</Text>
         </TouchableOpacity>
