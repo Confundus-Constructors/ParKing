@@ -7,16 +7,17 @@ export default CheckOut = ({navigation,  route}) => {
 
 
   const [carInfo, setCarInfo] = useState({});
+  const [downloading, setDownloading] = useState(true);
   const [waitingVisible, setWaitingVisible] = useState(false);
   const [confirmationVisible, setConfirmationVisible] = useState(false);
   const [imageSource, setImageSource] = useState('');
 
 
   const handleReturn = () => {
-    setWaitingVisible(true);
+    // setWaitingVisible(true);
     axios.put(`https://051f-2603-7000-3900-7052-f0a4-43e1-9eb2-cce9.ngrok-free.app/transactions/${route.params.qr_code}`)
       .then(() => {
-        setWaitingVisible(false);
+        // setWaitingVisible(false);
         setConfirmationVisible(true);
       })
       .catch((err) => {
@@ -44,6 +45,7 @@ export default CheckOut = ({navigation,  route}) => {
       var base64 = result.data.rows[0].photo;
       var base64Pic = 'data:image/png;base64,' + base64;
       setImageSource(base64Pic);
+      setDownloading(false);
     })
     .catch((err) => {
       console.log(err);
@@ -78,6 +80,12 @@ export default CheckOut = ({navigation,  route}) => {
           <TouchableOpacity onPress={handleExit} style={styles.exitButton}>
               <Text style={styles.exitText}> Exit</Text>
           </TouchableOpacity>
+        </View>
+      </Modal>
+      <Modal visible={downloading} >
+        <View style={styles.confirmingView}>
+          <Text style={styles.waitingText}>Downloading Image</Text>
+          <Image style={styles.loadingGif} source={require('./../../../assets/loading.gif')} ></Image>
         </View>
       </Modal>
     </View>
@@ -171,9 +179,17 @@ const styles = StyleSheet.create({
     fontSize: 30
   },
   confirmedContainer: {
-    // flex: 1,
-    // width: 300,
     justifyContent: 'center',
     alignItems: 'center'
-  }
+  },
+  confirmingView: {
+    height: 'auto',
+    alignItems:'center',
+    justifyContent:'center',
+    padding: 30,
+    borderRadius: 30,
+    backgroundColor: 'white',
+    width: '95%',
+    alignSelf: 'center'
+  },
 })
