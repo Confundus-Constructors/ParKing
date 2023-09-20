@@ -98,7 +98,7 @@ const UHP = () => {
         console.log(result);
         navigation.navigate("Reserve", {
           data: result,
-          id: user_id,
+          id: userId,
           time: { stime: sTime, etime: eTime },
         });
       });
