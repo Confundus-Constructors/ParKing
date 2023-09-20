@@ -55,18 +55,15 @@ export default function App() {
     // <ConfirmEmailScreen />
     // <ForgotPasswordScreen />
     // <NewPasswordScreen />
-    <CarManage />
-    // <Reserve />
-    // <Navigation />
-    // <Select />
+    // <CarManage />
+    <Navigation />
     // <UHP />
     // <Welcome />
     // <SignUpScreen />
-    <CarManage />
     // <Reserve />
     // <Select />
     // <ValetTabs/>
-  )
+  );
 }
 
 const styles = StyleSheet.create({

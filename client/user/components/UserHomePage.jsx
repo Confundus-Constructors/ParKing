@@ -15,7 +15,7 @@ import React, { useState, useEffect } from "react";
 import UserTabs from "./UserTabs.jsx";
 import axios from "axios";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 async function loadFonts() {
@@ -77,8 +77,6 @@ const UHP = () => {
   const handleInput = (newText) => {
     setLoc(newText);
   };
-
-  const navigation = useNavigation();
   const handlePush = () => {
     navigation.navigate("Reserve");
   };
@@ -97,20 +95,17 @@ const UHP = () => {
   // navigation.navigate("Reserve");
   // });
   // };
-  const onBackSignInPressed = () => {
-    navigation.navigate("Welcome");
   const signOutUser = async () => {
     try {
       await signOut(auth);
-      navigation.navigate('Welcome');
+      navigation.navigate("Welcome");
     } catch (error) {
       console.error("Error signing out: ", error);
     }
   };
 
   const onBackSignInPressed = () => {
-    navigation.navigate('Welcome');
-
+    navigation.navigate("Welcome");
   };
 
   return (
@@ -185,14 +180,15 @@ const UHP = () => {
             color="#171412"
           />
 
-        <TouchableOpacity>
-          <Text onPress={onBackSignInPressed} style={styles.clickableText}>Back to Sign In</Text>
-        </TouchableOpacity>
+          <TouchableOpacity>
+            <Text onPress={onBackSignInPressed} style={styles.clickableText}>
+              Back to Sign In
+            </Text>
+          </TouchableOpacity>
           {/* <Icon /> */}
         </View>
       </Modal>
       {/* <UserTabs/> */}
-
     </SafeAreaView>
   );
 };
