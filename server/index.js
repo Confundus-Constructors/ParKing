@@ -38,16 +38,18 @@ app.post("/users", (req, res) => {
 
 app.post("/image", async (req, res) => {
   try {
-    await model.updateCarPhoto('test2', req.body.image);
+   const result = await model.updateCarPhoto(req.body.qr_code, req.body.image);
+   console.log(req.body.qr_code);
+  //  console.log(result);
     res.end("Picture Updated");
   } catch (err) {
     res.status(404).send('Error while updating picture');
   }
 });
 
-app.get("/image", async(req, res) => {
+app.get("/image/:qr_code", async(req, res) => {
   try {
-    const result = await model.getCarPhoto('test2');
+    const result = await model.getCarPhoto(req.params.qr_code);
     res.json(result)
   } catch (err) {
     res.status(404).send('Error while getting picture');

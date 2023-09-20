@@ -12,17 +12,27 @@ export default Checkin = ({navigation, route}) => {
   const [confirming, setConfirming] = useState(false);
   const [carInfo, setCarInfo] = useState({});
   const [blob, setBlob] = useState();
+  const [qrCode, setQRCode] = useState(route.params.qr_code);
 
   useEffect(() => {
     if (route.params && route.params.carInfo) {
-      // console.log(route.params.carInfo);
       setCarInfo(route.params.carInfo);
     }
   });
 
   const handleConfirm = () => {
       setModalVisible(true);
+      setConfirming(true);
+      axios.put(`https://051f-2603-7000-3900-7052-f0a4-43e1-9eb2-cce9.ngrok-free.app/transactions/${route.params.qr_code}`)
+      .then(() => {
+        setConfirming(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
   };
+
+
 
   const addPic = () => {
     {navigation.navigate('CameraMain')};
@@ -30,7 +40,7 @@ export default Checkin = ({navigation, route}) => {
 
   const handleSubmit = async() => {
     const base64 = await FileSystem.readAsStringAsync(image.uri, { encoding: 'base64' });
-    axios.post('https://051f-2603-7000-3900-7052-f0a4-43e1-9eb2-cce9.ngrok-free.app/image', {image: base64, blob: blob})
+    axios.post('https://051f-2603-7000-3900-7052-f0a4-43e1-9eb2-cce9.ngrok-free.app/image', {image: base64, blob: blob, qr_code: qrCode})
     .then(() => {
       setModalVisible(false);
       setImage(null);

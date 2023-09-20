@@ -14,10 +14,14 @@ export default CheckOut = ({navigation,  route}) => {
 
   const handleReturn = () => {
     setWaitingVisible(true);
-    setTimeout(() => {
-      setWaitingVisible(false);
-      setConfirmationVisible(true);
-    }, 2000)
+    axios.put(`https://051f-2603-7000-3900-7052-f0a4-43e1-9eb2-cce9.ngrok-free.app/transactions/${route.params.qr_code}`)
+      .then(() => {
+        setWaitingVisible(false);
+        setConfirmationVisible(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
   }
 
   const handleExit = () => {
@@ -35,7 +39,7 @@ export default CheckOut = ({navigation,  route}) => {
   };
 
   useEffect(() => {
-    axios('https://051f-2603-7000-3900-7052-f0a4-43e1-9eb2-cce9.ngrok-free.app/image')
+    axios(`https://051f-2603-7000-3900-7052-f0a4-43e1-9eb2-cce9.ngrok-free.app/image/${route.params.qr_code}`)
     .then((result) => {
       var base64 = result.data.rows[0].photo;
       var base64Pic = 'data:image/png;base64,' + base64;
@@ -45,7 +49,7 @@ export default CheckOut = ({navigation,  route}) => {
       console.log(err);
     })
     setCarInfo(route.params.carInfo);
-  },[route.params]);
+  },[]);
 
   return (
     <View style={styles.container}>
