@@ -8,6 +8,7 @@ import ConfirmEmailScreen from '../components/ConfirmEmailScreen';
 import ForgotPasswordScreen from '../components/ForgotPasswordScreen';
 import NewPasswordScreen from '../components/NewPasswordScreen';
 import UHP from '../components/UserHomePage';
+import ValetTabs from './../../valet/components/ValetTabs';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +22,7 @@ const Navigation = () => {
         <Stack.Screen name="ForgotPasswordScreen" component={ForgotPasswordScreen} />
         <Stack.Screen name="NewPasswordScreen" component={NewPasswordScreen} />
         <Stack.Screen name="UHP" component={UHP} />
+        <Stack.Screen name="VHP" component={ValetTabs} />
       </Stack.Navigator>
     </NavigationContainer>
   )
