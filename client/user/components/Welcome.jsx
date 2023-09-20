@@ -7,9 +7,19 @@ import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useForm, Controller } from "react-hook-form";
 import { FIREBASE_AUTH } from '../../../FirebaseConfig.ts';
-import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
+import * as Google from 'expo-auth-session/providers/google';
+import * as WebBrowser from 'expo-web-browser';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  signInWithCredential,
+  signInWithEmailAndPassword
+} from "firebase/auth";
 
 import { User } from 'firebase/auth';
+
+WebBrowser.maybeCompleteAuthSession();
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 
@@ -20,26 +30,46 @@ async function loadFonts() {
 };
 
 const Welcome = () => {
-  // const [email, setEmail] = useState('');
-  // const [password, setPassword] = useState('');
+
+  const auth = FIREBASE_AUTH;
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    onAuthStateChanged(FIREBASE_AUTH, (user) => {
-      console.log("Before setting user:", user);
-        setUser(user);
-        console.log("After setting user:", user);
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    iosClientId: '221488399738-k5otuspijkga9rkii95f7v6dit6i3k27.apps.googleusercontent.com'
+  });
 
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (authUser) => {
+      if (authUser) {
+        navigation.navigate('UHP');
+      }
     });
+
+    return () => unsubscribe();
   }, []);
+
+  useEffect(() => {
+    if (response?.type === 'success') {
+      const { id_token } = response.params;
+      const credential = GoogleAuthProvider.credential(id_token);
+      signInWithCredential(auth, credential)
+        .then(result => {
+          // If needed, you can set the user state here
+          // setUser(result.user);
+        })
+        .catch(error => {
+          console.error("Firebase sign in error:", error);
+        });
+    }
+  }, [response]);
+
 
 
 
   const { control, handleSubmit, formState: {errors}, } = useForm();
 
   const navigation = useNavigation();
-  const auth = FIREBASE_AUTH;
 
 
   const onSignInPressed = async(data) => {
@@ -60,7 +90,7 @@ const Welcome = () => {
   };
 
   const onSignInGooglePressed = () => {
-    console.warn('Sign In Google Pressed');
+    promptAsync();
   };
 
   const onSignInFacebookPressed = () => {
