@@ -12,33 +12,26 @@ import CustomButton from "./CustomButton.jsx";
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import AddCar from './AddCar'
-import axios from 'axios'
 import { useRoute } from "@react-navigation/native";
-import {host, port} from "../../../env.js";
 
 // import crypto from "./crypto";
 
 const Select = () => {
   const route = useRoute();
+  const id = route.params.id;
+  const time = route.params.time;
   const navigation = useNavigation();
   const [ cars,setCars ] = useState(["Tesla Model X", "Mercedes E-Class", "Tesla Model 3"]);
   const [ selected, setSelected ] = useState({});
   const [clicked, setClicked] = useState(0);
   const [ see,setSee ] = useState(false);
-  const [id,setId] = useState(16);
-  const [ time,setTime ] = useState('');
 
   useEffect(() => {
-    if (route.params) {
-      setId(route.params.id)
-      setTime(route.params.time)
-    }
-    axios.get(`http://${host}:${port}/vehicles/${id}`)
+    axios.get(`/vehicles/${id}`)
       .then((result) => {
-        setCars(result.data);
+        setCars(result);
       })
-  },[see])
-
+  })
   const handleComplete = () => {
     navigation.navigate("Checkout", {data: route.params.data, vehicle: selected, id:id, time});
   };
@@ -47,7 +40,7 @@ const Select = () => {
   }
   return (
     <SafeAreaView style={styles.background}>
-      {cars.map((carInfo, index) => {
+      {arr.map((carInfo, index) => {
         return (
           <View style={styles.width}>
             <Car data={carInfo} key={carInfo} index={index} set={setClicked} setsel={setSelected} />
@@ -85,7 +78,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#F2F4F3",
     alignItems: "center",
     height: "100%",
-
   },
   button: {
     justifyContent: "bottom",

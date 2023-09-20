@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useContext } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -10,8 +10,7 @@ import {
 import CustomButton from "./CustomButton";
 import QRCode from "react-native-qrcode-svg";
 import { useRoute } from "@react-navigation/native";
-import {host, port} from "../../../env.js";
-import Checkout from './Checkout'
+import axios from "axios";
 
 async function loadFonts() {
   await Font.loadAsync({});
@@ -21,22 +20,13 @@ const Reservations = () => {
   const [info, setInfo] = useState({});
   const [startDate, setSDate] = useState("");
   const [endDate, setEDate] = useState("");
-  const [ qr, setQR ] = useState("")
 
   const route = useRoute();
+  const data = route.params.data;
   const id = route.params.id;
 
   useEffect(() => {
-    axios.get(`http://${host}:${port}/transactions/users/${id}`)
-    .then((result) => {
-      var curr = new Date().toUTCString();
-      for (var i = 0; i < result.data; i++) {
-        if (result.data[i].reservation_start_time >= curr && curr >= result.data[i].reservation_end_time) {
-          setInfo(result.data[i]);
-        }
-      }
-    })
-    .then((resp) => {
+    axios.get(`/transactions/${data.conf_code}`).then((result) => {
       const monthNames = [
         "January",
         "February",
@@ -51,8 +41,8 @@ const Reservations = () => {
         "November",
         "December",
       ];
-      var sd = new Date(resp.reservation_start_time);
-      var ed = new Date(resp.reservation_end_time);
+      var sd = new Date(result.reservation_start_time);
+      var ed = new Date(result.reservation_end_time);
       var sdate = `${
         monthNames[sd.getUTCMonth()]
       }, ${sd.getUTCDate()} ${sd.getUTCHours()}:${sd.getUTCMinutes()}`;
@@ -61,8 +51,7 @@ const Reservations = () => {
       }, ${ed.getUTCDate()} ${ed.getUTCHours()}:${ed.getUTCMinutes()}`;
       setSDate(sdate);
       setEDate(edate);
-      setInfo(resp);
-      setQR(resp.qr_code)
+      setInfo(result);
     });
   }, []);
 
@@ -79,7 +68,7 @@ const Reservations = () => {
         <Text style={styles.txt}>Depart At: {endDate}</Text>
       </View>
       <View style={styles.alignmid}>
-        <QRCode value={qr} />
+        <QRCode value={data} />
         <Text style={styles.ltxt}>Use QR Code To Check-In And Check-Out</Text>
         <CustomButton
           style={styles.button}
