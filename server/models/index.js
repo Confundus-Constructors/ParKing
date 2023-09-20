@@ -295,10 +295,17 @@ module.exports = {
   },
   updateReservationCheckIn: (conf_number, ps_id) => {
     const currentDate = new Date();
-    const formattedDate = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')} ${String(currentDate.getHours()).padStart(2, '0')}:${String(currentDate.getMinutes()).padStart(2, '0')}:${String(currentDate.getSeconds()).padStart(2, '0')}`;
+    const formattedDate = `${currentDate.getFullYear()}-${String(
+      currentDate.getMonth() + 1
+    ).padStart(2, "0")}-${String(currentDate.getDate()).padStart(
+      2,
+      "0"
+    )} ${String(currentDate.getHours()).padStart(2, "0")}:${String(
+      currentDate.getMinutes()
+    ).padStart(2, "0")}:${String(currentDate.getSeconds()).padStart(2, "0")}`;
     // console.log(formattedDate);
-      return client.query(
-        `UPDATE transactions
+    return client.query(
+      `UPDATE transactions
         SET check_in_time = '${formattedDate}',
         current_status = 'checked-in',
         parking_spot_id = ${ps_id}
@@ -309,15 +316,21 @@ module.exports = {
     return client.query(`
       UPDATE parking_spots
       SET is_available = false
-      WHERE id = '${ps_id}';`
-    );
+      WHERE id = '${ps_id}';`);
   },
   updateReservationCheckOut: (conf_number) => {
     const currentDate = new Date();
-    const formattedDate = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')} ${String(currentDate.getHours()).padStart(2, '0')}:${String(currentDate.getMinutes()).padStart(2, '0')}:${String(currentDate.getSeconds()).padStart(2, '0')}`;
+    const formattedDate = `${currentDate.getFullYear()}-${String(
+      currentDate.getMonth() + 1
+    ).padStart(2, "0")}-${String(currentDate.getDate()).padStart(
+      2,
+      "0"
+    )} ${String(currentDate.getHours()).padStart(2, "0")}:${String(
+      currentDate.getMinutes()
+    ).padStart(2, "0")}:${String(currentDate.getSeconds()).padStart(2, "0")}`;
     // console.log(formattedDate);
-      return client.query(
-        `UPDATE transactions
+    return client.query(
+      `UPDATE transactions
         SET check_out_time = '${formattedDate}',
         reservation_end_time = '${formattedDate}',
         current_status = 'checked-out',
@@ -352,4 +365,3 @@ module.exports = {
     `);
   }
 };
-

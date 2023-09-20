@@ -5,7 +5,6 @@ import axios from 'axios';
 import moment from 'moment';
 import * as FileSystem from 'expo-file-system';
 
-
 export default Checkin = ({navigation, route}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [image, setImage] = useState();

@@ -3,7 +3,6 @@ import { View } from 'react-native';
 import axios from 'axios';
 import CarCard from './CarCard.jsx';
 
-
 const Reserved = ({garage = 1, navigation}) => {
   const [resInfo, setResInfo] = useState([])
   const buttontext = 'Check In';
