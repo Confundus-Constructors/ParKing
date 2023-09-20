@@ -57,14 +57,14 @@ export default function App() {
     // <NewPasswordScreen />
     // <CarManage />
     // <Reserve />
-    <Map />
+    // <Map />
     // <Navigation />
     // <Select />
     // <UHP />
-    // <Welcome />
+    <Welcome />
     // <SignUpScreen />
     // <ValetTabs/>
-  );
+  )
 }
 
 const styles = StyleSheet.create({

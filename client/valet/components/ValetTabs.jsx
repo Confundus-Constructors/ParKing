@@ -1,13 +1,13 @@
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import { useTheme } from 'react-native-paper';
-import ValetHomeScreen from './ValetHomeScreen'
+import HomeScreen from './HomeScreen'
 import Icon from 'react-native-ico-material-design';
 import { Ionicons } from "@expo/vector-icons";
 import CameraScreen from './CameraScreen';
 import CarsScreen from './CarsScreen';
-import { StatusBar } from 'react-native'
-
+import { StatusBar } from 'react-native';
+import CalendarScreen from './CalendarScreen';
 
 export default ValetTabs = () => {
   const theme = useTheme();
@@ -31,7 +31,7 @@ export default ValetTabs = () => {
       >
       <Tab.Screen
           name="Home"
-          component={ValetHomeScreen}
+          component={HomeScreen}
           options={{
             tabBarIcon: (tabInfo) => {
               return (
@@ -45,23 +45,8 @@ export default ValetTabs = () => {
           }}
         />
         <Tab.Screen
-          name="Camera"
-          component={CameraScreen}
-          options={{
-            tabBarIcon: (tabInfo) => {
-              return (
-                <Ionicons
-                  name="camera"
-                  size={24}
-                  color={tabInfo.focused ? "white" : "gray"}
-                />
-              );
-            }
-          }}
-        />
-        <Tab.Screen
           name="Cars"
-          component={ValetHomeScreen}
+          component={CarsScreen}
           options={{
             tabBarIcon: (tabInfo) => {
               return (
@@ -74,8 +59,37 @@ export default ValetTabs = () => {
             }
           }}
         />
+        <Tab.Screen
+          name="QR Scan"
+          component={CameraScreen}
+          options={{
+            tabBarIcon: (tabInfo) => {
+              return (
+                <Ionicons
+                  name="qr-code-outline"
+                  size={24}
+                  color={tabInfo.focused ? "white" : "gray"}
+                />
+              );
+            }
+          }}
+        />
+         <Tab.Screen
+          name="Calendar"
+          component={CalendarScreen}
+          options={{
+            tabBarIcon: (tabInfo) => {
+              return (
+                <Ionicons
+                  name="calendar"
+                  size={24}
+                  color={tabInfo.focused ? "white" : "gray"}
+                />
+              );
+            }
+          }}
+        />
       </Tab.Navigator>
     </NavigationContainer>
   )
 };
-//rip
