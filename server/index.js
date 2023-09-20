@@ -38,8 +38,6 @@ app.post("/users", (req, res) => {
 app.post("/image", async (req, res) => {
   try {
    const result = await model.updateCarPhoto(req.body.qr_code, req.body.image);
-   console.log(req.body.qr_code);
-  //  console.log(result);
     res.end("Picture Updated");
   } catch (err) {
     res.status(404).send('Error while updating picture');
