@@ -47,7 +47,7 @@ const SignUpScreen = () => {
       const db_response = await addUserToDatabase(data);
       console.log('user_id: ', db_response.data.id);
       setUserId(db_response.data.id);
-      navigation.navigate('ConfirmEmailScreen'/*, {data: userId}*/);
+      navigation.navigate('ConfirmEmailScreen', {data: userId});
     } catch (error) {
       console.log(error);
       alert('Sign up failed. Please try again.' + error.message);

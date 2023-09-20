@@ -28,8 +28,8 @@ module.exports = {
     await resetSerial();
     client
       .query(
-        `INSERT INTO users ( id, first_name, last_name, password, email, phone, is_employee, device_token )
-        VALUES ( DEFAULT, $1, $2, $3, $4, $5, $6, $7)
+        `INSERT INTO users (id, first_name, last_name, password, email, phone, is_employee, device_token)
+        VALUES (DEFAULT, $1, $2, $3, $4, $5, $6, $7)
         RETURNING id;`,
         [firstName, lastName, password, email, phoneNumber, employee, accessToken]
       )

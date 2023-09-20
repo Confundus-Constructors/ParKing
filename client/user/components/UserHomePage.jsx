@@ -19,6 +19,7 @@ import { useNavigation } from '@react-navigation/native';
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { FIREBASE_AUTH } from '../../../FirebaseConfig.ts';
 import { signOut } from "firebase/auth";
+import { useRoute } from "@react-navigation/native"
 
 
 async function loadFonts() {
@@ -27,7 +28,9 @@ async function loadFonts() {
 
 const UHP = () => {
   const auth = FIREBASE_AUTH;
-  const userId = 1;
+  const route = useRoute();
+  const userId = route.params.data;
+  // const userId = 1;
   const [location, setLoc] = useState("");
   const [modalVisible, setModalVisible] = useState(true);
   const navigation = useNavigation();
