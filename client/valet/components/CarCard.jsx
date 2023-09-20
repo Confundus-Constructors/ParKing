@@ -12,10 +12,9 @@ const CarCard = ({navigation, info,  buttonText}) => {
   const date1 = new Date(info.reservation_start_time);
   const date2 = new Date(info.reservation_end_time);
 
-
   const selectImage = () => {
     const options = {
-      mediaType: 'photo',
+      mediaType: "photo",
       includeBase64: false,
       maxHeight: 200,
       maxWidth: 200,
@@ -23,11 +22,11 @@ const CarCard = ({navigation, info,  buttonText}) => {
 
     launchCamera(options, (response) => {
       if (response.didCancel) {
-        console.log('Camera cancelled');
+        console.log("Camera cancelled");
       } else if (response.error) {
-        console.log('ImagePicker Error:', response.error);
+        console.log("ImagePicker Error:", response.error);
       } else {
-        const source = {uri: response.uri};
+        const source = { uri: response.uri };
         setImageSource(source);
       }
     });
@@ -35,46 +34,41 @@ const CarCard = ({navigation, info,  buttonText}) => {
 
   return (
     <SafeAreaView className="text-lg" style={styles.container}>
-
       <View style={styles.row}>
-      <View style={styles.row}>
-    <View>
-        <Text style={styles.row}>
-            <Text style={styles.boldText}>Reservation ID: </Text>
-            <Text>{info.confirmation_id}</Text>
-        </Text>
-        <Text style={styles.row}>
-            <Text style={styles.boldText}>Owner: </Text>
-            <Text style={styles.user}>{info.user}</Text>
-        </Text>
-        <Text style={styles.row}>
-            <Text style={styles.boldText}>Make: </Text>
-            <Text style={styles.carInfo}>{info.make_model}</Text>
-        </Text>
-        <Text style={styles.row}>
-            <Text style={styles.boldText}>Color: </Text>
-            <Text>{info.color}</Text>
-        </Text>
-        <Text style={styles.row}>
-            <Text style={styles.boldText}>License Plate: </Text>
-            <Text>{info.license_plate}</Text>
-        </Text>
-    </View>
-</View>
-
-
+        <View style={styles.row}>
+          <View>
+            <Text style={styles.row}>
+              <Text style={styles.boldText}>Reservation ID: </Text>
+              <Text>{info.confirmation_id}</Text>
+            </Text>
+            <Text style={styles.row}>
+              <Text style={styles.boldText}>Owner: </Text>
+              <Text style={styles.user}>{info.user}</Text>
+            </Text>
+            <Text style={styles.row}>
+              <Text style={styles.boldText}>Make: </Text>
+              <Text style={styles.carInfo}>{info.make_model}</Text>
+            </Text>
+            <Text style={styles.row}>
+              <Text style={styles.boldText}>Color: </Text>
+              <Text>{info.color}</Text>
+            </Text>
+            <Text style={styles.row}>
+              <Text style={styles.boldText}>License Plate: </Text>
+              <Text>{info.license_plate}</Text>
+            </Text>
+          </View>
+        </View>
         <View>
           <TouchableOpacity style={styles.box} onPress={selectImage}>
             {imageSource ? (
               <Image source={imageSource} style={styles.image} />
             ) : (
               <FontAwesomeIcon icon={faCamera} style={{color: "#a9927d"}} size={80} fade-size={'lg'}/>
-
             )}
           </TouchableOpacity>
+        </View>
       </View>
-
-     </View>
 
       <View style={styles.row}>
         <View>
@@ -99,13 +93,11 @@ const CarCard = ({navigation, info,  buttonText}) => {
         </View>
     </View>
     <View style={styles.buttonContainer}>
-
       <TouchableOpacity style={styles.button} onPress={() => {navigation.navigate('CheckIn')}}>
       <Text style={styles.buttonText}>{buttonText ? buttonText : 'Check Out'}</Text>
       </TouchableOpacity>
     </View>
   </SafeAreaView>
-
   );
 };
 
@@ -120,7 +112,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.3,
     shadowRadius: 2,
-
     // Android shadow style
     elevation: 5
   },
@@ -131,7 +122,7 @@ const styles = StyleSheet.create({
     marginLeft: 3,
   },
   boldText: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   box: {
     width: 190,
@@ -145,7 +136,38 @@ const styles = StyleSheet.create({
   image: {
     width: 100,
     height: 100,
-    resizeMode: 'contain',
+    resizeMode: "contain",
+  },
+  carInfo: {
+    marginTop: 15,
+  },
+  buttonContainer: {
+    alignItems: "center",
+  },
+  button: {
+    backgroundColor: "#49111c",
+    padding: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 10,
+    width: "98%",
+    marginBottom: 5,
+    marginTop: 5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.7,
+    shadowRadius: 2,
+
+    // Android shadow style
+    elevation: 5,
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 16,
+  },
+  user: {
+    marginTop: 1,
   },
   carInfo: {
     marginTop: 15,

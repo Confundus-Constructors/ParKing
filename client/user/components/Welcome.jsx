@@ -7,6 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useForm, Controller } from "react-hook-form";
 import { FIREBASE_AUTH } from '../../../FirebaseConfig.ts';
+
 import * as Google from 'expo-auth-session/providers/google';
 import * as WebBrowser from 'expo-web-browser';
 import * as Facebook from 'expo-auth-session/providers/facebook';
@@ -19,9 +20,8 @@ import {
   signInWithEmailAndPassword
 } from "firebase/auth";
 
-import { User } from 'firebase/auth';
 
-WebBrowser.maybeCompleteAuthSession();
+import { User } from 'firebase/auth';
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 
@@ -32,14 +32,16 @@ async function loadFonts() {
 };
 
 const Welcome = () => {
-
+  // const [email, setEmail] = useState('');
+  // const [password, setPassword] = useState('');
+  
   const auth = FIREBASE_AUTH;
-  const [firstLogin, setFirstLogin] = useState(null);
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(null);
   const { control, handleSubmit, formState: {errors}, } = useForm();
 
   const navigation = useNavigation();
+
 
   const [request, response, promptAsync] = Google.useAuthRequest({
     iosClientId: '221488399738-k5otuspijkga9rkii95f7v6dit6i3k27.apps.googleusercontent.com'
@@ -65,21 +67,16 @@ const Welcome = () => {
       setLoading(false);
     }
   };
-
-
+  
   useEffect(() => {
-    checkLocalUser();
-    const unsubscribe = onAuthStateChanged(auth, async(authUser) => {
-      if (authUser) {
-        console.log(JSON.stringify(authUser, null, 2));
-        setUser(authUser);
-        await AsyncStorage.setItem('@user', JSON.stringify(authUser));
-        // navigation.navigate('UHP');
-      }
-    });
+    onAuthStateChanged(FIREBASE_AUTH, (user) => {
+      console.log("Before setting user:", user);
+        setUser(user);
+        console.log("After setting user:", user);
 
-    return () => unsubscribe();
+    });
   }, []);
+
 
   useEffect(() => {
     if (response?.type === 'success') {
@@ -121,6 +118,8 @@ const Welcome = () => {
 }, [response2]);
 
 
+
+
   const onSignInPressed = async(data) => {
     // console.log(data);
 
@@ -139,7 +138,7 @@ const Welcome = () => {
   };
 
   const onSignInGooglePressed = () => {
-    promptAsync();
+    console.warn('Sign In Google Pressed');
   };
 
   const onSignInFacebookPressed = () => {
@@ -155,11 +154,6 @@ const Welcome = () => {
   const onCreatePressed = () => {
 
     navigation.navigate('SignUpScreen');
-  };
-
-  const onGuestPressed = () => {
-
-      navigation.navigate('UHP');
   };
 
   return (
@@ -199,8 +193,6 @@ const Welcome = () => {
                         <Text onPress={onForgotPassPressed} style={styles.clickableText}>Forgot password?</Text>
                     </TouchableOpacity>
 
-
-
                     <CustomButton
                         style={styles.button}
                         textStyle={{ ...styles.commonFont, color: '#171412' }}
@@ -216,7 +208,7 @@ const Welcome = () => {
                         color="#49111C"
                     />
                     <TouchableOpacity>
-                        <Text onPress={onGuestPressed} style={styles.clickableText}>Continue as Guest</Text>
+                        <Text style={styles.clickableText}>Continue as Guest</Text>
                     </TouchableOpacity>
                 </SafeAreaView>
 

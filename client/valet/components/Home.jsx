@@ -5,7 +5,7 @@ export default Home = () => {
   return (
     <View style={{margin: 50}}>
       <QRCode
-      value='test3'
+      value='test2'
       size={300}>
       </QRCode>
     </View>

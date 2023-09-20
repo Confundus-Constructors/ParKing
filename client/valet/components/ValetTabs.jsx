@@ -1,13 +1,14 @@
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import {NavigationContainer} from '@react-navigation/native';
-import { useTheme } from 'react-native-paper';
-import HomeScreen from './HomeScreen'
-import Icon from 'react-native-ico-material-design';
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import { NavigationContainer } from "@react-navigation/native";
+import { useTheme } from "react-native-paper";
+import HomeScreen from "./HomeScreen";
+import Icon from "react-native-ico-material-design";
 import { Ionicons } from "@expo/vector-icons";
-import CameraScreen from './CameraScreen';
-import CarsScreen from './CarsScreen';
-import { StatusBar } from 'react-native';
-import CalendarScreen from './CalendarScreen';
+import CameraScreen from "./CameraScreen";
+import CarsScreen from "./CarsScreen";
+import { StatusBar } from "react-native";
+import CalendarScreen from "./CalendarScreen";
+// import { Cloudinary } from "@cloudinary/url-gen";
 
 export default ValetTabs = () => {
   const theme = useTheme();
@@ -15,21 +16,21 @@ export default ValetTabs = () => {
 
   const navTheme = {
     colors: {
-      background: "white"
-    }
+      background: "white",
+    },
   };
 
   const Tab = createMaterialBottomTabNavigator();
 
   return (
     <NavigationContainer theme={navTheme}>
-      <StatusBar  barStyle="light-content" translucent={true} />
+      <StatusBar barStyle="light-content" translucent={true} />
       <Tab.Navigator
-      barStyle={{ backgroundColor: 'black' }}
-      activeColor="white"
-      inactiveColor="gray"
+        barStyle={{ backgroundColor: "black" }}
+        activeColor="white"
+        inactiveColor="gray"
       >
-      <Tab.Screen
+        <Tab.Screen
           name="Home"
           component={HomeScreen}
           options={{
@@ -41,7 +42,7 @@ export default ValetTabs = () => {
                   color={tabInfo.focused ? "white" : "gray"}
                 />
               );
-            }
+            },
           }}
         />
         <Tab.Screen
@@ -56,7 +57,7 @@ export default ValetTabs = () => {
                   color={tabInfo.focused ? "white" : "gray"}
                 />
               );
-            }
+            },
           }}
         />
         <Tab.Screen
@@ -71,10 +72,10 @@ export default ValetTabs = () => {
                   color={tabInfo.focused ? "white" : "gray"}
                 />
               );
-            }
+            },
           }}
         />
-         <Tab.Screen
+        <Tab.Screen
           name="Calendar"
           component={CalendarScreen}
           options={{
@@ -86,10 +87,10 @@ export default ValetTabs = () => {
                   color={tabInfo.focused ? "white" : "gray"}
                 />
               );
-            }
+            },
           }}
         />
       </Tab.Navigator>
     </NavigationContainer>
-  )
+  );
 };
