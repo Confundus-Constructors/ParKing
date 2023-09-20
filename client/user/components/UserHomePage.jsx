@@ -15,48 +15,62 @@ import React, { useState, useEffect } from "react";
 import UserTabs from "./UserTabs.jsx";
 import axios from "axios";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { FIREBASE_AUTH } from '../../../FirebaseConfig.ts';
-import { signOut } from "firebase/auth";
-
 
 async function loadFonts() {
   await Font.loadAsync({});
 }
 
 const UHP = () => {
-  const auth = FIREBASE_AUTH;
   const userId = 1;
   const [location, setLoc] = useState("");
   const [modalVisible, setModalVisible] = useState(true);
   const navigation = useNavigation();
 
   //#region calendar date time picker
-  const [sDate, setSDate] = useState("Today");
-  const [eDate, setEDate] = useState("Today");
-  const [sTime, setSTime] = useState("Now");
-  const [eTime, setETime] = useState("Now");
-  const [mode, setMode] = useState("date");
-  const [emode, setEMode] = useState("date");
-  const [show, setShow] = useState(false);
-  const [eshow, setEShow] = useState(false);
+  const [sDate, setSDate] = useState(new Date());
+  const [eDate, setEDate] = useState(new Date());
+  const [sTime, setSTime] = useState(new Date());
+  const [eTime, setETime] = useState(new Date());
 
-  const onChange = (event, selectedDate) => {
+  // useEffect(() => {
+  //   const today = new Date();
+  //   // var date =
+  //   //   today.getUTCFullYear() +
+  //   //   "-" +
+  //   //   (today.getUTCMonth() + 1) +
+  //   //   "-" +
+  //   //   today.getUTCDate();
+  //   setSDate(today);
+  //   setEDate(today);
+  //   var time = today.getUTCHours() + ":" + today.getUTCMinutes();
+  //   // ":" +
+  //   // today.getUTCSeconds();
+  //   // setSTime(time);
+  //   // setETime(time);
+  // }, []);
+
+  const handleStartDate = (event, selectedDate) => {
+    console.log(selectedDate);
     const currentDate = selectedDate;
-    setShow(false);
-    setDate(currentDate);
+    setSDate(currentDate);
   };
+  const handleStartTime = (event, selectedTime) => {
+    const currTime = selectedTime;
+    console.log(selectedTime);
 
-  const showMode = (currentMode) => {
-    setShow(true);
-    setMode(currentMode);
+    setSTime(selectedTime);
   };
-  const handleStartDate = () => {
-    showMode("date");
+  const handleEndDate = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setEDate(currentDate);
+    console.log(selectedDate);
   };
-  const handleStartTime = () => {
-    showMode("time");
+  const handleEndTime = (event, selectedTime) => {
+    const currTime = selectedTime;
+    setETime(selectedTime);
+    console.log(currTime);
   };
   //#endregion
 
@@ -64,19 +78,31 @@ const UHP = () => {
     setLoc(newText);
   };
   const handlePush = () => {
-    axios.get("/garages", {
-      params: {
-        location: text,
-        start_date: sTime,
-        end_date: eTime,
-      },
-    });
+    navigation.navigate("Reserve");
   };
+
+  // const handlePush = () => {
+  // axios
+  //   .get("/garages", {
+  //     params: {
+  //       location: location,
+  //       start_date: sTime,
+  //       end_date: eTime,
+  //     },
+  //   })
+  //   .then((result) => {
+  // console.log(result);
+  // navigation.navigate("Reserve");
+  // });
+  // };
+  const onBackSignInPressed = () => {
+    navigation.navigate("Welcome");
+  }
 
   const signOutUser = async () => {
     try {
       await signOut(auth);
-      navigation.navigate('Welcome');
+      navigation.navigate("Welcome");
     } catch (error) {
       console.error("Error signing out: ", error);
     }
@@ -111,44 +137,38 @@ const UHP = () => {
             <Icon name="search" size={14} color="black" style={styles.icon} />
           </View>
           <Text style={styles.text}>Check In</Text>
-          <View style={styles.timeCont}>
-            <TouchableOpacity style={styles.button} onPress={handleStartDate}>
-              <Text>{sDate}</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.button} onPress={handleStartTime}>
-              <Text>{sTime}</Text>
-            </TouchableOpacity>
-            {show && (
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={date}
-                mode={mode}
-                is24Hour={false}
-                onChange={onChange}
-              />
-            )}
-            {/* Clock */}
+          <View style={styles.datetimecont}>
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={sDate}
+              mode="date"
+              is24Hour={false}
+              onChange={handleStartDate}
+            />
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={sTime}
+              mode="time"
+              is24Hour={false}
+              onChange={handleStartTime}
+            />
           </View>
           <Text style={styles.text}>Check Out</Text>
-          <View style={styles.timeCont}>
-            <TouchableOpacity style={styles.button} onPress={handleStartDate}>
-              <Text>{eDate}</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.button} onPress={handleStartTime}>
-              <Text>{eTime}</Text>
-            </TouchableOpacity>
-            {eshow && (
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={date}
-                mode={emode}
-                is24Hour={false}
-                onChange={onChange}
-              />
-            )}
-            {/* Clock */}
+          <View style={styles.datetimecont}>
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={eDate}
+              mode="date"
+              is24Hour={false}
+              onChange={handleEndDate}
+            />
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={eTime}
+              mode="time"
+              is24Hour={false}
+              onChange={handleEndTime}
+            />
           </View>
           <CustomButton
             title="Find The Closest ParKing Locations"
@@ -160,14 +180,15 @@ const UHP = () => {
             color="#171412"
           />
 
-        <TouchableOpacity>
-          <Text onPress={signOutUser} style={styles.clickableText}>Sign Out</Text>
-        </TouchableOpacity>
+          <TouchableOpacity>
+            <Text onPress={onBackSignInPressed} style={styles.clickableText}>
+              Back to Sign In
+            </Text>
+          </TouchableOpacity>
           {/* <Icon /> */}
         </View>
       </Modal>
       {/* <UserTabs/> */}
-
     </SafeAreaView>
   );
 };
@@ -190,7 +211,7 @@ const styles = StyleSheet.create({
   },
   Input: {
     marginVertical: 5,
-    height: 30,
+    height: 40,
     width: "100%",
     borderColor: "#e8e8e8",
     borderWidth: 1,
@@ -208,8 +229,8 @@ const styles = StyleSheet.create({
   },
   icon: {
     position: "absolute",
-    left: 8,
-    top: 12,
+    left: 10,
+    top: 17,
   },
   locCont: {
     postition: "relative",
@@ -218,16 +239,20 @@ const styles = StyleSheet.create({
     height: "80%",
     width: "100%",
   },
-  timeCont: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
   button: {
     borderRadius: 5,
     borderColor: "#e8e8e8",
     borderWidth: 1,
     padding: 5,
     width: "40%",
+    alignSelf: "center",
+  },
+  datetimecont: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    width: "100%",
+    padding: 10,
+    marginBottom: 10,
   },
 });
 export default UHP;

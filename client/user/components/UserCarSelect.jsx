@@ -10,10 +10,17 @@ import {
 import Car from "./Car.jsx";
 import CustomButton from "./CustomButton.jsx";
 import React, { useEffect, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+// import crypto from "./crypto";
 
 const Select = () => {
+  const navigation = useNavigation();
   const arr = ["Tesla Model X", "Mercedes E-Class", "Tesla Model 3"];
   const [clicked, setClicked] = useState(2);
+
+  const handleComplete = () => {
+    navigation.navigate("Checkout");
+  };
   return (
     <SafeAreaView style={styles.background}>
       {arr.map((carInfo, index) => {
@@ -39,8 +46,9 @@ const Select = () => {
       <CustomButton
         style={styles.button}
         textStyle={{ ...styles.commonFont, color: "#D0D3D2" }}
-        title="Complete The Reservation"
+        title="Continue To Pay"
         color="#171412"
+        onPress={handleComplete}
       />
     </SafeAreaView>
   );
