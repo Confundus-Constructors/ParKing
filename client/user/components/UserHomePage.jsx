@@ -98,7 +98,7 @@ const UHP = () => {
     })
     .then((result) => {
   console.log(result);
-  navigation.navigate("Reserve", {data: result,id: user_id, time: {stime: sTime, etime: eTime}});
+  navigation.navigate("Reserve", {data: result,id: userId, time: {stime: sTime, etime: eTime}});
   });
   };
   const handlePress = () => {
