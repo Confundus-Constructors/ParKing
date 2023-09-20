@@ -39,11 +39,7 @@ app.post("/image", async (req, res) => {
   // console.log(req.body.image);
   await model.updateCarPhoto('test2', req.body.image)
   .then((result) => {
-<<<<<<< HEAD
-    console.log(result);
-=======
     // console.log(result);
->>>>>>> c3ef12fa72b7d444fe859411fe75ecd0f44dd8f8
     res.end("Picture Updated")
   })
   .catch(() => {

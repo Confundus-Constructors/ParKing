@@ -39,10 +39,6 @@
     "expo-constants": "~14.4.2",
     "expo-crypto": "~12.4.1",
     "expo-dev-client": "~2.4.10",
-<<<<<<< HEAD
-=======
-    "expo-file-system": "^15.6.0",
->>>>>>> c3ef12fa72b7d444fe859411fe75ecd0f44dd8f8
     "expo-font": "~11.4.0",
     "expo-linking": "~5.0.2",
     "expo-router": "^2.0.0",
