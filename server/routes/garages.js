@@ -5,21 +5,15 @@ const model = require('../models');
 const controller = require('../controllers');
 
 garageRouter.get('/', async (req, res) => {
-  // technically should read req.query for address
-    // then call API to convert address to lat / long
-    // then use lat / long to query garages and sort by distance
-  const obj = req.query;
-  // console.log({obj});
-  // const obj = {
-  //   location: '123 ABC St',
-  //   start_date: "2023-09-17 02:24:00",
-  //   end_date: "2023-09-17 04:24:00",
-  // }
+  try {
+    const obj = req.query;
+    let result;
+    // const garageData = await model.queryAll('garages');
+    const garageData = await model.queryAllGarages();
 
-  // get garage data, parking spot data, reservation data
-  const garageData = await model.queryAll('garages');
-  const transactionCount = await model.queryCountReservationTimes(obj.start_date, obj.end_date);
-  const parkingSpotCount = await model.queryCountParkingSpots();
+    if (garageData.rows.length > 0) {
+      const transactionCount = await model.queryCountReservationTimes(obj.start_date, obj.end_date);
+      const parkingSpotCount = await model.queryCountParkingSpots();
 
   // console.log('garageData - ', garageData.rows);
   // console.log('transCount - ', transactionCount.rows);

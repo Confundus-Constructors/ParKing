@@ -12,7 +12,8 @@ const transactionRouter = require("./routes/transactions.js");
 const reservationRouter = require("./routes/reservations.js");
 const garageRouter = require("./routes/garages.js");
 const vehicleRouter = require("./routes/vehicles.js");
-const { getUser, postUser, getAll } = require("./routes/users");
+const testRouter = require("./routes/test.js");
+const { getUser, postUser, putUser, getAll } = require("./routes/users");
 
 // app.use(express.static(path.join(__dirname, "../public")));
 app.use(bodyParser.json({limit: '50mb', extended: true}));
@@ -24,6 +25,7 @@ app.use('/reservations', reservationRouter);
 app.use('/transactions', transactionRouter);
 app.use('/garages', garageRouter);
 app.use('/vehicles', vehicleRouter);
+app.use('/testing', testRouter);
 
 const port = process.env.SERVER_PORT || 3001;
 
@@ -33,6 +35,10 @@ app.get("/users", (req, res) => {
 
 app.post("/users", (req, res) => {
   postUser(req, res);
+});
+
+app.put("/users", (req, res) => {
+  putUser(req, res);
 });
 
 app.post("/image", async (req, res) => {

@@ -12,6 +12,7 @@ import Reserve from "../components/UserReserve";
 import Select from "../components/UserCarSelect";
 import Checkout from "../components/Checkout";
 import ValetTabs from "../../valet/components/ValetTabs";
+import VHP from '../../valet/components/ValetTabs';
 
 const Stack = createNativeStackNavigator();
 
@@ -31,6 +32,7 @@ const Navigation = () => {
         />
         <Stack.Screen name="NewPasswordScreen" component={NewPasswordScreen} />
         <Stack.Screen name="UHP" component={UHP} />
+        <Stack.Screen name="VHP" component={VHP} />
         <Stack.Screen name="Reserve" component={Reserve} />
         <Stack.Screen name="Select" component={Select} />
         <Stack.Screen name="Checkout" component={Checkout} />

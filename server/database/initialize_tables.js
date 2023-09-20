@@ -8,7 +8,6 @@ const employeesData = require('../../exampleData/employees');
 const vehiclesData = require('../../exampleData/vehicles');
 const transactionsData = require('../../exampleData/transactions');
 
-
 alterStatementsArray = [
   "SELECT setval('users_id_seq', (SELECT MAX(id) FROM users));",
   "SELECT setval('vehicles_id_seq', (SELECT MAX(id) FROM vehicles));",

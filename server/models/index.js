@@ -26,6 +26,15 @@ module.exports = {
       `INSERT INTO transactions(${columns}) VALUES(${placeholders});`, values
     );
   },
+  queryAllGarages: () => {
+    return client.query(
+      `SELECT gs.*,
+      vc.company_name
+      FROM garages gs
+      INNER JOIN valet_company vc
+      on gs.valet_company_id = vc.id`
+    );
+  },
   queryReservations: (garageId, status) => {
     return client.query(
       `SELECT qr_code as confirmation_id,

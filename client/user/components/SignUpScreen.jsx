@@ -8,6 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useForm, Controller } from "react-hook-form";
 import { FIREBASE_AUTH } from '../../../FirebaseConfig.ts';
 import {createUserWithEmailAndPassword} from 'firebase/auth';
+import axios from 'axios';
 
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
@@ -27,6 +28,7 @@ const SignUpScreen = () => {
   // const [password, setPassword] = useState('');
   // const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [userId, setUserId] = useState(false);
   const { control, handleSubmit, watch, formState: {errors} } = useForm();
   const pwd = watch('password');
 
@@ -34,14 +36,18 @@ const SignUpScreen = () => {
   const auth = FIREBASE_AUTH;
 
   const onRegisterPressed = async(data) => {
-    console.log(data);
+    // console.log(data);
     setLoading(true);
-    try { const response = await createUserWithEmailAndPassword(auth, data.email, data.password);
-      console.log(response);
-
-
-
-      navigation.navigate('ConfirmEmailScreen');
+    // Convert email to lowercase
+    const lowercaseEmail = data.email.toLowerCase();
+    try { const response = await createUserWithEmailAndPassword(auth, lowercaseEmail, data.password);
+      // console.log(response);
+      const accessToken = response.user.stsTokenManager.accessToken;
+      data.accessToken = accessToken;
+      const db_response = await addUserToDatabase(data);
+      console.log('user_id: ', db_response.data.id);
+      setUserId(db_response.data.id);
+      navigation.navigate('ConfirmEmailScreen', {data: userId});
     } catch (error) {
       console.log(error);
       alert('Sign up failed. Please try again.' + error.message);
@@ -62,6 +68,9 @@ const SignUpScreen = () => {
     navigation.navigate('Welcome');
   };
 
+  const addUserToDatabase = (obj) => {
+    return axios.post('http://localhost:3000/users', obj);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
