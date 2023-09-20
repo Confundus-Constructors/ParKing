@@ -41,16 +41,16 @@ app.post("/image", async (req, res) => {
     await model.updateCarPhoto('test2', req.body.image);
     res.end("Picture Updated");
   } catch (err) {
-    res.status(404).send('Error wile updating picture');
+    res.status(404).send('Error while updating picture');
   }
 });
 
-app.get("/image", (req, res) => {
+app.get("/image", async(req, res) => {
   try {
-    model.getCarPhoto('test2');
+    const result = await model.getCarPhoto('test2');
     res.json(result)
   } catch (err) {
-    res.status(404).send('Error wile getting picture');
+    res.status(404).send('Error while getting picture');
   }
 });
 
