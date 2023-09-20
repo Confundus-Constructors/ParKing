@@ -9,8 +9,14 @@ import {
 } from "react-native";
 import { Button } from "@rneui/themed";
 import CustomButton from "./CustomButton";
+import { useNavigation } from "@react-navigation/native";
 
 const Spot = () => {
+  const navigation = useNavigation();
+  const handlePress = () => {
+    navigation.navigate("Select");
+  };
+
   return (
     <SafeAreaView>
       <View style={styles.Tile}>
@@ -27,6 +33,7 @@ const Spot = () => {
           textStyle={{ ...styles.commonFont, color: "#D0D3D2" }}
           title="Book Now"
           color="#171412"
+          onPress={handlePress}
         />
       </View>
     </SafeAreaView>
