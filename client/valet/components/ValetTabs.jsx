@@ -8,12 +8,8 @@ import CameraScreen from "./CameraScreen";
 import CarsScreen from "./CarsScreen";
 import { StatusBar } from "react-native";
 import CalendarScreen from "./CalendarScreen";
-import {SafeAreaView, View, StyleSheet} from 'react-native';
-import SignOutScreen from './SignOutScreen';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useRoute } from '@react-navigation/native';
-import React, {useState, useEffect} from 'react';
-
+import { SafeAreaView, View, StyleSheet } from "react-native";
+// import { Cloudinary } from "@cloudinary/url-gen";
 
 export default ValetTabs = () => {
   const [garageId, setGarageId] = useState(1);
@@ -37,7 +33,7 @@ export default ValetTabs = () => {
 
   return (
     <View style={styles.view}>
-    {/* // <NavigationContainer theme={navTheme}> */}
+      {/* // <NavigationContainer theme={navTheme}> */}
       <StatusBar barStyle="light-content" translucent={true} />
       <Tab.Navigator
         barStyle={{ backgroundColor: "black" }}
@@ -61,9 +57,7 @@ export default ValetTabs = () => {
         /> */}
         <Tab.Screen
           name="Cars"
-          initialParams={
-          {garage: garageId}
-          }
+          initialParams={{ garage: garageId }}
           component={CarsScreen}
           options={{
             tabBarIcon: (tabInfo) => {
@@ -111,21 +105,21 @@ export default ValetTabs = () => {
           name="Sign Out Screen"
           component={SignOutScreen}
           options={{
-            tabBarLabel: 'Sign Out',
-            barTintColor: 'white',
+            tabBarLabel: "Sign Out",
+            barTintColor: "white",
             tabBarIcon: ({ color }) => (
               <MaterialCommunityIcons name="exit-run" color={color} size={32} />
-            )
+            ),
           }}
         />
       </Tab.Navigator>
-    {/* // </NavigationContainer> */}
+      {/* // </NavigationContainer> */}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   view: {
-    flex:1
-  }
-})
+    flex: 1,
+  },
+});
