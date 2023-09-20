@@ -39,8 +39,6 @@ const SignUpScreen = () => {
     try { const response = await createUserWithEmailAndPassword(auth, data.email, data.password);
       console.log(response);
 
-
-
       navigation.navigate('ConfirmEmailScreen');
     } catch (error) {
       console.log(error);

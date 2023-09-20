@@ -7,9 +7,19 @@ import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useForm, Controller } from "react-hook-form";
 import { FIREBASE_AUTH } from '../../../FirebaseConfig.ts';
-import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
+import * as Google from 'expo-auth-session/providers/google';
+import * as WebBrowser from 'expo-web-browser';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  signInWithCredential,
+  signInWithEmailAndPassword
+} from "firebase/auth";
 
 import { User } from 'firebase/auth';
+
+WebBrowser.maybeCompleteAuthSession();
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 
@@ -20,26 +30,70 @@ async function loadFonts() {
 };
 
 const Welcome = () => {
-  // const [email, setEmail] = useState('');
-  // const [password, setPassword] = useState('');
+
+  const auth = FIREBASE_AUTH;
+  const [firstLogin, setFirstLogin] = useState(null);
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    onAuthStateChanged(FIREBASE_AUTH, (user) => {
-      console.log("Before setting user:", user);
-        setUser(user);
-        console.log("After setting user:", user);
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    iosClientId: '221488399738-k5otuspijkga9rkii95f7v6dit6i3k27.apps.googleusercontent.com'
+  });
 
+  const checkLocalUser = async() => {
+    try {
+      setLoading(true);
+      const userJSON = await AsyncStorage.getItem('@user');
+      const userData = userJSON != null ? JSON.parse(userJSON) : null;
+      console.log("Local storage", userData);
+      setUser(userData);
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+  useEffect(() => {
+    checkLocalUser();
+    const unsubscribe = onAuthStateChanged(auth, async(authUser) => {
+      if (authUser) {
+        console.log(JSON.stringify(authUser, null, 2));
+        setUser(authUser);
+        await AsyncStorage.setItem('@user', JSON.stringify(authUser));
+        // navigation.navigate('UHP');
+      }
     });
+
+    return () => unsubscribe();
   }, []);
+
+  useEffect(() => {
+    if (response?.type === 'success') {
+      const { id_token } = response.params;
+      const credential = GoogleAuthProvider.credential(id_token);
+      signInWithCredential(auth, credential)
+      .then((authResult) => {
+        if (authResult.user.firstLogin) {  // Replace 'firstLogin' with whatever field name you use in Firebase.
+          navigation.navigate('ConfirmEmailScreen');
+          // Optionally, update Firebase to set firstLogin to false for this user.
+        } else {
+          navigation.navigate('UHP');
+        }
+      })
+      .catch((error) => {
+        console.error("Error signing in with Google:", error);
+      });
+    }
+  }, [response]);
+
 
 
 
   const { control, handleSubmit, formState: {errors}, } = useForm();
 
   const navigation = useNavigation();
-  const auth = FIREBASE_AUTH;
 
 
   const onSignInPressed = async(data) => {
@@ -60,7 +114,7 @@ const Welcome = () => {
   };
 
   const onSignInGooglePressed = () => {
-    console.warn('Sign In Google Pressed');
+    promptAsync();
   };
 
   const onSignInFacebookPressed = () => {
@@ -75,6 +129,11 @@ const Welcome = () => {
   const onCreatePressed = () => {
 
     navigation.navigate('SignUpScreen');
+  };
+
+  const onGuestPressed = () => {
+
+      navigation.navigate('UHP');
   };
 
   return (
@@ -114,6 +173,8 @@ const Welcome = () => {
                         <Text onPress={onForgotPassPressed} style={styles.clickableText}>Forgot password?</Text>
                     </TouchableOpacity>
 
+
+
                     <CustomButton
                         style={styles.button}
                         textStyle={{ ...styles.commonFont, color: '#171412' }}
@@ -129,7 +190,7 @@ const Welcome = () => {
                         color="#49111C"
                     />
                     <TouchableOpacity>
-                        <Text style={styles.clickableText}>Continue as Guest</Text>
+                        <Text onPress={onGuestPressed} style={styles.clickableText}>Continue as Guest</Text>
                     </TouchableOpacity>
                 </SafeAreaView>
 
