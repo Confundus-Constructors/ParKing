@@ -42,10 +42,10 @@ const SignUpScreen = () => {
       console.log(response);
       const accessToken = response.user.stsTokenManager.accessToken;
       data.accessToken = accessToken;
-      const db_response = await testingAuthPayload(data);
+      const db_response = await addUserToDatabase(data);
       console.log('user_id: ', db_response.data.id);
       setUserId(db_response.data.id);
-      navigation.navigate('ConfirmEmailScreen');
+      navigation.navigate('ConfirmEmailScreen'/*, {data: userId}*/);
     } catch (error) {
       console.log(error);
       alert('Sign up failed. Please try again.' + error.message);
@@ -66,7 +66,7 @@ const SignUpScreen = () => {
     navigation.navigate('Welcome');
   };
 
-  const testingAuthPayload = (obj) => {
+  const addUserToDatabase = (obj) => {
     return axios.post('http://localhost:3000/users', obj);
   };
 

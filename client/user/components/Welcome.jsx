@@ -82,6 +82,7 @@ const Welcome = () => {
           navigation.navigate('ConfirmEmailScreen');
           // Optionally, update Firebase to set firstLogin to false for this user.
         } else {
+          // --- Kurt and Jon add PUT ROUTE here returning user ID --- //
           navigation.navigate('UHP');
         }
       })
@@ -109,6 +110,9 @@ const Welcome = () => {
       console.log('herererererererer', response);
       // ---- KURT AND JON ADD PUT ROUTE ---- //
       testingAuthPayload(response);
+      // if user is an employee
+        // go to michaels
+      // else
       navigation.navigate('UHP');
     } catch (error) {
       console.log(error);
@@ -141,6 +145,7 @@ const Welcome = () => {
       navigation.navigate('UHP');
   };
 
+  // --- DATABASE Functions --- //
   const updateUserDeviceToken = (obj) => {
     axios.put('http://localhost:3000/testing', obj)
       .then((res) => {
@@ -159,13 +164,10 @@ const Welcome = () => {
       { params: {
           email: email,
           password: password,
+          device_token: device_token,
         }
       }
     )
-      .then((result) => {
-        // set a state with userId
-      })
-      .catch((err) => console.log(err))
   };
 
   return (
