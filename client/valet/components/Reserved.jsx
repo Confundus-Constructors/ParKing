@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
-import { View } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import axios from 'axios';
 import CarCard from './CarCard.jsx';
 import {host, port} from "../../../env.js";
@@ -23,7 +23,7 @@ const Reserved = ({garage = 1, navigation}) => {
   }, [refreshKey])
 
   return (
-<View style={{ flex: 1 }}>
+    <ScrollView style={{ flex: 1 }}>
       {resInfo.length === 0 ?
         <View style={styles.container}>
           <Text style={styles.nores}>No Reservations</Text>
@@ -33,7 +33,7 @@ const Reserved = ({garage = 1, navigation}) => {
          {resInfo.map(res => <CarCard key={res.confirmation_id} navigation={navigation} info={res} buttonText={buttontext}/>)}
       </View>
       }
-      </View>
+    </ScrollView>
   )
 }
   const styles = StyleSheet.create({
