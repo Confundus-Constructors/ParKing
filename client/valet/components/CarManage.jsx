@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import CarCard from './CarCard.jsx'
 import {View, Text, SafeAreaView} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
@@ -33,11 +33,26 @@ function PickTab() {
   )
 }
 
+export const RefreshContext = React.createContext();
+
+const noreserv = 'No Reservations'
 const CarManage = ({navigation}) => {
-  console.log('carmanage navigation log', navigation)
+  const [refreshKey, setRefreshKey] = useState(0);
+
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      setRefreshKey(prev => prev + 1 );
+    })
+    return () => {
+      unsubscribe();
+    };
+  }, [navigation]);
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
     {/* <NavigationContainer> */}
+      <RefreshContext.Provider value={refreshKey}>
       <Tab.Navigator
         tabBarOptions={{
         activeTintColor: 'white',
@@ -52,10 +67,13 @@ const CarManage = ({navigation}) => {
           backgroundColor: 'white',
         },
       }}>
-        <Tab.Screen name="Reserved" component={Reserved} />
+        <Tab.Screen name="Reserved" component={Reserved ? Reserved : noreserv } />
+        <>{console.log('hiu', Reserved)}</>
         <Tab.Screen name="Parked" component={Parked} />
         <Tab.Screen name="Pickups" component={Pickups} />
       </Tab.Navigator>
+      </RefreshContext.Provider>
+
     {/* </NavigationContainer> */}
     </SafeAreaView>
   )

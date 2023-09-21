@@ -1,10 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { View } from 'react-native';
 import axios from 'axios';
 import CarCard from './CarCard.jsx';
 
 
 const Pickups = ({garage = 1, navigation}) => {
+  const refreshKey = useContext(RefreshContext);
   const [resInfo, setResInfo] = useState([])
 
   useEffect (() => {
@@ -18,7 +19,7 @@ const Pickups = ({garage = 1, navigation}) => {
       setResInfo(res.data)
     })
     .catch(err => console.log('Error fetching reserved', err))
-  }, [garage])
+  }, [refreshKey])
 
   return (
     <View>

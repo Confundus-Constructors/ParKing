@@ -1,14 +1,13 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { View } from 'react-native';
 import axios from 'axios';
 import CarCard from './CarCard.jsx';
+import { RefreshContext } from './CarManage.jsx';
 
 const Reserved = ({garage = 1, navigation}) => {
-  console.log('reserved navigation log', navigation)
-
+  const refreshKey = useContext(RefreshContext);
   const [resInfo, setResInfo] = useState([])
   const buttontext = 'Check In';
-
   useEffect (() => {
     axios.get(`http://localhost:3000/reservations/${garage}`, {
       params: {
@@ -20,7 +19,7 @@ const Reserved = ({garage = 1, navigation}) => {
       setResInfo(res.data)
     })
     .catch(err => console.log('Error fetching reserved', err))
-  }, [garage])
+  }, [refreshKey])
 
   return (
     <View>
