@@ -205,8 +205,9 @@ const Welcome = () => {
     return axios.put(`http://${host}:${port}/users/auth`, payload);
   };
   const getEmployeeFromDB = (user) => {
-    // return axios.get(`http://${host}:${port}/users/employees/${user}`);
-    return axios.get(`http://localhost:${port}/users/employees/${user}`);
+    return axios.get(`http://${host}:${port}/users/employees/${user}`);
+    // TESTING ONLY BELOW
+    // return axios.get(`http://localhost:${port}/users/employees/${user}`);
   }
   // --- END DATABASE FUNCTIONS --- //
 
