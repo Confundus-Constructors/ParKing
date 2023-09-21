@@ -22,7 +22,7 @@ const ConfirmEmailScreen = () => {
   const navigation = useNavigation();
 
   const onConfirmPressed = () => {
-    navigation.navigate('UHP', { data: userId});
+    navigation.navigate('UHP', {data: userId});
   };
 
   const onResendPressed = () => {
