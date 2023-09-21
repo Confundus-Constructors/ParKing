@@ -95,7 +95,7 @@ const SignUpScreen = () => {
               rules={{validate: value => value === pwd || "Password don not match"}} value secureTextEntry={true} />
 
 
-            <CustomButton
+            <CustomButtons
               style={styles.button}
               textStyle={{ ...styles.commonFont, color: '#A9927D' }}
               title="Register"
