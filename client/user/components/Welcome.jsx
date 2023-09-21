@@ -23,6 +23,10 @@ import {
 
 import { User } from 'firebase/auth';
 
+import axios from 'axios';
+
+WebBrowser.maybeCompleteAuthSession();
+
 const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 
 async function loadFonts() {
@@ -34,10 +38,11 @@ async function loadFonts() {
 const Welcome = () => {
   // const [email, setEmail] = useState('');
   // const [password, setPassword] = useState('');
-  
+
   const auth = FIREBASE_AUTH;
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(null);
+  const [userId, setUserId] = useState(null); // <-- Kurt added, this is userId from db
   const { control, handleSubmit, formState: {errors}, } = useForm();
 
   const navigation = useNavigation();
@@ -67,7 +72,7 @@ const Welcome = () => {
       setLoading(false);
     }
   };
-  
+
   useEffect(() => {
     onAuthStateChanged(FIREBASE_AUTH, (user) => {
       console.log("Before setting user:", user);
@@ -83,12 +88,20 @@ const Welcome = () => {
       const { id_token } = response.params;
       const credential = GoogleAuthProvider.credential(id_token);
       signInWithCredential(auth, credential)
-      .then((authResult) => {
-        if (authResult.user.firstLogin) {  // Replace 'firstLogin' with field name you use in Firebase.
+      .then(async (authResult) => {
+        if (authResult.user.firstLogin) {  // Replace 'firstLogin' with whatever field name you use in Firebase.
           navigation.navigate('ConfirmEmailScreen');
           // Optionally, update Firebase to set firstLogin to false for this user.
         } else {
-          navigation.navigate('UHP');
+          // ---- KURT AND JON ADD PUT ROUTE ---- //
+          const db_response = await updateUserDeviceToken( response.user, data.Password);
+          console.log('db_response: ', db_response.data);
+          if (db_response.data.is_employee) {
+            //navigation.navigate('VHP');
+            navigation.navigate('VHP'); // need to pass userId into
+          } else {
+            navigation.navigate('UHP'); // need to pass userId into
+          }
         }
       })
       .catch((error) => {
@@ -127,8 +140,18 @@ const Welcome = () => {
     setLoading(true);
     try {
       const response = await signInWithEmailAndPassword(auth, data.Email, data.Password);
-      console.log('herererererererer', response);
-      navigation.navigate('UHP');
+      // console.log('herererererererer', response);
+
+      // ---- KURT AND JON ADD PUT ROUTE ---- //
+      const db_response = await updateUserDeviceToken( response.user, data.Password);
+      console.log('db_response: ', db_response.data);
+      setUserId(db_response.data.id);
+      if (db_response.data.is_employee) {
+        //navigation.navigate('VHP');
+        navigation.navigate('VHP'); // need to pass userId into
+      } else {
+        navigation.navigate('UHP', { data: userId}); // need to pass userId into
+      }
     } catch (error) {
       console.log(error);
       alert('Sign in failed. Please try again.' + error.message);
@@ -155,6 +178,22 @@ const Welcome = () => {
 
     navigation.navigate('SignUpScreen');
   };
+
+  const onGuestPressed = () => {
+
+      navigation.navigate('UHP');
+  };
+
+  // --- START DATABASE FUNCTIONS --- //
+  const updateUserDeviceToken = (obj, password) => {
+    let payload = {
+      email: obj.email,
+      password: password,
+      stsTokenManager: obj.stsTokenManager,
+    }
+    return axios.put('http://localhost:3000/users', payload);
+  };
+  // --- END DATABASE FUNCTIONS --- //
 
   return (
     <KeyboardAvoidingView

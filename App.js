@@ -9,6 +9,7 @@ import Select from "./client/user/components/UserCarSelect";
 import SignUpScreen from "./client/user/components/SignUpScreen";
 import ConfirmEmailScreen from "./client/user/components/ConfirmEmailScreen";
 import ForgotPasswordScreen from "./client/user/components/ForgotPasswordScreen";
+import Map from "./client/user/components/Map";
 import NewPasswordScreen from "./client/user/components/NewPasswordScreen";
 import Navigation from "./client/user/navigation";
 import React, { useState, useEffect } from "react";
@@ -56,6 +57,8 @@ export default function App() {
     // <ForgotPasswordScreen />
     // <NewPasswordScreen />
     // <CarManage />
+    // <Navigation />
+    <Map />
     // <Navigation />
     // <UHP />
     // <Welcome />

@@ -7,6 +7,7 @@ users = [
     email: "michaelcuellar@email.com",
     phone: "1234567890",
     is_employee: false,
+    device_token: null,
   },
   {
     id: 2,
@@ -16,6 +17,7 @@ users = [
     email: "michaelcuellar@workemail.com",
     phone: "1234567890",
     is_employee: true,
+    device_token: 'test2',
   },
   {
     id: 3,
@@ -25,6 +27,7 @@ users = [
     email: "danielpark@email.com",
     phone: "1234567890",
     is_employee: false,
+    device_token: null,
   },
   {
     id: 4,
@@ -34,24 +37,27 @@ users = [
     email: "danielpark@workemail.com",
     phone: "1234567890",
     is_employee: true,
+    device_token: 'test4',
   },
   {
     id: 5,
     first_name: "Amelia",
     last_name: "Li",
     password: "password",
-    email: "ameiliali@email.com",
+    email: "ameliali@email.com",
     phone: "1234567890",
     is_employee: false,
+    device_token: null,
   },
   {
     id: 6,
-    first_name: "Ameilia",
+    first_name: "Amelia",
     last_name: "Li",
     password: "password",
-    email: "ameiliali@workemail.com",
+    email: "ameliali@workemail.com",
     phone: "1234567890",
     is_employee: true,
+    device_token: 'test6',
   },
   {
     id: 7,
@@ -61,6 +67,7 @@ users = [
     email: "beckbaimouradov@email.com",
     phone: "1234567890",
     is_employee: false,
+    device_token: null,
   },
   {
     id: 8,
@@ -70,6 +77,7 @@ users = [
     email: "beckbaimouradov@workemail.com",
     phone: "1234567890",
     is_employee: true,
+    device_token: 'test8',
   },
   {
     id: 9,
@@ -79,6 +87,7 @@ users = [
     email: "lederiusfranklin@email.com",
     phone: "1234567890",
     is_employee: false,
+    device_token: null,
   },
   {
     id: 10,
@@ -88,6 +97,7 @@ users = [
     email: "lederiusfranklin@workemail.com",
     phone: "1234567890",
     is_employee: true,
+    device_token: 'test10',
   },
   {
     id: 11,
@@ -97,6 +107,7 @@ users = [
     email: "jonwilliams@email.com",
     phone: "1234567890",
     is_employee: false,
+    device_token: null,
   },
   {
     id: 12,
@@ -106,6 +117,7 @@ users = [
     email: "jonwilliams@workemail.com",
     phone: "1234567890",
     is_employee: true,
+    device_token: 'test12',
   },
   {
     id: 13,
@@ -115,6 +127,7 @@ users = [
     email: "kurtvardeman@email.com",
     phone: "1234567890",
     is_employee: false,
+    device_token: null,
   },
   {
     id: 14,
@@ -124,6 +137,7 @@ users = [
     email: "kurtvardeman@workemail.com",
     phone: "1234567890",
     is_employee: true,
+    device_token: 'test14',
   },
 ];
 
