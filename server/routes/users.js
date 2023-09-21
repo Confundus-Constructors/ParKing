@@ -23,22 +23,47 @@ module.exports = {
       });
   },
   postUser: async (req, res) => {
-    let { firstname, lastname, password, email, phone } = req.body;
+    let { firstName, lastName, password, email, phoneNumber, accessToken } = req.body;
     let employee = false;
-    console.log(firstname, lastname, email, password, phone);
     await resetSerial();
     client
       .query(
-        "INSERT INTO users (id,first_name, last_name, password, email, phone, is_employee ) VALUES ( DEFAULT, $1, $2, $3, $4,$5,$6)",
-        [firstname, lastname, password, email, phone, employee]
+        `INSERT INTO users (id, first_name, last_name, password, email, phone, is_employee, device_token)
+        VALUES (DEFAULT, $1, $2, $3, $4, $5, $6, $7)
+        RETURNING id;`,
+        [firstName, lastName, password, email, phoneNumber, employee, accessToken]
       )
       .then((query) => {
-        res.send(200, query);
+        res.status(201).send(query.rows[0]);
       })
       .catch((err) => {
         console.log(err);
-        res.send(400, err);
+        res.status(404).send(err);
       });
+  },
+  putUser: async (req, res) => {
+    let { email, password, stsTokenManager } = req.body;
+    const device_token = stsTokenManager.accessToken;
+    // console.log({email, password, device_token});
+
+    client
+      .query(
+        `UPDATE users
+        SET device_token = $1
+        WHERE email = $2
+        and password = $3
+        RETURNING id, is_employee;
+        `,
+        [device_token, email, password]
+      )
+        .then((query) => {
+          // console.log(query.rows);
+          res.status(201).send(query.rows[0]);
+        })
+        .catch((err) => {
+          console.log(err);
+          res.status(404).send(err);
+        });
   },
 };
 
