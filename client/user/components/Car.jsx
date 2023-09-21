@@ -15,16 +15,17 @@ async function loadFonts() {
   await Font.loadAsync({});
 }
 
-const Car = ({ data, set, index }) => {
+const Car = ({ data, set, index,setsel }) => {
   const handlePress = () => {
     Alert.alert("presssed");
     set(index);
+    setsel(data)
   };
   return (
     <View style={styles.tile}>
       <TouchableOpacity onPress={handlePress}>
-        <Text style={styles.title}>{data}</Text>
-        <Text style={styles.info}>License Plate Number: Example</Text>
+        <Text style={styles.title}>{data.make_model}</Text>
+        <Text style={styles.info}>License Plate Number: {data.license_plate}</Text>
       </TouchableOpacity>
     </View>
   );

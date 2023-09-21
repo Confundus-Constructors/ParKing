@@ -13,29 +13,39 @@ import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { useRoute } from "@react-navigation/native";
 import CustomButton from "./CustomButton";
+import React, { useState,useEffect } from 'react';
 
 async function loadFonts() {
   await Font.loadAsync({});
 }
 
 const Checkout = () => {
-  // const navigation = useNavigation();
-  // const crypto = require("crypto");
-  // const conf_code = crypto.randomBytes(8).toString("base64");
-  // const route = useRoute();
-  // const data = route.params.data;
+  const navigation = useNavigation();
+  const route = useRoute();
+  const data = route.params.data;
+  const vehicle_id = route.params.vehicle.id;
+  const id = route.params.id;
+  const time = route.params.time;
+  const [ code,setCode ] = useState("");
+
+  useEffect(() => {
+    axios.get('/transactions/confirmation')
+    .then((result) => {
+      setCode(result.conf_code);
+    })
+  })
 
   const handleComplete = () => {
     var toBE = {
-      user_id: 3,
-      vehicle_id: 5,
-      garage_id: 1,
-      reservation_start_time: "",
-      reservation_end_time: "",
+      user_id: id,
+      vehicle_id: vehicle_id,
+      garage_id: data.id,
+      reservation_start_time: time.stime.toLocaleString(),
+      reservation_end_time: time.etime.toLocaleString(),
       qr_code: conf_code,
     };
-    axios.post(`/transactions/${conf_code}`, { params: toBE }).then(() => {
-      navigation.navigate("Reservations", { data: conf_code });
+    axios.post(`/transactions/${code}`, { params: toBE }).then(() => {
+      navigation.navigate("Reservations", { data: code, id:id });
     });
   };
   return (

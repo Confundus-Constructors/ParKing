@@ -23,6 +23,7 @@ const Reservations = () => {
 
   const route = useRoute();
   const data = route.params.data;
+  const id = route.params.id;
 
   useEffect(() => {
     axios.get(`/transactions/${data.conf_code}`).then((result) => {
@@ -67,7 +68,7 @@ const Reservations = () => {
         <Text style={styles.txt}>Depart At: {endDate}</Text>
       </View>
       <View style={styles.alignmid}>
-        {/* <QRCode value={data.conf_code} /> */}
+        <QRCode value={data} />
         <Text style={styles.ltxt}>Use QR Code To Check-In And Check-Out</Text>
         <CustomButton
           style={styles.button}
