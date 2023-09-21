@@ -33,6 +33,7 @@ const UHP = () => {
   const [location, setLoc] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
+  const imgurl = 'https://images.unsplash.com/photo-1577114995803-d8ce0e2b4aa9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1173&q=80'
 
   //#region calendar date time picker
   const [sDate, setSDate] = useState(new Date());
@@ -91,7 +92,7 @@ const UHP = () => {
 
   const handlePush = () => {
     axios
-      .get("/garages", {
+      .get("http://localhost:3000/garages", {
         params: {
           location: location,
           start_date: sTime,
@@ -122,9 +123,9 @@ const UHP = () => {
     <SafeAreaView style={styles.Outer}>
       <Text style={styles.text}>Reserve Your Spot</Text>
       {/* <Image
-        source={require("../../../assets/giraffe.png")}
+        source={{uri: imgurl}}
         style={styles.image}
-        alt="ParKing Mascot"
+        accessibilityLabel="ParKing Mascot"
       /> */}
       <Modal
         animationType="slide"
