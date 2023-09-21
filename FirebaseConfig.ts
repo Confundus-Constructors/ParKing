@@ -7,7 +7,7 @@ import { getFirestore } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBf__haFHnzHbh0TDT7zA5APohgfqllRwk",
+  apiKey: "AIzaSyBnCwTtPkOGlaM3lFpMyyyIJ0UxeEbIDQE",
   authDomain: "parking-auth-ba546.firebaseapp.com",
   projectId: "parking-auth-ba546",
   storageBucket: "parking-auth-ba546.appspot.com",
