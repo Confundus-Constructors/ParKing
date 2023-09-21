@@ -67,8 +67,7 @@ const CarManage = ({navigation}) => {
           backgroundColor: 'white',
         },
       }}>
-        <Tab.Screen name="Reserved" component={Reserved ? Reserved : noreserv } />
-        <>{console.log('hiu', Reserved)}</>
+        <Tab.Screen name="Reserved" component={Reserved}/>
         <Tab.Screen name="Parked" component={Parked} />
         <Tab.Screen name="Pickups" component={Pickups} />
       </Tab.Navigator>
