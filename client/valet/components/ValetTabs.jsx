@@ -8,6 +8,7 @@ import CameraScreen from "./CameraScreen";
 import CarsScreen from "./CarsScreen";
 import { StatusBar } from "react-native";
 import CalendarScreen from "./CalendarScreen";
+import {SafeAreaView, View, StyleSheet} from 'react-native';
 // import { Cloudinary } from "@cloudinary/url-gen";
 
 export default ValetTabs = () => {
@@ -23,7 +24,8 @@ export default ValetTabs = () => {
   const Tab = createMaterialBottomTabNavigator();
 
   return (
-    <NavigationContainer theme={navTheme}>
+    <View style={styles.view}>
+    {/* // <NavigationContainer theme={navTheme}> */}
       <StatusBar barStyle="light-content" translucent={true} />
       <Tab.Navigator
         barStyle={{ backgroundColor: "black" }}
@@ -91,6 +93,13 @@ export default ValetTabs = () => {
           }}
         />
       </Tab.Navigator>
-    </NavigationContainer>
+    {/* // </NavigationContainer> */}
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  view: {
+    flex:1
+  }
+})
