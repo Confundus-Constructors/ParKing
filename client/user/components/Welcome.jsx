@@ -20,6 +20,8 @@ import {
   signInWithEmailAndPassword
 } from "firebase/auth";
 
+import axios from 'axios';
+
 
 import { User } from 'firebase/auth';
 
@@ -39,6 +41,7 @@ const Welcome = () => {
   const [loading, setLoading] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
+  const [ userId, setUserId ] = useState(1);
   const { control, handleSubmit, formState: {errors}, } = useForm();
 
   const navigation = useNavigation();
@@ -51,9 +54,6 @@ const Welcome = () => {
   const [request2, response2, promptAsync2] = Facebook.useAuthRequest({
     clientId: "1012811586526206"
   });
-
-
-
 
   const checkLocalUser = async() => {
     try {
@@ -76,17 +76,15 @@ const Welcome = () => {
       } else {
         setLoggedIn(false);
       }
-
     });
   }, []);
-
 
   useEffect(() => {
     if (response?.type === 'success') {
       const { id_token } = response.params;
       const credential = GoogleAuthProvider.credential(id_token);
       signInWithCredential(auth, credential)
-      .then((authResult) => {
+      .then(async(authResult) => {
         if (authResult.user.firstLogin) {  // Replace 'firstLogin' with field name you use in Firebase.
           navigation.navigate('ConfirmEmailScreen');
           // Optionally, update Firebase to set firstLogin to false for this user.
