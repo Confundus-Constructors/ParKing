@@ -10,14 +10,23 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Spot from "./ParkingSpot.jsx";
 // import { useNavigation } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
 
 const Reserve = () => {
-  const [spots, setSpots] = useState([1, 2, 3, 4]);
+  const route = useRoute();
+  const time = route.params.time;
+  const [spots, setSpots] = useState([]);
+//data has id, address, location, hourly rate, spot
+  useEffect(() => {
+    if (route.params.data) {
+      setSpots(route.params.data)
+    }
+  },[])
   return (
     <View style={styles.Outer}>
       <ScrollView>
         {spots.map((loc) => {
-          return <Spot data={loc} />;
+          return <Spot data={loc} passed={route.params.data} id={route.params.id} time={time} />;
         })}
       </ScrollView>
     </View>
