@@ -12,7 +12,7 @@ const transactionRouter = require("./routes/transactions.js");
 const reservationRouter = require("./routes/reservations.js");
 const garageRouter = require("./routes/garages.js");
 const vehicleRouter = require("./routes/vehicles.js");
-const { getUser, postUser, getAll } = require("./routes/users");
+const { getUser, postUser, putUser, getAll } = require("./routes/users");
 
 // app.use(express.static(path.join(__dirname, "../public")));
 app.use(bodyParser.json({limit: '50mb', extended: true}));
@@ -33,6 +33,10 @@ app.get("/users", (req, res) => {
 
 app.post("/users", (req, res) => {
   postUser(req, res);
+});
+
+app.put("/users", (req, res) => {
+  putUser(req, res);
 });
 
 app.post("/image", async (req, res) => {
