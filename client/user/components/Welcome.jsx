@@ -164,6 +164,17 @@ const Welcome = () => {
     navigation.navigate('SignUpScreen');
   };
 
+  // --- START DATABASE FUNCTIONS --- //
+  const updateUserDeviceToken = (obj, password) => {
+    let payload = {
+      email: obj.email,
+      password: password,
+      stsTokenManager: obj.stsTokenManager,
+    }
+    return axios.put('http://localhost:3000/users', payload);
+  };
+  // --- END DATABASE FUNCTIONS --- //
+
   return (
     <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
