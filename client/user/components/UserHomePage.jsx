@@ -29,8 +29,11 @@ async function loadFonts() {
 const UHP = () => {
   const auth = FIREBASE_AUTH;
   const route = useRoute();
-  const userId = route.params.data
-  // const userId = 1;
+  let userId = 16; // guest account ID
+  if (route.params) {
+    userId = route.params.data;
+  }
+  console.log('userId - ', userId);
   const [location, setLoc] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
