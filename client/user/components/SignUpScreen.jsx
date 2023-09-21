@@ -62,6 +62,10 @@ const SignUpScreen = () => {
     navigation.navigate('Welcome');
   };
 
+  const addUserToDatabase = (obj) => {
+    return axios.post('http://localhost:3000/users', obj);
+  };
+
 
   return (
     <SafeAreaView style={styles.container}>
