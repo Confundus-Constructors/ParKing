@@ -33,10 +33,9 @@ const AddCar = ({ id,set,see }) => {
 
   return (
     <Modal
-    style={styles.Outer}
     animationType="slide"
-    transparent={true}
     visible={see}>
+      <SafeAreaView style={styles.Outer}>
       <View style={styles.div}>
         <Text style={styles.txt}>Make/Model: </Text>
         <TextInput style={styles.input} value={mm} onChangeText={newText => setMM(newText)}/>
@@ -55,6 +54,7 @@ const AddCar = ({ id,set,see }) => {
       textStyle={{ ...styles.commonFont, color: "#D0D3D2" }}
       color="#171412"
       onPress={handlePress}/>
+      </SafeAreaView>
     </Modal>
   )
 }

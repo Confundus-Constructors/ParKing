@@ -13,7 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { useRoute } from "@react-navigation/native";
 import CustomButton from "./CustomButton";
-import React, { useState,useEffect } from 'react';
+import React, { useState,useEffect,useContext } from 'react';
 
 async function loadFonts() {
   await Font.loadAsync({});
@@ -27,11 +27,13 @@ const Checkout = () => {
   const id = route.params.id;
   const time = route.params.time;
   const [ code,setCode ] = useState("");
+  const [ qr,setQR ] = useContext('')
 
   useEffect(() => {
     axios.get('http://localhost:3000/transactions/confirmation')
     .then((result) => {
       setCode(result.data.conf_code);
+      setQR(result.data.conf_code);
     })
   })
 

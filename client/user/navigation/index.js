@@ -13,12 +13,20 @@ import Select from "../components/UserCarSelect";
 import Checkout from "../components/Checkout";
 import ValetTabs from "../../valet/components/ValetTabs";
 import UserTabs from "../components/UserTabs";
+import { useTheme } from 'react-native-paper';
 
 const Stack = createNativeStackNavigator();
 
 const Navigation = () => {
+  const theme = useTheme();
+  const navTheme = {
+    colors: {
+      background: "white"
+    }
+  };
+
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={navTheme}>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Welcome" component={Welcome} />
         <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
@@ -31,7 +39,6 @@ const Navigation = () => {
           component={ForgotPasswordScreen}
         />
         <Stack.Screen name="NewPasswordScreen" component={NewPasswordScreen} />
-        <Stack.Screen name="UHP" component={UHP} />
         <Stack.Screen name="Reserve" component={Reserve} />
         <Stack.Screen name="Select" component={Select} />
         <Stack.Screen name="Checkout" component={Checkout} />

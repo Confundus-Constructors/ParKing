@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useContext } from "react";
 import {
   View,
   Text,
@@ -11,6 +11,7 @@ import CustomButton from "./CustomButton";
 import QRCode from "react-native-qrcode-svg";
 import { useRoute } from "@react-navigation/native";
 import axios from "axios";
+import Checkout from './Checkout'
 
 async function loadFonts() {
   await Font.loadAsync({});

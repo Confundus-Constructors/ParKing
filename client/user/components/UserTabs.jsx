@@ -1,5 +1,5 @@
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer,useNavigation,useRoute} from '@react-navigation/native';
 import { useTheme } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import UHP from './UserHomePage.jsx';
@@ -11,6 +11,8 @@ import { signOut } from "firebase/auth";
 
 export default UserTabs = () => {
   const theme = useTheme();
+  const route = useRoute();
+  const id = route.params.data || 1;
   theme.colors.secondaryContainer = "transparent";
 
   const navTheme = {
@@ -28,7 +30,6 @@ export default UserTabs = () => {
     }
   };
   return (
-    <NavigationContainer theme={navTheme}>
       <Tab.Navigator
       barStyle={{ backgroundColor: 'black' }}
       activeColor="white"
@@ -38,6 +39,7 @@ export default UserTabs = () => {
       >
       <Tab.Screen
           name="Home"
+          initialParams={{ id: id }}
           component={UHP}
           options={{
             tabBarLabel: 'Home',
@@ -50,6 +52,7 @@ export default UserTabs = () => {
         <Tab.Screen
           name="Reservations"
           component={Reservations}
+          initialParams={{ id: id }}
           options={{
             tabBarLabel: 'Home',
             barTintColor: 'white',
@@ -58,7 +61,7 @@ export default UserTabs = () => {
             // )
           }}
         />
-        <Tab.Screen
+        {/* <Tab.Screen
           name="Map"
           component={UHP}
           options={{
@@ -68,7 +71,7 @@ export default UserTabs = () => {
             //   <MaterialCommunityIcons name="home" color={color} size={32} />
             // )
           }}
-        />
+        /> */}
         <Tab.Screen
           name="Sign Out"
           component={Welcome}
@@ -81,6 +84,6 @@ export default UserTabs = () => {
           }}
         />
       </Tab.Navigator>
-    </NavigationContainer>
+
   )
 };
