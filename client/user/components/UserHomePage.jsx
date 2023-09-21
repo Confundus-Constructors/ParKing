@@ -95,6 +95,10 @@ const UHP = () => {
   // navigation.navigate("Reserve");
   // });
   // };
+  const onBackSignInPressed = () => {
+    navigation.navigate("Welcome");
+  }
+
   const signOutUser = async () => {
     try {
       await signOut(auth);
@@ -102,10 +106,6 @@ const UHP = () => {
     } catch (error) {
       console.error("Error signing out: ", error);
     }
-  };
-
-  const onBackSignInPressed = () => {
-    navigation.navigate("Welcome");
   };
 
   return (

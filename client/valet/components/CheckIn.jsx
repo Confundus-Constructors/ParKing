@@ -5,32 +5,46 @@ import axios from 'axios';
 import moment from 'moment';
 import * as FileSystem from 'expo-file-system';
 
+async function loadFonts() {
+  await Font.loadAsync({
+    'Oswald-Medium': require('../../../assets/fonts/Oswald-Medium.ttf'),  // adjust the path accordingly
+  });
+};
+
 export default Checkin = ({navigation, route}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [image, setImage] = useState();
   const [confirming, setConfirming] = useState(false);
   const [carInfo, setCarInfo] = useState({});
   const [blob, setBlob] = useState();
+  const [qrCode, setQRCode] = useState('test2');
 
   useEffect(() => {
     if (route.params && route.params.carInfo) {
-      // console.log(route.params.carInfo);
       setCarInfo(route.params.carInfo);
     }
   });
 
   const handleConfirm = () => {
       setModalVisible(true);
+      axios.put(`https://051f-2603-7000-3900-7052-f0a4-43e1-9eb2-cce9.ngrok-free.app/transactions/${qrCode}`)
+      .catch((err) => {
+        console.log(err);
+      })
   };
+
 
   const addPic = () => {
     {navigation.navigate('CameraMain')};
   };
 
+
   const handleSubmit = async() => {
-    const base64 = await FileSystem.readAsStringAsync(image.uri, { encoding: 'base64' });
-    axios.post('https://051f-2603-7000-3900-7052-f0a4-43e1-9eb2-cce9.ngrok-free.app/image', {image: base64, blob: blob})
+    const base64 = await FileSystem.readAsStringAsync(image, { encoding: 'base64' });
+    setConfirming(true);
+    axios.post('https://051f-2603-7000-3900-7052-f0a4-43e1-9eb2-cce9.ngrok-free.app/image', {image: base64, blob: blob, qr_code: qrCode})
     .then(() => {
+      setConfirming(false);
       setModalVisible(false);
       setImage(null);
       navigation.navigate('QRScanner');
@@ -63,18 +77,13 @@ export default Checkin = ({navigation, route}) => {
         <Text style={styles.text}>{'Make: ' + carInfo.make_model }</Text>
         <Text style={styles.text}>{'Color: ' + capitalizeString(carInfo.color)}</Text>
         <Text style={styles.text}>{'License Plate: ' + carInfo.license_plate}</Text>
-        <Text style={styles.text}>{'Reservation Start: ' + moment(carInfo.reservation_start_time).format("dddd, MMMM Do YYYY, h:mm:ss a")}  </Text>
-        <Text style={styles.text}>{'Reservation End: ' + moment(carInfo.reservation_end_time).format("dddd, MMMM Do YYYY, h:mm:ss a")}  </Text>
+        <Text style={styles.text}>{'Reservation Start: ' + moment(carInfo.reservation_start_time).format('LLL')}  </Text>
+        <Text style={styles.text}>{'Reservation End: ' + moment(carInfo.reservation_end_time).format('LLL')}  </Text>
         <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonTitle} onPress={handleConfirm}>Confirm Details</Text>
         </TouchableOpacity>
       </View>
-      <Modal visible={confirming} >
-        <View style={styles.confirmingView}>
-          <Text style={styles.waitingText}>Waiting For Confirmation From Owner</Text>
-          <Image style={styles.loadingGif} source={require('./../../../assets/loading.gif')} ></Image>
-        </View>
-      </Modal>
+
       <Modal visible={modalVisible}>
         <View style={styles.modalView}>
           <View>
@@ -91,7 +100,7 @@ export default Checkin = ({navigation, route}) => {
               <Image
                 style={styles.image}
                 source={{
-                  uri: image.uri,
+                  uri: image,
                 }}
               />
             <View style={styles.buttonContainer}>
@@ -105,6 +114,12 @@ export default Checkin = ({navigation, route}) => {
             </View>
             </View>}
           </View>
+        </View>
+      </Modal>
+      <Modal visible={confirming} >
+        <View style={styles.confirmingView}>
+          <Text style={styles.waitingText}>Uploading Image</Text>
+          <Image style={styles.loadingGif} source={require('./../../../assets/loading.gif')} ></Image>
         </View>
       </Modal>
     </View>
@@ -121,13 +136,14 @@ const styles = StyleSheet.create({
   formContainer: {
     backgroundColor: 'white',
     height: 'auto',
-    width: '90%',
+    width: 'auto',
     borderRadius: 30,
     shadowColor: '#171717',
     shadowOffset: {width: -2, height: 4},
     shadowOpacity: 1,
     shadowRadius: 3,
-    padding: 50
+    padding: 20,
+    // alignItems: 'center'
   },
   button: {
     backgroundColor: '#49111C',
@@ -140,12 +156,14 @@ const styles = StyleSheet.create({
   buttonTitle: {
     color: 'white',
     borderRadius: 20,
-    fontSize: 25
+    fontSize: 25,
+    fontFamily: 'Oswald-Medium',
   },
   text: {
     fontSize: 18,
-    marginBottom: 20,
-    fontWeight: 'bold'
+    marginBottom: 10,
+    fontWeight: 'bold',
+    fontFamily: 'Oswald-Medium',
   },
   modalContainer: {
     alignItems:'center',
@@ -157,7 +175,7 @@ const styles = StyleSheet.create({
     padding: 30,
     width: '95%',
     height: 'auto',
-    alignSelf: 'center',
+    alignSelf: 'center'
   },
   lottie: {
     width: 100,
@@ -165,13 +183,15 @@ const styles = StyleSheet.create({
   },
   modalText: {
     fontSize: 22,
-    marginBottom: 20
+    marginBottom: 20,
+    fontFamily: 'Oswald-Medium',
   },
   confirmed: {
     color: 'green',
     textAlign: 'center',
     marginBottom: 20,
-    fontSize: 30
+    fontSize: 30,
+    fontFamily: 'Oswald-Medium',
   },
   input: {
     marginTop: 20,
@@ -179,6 +199,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     borderBottomColor: 'black',
     borderBottomWidth: 1,
+    fontFamily: 'Oswald-Medium',
   },
   picButton: {
     backgroundColor: '#49111C',
@@ -206,6 +227,7 @@ const styles = StyleSheet.create({
   },
   waitingText: {
     fontSize: 20,
+    fontFamily: 'Oswald-Medium',
   },
   loadingGif: {
     height: 50

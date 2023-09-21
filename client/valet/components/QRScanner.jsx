@@ -21,13 +21,14 @@ export default QRScanner = ({navigation}) => {
       .then((result) => {
         // console.log(result.data);
         if (result.data.status === 'reserved') {
-          navigation.navigate('CheckIn', params={carInfo: result.data});
+          navigation.navigate('CheckIn', params={carInfo: result.data, qr_code: scanData});
         } else if (result.data.status === 'checked-in') {
-          navigation.navigate('CheckOut', params={carInfo: result.data});
+          navigation.navigate('CheckOut', params={carInfo: result.data, qr_code: scanData});
         }
       })
       .catch((err) => {
         console.log(err);
+        Alert.alert('Error', 'This QR Code is inactive')
       })
     }
   }, [scanData])
