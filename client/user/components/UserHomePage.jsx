@@ -15,11 +15,12 @@ import React, { useState, useEffect } from "react";
 import UserTabs from "./UserTabs.jsx";
 import axios from "axios";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { FIREBASE_AUTH } from '../../../FirebaseConfig.ts';
 import { signOut } from "firebase/auth";
 import {host, port} from "../../../env.js";
+// import { useRoute } from 'react'
 
 async function loadFonts() {
   await Font.loadAsync({});
@@ -28,7 +29,7 @@ async function loadFonts() {
 const UHP = () => {
   const auth = FIREBASE_AUTH;
   const route = useRoute();
-  const userId = route.params.data;
+  const userId = route.params.data
   // const userId = 1;
   const [location, setLoc] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
