@@ -26,7 +26,7 @@ app.use('/transactions', transactionRouter);
 app.use('/garages', garageRouter);
 app.use('/vehicles', vehicleRouter);
 
-const port = process.env.SERVER_PORT || 3001;
+const port = process.env.SERVER_PORT;
 
 app.get("/users", (req, res) => {
   req.query.length > 0 ? getUser(req, res) : getAll(req, res);
