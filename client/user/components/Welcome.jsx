@@ -147,6 +147,7 @@ const Welcome = () => {
       // ---- KURT AND JON ADD PUT ROUTE ---- //
       const db_response = await updateUserDeviceToken( response.user, data.Password);
       console.log('db_response: ', db_response.data);
+      console.log(db_response.data.is_employee);
       setUserId(db_response.data.id);
       if (db_response.data.is_employee) {
         navigation.navigate('VHP'); // need to pass userId into
