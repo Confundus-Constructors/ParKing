@@ -19,7 +19,8 @@ import { useNavigation } from '@react-navigation/native';
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { FIREBASE_AUTH } from '../../../FirebaseConfig.ts';
 import { signOut } from "firebase/auth";
-import { useRoute } from "@react-navigation/native";
+
+
 
 async function loadFonts() {
   await Font.loadAsync({});
@@ -27,9 +28,7 @@ async function loadFonts() {
 
 const UHP = () => {
   const auth = FIREBASE_AUTH;
-  const route = useRoute();
-  const data = route.params.data;
-  const userId = data.userId || 1;
+  const userId = 1;
   const [location, setLoc] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
@@ -100,11 +99,18 @@ const UHP = () => {
         },
       })
       .then((result) => {
-    console.log(result);
-    navigation.navigate("Reserve", {data: result.data,id: userId, time: {stime: sTime, etime: eTime}});
-    setModalVisible(false);
-    });
+        // console.log("hererere:", result.data);
+        navigation.navigate("Reserve", {data: result.data, id: userId, time: {stime: sTime, etime: eTime}});
+        setModalVisible(false);
+    }) .catch((error) => {
+      console.error("Axios error:", error.message);
+  if (error.response) {
+      console.log('Server Response:', error.response.data);
+      console.log('Status Code:', error.response.status);
+  }
+    })
   };
+
   const handlePress = () => {
     setModalVisible(true);
   }
@@ -188,7 +194,7 @@ const UHP = () => {
               ...styles.commonFont,
               color: "#D0D3D2",
             }}
-            onPush={handlePush}
+            onPress={handlePush}
             color="#171412"
           />
 
