@@ -91,7 +91,7 @@ const UHP = () => {
 
   const handlePush = () => {
     axios
-      .get("/garages", {
+      .get("http://localhost:3000/garages", {
         params: {
           location: location,
           start_date: sTime,
