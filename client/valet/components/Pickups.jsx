@@ -4,7 +4,7 @@ import axios from 'axios';
 import CarCard from './CarCard.jsx';
 
 
-const Pickups = ({garage = 1}) => {
+const Pickups = ({garage = 1, navigation}) => {
   const [resInfo, setResInfo] = useState([])
 
   useEffect (() => {
@@ -14,7 +14,7 @@ const Pickups = ({garage = 1}) => {
       }
     })
     .then(res => {
-      console.log('res log', res.data)
+      // console.log('res log', res.data)
       setResInfo(res.data)
     })
     .catch(err => console.log('Error fetching reserved', err))
@@ -22,7 +22,7 @@ const Pickups = ({garage = 1}) => {
 
   return (
     <View>
-      {resInfo.map(res => <CarCard key={res.confirmation_id} info={res}/>)}
+      {resInfo.map(res => <CarCard key={res.confirmation_id} info={res} navigation={navigation}/>)}
     </View>
   )
 
