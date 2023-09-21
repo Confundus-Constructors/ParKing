@@ -12,6 +12,18 @@ const CarCard = ({navigation, info,  buttonText}) => {
   const date1 = new Date(info.reservation_start_time);
   const date2 = new Date(info.reservation_end_time);
 
+  useEffect(() => {
+    axios.get(`http://localhost:3000/image/${info.confirmation_id}`)
+    .then((result) => {
+      console.log(result.data.rows[0].photo)
+      if (result.data.rows[0].photo) {
+        var base64 = result.data.rows[0].photo;
+        var base64Pic = 'data:image/png;base64,' + base64;
+        setImageSource(base64Pic)
+      }
+    })
+  });
+
   const selectImage = () => {
     const options = {
       mediaType: "photo",
@@ -79,7 +91,7 @@ const CarCard = ({navigation, info,  buttonText}) => {
         <View>
           <TouchableOpacity style={styles.box} onPress={selectImage}>
             {imageSource ? (
-              <Image source={imageSource} style={styles.image} />
+              <Image src={imageSource} style={styles.image} />
             ) : (
               <FontAwesomeIcon icon={faCamera} style={{color: "#a9927d"}} size={80} fade-size={'lg'}/>
             )}
@@ -151,9 +163,10 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   image: {
-    width: 100,
-    height: 100,
-    resizeMode: "contain",
+    width: 190,
+    height: 130,
+    borderRadius: 10,
+    resizeMode: "cover",
   },
   carInfo: {
     marginTop: 15,

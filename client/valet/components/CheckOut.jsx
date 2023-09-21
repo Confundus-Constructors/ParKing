@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     shadowOffset: {width: -2, height: 4},
     shadowOpacity: 1,
     shadowRadius: 3,
-    padding: 50
+    padding: 20
   },
   button: {
     backgroundColor: '#49111C',
@@ -148,7 +148,10 @@ const styles = StyleSheet.create({
   carPic: {
     height: 100,
     width: 100,
-    borderWidth: 1
+    borderWidth: 1,
+    alignSelf: 'center',
+    resizeMode: "cover",
+    borderRadius: 10
   },
   modalContainer: {
     alignItems:'center',
