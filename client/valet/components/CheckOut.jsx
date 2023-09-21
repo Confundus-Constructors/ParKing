@@ -32,7 +32,11 @@ export default CheckOut = ({navigation,  route}) => {
 
   const handleExit = () => {
     setConfirmationVisible(false);
-    navigation.navigate('QRScanner');
+    if (route.params.list) {
+      navigation.navigate('CarManage');
+    } else {
+      navigation.navigate('QRScanner');
+    }
   };
 
   const capitalizeString = (string) => {
