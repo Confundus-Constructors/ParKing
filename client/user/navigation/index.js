@@ -35,7 +35,7 @@ const Navigation = () => {
         <Stack.Screen name="Reserve" component={Reserve} />
         <Stack.Screen name="Select" component={Select} />
         <Stack.Screen name="Checkout" component={Checkout} />
-        <Stack.Screen name="UserTabs" component={UserTabs} />
+        {/* <Stack.Screen name="UserTabs" component={UserTabs} /> */}
         <Stack.Screen name="VHP" component={ValetTabs} />
       </Stack.Navigator>
     </NavigationContainer>
