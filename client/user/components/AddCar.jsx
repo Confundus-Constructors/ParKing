@@ -11,6 +11,7 @@ import {
 import CustomButton from './CustomButton';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import {host, port} from "../../../env.js";
 
 async function loadFonts() {
   await Font.loadAsync({});
@@ -22,7 +23,7 @@ const AddCar = ({ id,set,see }) => {
   const [ col,setColor ] = useState('');
 
   const handlePress = () => {
-    axios.post(`http://localhost:3000/vehicles/${id}`, {
+    axios.post(`http://${host}:${port}/vehicles/${id}`, {
       make_model: mm,
       license_plate: license,
       color: col

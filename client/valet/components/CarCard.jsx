@@ -4,6 +4,7 @@ import {launchCamera} from 'react-native-image-picker';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCamera } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
+import {host, port} from "../../../env.js";
 
 
 
@@ -26,7 +27,7 @@ const CarCard = ({info,  buttonText, navigation}) => {
   const date2 = new Date(info.reservation_end_time);
 
   useEffect(() => {
-    axios.get(`http://localhost:3000/image/${info.confirmation_id}`)
+    axios.get(`http://${host}:${port}/image/${info.confirmation_id}`)
     .then((result) => {
       if (result.data.rows[0].photo) {
         var base64 = result.data.rows[0].photo;

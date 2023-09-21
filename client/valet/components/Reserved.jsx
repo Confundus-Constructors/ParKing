@@ -2,6 +2,7 @@ import React, {useState, useEffect, useContext} from 'react';
 import { View } from 'react-native';
 import axios from 'axios';
 import CarCard from './CarCard.jsx';
+import {host, port} from "../../../env.js";
 import { RefreshContext } from './CarManage.jsx';
 import {Text, StyleSheet} from 'react-native';
 
@@ -10,7 +11,7 @@ const Reserved = ({garage = 1, navigation}) => {
   const [resInfo, setResInfo] = useState([])
   const buttontext = 'Check In';
   useEffect (() => {
-    axios.get(`http://localhost:3000/reservations/${garage}`, {
+    axios.get(`http://${host}:${port}/reservations/${garage}`, {
       params: {
         filter: 'reserved'
       }
