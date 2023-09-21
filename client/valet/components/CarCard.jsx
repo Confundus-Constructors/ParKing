@@ -7,26 +7,43 @@ import axios from 'axios';
 
 
 
-const CarCard = ({navigation, info,  buttonText}) => {
+const CarCard = ({info,  buttonText, navigation}) => {
+  console.log('carcard log',  navigation)
   const [imageSource, setImageSource] = useState(null);
+
+  const formatCustomDate = (date) => {
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear().toString().slice(2);
+    const hours = date.getHours();
+    const minutes = (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+
+    const formattedDate = `${month}/${day}/${year}, ${hours % 12 || 12}:${minutes} ${ampm}`;
+    return formattedDate;
+  };
+
   const date1 = new Date(info.reservation_start_time);
   const date2 = new Date(info.reservation_end_time);
 
+
   const selectImage = () => {
     const options = {
-      mediaType: "photo",
+      mediaType: 'photo',
       includeBase64: false,
       maxHeight: 200,
       maxWidth: 200,
     };
 
+
+
     launchCamera(options, (response) => {
       if (response.didCancel) {
-        console.log("Camera cancelled");
+        console.log('Camera cancelled');
       } else if (response.error) {
-        console.log("ImagePicker Error:", response.error);
+        console.log('ImagePicker Error:', response.error);
       } else {
-        const source = { uri: response.uri };
+        const source = {uri: response.uri};
         setImageSource(source);
       }
     });
@@ -51,6 +68,7 @@ const CarCard = ({navigation, info,  buttonText}) => {
 
   return (
     <SafeAreaView className="text-lg" style={styles.container}>
+
       <View style={styles.row}>
         <View style={styles.row}>
           <View>
@@ -82,26 +100,26 @@ const CarCard = ({navigation, info,  buttonText}) => {
               <Image source={imageSource} style={styles.image} />
             ) : (
               <FontAwesomeIcon icon={faCamera} style={{color: "#a9927d"}} size={80} fade-size={'lg'}/>
+
             )}
           </TouchableOpacity>
-        </View>
       </View>
+
+     </View>
 
       <View style={styles.row}>
         <View>
         <Text style={styles.row}>
           <Text style={styles.boldText}>Arrival: </Text>
-          <Text>{date1.toLocaleString()}</Text>
-        </Text>
+          <Text style={styles.user}>{formatCustomDate(date1)}</Text>        </Text>
         <Text style={styles.row}>
           <Text style={styles.boldText}>Depart: </Text>
-          <Text>{date2.toLocaleString()}</Text>
-        </Text>
+          <Text style={styles.user}>{formatCustomDate(date2)}</Text>        </Text>
         </View>
         <View>
         <Text style={styles.row}>
           <Text style={styles.boldText}>Garage: </Text>
-          <Text>{}</Text>
+          <Text style={styles.user}>{}</Text>
         </Text>
         <Text style={styles.row}>
           <Text style={styles.boldText}>Spot ID: </Text>
@@ -115,12 +133,13 @@ const CarCard = ({navigation, info,  buttonText}) => {
       </TouchableOpacity>
     </View>
   </SafeAreaView>
+
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#E0E0E0',
+    backgroundColor: '#D6D6D6',
     padding: 10,
     borderRadius: 0,
     marginTop: 5,
@@ -129,6 +148,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.3,
     shadowRadius: 2,
+
     // Android shadow style
     elevation: 5
   },
@@ -136,14 +156,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 2,
-    marginLeft: 3,
+    marginLeft: 1,
+    fontSize: 16,
   },
   boldText: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
+    color: 'black',
+
   },
   box: {
-    width: 190,
-    height: 130,
+    width: 180,
+    height: 120,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#ffffff',
@@ -153,41 +176,7 @@ const styles = StyleSheet.create({
   image: {
     width: 100,
     height: 100,
-    resizeMode: "contain",
-  },
-  carInfo: {
-    marginTop: 15,
-  },
-  buttonContainer: {
-    alignItems: "center",
-  },
-  button: {
-    backgroundColor: "#49111c",
-    padding: 10,
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 10,
-    width: "98%",
-    marginBottom: 5,
-    marginTop: 5,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.7,
-    shadowRadius: 2,
-
-    // Android shadow style
-    elevation: 5,
-  },
-  buttonText: {
-    color: "white",
-    fontWeight: "bold",
-    fontSize: 16,
-  },
-  user: {
-    marginTop: 1,
-  },
-  carInfo: {
-    marginTop: 15,
+    resizeMode: 'contain',
   },
   buttonContainer: {
     alignItems: 'center',
@@ -216,6 +205,9 @@ const styles = StyleSheet.create({
 },
   user: {
     marginTop: 1,
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#404040',
   }
 });
 
