@@ -157,8 +157,9 @@ transactionRouter.post('/:qr_code', async (req, res) => {
     await model.createTransaction(columns, values);
     // check if guest
     if (data.user_id === 15) {
-      console.log('guest fork');
-      await model.updateGuestVehicle(data.license_plate);
+      // console.log('guest fork');
+      // console.log(data.vehicle_id);
+      await model.updateGuestVehicle(data.vehicle_id);
     }
     res.status(201).send('Created')
   } catch (err) {

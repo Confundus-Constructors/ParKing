@@ -352,10 +352,12 @@ module.exports = {
       WHERE qr_code = '${conf_number}';
     `);
   },
-  updateGuestVehicle: () => {
-    `UPDATE vehicles
-    SET user_id = 16
-    WHERE license_plate = ${license_plate};
-    `
+  updateGuestVehicle: (vehicle_id) => {
+    return client.query(
+      `UPDATE vehicles
+      SET user_id = 16
+      WHERE id = ${vehicle_id};
+      `
+    );
   },
 };
