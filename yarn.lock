@@ -4777,6 +4777,11 @@
   dependencies:
     "expo-image-loader" "~4.3.0"
 
+"expo-blur@~12.4.1":
+  "integrity" "sha512-lGN8FS9LuGUlEriULTC62cCWyg5V7zSVQeJ6Duh1wSq8aAETinZ2/7wrT6o+Uhd/XVVxFNON2T25AGCOtMG6ew=="
+  "resolved" "https://registry.npmjs.org/expo-blur/-/expo-blur-12.4.1.tgz"
+  "version" "12.4.1"
+
 "expo-camera@~13.4.4":
   "integrity" "sha512-7k54APbpSulUDR2CrD5SrmKjCdfdg4tqKRpbBOKc2J2MIBHhunExU77435JDYSejHRY5bfRHZsEp3yKwR862uw=="
   "resolved" "https://registry.npmjs.org/expo-camera/-/expo-camera-13.4.4.tgz"
