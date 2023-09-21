@@ -155,6 +155,10 @@ transactionRouter.post('/:qr_code', async (req, res) => {
     // console.log({columns, values});
 
     await model.createTransaction(columns, values);
+    // check if guest
+    if (data.user_id === 15) {
+      await model.updateGuestVehicle(data.license_plate);
+    }
     res.status(201).send('Created')
   } catch (err) {
     console.log('an error occurred on transaction/:qr_code route', err);
