@@ -1,6 +1,6 @@
 import { View,Text,Image,TextInput,ScrollView,StyleSheet } from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
-import Calendar from './Calendar';
+import ValetCalendar from './Calendar';
 
 const Stack = createStackNavigator();
 
@@ -13,7 +13,7 @@ export default CalendarScreen = () => {
     >
     <Stack.Screen
         name="Calendar"
-        component={Calendar}
+        component={ValetCalendar}
         options={{
           title: 'ParKing',
           headerStyle: {
