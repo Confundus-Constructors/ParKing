@@ -1,9 +1,7 @@
-import { Alert, LayoutAnimation, SafeAreaView, Touchable, Pressable, TouchableOpacity, View, ScrollView, Text, TextInput, StyleSheet, Image } from 'react-native';
+import { Alert, SafeAreaView, Touchable, Pressable, TouchableOpacity, View, ScrollView, Text, TextInput, StyleSheet, Image } from 'react-native';
 import { useState, useEffect } from 'react';
 import { Modal, Portal, PaperProvider } from 'react-native-paper';
 import axios from 'axios';
-import { Dimensions } from 'react-native'
-import {host, port} from "../../../env.js";
 
 async function loadFonts() {
   await Font.loadAsync({
@@ -18,16 +16,11 @@ export default CheckOut = ({navigation,  route}) => {
   const [waitingVisible, setWaitingVisible] = useState(false);
   const [confirmationVisible, setConfirmationVisible] = useState(false);
   const [imageSource, setImageSource] = useState('');
-  const [big, setBig] = useState(false);
 
-  const onPressCheck = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    setBig(!big);
-  }
 
   const handleReturn = () => {
     // setWaitingVisible(true);
-    axios.put(`http://${host}:${port}/transactions/${route.params.qr_code}`)
+    axios.put(`https://051f-2603-7000-3900-7052-f0a4-43e1-9eb2-cce9.ngrok-free.app/transactions/${route.params.qr_code}`)
       .then(() => {
         // setWaitingVisible(false);
         setConfirmationVisible(true);
@@ -56,7 +49,7 @@ export default CheckOut = ({navigation,  route}) => {
   };
 
   useEffect(() => {
-    axios(`http://${host}:${port}/image/${route.params.qr_code}`)
+    axios(`https://051f-2603-7000-3900-7052-f0a4-43e1-9eb2-cce9.ngrok-free.app/image/${route.params.qr_code}`)
     .then((result) => {
       var base64 = result.data.rows[0].photo;
       var base64Pic = 'data:image/png;base64,' + base64;
@@ -72,29 +65,14 @@ export default CheckOut = ({navigation,  route}) => {
   return (
     <View style={styles.container}>
       <View style={styles.formContainer}>
-        { !big ?
-        <View>
-          <Text style={styles.text}>Please bring out the following vehicle and press the 'Vehicle Returned' button after returning vehicle</Text>
-          <Text style={styles.text}>Reservation ID: </Text>
-          <Text style={styles.text}>{'Spot: ' + carInfo.parking_spot_number} </Text>
-          <Text style={styles.text}>{'Owner: ' + carInfo.user}</Text>
-          <Text style={styles.text}>{'Make: ' + carInfo.make_model}</Text>
-          <Text style={styles.text}>{'Color: ' + capitalizeString(carInfo.color)}</Text>
-          <Text style={styles.text}>{'License Plate: ' + carInfo.license_plate}</Text>
-        </View>
-          :null}
-        <TouchableOpacity onPress={onPressCheck}>
-          <Image src={imageSource} style={
-              {height: !big ? 100 : Dimensions.get('window').height,
-              width: !big ? 100 : Dimensions.get('window').width,
-              borderWidth: 1,
-              alignSelf: 'center',
-              resizeMode: "contain",
-              borderRadius: 10,
-              resizeMode: "cover"}
-              }>
-          </Image>
-        </TouchableOpacity>
+        <Text style={styles.text}>Please bring out the following vehicle and press the 'Vehicle Returned' button after returning vehicle</Text>
+        <Text style={styles.text}>Reservation ID: </Text>
+        <Text style={styles.text}>{'Spot: ' + carInfo.parking_spot_number} </Text>
+        <Text style={styles.text}>{'Owner: ' + carInfo.user}</Text>
+        <Text style={styles.text}>{'Make: ' + carInfo.make_model}</Text>
+        <Text style={styles.text}>{'Color: ' + capitalizeString(carInfo.color)}</Text>
+        <Text style={styles.text}>{'License Plate: ' + carInfo.license_plate}</Text>
+        <Image src={imageSource} style={styles.carPic}></Image>
         <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonTitle} onPress={handleReturn}>Vehicle Returned</Text>
         </TouchableOpacity>
@@ -172,9 +150,8 @@ const styles = StyleSheet.create({
     width: 100,
     borderWidth: 1,
     alignSelf: 'center',
-    resizeMode: "contain",
-    borderRadius: 10,
     resizeMode: "cover",
+    borderRadius: 10
   },
   modalContainer: {
     alignItems:'center',
