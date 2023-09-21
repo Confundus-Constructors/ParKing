@@ -57,14 +57,15 @@ export default function App() {
     // <ForgotPasswordScreen />
     // <NewPasswordScreen />
     // <CarManage />
-    <Map />
+    //<Map />
     // <Navigation />
+    <Navigation />
     // <UHP />
     // <Welcome />
     // <SignUpScreen />
     // <Reserve />
     // <Select />
-    //<ValetTabs/>
+    // <ValetTabs/>
   );
 }
 
