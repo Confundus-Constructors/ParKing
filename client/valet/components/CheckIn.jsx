@@ -1,4 +1,4 @@
-import { Alert, SafeAreaView, Touchable, Pressable, TouchableOpacity, View, ScrollView, Text, TextInput, StyleSheet, Image } from 'react-native';
+import { Alert, LayoutAnimation, SafeAreaView, Touchable, Pressable, TouchableOpacity, View, ScrollView, Text, TextInput, StyleSheet, Image } from 'react-native';
 import { useState, useEffect } from 'react';
 import { Modal, Portal, PaperProvider } from 'react-native-paper';
 import axios from 'axios';
@@ -17,7 +17,8 @@ export default Checkin = ({navigation, route}) => {
   const [confirming, setConfirming] = useState(false);
   const [carInfo, setCarInfo] = useState({});
   const [blob, setBlob] = useState();
-  const [qrCode, setQRCode] = useState('test2');
+  const [qrCode, setQRCode] = useState(route.params.qr_code);
+  const [check, setCheck] = useState(false);
 
   useEffect(() => {
     if (route.params && route.params.carInfo) {
@@ -32,6 +33,14 @@ export default Checkin = ({navigation, route}) => {
         console.log(err);
       })
   };
+
+  const onPressCheck = () => {
+    console.log('hi')
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+
+    setCheck(true);
+    console.log('test')
+  }
 
 
   const addPic = () => {
@@ -74,6 +83,9 @@ export default Checkin = ({navigation, route}) => {
     }
   };
 
+  var middleStyle = check === false ? {width: 20,height:20} : {width: "100%",height:"100%"};
+  // console.log(middleStyle);
+
   return (
     <View style={styles.container}>
       <View style={styles.formContainer}>
@@ -101,12 +113,14 @@ export default Checkin = ({navigation, route}) => {
             </TouchableOpacity>
             :
             <View>
-              <Image
-                style={styles.image}
-                source={{
-                  uri: image,
-                }}
-              />
+              <TouchableOpacity onPress={onPressCheck}>
+                <Image
+                  style={[middleStyle, styles.image]}
+                  source={{
+                    uri: image,
+                  }}
+                />
+              </TouchableOpacity>
             <View style={styles.buttonContainer}>
               <TouchableOpacity style={styles.picButtonTwins} onPress={addPic}>
                 <Text style={styles.buttonTitle}>Retake</Text>
@@ -227,7 +241,9 @@ const styles = StyleSheet.create({
     height: 160,
     width: 160,
     alignSelf: 'center',
-    borderRadius: 20
+    borderRadius: 20,
+    resizeMode: "cover",
+
   },
   waitingText: {
     fontSize: 20,

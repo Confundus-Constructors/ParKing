@@ -29,7 +29,6 @@ const CarCard = ({info,  buttonText, navigation}) => {
   useEffect(() => {
     axios.get(`http://localhost:3000/image/${info.confirmation_id}`)
     .then((result) => {
-      console.log(result.data.rows[0].photo)
       if (result.data.rows[0].photo) {
         var base64 = result.data.rows[0].photo;
         var base64Pic = 'data:image/png;base64,' + base64;

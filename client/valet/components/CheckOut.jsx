@@ -150,8 +150,9 @@ const styles = StyleSheet.create({
     width: 100,
     borderWidth: 1,
     alignSelf: 'center',
+    resizeMode: "contain",
+    borderRadius: 10,
     resizeMode: "cover",
-    borderRadius: 10
   },
   modalContainer: {
     alignItems:'center',
