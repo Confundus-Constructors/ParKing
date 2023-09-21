@@ -17,7 +17,6 @@ async function loadFonts() {
 
 const Car = ({ data, set, index,setsel }) => {
   const handlePress = () => {
-    Alert.alert("presssed");
     set(index);
     setsel(data)
   };
