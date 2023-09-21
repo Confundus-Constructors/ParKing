@@ -15,17 +15,21 @@ import React, { useState, useEffect } from "react";
 import UserTabs from "./UserTabs.jsx";
 import axios from "axios";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation } from '@react-navigation/native';
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { FIREBASE_AUTH } from '../../../FirebaseConfig.ts';
+import { signOut } from "firebase/auth";
+
 
 async function loadFonts() {
   await Font.loadAsync({});
 }
 
 const UHP = () => {
+  const auth = FIREBASE_AUTH;
   const userId = 1;
   const [location, setLoc] = useState("");
-  const [modalVisible, setModalVisible] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
 
   //#region calendar date time picker
@@ -33,6 +37,11 @@ const UHP = () => {
   const [eDate, setEDate] = useState(new Date());
   const [sTime, setSTime] = useState(new Date());
   const [eTime, setETime] = useState(new Date());
+  // const [ fdate, setfdate ] = useState('');
+  // const [ endate, setendate ] = useState('');
+  // const [ ftime, setftime ] = useState('');
+  // const [ endtime, setendtime ] = useState('');
+
 
   // useEffect(() => {
   //   const today = new Date();
@@ -77,32 +86,31 @@ const UHP = () => {
   const handleInput = (newText) => {
     setLoc(newText);
   };
-  const handlePush = () => {
-    navigation.navigate("Reserve");
-  };
 
-  // const handlePush = () => {
-  // axios
-  //   .get("/garages", {
-  //     params: {
-  //       location: location,
-  //       start_date: sTime,
-  //       end_date: eTime,
-  //     },
-  //   })
-  //   .then((result) => {
-  // console.log(result);
-  // navigation.navigate("Reserve");
-  // });
-  // };
+  const handlePush = () => {
+  axios
+    .get("/garages", {
+      params: {
+        location: location,
+        start_date: sTime,
+        end_date: eTime,
+      },
+    })
+    .then((result) => {
+  console.log(result);
+  navigation.navigate("Reserve", {data: result,id: userId, time: {stime: sTime, etime: eTime}});
+  });
+  };
+  const handlePress = () => {
+    setModalVisible(true);
+  }
   const onBackSignInPressed = () => {
     navigation.navigate("Welcome");
   }
-
   const signOutUser = async () => {
     try {
       await signOut(auth);
-      navigation.navigate("Welcome");
+      navigation.navigate('Welcome');
     } catch (error) {
       console.error("Error signing out: ", error);
     }
@@ -180,17 +188,21 @@ const UHP = () => {
             color="#171412"
           />
 
-          <TouchableOpacity>
-            <Text onPress={onBackSignInPressed} style={styles.clickableText}>
-              Back to Sign In
-            </Text>
-          </TouchableOpacity>
+        <TouchableOpacity>
+          <Text onPress={signOutUser} style={styles.clickableText}>Sign Out</Text>
+        </TouchableOpacity>
           {/* <Icon /> */}
         </View>
       </Modal>
       {/* <UserTabs/> */}
+      <CustomButton
+      style={styles.button}
+      textStyle={{ ...styles.commonFont, color: "#D0D3D2" }}
+      title="Book Now"
+      color="#171412"
+      onPress={handlePress}/>
     </SafeAreaView>
-  );
+  )
 };
 
 const styles = StyleSheet.create({

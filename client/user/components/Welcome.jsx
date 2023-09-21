@@ -34,9 +34,10 @@ async function loadFonts() {
 const Welcome = () => {
   // const [email, setEmail] = useState('');
   // const [password, setPassword] = useState('');
-  
+
   const auth = FIREBASE_AUTH;
   const [loading, setLoading] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
   const { control, handleSubmit, formState: {errors}, } = useForm();
 
@@ -67,12 +68,14 @@ const Welcome = () => {
       setLoading(false);
     }
   };
-  
+
   useEffect(() => {
     onAuthStateChanged(FIREBASE_AUTH, (user) => {
-      console.log("Before setting user:", user);
-        setUser(user);
-        console.log("After setting user:", user);
+      if (user) {
+        setLoggedIn(true);
+      } else {
+        setLoggedIn(false);
+      }
 
     });
   }, []);
@@ -138,7 +141,7 @@ const Welcome = () => {
   };
 
   const onSignInGooglePressed = () => {
-    console.warn('Sign In Google Pressed');
+    promptAsync();
   };
 
   const onSignInFacebookPressed = () => {
@@ -149,6 +152,11 @@ const Welcome = () => {
   const onForgotPassPressed = () => {
 
     navigation.navigate('ForgotPasswordScreen');
+  };
+
+  const onGuestPressed = () => {
+
+    navigation.navigate('UHP');
   };
 
   const onCreatePressed = () => {
@@ -170,6 +178,7 @@ const Welcome = () => {
                     <CustomInput
                         name="Email"
                         placeholder="Email"
+                        autoCapitalize="none"
                         control={control}
                         rules={{ required: 'Email is required', pattern: { value: EMAIL_REGEX, message: 'Email is invalid' } }}
                     />
@@ -208,7 +217,7 @@ const Welcome = () => {
                         color="#49111C"
                     />
                     <TouchableOpacity>
-                        <Text style={styles.clickableText}>Continue as Guest</Text>
+                        <Text onPress={onGuestPressed} style={styles.clickableText}>Continue as Guest</Text>
                     </TouchableOpacity>
                 </SafeAreaView>
 
