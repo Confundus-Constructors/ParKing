@@ -72,17 +72,17 @@ const SignUpScreen = () => {
             <Text style = {styles.text}>Create an account to reserve your parking spot.</Text>
 
 
-            <CustomInput name="firstName" placeholder="First Name" control={control} rules={{required: 'First name is required'}} />
-            <CustomInput name="lastName" placeholder="Last Name" control={control} rules={{required: 'Last name is required'}} />
+            <CustomInput name="firstName" placeholder="First Name" control={control} autoCapitalize="none" rules={{required: 'First name is required'}} />
+            <CustomInput name="lastName" placeholder="Last Name" control={control} autoCapitalize="none" rules={{required: 'Last name is required'}} />
             <CustomInput name="phoneNumber" placeholder="Phone Number" control={control} rules={{required: 'Phone number is required'}} />
-            <CustomInput name="email" placeholder="Email" control={control} rules={{required: 'Email is required', pattern: {value: EMAIL_REGEX, message: 'Email is invalid'}}} />
-            <CustomInput name="password" placeholder="Password" control={control}
+            <CustomInput name="email" placeholder="Email" control={control} autoCapitalize="none" rules={{required: 'Email is required', pattern: {value: EMAIL_REGEX, message: 'Email is invalid'}}} />
+            <CustomInput name="password" placeholder="Password" control={control} autoCapitalize="none"
               rules={{required: 'Password is required', minLength: {value: 8, message: 'Password must be at least 8 characters long'}}} secureTextEntry={true} />
-            <CustomInput name="confirmPassword" placeholder="Confirm Password" control={control}
+            <CustomInput name="confirmPassword" placeholder="Confirm Password" control={control} autoCapitalize="none"
               rules={{validate: value => value === pwd || "Password don not match"}} value secureTextEntry={true} />
 
 
-            <CustomButton
+            <CustomButtons
               style={styles.button}
               textStyle={{ ...styles.commonFont, color: '#A9927D' }}
               title="Register"

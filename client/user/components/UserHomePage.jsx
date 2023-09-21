@@ -21,6 +21,7 @@ import { FIREBASE_AUTH } from '../../../FirebaseConfig.ts';
 import { signOut } from "firebase/auth";
 
 
+
 async function loadFonts() {
   await Font.loadAsync({});
 }
@@ -88,18 +89,18 @@ const UHP = () => {
   };
 
   const handlePush = () => {
-  axios
-    .get("/garages", {
-      params: {
-        location: location,
-        start_date: sTime,
-        end_date: eTime,
-      },
-    })
-    .then((result) => {
-  console.log(result);
-  navigation.navigate("Reserve", {data: result,id: userId, time: {stime: sTime, etime: eTime}});
-  });
+    axios
+      .get("/garages", {
+        params: {
+          location: location,
+          start_date: sTime,
+          end_date: eTime,
+        },
+      })
+      .then((result) => {
+    console.log(result);
+    navigation.navigate("Reserve", {data: result,id: userId, time: {stime: sTime, etime: eTime}});
+    });
   };
   const handlePress = () => {
     setModalVisible(true);
