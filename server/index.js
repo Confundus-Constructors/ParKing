@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const app = express();
 const model = require('./models/index.js');
 const multer = require('multer');
-
+const cors = require('cors');
 require("dotenv").config();
 // const userRoute = require('./routes/users');
 // const restRouter = require('./routes/transactions.js');
@@ -18,7 +18,7 @@ const { getUser, postUser, getAll } = require("./routes/users");
 app.use(bodyParser.json({limit: '50mb', extended: true}));
 app.use(bodyParser.urlencoded({limit: "50mb", extended: true }));
 app.use(bodyParser.text({ limit: '200mb' }));
-
+app.use(cors());
 // app.use('/users', userRoute);
 app.use('/reservations', reservationRouter);
 app.use('/transactions', transactionRouter);
