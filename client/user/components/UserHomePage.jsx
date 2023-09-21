@@ -37,10 +37,10 @@ const UHP = () => {
   const [eDate, setEDate] = useState(new Date());
   const [sTime, setSTime] = useState(new Date());
   const [eTime, setETime] = useState(new Date());
-  const [ fdate, setfdate ] = useState('');
-  const [ endate, setendate ] = useState('');
-  const [ ftime, setftime ] = useState('');
-  const [ endtime, setendtime ] = useState('');
+  // const [ fdate, setfdate ] = useState('');
+  // const [ endate, setendate ] = useState('');
+  // const [ ftime, setftime ] = useState('');
+  // const [ endtime, setendtime ] = useState('');
 
 
   // useEffect(() => {
