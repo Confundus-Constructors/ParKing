@@ -20,8 +20,6 @@ import {
   signInWithEmailAndPassword
 } from "firebase/auth";
 
-import axios from 'axios';
-import {host, port} from "../../../env.js";
 
 import { User } from 'firebase/auth';
 
@@ -41,7 +39,6 @@ const Welcome = () => {
   const [loading, setLoading] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
-  const [ userId, setUserId ] = useState(1);
   const { control, handleSubmit, formState: {errors}, } = useForm();
 
   const navigation = useNavigation();
@@ -54,6 +51,9 @@ const Welcome = () => {
   const [request2, response2, promptAsync2] = Facebook.useAuthRequest({
     clientId: "1012811586526206"
   });
+
+
+
 
   const checkLocalUser = async() => {
     try {
@@ -76,34 +76,22 @@ const Welcome = () => {
       } else {
         setLoggedIn(false);
       }
+
     });
   }, []);
+
 
   useEffect(() => {
     if (response?.type === 'success') {
       const { id_token } = response.params;
       const credential = GoogleAuthProvider.credential(id_token);
       signInWithCredential(auth, credential)
-      .then(async(authResult) => {
+      .then((authResult) => {
         if (authResult.user.firstLogin) {  // Replace 'firstLogin' with field name you use in Firebase.
           navigation.navigate('ConfirmEmailScreen');
           // Optionally, update Firebase to set firstLogin to false for this user.
         } else {
-          // navigation.navigate('UHP');
-          // ---- KURT AND JON ADD PUT ROUTE ---- //
-          const db_response = await updateUserDeviceTokenNoPW( auth.currentUser.email, auth.currentUser.stsTokenManager);
-          if (db_response.data === "" || db_response.data === undefined) {
-            navigation.navigate('SignUpScreen');
-          } else {
-            setUserId(db_response.data.id);
-            if (db_response.data.is_employee) {
-              const employee_data = await getEmployeeFromDB( db_response.data.id);
-              const garage_id = employee_data.data.garage_id;
-              navigation.navigate('VHP', { data: garage_id}); // need to pass userId into
-            } else {
-              navigation.navigate('UserTabs', { data: userId}); // need to pass userId into
-            }
-          }
+          navigation.navigate('UHP');
         }
       })
       .catch((error) => {
@@ -123,8 +111,7 @@ const Welcome = () => {
                 navigation.navigate('ConfirmEmailScreen');
                 // Optionally, update Firebase to set firstLogin to false for this user.
             } else {
-
-                navigation.navigate('UserTabs');
+                navigation.navigate('UHP');
             }
         })
         .catch((error) => {
@@ -143,18 +130,8 @@ const Welcome = () => {
     setLoading(true);
     try {
       const response = await signInWithEmailAndPassword(auth, data.Email, data.Password);
-      // console.log('herererererererer', response);
-      // navigation.navigate('UHP');
-      // ---- KURT AND JON ADD PUT ROUTE ---- //
-      const db_response = await updateUserDeviceToken( response.user, data.Password);
-      setUserId(db_response.data.id);
-      if (db_response.data.is_employee) {
-        const employee_data = await getEmployeeFromDB( db_response.data.id);
-        const garage_id = employee_data.data.garage_id;
-        navigation.navigate('VHP', { data: garage_id}); // need to pass userId into
-      } else {
-        navigation.navigate('UserTabs', { data: userId}); // need to pass userId into
-      }
+      console.log('herererererererer', response);
+      navigation.navigate('UHP');
     } catch (error) {
       console.log(error);
       alert('Sign in failed. Please try again.' + error.message);
@@ -179,37 +156,13 @@ const Welcome = () => {
 
   const onGuestPressed = () => {
 
-    navigation.navigate('UserTabs');
+    navigation.navigate('UHP');
   };
 
   const onCreatePressed = () => {
 
     navigation.navigate('SignUpScreen');
   };
-
-  // --- START DATABASE FUNCTIONS --- //
-  const updateUserDeviceToken = (obj, password) => {
-    console.log({host, port});
-    let payload = {
-      email: obj.email,
-      password: password,
-      stsTokenManager: obj.stsTokenManager,
-    }
-    return axios.put(`http://${host}:${port}/users`, payload);
-  };
-  const updateUserDeviceTokenNoPW = (email, token) => {
-    let payload = {
-      email: email,
-      stsTokenManager: token,
-    }
-    return axios.put(`http://${host}:${port}/users/auth`, payload);
-  };
-  const getEmployeeFromDB = (user) => {
-    return axios.get(`http://${host}:${port}/users/employees/${user}`);
-    // TESTING ONLY BELOW
-    // return axios.get(`http://localhost:${port}/users/employees/${user}`);
-  }
-  // --- END DATABASE FUNCTIONS --- //
 
   return (
     <KeyboardAvoidingView

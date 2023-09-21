@@ -15,11 +15,11 @@ import React, { useState, useEffect } from "react";
 import UserTabs from "./UserTabs.jsx";
 import axios from "axios";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useNavigation } from '@react-navigation/native';
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { FIREBASE_AUTH } from "../../../FirebaseConfig.ts";
+import { FIREBASE_AUTH } from '../../../FirebaseConfig.ts';
 import { signOut } from "firebase/auth";
-import { host, port } from "../../../env.js";
+
 
 async function loadFonts() {
   await Font.loadAsync({});
@@ -27,20 +27,10 @@ async function loadFonts() {
 
 const UHP = () => {
   const auth = FIREBASE_AUTH;
-  const route = useRoute();
-
+  const userId = 1;
   const [location, setLoc] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
-  const [userId, setUserID] = useState(16);
-  const imgurl =
-    "https://images.unsplash.com/photo-1577114995803-d8ce0e2b4aa9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1173&q=80";
-
-  useEffect(() => {
-    if (route.params) {
-      setUserID(route.params.data);
-    }
-  }, [route.params]);
 
   //#region calendar date time picker
   const [sDate, setSDate] = useState(new Date());
@@ -51,6 +41,7 @@ const UHP = () => {
   // const [ endate, setendate ] = useState('');
   // const [ ftime, setftime ] = useState('');
   // const [ endtime, setendtime ] = useState('');
+
 
   // useEffect(() => {
   //   const today = new Date();
@@ -97,42 +88,29 @@ const UHP = () => {
   };
 
   const handlePush = () => {
-    axios
-      .get(`http://${host}:${port}/garages`, {
-        params: {
-          location: location,
-          start_date: sTime,
-          end_date: eTime,
-        },
-      })
-      .then((result) => {
-        // console.log("hererere:", result.data);
-        navigation.navigate("Reserve", {
-          data: result.data,
-          id: userId,
-          time: { stime: sTime, etime: eTime },
-        });
-        setModalVisible(false);
-      })
-      .catch((error) => {
-        console.error("Axios error:", error.message);
-        if (error.response) {
-          console.log("Server Response:", error.response.data);
-          console.log("Status Code:", error.response.status);
-        }
-      });
+  axios
+    .get("/garages", {
+      params: {
+        location: location,
+        start_date: sTime,
+        end_date: eTime,
+      },
+    })
+    .then((result) => {
+  console.log(result);
+  navigation.navigate("Reserve", {data: result,id: userId, time: {stime: sTime, etime: eTime}});
+  });
   };
-
   const handlePress = () => {
     setModalVisible(true);
-  };
+  }
   const onBackSignInPressed = () => {
     navigation.navigate("Welcome");
-  };
+  }
   const signOutUser = async () => {
     try {
       await signOut(auth);
-      navigation.navigate("Welcome");
+      navigation.navigate('Welcome');
     } catch (error) {
       console.error("Error signing out: ", error);
     }
@@ -142,15 +120,16 @@ const UHP = () => {
     <SafeAreaView style={styles.Outer}>
       <Text style={styles.text}>Reserve Your Spot</Text>
       {/* <Image
-        source={{uri: imgurl}}
+        source={require("../../../assets/giraffe.png")}
         style={styles.image}
-        accessibilityLabel="ParKing Mascot"
+        alt="ParKing Mascot"
       /> */}
       <Modal
         animationType="slide"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
           setModalVisible(!modalVisible);
         }}
       >
@@ -205,28 +184,25 @@ const UHP = () => {
               ...styles.commonFont,
               color: "#D0D3D2",
             }}
-            onPress={handlePush}
+            onPush={handlePush}
             color="#171412"
           />
 
-          <TouchableOpacity>
-            <Text onPress={signOutUser} style={styles.clickableText}>
-              Sign Out
-            </Text>
-          </TouchableOpacity>
+        <TouchableOpacity>
+          <Text onPress={signOutUser} style={styles.clickableText}>Sign Out</Text>
+        </TouchableOpacity>
           {/* <Icon /> */}
         </View>
       </Modal>
       {/* <UserTabs/> */}
       <CustomButton
-        style={styles.button}
-        textStyle={{ ...styles.commonFont, color: "#D0D3D2" }}
-        title="Book Now"
-        color="#171412"
-        onPress={handlePress}
-      />
+      style={styles.button}
+      textStyle={{ ...styles.commonFont, color: "#D0D3D2" }}
+      title="Book Now"
+      color="#171412"
+      onPress={handlePress}/>
     </SafeAreaView>
-  );
+  )
 };
 
 const styles = StyleSheet.create({
@@ -235,7 +211,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#171412",
+    backgroundColor: "grey",
   },
   Card: {
     borderRadius: "20px",
