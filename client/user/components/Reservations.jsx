@@ -26,7 +26,7 @@ const Reservations = () => {
   const id = route.params.id;
 
   useEffect(() => {
-    axios.get(`http://localhost:3000/transactions/${data.conf_code}`).then((result) => {
+    axios.get(`http://localhost:3000/transactions/${data}`).then((result) => {
       const monthNames = [
         "January",
         "February",
