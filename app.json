@@ -16,16 +16,8 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "infoPlist": {
-        "UIBackgroundModes": [
-          "location",
-          "fetch"
-        ],
-        "NSLocationWhenInUseUsageDescription": "text",
-        "NSLocationAlwaysAndWhenInUseUsageDescription": "text",
-        "NSLocationAlwaysUsageDescription": "text"
-      },
-      "bundleIdentifier": "com.anonymous.ParKing"
+      "bundleIdentifier": "com.anonymous.ParKing",
+      "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
       "adaptiveIcon": {
@@ -34,10 +26,7 @@
       },
       "permissions": [
         "android.permission.CAMERA",
-        "android.permission.RECORD_AUDIO",
-        "android.permission.ACCESS_COARSE_LOCATION",
-        "android.permission.ACCESS_FINE_LOCATION",
-        "android.permission.FOREGROUND_SERVICE"
+        "android.permission.RECORD_AUDIO"
       ]
     },
     "web": {
@@ -49,12 +38,6 @@
         "expo-camera",
         {
           "cameraPermission": "Allow $(ParKing) to access your camera."
-        }
-      ],
-      [
-        "expo-location",
-        {
-          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
         }
       ]
     ],
