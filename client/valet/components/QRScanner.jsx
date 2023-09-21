@@ -36,8 +36,8 @@ export default QRScanner = ({navigation}) => {
 
 if (!permission) {
   return (
-    <View style={styles.container}>
-      <Text>Please grant camera permissions to app.</Text>
+    <View style={{flex: 1, justifyContent: 'center', alignItems:'center'}}>
+      <Text style={{fontSize: 20}}>Please grant camera permissions to app.</Text>
     </View>
   );
 }

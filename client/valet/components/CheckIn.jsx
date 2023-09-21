@@ -41,7 +41,6 @@ export default Checkin = ({navigation, route}) => {
     setBig(!big);
   }
 
-
   const addPic = () => {
     navigation.navigate('CameraMain', {list: route.params.list});
   };

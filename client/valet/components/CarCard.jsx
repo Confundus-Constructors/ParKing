@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import { View, Text, LayoutAnimation, SafeAreaView, StyleSheet, TouchableOpacity, Image, Button} from 'react-native';
 import {launchCamera} from 'react-native-image-picker';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -8,17 +8,19 @@ import { Dimensions } from 'react-native'
 import {host, port} from "../../../env.js";
 
 const CarCard = ({info,  buttonText, navigation}) => {
-  
+
   const [imageSource, setImageSource] = useState(null);
   const [big, setBig] = useState(false);
+  const imageRef = useRef();
+  const [top, setTop] = useState(0);
 
   const formatCustomDate = (date) => {
-    const day = date.getDate();
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear().toString().slice(2);
-    const hours = date.getHours();
-    const minutes = (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
-    const ampm = hours >= 12 ? 'PM' : 'AM';
+  const day = date.getDate();
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear().toString().slice(2);
+  const hours = date.getHours();
+  const minutes = (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
+  const ampm = hours >= 12 ? 'PM' : 'AM';
 
     const formattedDate = `${month}/${day}/${year}, ${hours % 12 || 12}:${minutes} ${ampm}`;
     return formattedDate;
@@ -28,10 +30,14 @@ const CarCard = ({info,  buttonText, navigation}) => {
   const date2 = new Date(info.reservation_end_time);
 
   const onPressCheck = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    if (imageSource) {
-      setBig(!big);
-    }
+
+  //  imageRef.current.measure((x, y, width, height, pagex, pagey) => {
+  //   setTop(-pagey);
+  //   });
+  //   LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+  //   if (imageSource) {
+  //     setBig(!big);
+  //   }
   }
 
   useEffect(() => {
@@ -114,14 +120,29 @@ const CarCard = ({info,  buttonText, navigation}) => {
         <View>
           <TouchableOpacity style={styles.box} onPress={onPressCheck}>
             {imageSource ? (
-              <Image src={imageSource} style={
+              <Image
+              ref={imageRef}
+              // onLayout={event => {
+              //   const layout = event.nativeEvent.layout;
+              //   console.log('screen height:', Dimensions.get('window').height);
+              //   // console.log('width:', layout.width);
+              //   // XRef.current = layout.x;
+              //   // YRef.current = layout.y;
+              //   // console.log('x:', layout.x);
+              //   // console.log('y:', layout.y);
+              // }}
+              src={imageSource}
+              style={
                 {
                   height: !big ? 120 : Dimensions.get('window').height,
                   width: !big ? 180 : Dimensions.get('window').width,
                   borderRadius: 10,
                   resizeMode: "cover",
                   marginRight: !big ? 0 : 200,
-                  zIndex: 100
+                  position: 'absolute',
+                  top: top,
+                  left: !big ? 0 : -205,
+                  zIndex: 1
                 }
               } />
             ) : (
@@ -133,7 +154,6 @@ const CarCard = ({info,  buttonText, navigation}) => {
 
      </View>
 
-      {!big ?
       <View>
       <View style={styles.row}>
         <View>
@@ -162,7 +182,6 @@ const CarCard = ({info,  buttonText, navigation}) => {
         </TouchableOpacity>
       </View>
     </View>
-     : null}
   </SafeAreaView>
 
   );
@@ -179,9 +198,8 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.3,
     shadowRadius: 2,
-
-    // Android shadow style
-    elevation: 5
+    zIndex: 0,
+    // position: 'absolute'
   },
   row: {
     flexDirection: 'row',
