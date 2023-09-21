@@ -58,7 +58,7 @@ export default function App() {
     // <NewPasswordScreen />
     // <CarManage />
     // <Navigation />
-    <Map />
+    // <Map />
     // <Navigation />
     // <UHP />
     // <Welcome />
