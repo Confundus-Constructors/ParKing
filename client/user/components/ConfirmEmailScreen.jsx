@@ -22,6 +22,7 @@ const ConfirmEmailScreen = () => {
   const navigation = useNavigation();
 
   const onConfirmPressed = () => {
+    // for this I will only handle case of new user for now
     navigation.navigate('UHP', {data: userId});
   };
 

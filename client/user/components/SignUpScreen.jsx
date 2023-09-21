@@ -39,7 +39,7 @@ const SignUpScreen = () => {
     console.log(data);
     setLoading(true);
     try { const response = await createUserWithEmailAndPassword(auth, data.email, data.password);
-      // console.log(response);
+      console.log('responsen: ', response);
       const accessToken = response.user.stsTokenManager.accessToken;
       data.accessToken = accessToken;
       const db_response = await addUserToDatabase(data);
@@ -47,7 +47,7 @@ const SignUpScreen = () => {
       setUserId(db_response.data.id);
       navigation.navigate('ConfirmEmailScreen', {data: userId});
       // navigation.navigate('ConfirmEmailScreen');
-    } catch (error) {x
+    } catch (error) {
       console.log(error);
       alert('Sign up failed. Please try again.' + error.message);
     } finally {
