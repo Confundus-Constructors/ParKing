@@ -105,7 +105,7 @@ const CarCard = ({navigation, info,  buttonText}) => {
         </Text>
         <Text style={styles.row}>
           <Text style={styles.boldText}>Spot ID: </Text>
-          <Text>__</Text>
+          <Text>{info.parking_spot_number}</Text>
         </Text>
         </View>
     </View>
