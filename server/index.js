@@ -5,6 +5,7 @@ const app = express();
 const model = require('./models/index.js');
 const multer = require('multer');
 const cors = require('cors');
+// const {host, port} = require("../env.js");
 require("dotenv").config();
 // const userRoute = require('./routes/users');
 // const restRouter = require('./routes/transactions.js');
@@ -12,7 +13,7 @@ const transactionRouter = require("./routes/transactions.js");
 const reservationRouter = require("./routes/reservations.js");
 const garageRouter = require("./routes/garages.js");
 const vehicleRouter = require("./routes/vehicles.js");
-const { getUser, postUser, putUser, getAll, putUserAuth } = require("./routes/users");
+const { getUser, getEmployeeGarage, postUser, putUser, getAll, putUserAuth } = require("./routes/users");
 
 // app.use(express.static(path.join(__dirname, "../public")));
 app.use(bodyParser.json({limit: '50mb', extended: true}));
@@ -30,6 +31,10 @@ const port = process.env.SERVER_PORT || 3001;
 app.get("/users", (req, res) => {
   req.query.length > 0 ? getUser(req, res) : getAll(req, res);
 });
+
+app.get("/users/employees/:id", (req, res) => {
+  getEmployeeGarage(req, res);
+})
 
 app.post("/users", (req, res) => {
   postUser(req, res);

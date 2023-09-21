@@ -93,12 +93,16 @@ const Welcome = () => {
           // ---- KURT AND JON ADD PUT ROUTE ---- //
           const db_response = await updateUserDeviceTokenNoPW( auth.currentUser.email, auth.currentUser.stsTokenManager);
           if (db_response.data === "" || db_response.data === undefined) {
-            console.log('inside the if');
             navigation.navigate('SignUpScreen');
           } else {
             setUserId(db_response.data.id);
             if (db_response.data.is_employee) {
-              navigation.navigate('VHP', {data: userId}); // need to pass userId into
+              console.log(db_response.data.id);
+              const employee_data = await getEmployeeFromDB( db_response.data.id);
+              // console.log(employee_data});
+              const garage_id = employee_data.data.garage_id;
+              console.log(garage_id);
+              navigation.navigate('VHP', { data: garage_id}); // need to pass userId into
             } else {
               navigation.navigate('UHP', { data: userId}); // need to pass userId into
             }
@@ -146,11 +150,14 @@ const Welcome = () => {
       // navigation.navigate('UHP');
       // ---- KURT AND JON ADD PUT ROUTE ---- //
       const db_response = await updateUserDeviceToken( response.user, data.Password);
-      console.log('db_response: ', db_response.data);
-      console.log(db_response.data.is_employee);
       setUserId(db_response.data.id);
       if (db_response.data.is_employee) {
-        navigation.navigate('VHP'); // need to pass userId into
+        console.log(db_response.data.id);
+        const employee_data = await getEmployeeFromDB( db_response.data.id);
+        // console.log(employee_data});
+        const garage_id = employee_data.data.garage_id;
+        console.log(garage_id);
+        navigation.navigate('VHP', { data: garage_id}); // need to pass userId into
       } else {
         navigation.navigate('UHP', { data: userId}); // need to pass userId into
       }
@@ -203,6 +210,10 @@ const Welcome = () => {
     }
     return axios.put(`http://${host}:${port}/users/auth`, payload);
   };
+  const getEmployeeFromDB = (user) => {
+    return axios.get(`http://${host}:${port}/users/employees/${user}`);
+    // return axios.get(`http://localhost:${port}/users/employees/${user}`);
+  }
   // --- END DATABASE FUNCTIONS --- //
 
   return (
