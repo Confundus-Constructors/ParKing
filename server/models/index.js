@@ -351,5 +351,13 @@ module.exports = {
       SET current_status = 'picking-up'
       WHERE qr_code = '${conf_number}';
     `);
-  }
+  },
+  updateGuestVehicle: (vehicle_id) => {
+    return client.query(
+      `UPDATE vehicles
+      SET user_id = 16
+      WHERE id = ${vehicle_id};
+      `
+    );
+  },
 };
