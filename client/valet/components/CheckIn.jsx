@@ -5,6 +5,7 @@ import axios from 'axios';
 import moment from 'moment';
 import * as FileSystem from 'expo-file-system';
 import { Dimensions } from 'react-native'
+import {host, port} from "../../../env.js";
 
 async function loadFonts() {
   await Font.loadAsync({
@@ -29,7 +30,7 @@ export default Checkin = ({navigation, route}) => {
 
   const handleConfirm = () => {
       setModalVisible(true);
-      axios.put(`https://051f-2603-7000-3900-7052-f0a4-43e1-9eb2-cce9.ngrok-free.app/transactions/${qrCode}`)
+      axios.put(`http://${host}:${port}/transactions/${qrCode}`)
       .catch((err) => {
         console.log(err);
       })
@@ -48,7 +49,7 @@ export default Checkin = ({navigation, route}) => {
   const handleSubmit = async() => {
     const base64 = await FileSystem.readAsStringAsync(image, { encoding: 'base64' });
     setConfirming(true);
-    axios.post('https://051f-2603-7000-3900-7052-f0a4-43e1-9eb2-cce9.ngrok-free.app/image', {image: base64, blob: blob, qr_code: qrCode})
+    axios.post(`http://${host}:${port}/image`, {image: base64, blob: blob, qr_code: qrCode})
     .then(() => {
       setConfirming(false);
       setModalVisible(false);

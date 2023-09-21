@@ -5,9 +5,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCamera } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { Dimensions } from 'react-native'
+import {host, port} from "../../../env.js";
 
 const CarCard = ({info,  buttonText, navigation}) => {
-
+  
   const [imageSource, setImageSource] = useState(null);
   const [big, setBig] = useState(false);
 
@@ -34,7 +35,7 @@ const CarCard = ({info,  buttonText, navigation}) => {
   }
 
   useEffect(() => {
-    axios.get(`http://localhost:3000/image/${info.confirmation_id}`)
+    axios.get(`http://${host}:${port}/image/${info.confirmation_id}`)
     .then((result) => {
       if (result.data.rows[0].photo) {
         var base64 = result.data.rows[0].photo;

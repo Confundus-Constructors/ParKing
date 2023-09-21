@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { Modal, Portal, PaperProvider } from 'react-native-paper';
 import axios from 'axios';
 import { Dimensions } from 'react-native'
+import {host, port} from "../../../env.js";
 
 async function loadFonts() {
   await Font.loadAsync({
@@ -26,7 +27,7 @@ export default CheckOut = ({navigation,  route}) => {
 
   const handleReturn = () => {
     // setWaitingVisible(true);
-    axios.put(`https://051f-2603-7000-3900-7052-f0a4-43e1-9eb2-cce9.ngrok-free.app/transactions/${route.params.qr_code}`)
+    axios.put(`http://${host}:${port}/transactions/${route.params.qr_code}`)
       .then(() => {
         // setWaitingVisible(false);
         setConfirmationVisible(true);
@@ -55,7 +56,7 @@ export default CheckOut = ({navigation,  route}) => {
   };
 
   useEffect(() => {
-    axios(`https://051f-2603-7000-3900-7052-f0a4-43e1-9eb2-cce9.ngrok-free.app/image/${route.params.qr_code}`)
+    axios(`http://${host}:${port}/image/${route.params.qr_code}`)
     .then((result) => {
       var base64 = result.data.rows[0].photo;
       var base64Pic = 'data:image/png;base64,' + base64;

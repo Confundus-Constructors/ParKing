@@ -14,6 +14,7 @@ import axios from "axios";
 import { useRoute } from "@react-navigation/native";
 import CustomButton from "./CustomButton";
 import React, { useState,useEffect } from 'react';
+import {host, port} from "../../../env.js";
 
 async function loadFonts() {
   await Font.loadAsync({});
@@ -29,9 +30,9 @@ const Checkout = () => {
   const [ code,setCode ] = useState("");
 
   useEffect(() => {
-    axios.get('http://localhost:3000/transactions/confirmation')
+    axios.get(`http://${host}:${port}/transactions/confirmation`)
     .then((result) => {
-      setCode(result.data);
+      setCode(result.data.conf_code);
     })
   })
 
@@ -44,7 +45,7 @@ const Checkout = () => {
       reservation_end_time: time.etime.toLocaleString(),
       qr_code: code,
     };
-    axios.post(`http://localhost:3000/transactions/${code}`, { params: toBE }).then(() => {
+    axios.post(`http://${host}:${port}/transactions/${code}`, { params: toBE }).then(() => {
       navigation.navigate("Reservations", { data: code, id:id });
     });
   };

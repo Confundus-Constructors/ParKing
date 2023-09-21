@@ -21,7 +21,7 @@ import {
 } from "firebase/auth";
 
 import axios from 'axios';
-
+import {host, port} from "../../../env.js";
 
 import { User } from 'firebase/auth';
 
@@ -188,19 +188,20 @@ const Welcome = () => {
 
   // --- START DATABASE FUNCTIONS --- //
   const updateUserDeviceToken = (obj, password) => {
+    console.log({host, port});
     let payload = {
       email: obj.email,
       password: password,
       stsTokenManager: obj.stsTokenManager,
     }
-    return axios.put('http://localhost:3000/users', payload);
+    return axios.put(`http://${host}:${port}/users`, payload);
   };
   const updateUserDeviceTokenNoPW = (email, token) => {
     let payload = {
       email: email,
       stsTokenManager: token,
     }
-    return axios.put('http://localhost:3000/users/auth', payload);
+    return axios.put(`http://${host}:${port}/users/auth`, payload);
   };
   // --- END DATABASE FUNCTIONS --- //
 

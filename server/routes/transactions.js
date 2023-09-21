@@ -2,7 +2,18 @@ const express = require('express');
 const transactionRouter = express.Router();
 const path = require('path');
 const model = require('../models');
+const crypto = require('crypto');
 // const controller = require('../controllers');
+
+transactionRouter.get('/confirmation', async (req, res) => {
+  try {
+    const conf_code = crypto.randomBytes(8).toString("base64");
+    res.status(201).send({conf_code});
+  } catch (err) {
+    console.log('an error occurred on transactions route', err);
+    res.status(500).send('Internal Server Error');
+  }
+})
 
 transactionRouter.get('/:qr_code', async (req, res) => {
   try {
@@ -177,16 +188,7 @@ transactionRouter.put('/notify/:conf_id', async (req, res) => {
     console.log('an error occurred on transaction/:qr_code route', err);
     res.status(500).send('Internal Server Error');
   }
-
-  transactionRouter.get('/confirmation', async (req, res) => {
-    try {
-      const conf_code = crypto.randomBytes(8).toString("base64");
-      res.status(201).send({conf_code});
-    } catch (err) {
-      console.log('an error occurred on transactions route', err);
-      res.status(500).send('Internal Server Error');
-    }
-  });
 });
+
 
 module.exports = transactionRouter;
