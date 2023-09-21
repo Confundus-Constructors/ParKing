@@ -56,13 +56,13 @@ export default function App() {
     // <ForgotPasswordScreen />
     // <NewPasswordScreen />
     // <CarManage />
-    <Navigation />
+    // <Navigation />
     // <UHP />
     // <Welcome />
     // <SignUpScreen />
     // <Reserve />
     // <Select />
-    // <ValetTabs/>
+    <ValetTabs/>
   );
 }
 
