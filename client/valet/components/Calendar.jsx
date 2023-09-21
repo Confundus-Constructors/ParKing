@@ -3,22 +3,20 @@ import {View, Text, SafeAreaView, StyleSheet} from 'react-native';
 // import DateTimePicker from "@react-native-community/datetimepicker";
 import {useState} from 'react';
 import {Calendar, Agenda, Timeline, TimelineList, CalendarUtils, CalendarProvider, ExpandableCalendar} from 'react-native-calendars';
-import { OutlinedTextView } from 'react-native-outlined-text';
 
 export default ValetCalendar = () => {
 
   const [selected, setSelected] = useState(new Date())
+  console.log('#'+(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0'))
 
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: "center" }}>
       <Agenda
-        // The list of items that have to be displayed in agenda. If you want to render item as empty date
-        // the value of date key has to be an empty array []. If there exists no value for date key it is
-        // considered that the date in question is not yet loaded
         items={{
-          '2023-09-20': [{name: 'Daniel Park', car: 'Blue Toyota', license: 'DCBA321', start_time:'7:30pm', end_time:'10pm' }],
-          '2023-09-21': [{name: 'item 2 - any js object'}],
+          '2023-09-20': [{name: 'Daniel Park', car: 'Blue Toyota', license: 'DCBA321', start_time:'7:30pm', end_time:'10pm', initials:'DP' }, {name: 'Amelia Li', car: 'Black GMC', license: '321ABCD', start_time:'6:30pm', end_time:'8:30pm', initials:'AL' }],
           '2023-09-22': [],
+          '2023-09-21': [{name: 'Amelia Li', car: 'Black GMC', license: '321ABCD', start_time:'6:30pm', end_time:'8:30pm', initials:'AL' }],
+
         }}
         markedDates={{
           '2012-05-16': {selected: true, marked: true},
@@ -42,10 +40,8 @@ export default ValetCalendar = () => {
               <Text style={styles.license}>{item.license}</Text>
             </View>
             <View>
-              <View style={styles.circle}>
-                {/* <OutlinedTextView outlineColor="#000000" outlineWidth={5}>
-                  This text is outlined
-                </OutlinedTextView>; */}
+              <View style={[styles.circle, {backgroundColor: '#'+(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0')}]}>
+                <Text style={styles.initials}>{item.initials}</Text>
               </View>
             </View>
           </View>
@@ -82,7 +78,8 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 20,
     borderColor: 'gray',
-    paddingLeft: 50
+    paddingLeft: 50,
+    marginBottom: 10
   },
   time: {
     fontSize: 14,
@@ -105,7 +102,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   circle: {
-    backgroundColor: '#aedaeb',
+    // backgroundColor: '#'+(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0'),
     height: 80,
     width: 80,
     borderRadius: 80,
@@ -116,6 +113,11 @@ const styles = StyleSheet.create({
   initials: {
     fontSize: 35,
     fontWeight: 'bold',
-    color: 'white'
+    color: 'white',
+    textShadowColor: 'black',
+    textShadowColor: 'black',
+    textShadowRadius: 2,
+    textShadowOffset: {
+    },
   }
 })
