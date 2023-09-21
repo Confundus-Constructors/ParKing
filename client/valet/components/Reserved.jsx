@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import axios from 'axios';
 import CarCard from './CarCard.jsx';
 
@@ -21,9 +21,9 @@ const Reserved = ({garage = 1, navigation}) => {
   }, [garage])
 
   return (
-    <View>
+    <ScrollView>
       {resInfo.map(res => <CarCard key={res.confirmation_id} navigation={navigation} info={res} buttonText={buttontext}/>)}
-    </View>
+    </ScrollView>
   )
 
 }
