@@ -8,7 +8,6 @@ import axios from 'axios';
 
 
 const CarCard = ({info,  buttonText, navigation}) => {
-  console.log('carcard log',  navigation)
   const [imageSource, setImageSource] = useState(null);
 
   const formatCustomDate = (date) => {
