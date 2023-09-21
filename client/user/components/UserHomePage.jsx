@@ -90,7 +90,7 @@ const UHP = () => {
 
   const handlePush = () => {
     axios
-      .get("/garages", {
+      .get("http://localhost:3000/garages", {
         params: {
           location: location,
           start_date: sTime,
@@ -98,10 +98,18 @@ const UHP = () => {
         },
       })
       .then((result) => {
-    console.log(result);
-    navigation.navigate("Reserve", {data: result,id: userId, time: {stime: sTime, etime: eTime}});
-    });
+        // console.log("hererere:", result.data);
+        navigation.navigate("Reserve", {data: result.data, id: userId, time: {stime: sTime, etime: eTime}});
+        setModalVisible(false);
+    }) .catch((error) => {
+      console.error("Axios error:", error.message);
+  if (error.response) {
+      console.log('Server Response:', error.response.data);
+      console.log('Status Code:', error.response.status);
+  }
+    })
   };
+
   const handlePress = () => {
     setModalVisible(true);
   }
@@ -185,7 +193,7 @@ const UHP = () => {
               ...styles.commonFont,
               color: "#D0D3D2",
             }}
-            onPush={handlePush}
+            onPress={handlePush}
             color="#171412"
           />
 

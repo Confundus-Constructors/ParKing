@@ -26,6 +26,7 @@
     "@rneui/themed": "^4.0.0-rc.8",
     "@types/react": "~18.2.14",
     "axios": "^1.5.0",
+    "cors": "^2.8.5",
     "data-uri-to-buffer": "^5.0.1",
     "dataurl-to-blob": "^0.0.1",
     "dotenv": "^16.3.1",
