@@ -19,6 +19,7 @@ import { useNavigation } from '@react-navigation/native';
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { FIREBASE_AUTH } from '../../../FirebaseConfig.ts';
 import { signOut } from "firebase/auth";
+import {host, port} from "../../../env.js";
 
 
 
@@ -91,7 +92,7 @@ const UHP = () => {
 
   const handlePush = () => {
     axios
-      .get("http://localhost:3000/garages", {
+      .get(`http://${host}:${port}/garages`, {
         params: {
           location: location,
           start_date: sTime,

@@ -14,6 +14,7 @@ import { useNavigation } from "@react-navigation/native";
 import AddCar from './AddCar'
 import axios from 'axios'
 import { useRoute } from "@react-navigation/native";
+import {host, port} from "../../../env.js";
 
 // import crypto from "./crypto";
 
@@ -28,7 +29,7 @@ const Select = () => {
   const [ see,setSee ] = useState(false);
 
   useEffect(() => {
-    axios.get(`http://localhost:3000/vehicles/${id}`)
+    axios.get(`http://${host}:${port}/vehicles/${id}`)
       .then((result) => {
         setCars(result.data);
       })
