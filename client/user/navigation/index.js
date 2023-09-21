@@ -13,6 +13,7 @@ import Select from "../components/UserCarSelect";
 import Checkout from "../components/Checkout";
 import ValetTabs from "../../valet/components/ValetTabs";
 import UserTabs from "../components/UserTabs";
+import ResTabs from '../components/ResTabs.jsx'
 
 const Stack = createNativeStackNavigator();
 
@@ -35,8 +36,9 @@ const Navigation = () => {
         <Stack.Screen name="Reserve" component={Reserve} />
         <Stack.Screen name="Select" component={Select} />
         <Stack.Screen name="Checkout" component={Checkout} />
-        {/* <Stack.Screen name="UserTabs" component={UserTabs} /> */}
+        <Stack.Screen name="UserTabs" component={UserTabs} />
         <Stack.Screen name="VHP" component={ValetTabs} />
+        <Stack.Screen name="ResTabs" component={ResTabs} />
       </Stack.Navigator>
     </NavigationContainer>
   );
