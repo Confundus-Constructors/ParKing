@@ -22,7 +22,7 @@ const Pickups = ({garage = 1}) => {
 
   return (
     <View>
-      {resInfo.map(res => <CarCard info={res}/>)}
+      {resInfo.map(res => <CarCard key={res.confirmation_id} info={res}/>)}
     </View>
   )
 
