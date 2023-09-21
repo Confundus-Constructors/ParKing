@@ -8,6 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useForm, Controller } from "react-hook-form";
 import { FIREBASE_AUTH } from '../../../FirebaseConfig.ts';
 import {createUserWithEmailAndPassword} from 'firebase/auth';
+import axios from 'axios';
 
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
@@ -27,6 +28,7 @@ const SignUpScreen = () => {
   // const [password, setPassword] = useState('');
   // const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [ userId, setUserId ] = useState(1);
   const { control, handleSubmit, watch, formState: {errors} } = useForm();
   const pwd = watch('password');
 
@@ -37,11 +39,14 @@ const SignUpScreen = () => {
     console.log(data);
     setLoading(true);
     try { const response = await createUserWithEmailAndPassword(auth, data.email, data.password);
-      console.log(response);
-
-
-
-      navigation.navigate('ConfirmEmailScreen');
+      console.log('responsen: ', response);
+      const accessToken = response.user.stsTokenManager.accessToken;
+      data.accessToken = accessToken;
+      const db_response = await addUserToDatabase(data);
+      console.log('user_id: ', db_response.data.id);
+      setUserId(db_response.data.id);
+      navigation.navigate('ConfirmEmailScreen', {data: userId});
+      // navigation.navigate('ConfirmEmailScreen');
     } catch (error) {
       console.log(error);
       alert('Sign up failed. Please try again.' + error.message);
@@ -60,6 +65,10 @@ const SignUpScreen = () => {
 
   const onGoSignInPressed = () => {
     navigation.navigate('Welcome');
+  };
+
+  const addUserToDatabase = (obj) => {
+    return axios.post('http://localhost:3000/users', obj);
   };
 
 
@@ -82,7 +91,7 @@ const SignUpScreen = () => {
               rules={{validate: value => value === pwd || "Password don not match"}} value secureTextEntry={true} />
 
 
-            <CustomButtons
+            <CustomButton
               style={styles.button}
               textStyle={{ ...styles.commonFont, color: '#A9927D' }}
               title="Register"

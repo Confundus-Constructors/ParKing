@@ -16,7 +16,8 @@ CREATE TABLE "users" (
   email VARCHAR NOT NULL,
   phone VARCHAR NOT NULL,
   is_employee BOOLEAN NOT NULL,
-  device_token VARCHAR
+  device_token VARCHAR,
+  CONSTRAINT unique_email UNIQUE (email)
 );
 
 CREATE TABLE "vehicles" (
