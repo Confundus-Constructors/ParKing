@@ -105,7 +105,7 @@ const CarCard = ({info,  buttonText, navigation}) => {
           </TouchableOpacity>
       </View>
 
-      {/* <View style={styles.row}>
+      <View style={styles.row}>
         <View>
         <Text style={styles.row}>
           <Text style={styles.boldText}>Arrival: </Text>
@@ -119,12 +119,12 @@ const CarCard = ({info,  buttonText, navigation}) => {
           <Text style={styles.boldText}>Garage: </Text>
           <Text style={styles.user}>{}</Text>
         </Text>
-        <Text style={styles.row}>
+        <Text style={styles.row, {paddingRight: 60}}>
           <Text style={styles.boldText}>Spot ID: </Text>
           <Text>{info.parking_spot_number}</Text>
         </Text>
+        </View>
       </View>
-    </View> */}
     <View style={styles.buttonContainer}>
       <TouchableOpacity style={styles.button} onPress={handleCheckCar}>
       <Text style={styles.buttonText}>{buttonText ? buttonText : 'Check Out'}</Text>
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#D6D6D6',
     padding: 10,
     borderRadius: 0,
-    marginTop: 5,
+    marginBottom: 10,
     borderRadius: 10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 3 },
