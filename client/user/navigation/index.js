@@ -19,7 +19,7 @@ const Navigation = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Welcome" component={Welcome} />
+        {/* <Stack.Screen name="Welcome" component={Welcome} />
         <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
         <Stack.Screen
           name="ConfirmEmailScreen"
@@ -28,12 +28,12 @@ const Navigation = () => {
         <Stack.Screen
           name="ForgotPasswordScreen"
           component={ForgotPasswordScreen}
-        />
-        <Stack.Screen name="NewPasswordScreen" component={NewPasswordScreen} />
+        /> */}
+        {/* <Stack.Screen name="NewPasswordScreen" component={NewPasswordScreen} />
         <Stack.Screen name="UHP" component={UHP} />
         <Stack.Screen name="Reserve" component={Reserve} />
         <Stack.Screen name="Select" component={Select} />
-        <Stack.Screen name="Checkout" component={Checkout} />
+        <Stack.Screen name="Checkout" component={Checkout} /> */}
         <Stack.Screen name="VHP" component={ValetTabs} />
       </Stack.Navigator>
     </NavigationContainer>
