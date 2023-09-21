@@ -42,7 +42,7 @@ const Checkout = () => {
       garage_id: data.id,
       reservation_start_time: time.stime.toLocaleString(),
       reservation_end_time: time.etime.toLocaleString(),
-      qr_code: conf_code,
+      qr_code: code,
     };
     axios.post(`http://localhost:3000/transactions/${code}`, { params: toBE }).then(() => {
       navigation.navigate("Reservations", { data: code, id:id });

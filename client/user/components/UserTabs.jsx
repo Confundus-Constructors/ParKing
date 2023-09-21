@@ -2,7 +2,12 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import {NavigationContainer} from '@react-navigation/native';
 import { useTheme } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import UHP from './UserHomePage.jsx'
+import UHP from './UserHomePage.jsx';
+import Reservations from './Reservations.jsx';
+import Welcome from './Welcome.jsx';
+import { FIREBASE_AUTH } from '../../../FirebaseConfig.ts';
+import { signOut } from "firebase/auth";
+
 
 export default UserTabs = () => {
   const theme = useTheme();
@@ -15,7 +20,13 @@ export default UserTabs = () => {
   };
 
   const Tab = createMaterialBottomTabNavigator();
-
+  const signOutUser = async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      console.error("Error signing out: ", error);
+    }
+  };
   return (
     <NavigationContainer theme={navTheme}>
       <Tab.Navigator
@@ -38,7 +49,7 @@ export default UserTabs = () => {
         />
         <Tab.Screen
           name="Reservations"
-          component={UHP}
+          component={Reservations}
           options={{
             tabBarLabel: 'Home',
             barTintColor: 'white',
@@ -59,8 +70,8 @@ export default UserTabs = () => {
           }}
         />
         <Tab.Screen
-          name="Account"
-          component={UHP}
+          name="Sign Out"
+          component={Welcome}
           options={{
             tabBarLabel: 'Home',
             barTintColor: 'white',

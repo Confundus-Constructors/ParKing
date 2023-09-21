@@ -51,3 +51,4 @@ const Pickups = ({garage = 1, navigation}) => {
     }})
 
 export default Pickups;
+

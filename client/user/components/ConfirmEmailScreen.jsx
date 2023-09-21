@@ -4,7 +4,7 @@ import CustomInput from './CustomInput';
 import UserTabs from './UserTabs.jsx';
 import * as Font from 'expo-font';
 import React, { useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { useForm, Controller } from "react-hook-form";
 
 async function loadFonts() {
@@ -15,11 +15,15 @@ async function loadFonts() {
 
 const ConfirmEmailScreen = () => {
   // const [code, setCode] = useState('');
+  const route = useRoute();
+  const data = route.params.data;
+  const userId = data.userId;
   const { control, handleSubmit, formState: {errors} } = useForm();
   const navigation = useNavigation();
 
   const onConfirmPressed = () => {
-    navigation.navigate('UHP');
+    // for this I will only handle case of new user for now
+    navigation.navigate('UHP', {data: userId});
   };
 
   const onResendPressed = () => {
