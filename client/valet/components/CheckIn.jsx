@@ -37,7 +37,6 @@ export default Checkin = ({navigation, route}) => {
 
   const onPressCheck = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-
     setBig(!big);
   }
 
