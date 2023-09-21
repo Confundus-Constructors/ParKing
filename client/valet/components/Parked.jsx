@@ -17,6 +17,9 @@ const Parked = ({garage = 1, navigation}) => {
       // console.log('res log', res.data)
       setResInfo(res.data)
     })
+    .then((result) => {
+      console.log(result.data);
+    })
     .catch(err => console.log('Error fetching reserved', err))
   }, [garage])
 
