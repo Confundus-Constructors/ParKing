@@ -26,6 +26,16 @@ const CarCard = ({info,  buttonText, navigation}) => {
   const date1 = new Date(info.reservation_start_time);
   const date2 = new Date(info.reservation_end_time);
 
+  useEffect(() => {
+    axios.get(`http://localhost:3000/image/${info.confirmation_id}`)
+    .then((result) => {
+      if (result.data.rows[0].photo) {
+        var base64 = result.data.rows[0].photo;
+        var base64Pic = 'data:image/png;base64,' + base64;
+        setImageSource(base64Pic)
+      }
+    })
+  });
 
   const selectImage = () => {
     const options = {
@@ -97,7 +107,7 @@ const CarCard = ({info,  buttonText, navigation}) => {
         <View>
           <TouchableOpacity style={styles.box} onPress={selectImage}>
             {imageSource ? (
-              <Image source={imageSource} style={styles.image} />
+              <Image src={imageSource} style={styles.image} />
             ) : (
               <FontAwesomeIcon icon={faCamera} style={{color: "#a9927d"}} size={80} fade-size={'lg'}/>
 
@@ -121,12 +131,12 @@ const CarCard = ({info,  buttonText, navigation}) => {
           <Text style={styles.boldText}>Garage: </Text>
           <Text style={styles.user}>{}</Text>
         </Text>
-        <Text style={styles.row}>
+        <Text style={styles.row, {paddingRight: 60}}>
           <Text style={styles.boldText}>Spot ID: </Text>
           <Text>{info.parking_spot_number}</Text>
         </Text>
         </View>
-    </View>
+      </View>
     <View style={styles.buttonContainer}>
       <TouchableOpacity style={styles.button} onPress={handleCheckCar}>
       <Text style={styles.buttonText}>{buttonText ? buttonText : 'Check Out'}</Text>
@@ -142,7 +152,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#D6D6D6',
     padding: 10,
     borderRadius: 0,
-    marginTop: 5,
+    marginBottom: 10,
     borderRadius: 10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 3 },
@@ -174,9 +184,41 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   image: {
-    width: 100,
-    height: 100,
-    resizeMode: 'contain',
+    width: 190,
+    height: 130,
+    borderRadius: 10,
+    resizeMode: "cover",
+  },
+  carInfo: {
+    marginTop: 15,
+  },
+  buttonContainer: {
+    alignItems: "center",
+  },
+  button: {
+    backgroundColor: "#49111c",
+    padding: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 10,
+    width: "98%",
+    marginBottom: 5,
+    marginTop: 5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.7,
+    shadowRadius: 2,
+
+    // Android shadow style
+    elevation: 5,
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 16,
+  },
+  user: {
+    marginTop: 1,
   },
   buttonContainer: {
     alignItems: 'center',
