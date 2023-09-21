@@ -4,6 +4,8 @@ import axios from 'axios';
 import CarCard from './CarCard.jsx';
 
 const Reserved = ({garage = 1, navigation}) => {
+  console.log('reserved navigation log', navigation)
+
   const [resInfo, setResInfo] = useState([])
   const buttontext = 'Check In';
 

@@ -4,11 +4,8 @@ import CarManage from './CarManage';
 import CheckIn from './CheckIn';
 import CheckOut from './CheckOut';
 import CameraMain from './CameraMain';
-
 const Stack = createStackNavigator();
-
 export default CarsScreen = () => {
-
   return (
     <Stack.Navigator screenOptions={{
       headerShown: true
@@ -77,3 +74,12 @@ export default CarsScreen = () => {
     </Stack.Navigator>
   )
 }
+
+
+
+
+
+
+
+
+

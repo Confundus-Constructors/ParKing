@@ -20,6 +20,15 @@ module.exports = {
       `SELECT * FROM ${table} WHERE ${whereCol} = ${whereCondition}`
     );
   },
+  queryAllGarages: () => {
+    return client.query(
+      `SELECT gs.*,
+      vc.company_name
+      FROM garages gs
+      INNER JOIN valet_company vc
+      on gs.valet_company_id = vc.id`
+    );
+  },
   createTransaction: (columns, values) => {
     const placeholders = values.map((_, index) => `$${index + 1}`).join(', ');
     return client.query(

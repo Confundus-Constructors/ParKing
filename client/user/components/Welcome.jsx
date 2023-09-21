@@ -20,6 +20,8 @@ import {
   signInWithEmailAndPassword
 } from "firebase/auth";
 
+import axios from 'axios';
+
 
 import { User } from 'firebase/auth';
 
@@ -39,6 +41,7 @@ const Welcome = () => {
   const [loading, setLoading] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
+  const [ userId, setUserId ] = useState(1);
   const { control, handleSubmit, formState: {errors}, } = useForm();
 
   const navigation = useNavigation();
@@ -51,9 +54,6 @@ const Welcome = () => {
   const [request2, response2, promptAsync2] = Facebook.useAuthRequest({
     clientId: "1012811586526206"
   });
-
-
-
 
   const checkLocalUser = async() => {
     try {
@@ -76,22 +76,33 @@ const Welcome = () => {
       } else {
         setLoggedIn(false);
       }
-
     });
   }, []);
-
 
   useEffect(() => {
     if (response?.type === 'success') {
       const { id_token } = response.params;
       const credential = GoogleAuthProvider.credential(id_token);
       signInWithCredential(auth, credential)
-      .then((authResult) => {
+      .then(async(authResult) => {
         if (authResult.user.firstLogin) {  // Replace 'firstLogin' with field name you use in Firebase.
           navigation.navigate('ConfirmEmailScreen');
           // Optionally, update Firebase to set firstLogin to false for this user.
         } else {
-          navigation.navigate('UHP');
+          // navigation.navigate('UHP');
+          // ---- KURT AND JON ADD PUT ROUTE ---- //
+          const db_response = await updateUserDeviceTokenNoPW( auth.currentUser.email, auth.currentUser.stsTokenManager);
+          if (db_response.data === "" || db_response.data === undefined) {
+            console.log('inside the if');
+            navigation.navigate('SignUpScreen');
+          } else {
+            setUserId(db_response.data.id);
+            if (db_response.data.is_employee) {
+              navigation.navigate('VHP', {data: userId}); // need to pass userId into
+            } else {
+              navigation.navigate('UHP', { data: userId}); // need to pass userId into
+            }
+          }
         }
       })
       .catch((error) => {
@@ -111,6 +122,7 @@ const Welcome = () => {
                 navigation.navigate('ConfirmEmailScreen');
                 // Optionally, update Firebase to set firstLogin to false for this user.
             } else {
+
                 navigation.navigate('UHP');
             }
         })
@@ -130,8 +142,18 @@ const Welcome = () => {
     setLoading(true);
     try {
       const response = await signInWithEmailAndPassword(auth, data.Email, data.Password);
-      console.log('herererererererer', response);
-      navigation.navigate('UHP');
+      // console.log('herererererererer', response);
+      // navigation.navigate('UHP');
+      // ---- KURT AND JON ADD PUT ROUTE ---- //
+      const db_response = await updateUserDeviceToken( response.user, data.Password);
+      console.log('db_response: ', db_response.data);
+      console.log(db_response.data.is_employee);
+      setUserId(db_response.data.id);
+      if (db_response.data.is_employee) {
+        navigation.navigate('VHP'); // need to pass userId into
+      } else {
+        navigation.navigate('UHP', { data: userId}); // need to pass userId into
+      }
     } catch (error) {
       console.log(error);
       alert('Sign in failed. Please try again.' + error.message);
@@ -163,6 +185,24 @@ const Welcome = () => {
 
     navigation.navigate('SignUpScreen');
   };
+
+  // --- START DATABASE FUNCTIONS --- //
+  const updateUserDeviceToken = (obj, password) => {
+    let payload = {
+      email: obj.email,
+      password: password,
+      stsTokenManager: obj.stsTokenManager,
+    }
+    return axios.put('http://localhost:3000/users', payload);
+  };
+  const updateUserDeviceTokenNoPW = (email, token) => {
+    let payload = {
+      email: email,
+      stsTokenManager: token,
+    }
+    return axios.put('http://localhost:3000/users/auth', payload);
+  };
+  // --- END DATABASE FUNCTIONS --- //
 
   return (
     <KeyboardAvoidingView

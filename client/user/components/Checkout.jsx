@@ -31,7 +31,7 @@ const Checkout = () => {
   useEffect(() => {
     axios.get('http://localhost:3000/transactions/confirmation')
     .then((result) => {
-      setCode(result.data.conf_code);
+      setCode(result.conf_code);
     })
   })
 
