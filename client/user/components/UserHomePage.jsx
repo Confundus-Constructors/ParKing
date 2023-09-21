@@ -11,7 +11,7 @@ import {
 } from "react-native";
 // import { Icon } from "react-native-elements";
 import CustomButton from "./CustomButton";
-import React, { useState, useEffect, useRoute } from "react";
+import React, { useState, useEffect } from "react";
 import UserTabs from "./UserTabs.jsx";
 import axios from "axios";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -19,6 +19,7 @@ import { useNavigation } from '@react-navigation/native';
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { FIREBASE_AUTH } from '../../../FirebaseConfig.ts';
 import { signOut } from "firebase/auth";
+import { useRoute } from "@react-navigation/native";
 
 async function loadFonts() {
   await Font.loadAsync({});
@@ -26,10 +27,9 @@ async function loadFonts() {
 
 const UHP = () => {
   const auth = FIREBASE_AUTH;
-  // const route = useRoute();
-  // const data = route.params.data;
-  // const userId = data.userId;
-  const userId = 1;
+  const route = useRoute();
+  const data = route.params.data;
+  const userId = data.userId || 1;
   const [location, setLoc] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
