@@ -6,29 +6,27 @@ import {Calendar, Agenda, Timeline, TimelineList, CalendarUtils, CalendarProvide
 
 export default ValetCalendar = () => {
 
-  const [selected, setSelected] = useState(new Date())
-  console.log('#'+(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0'))
+  // const [selected, setSelected] = useState(new Date())
 
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: "center" }}>
       <Agenda
         items={{
           '2023-09-20': [{name: 'Daniel Park', car: 'Blue Toyota', license: 'DCBA321', start_time:'7:30pm', end_time:'10pm', initials:'DP' }, {name: 'Amelia Li', car: 'Black GMC', license: '321ABCD', start_time:'6:30pm', end_time:'8:30pm', initials:'AL' }],
-          '2023-09-22': [],
           '2023-09-21': [{name: 'Amelia Li', car: 'Black GMC', license: '321ABCD', start_time:'6:30pm', end_time:'8:30pm', initials:'AL' }],
 
         }}
         markedDates={{
-          '2012-05-16': {selected: true, marked: true},
-          '2012-05-17': {marked: true},
-          '2012-05-18': {disabled: true}
+          '2023-09-20': {marked: true},
+          '2023-09-21': {marked: true},
+          // '2023-09-22': {disabled: true}
         }}
         showOnlySelectedDayItems={true}
         theme={{
-          agendaDayTextColor: 'yellow',
-          agendaDayNumColor: 'green',
-          agendaTodayColor: 'red',
-          agendaKnobColor: 'blue'
+          agendaDayTextColor: 'black',
+          agendaDayNumColor: 'black',
+          agendaTodayColor: 'black',
+          agendaKnobColor: 'black'
         }}
         renderItem={(item, firstItemInDay) => {
           return (
@@ -47,7 +45,7 @@ export default ValetCalendar = () => {
           </View>
           )
         }}
-        selected={selected}
+        selected={new Date()}
         showClosingKnob={true}
         renderEmptyData={() =>
           <View style={styles.noResView}>
@@ -79,7 +77,9 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderColor: 'gray',
     paddingLeft: 50,
-    marginBottom: 10
+    marginTop: 10,
+    marginRight: 10,
+    backgroundColor: 'white'
   },
   time: {
     fontSize: 14,

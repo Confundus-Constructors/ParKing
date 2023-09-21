@@ -35,9 +35,8 @@ export default Checkin = ({navigation, route}) => {
 
 
   const addPic = () => {
-    {navigation.navigate('CameraMain')};
+    navigation.navigate('CameraMain', {list: route.params.list});
   };
-
 
   const handleSubmit = async() => {
     const base64 = await FileSystem.readAsStringAsync(image, { encoding: 'base64' });
@@ -47,7 +46,12 @@ export default Checkin = ({navigation, route}) => {
       setConfirming(false);
       setModalVisible(false);
       setImage(null);
-      navigation.navigate('QRScanner');
+      console.log(route.params.list)
+      if (route.params.list) {
+        navigation.navigate('CarManage');
+      } else {
+        navigation.navigate('QRScanner');
+      }
     })
     .catch((err) => {
       console.log(err);
