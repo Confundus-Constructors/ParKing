@@ -184,8 +184,8 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   image: {
-    width: 190,
-    height: 130,
+    width: 180,
+    height: 120,
     borderRadius: 10,
     resizeMode: "cover",
   },
