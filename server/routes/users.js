@@ -65,6 +65,32 @@ module.exports = {
           res.status(404).send(err);
         });
   },
+  putUserAuth: async (req, res) => {
+    let { email, /*password,*/ stsTokenManager } = req.body;
+    console.log(email);
+    const device_token = stsTokenManager.accessToken;
+    // console.log({email, password, device_token});
+
+    client
+      .query(
+        `UPDATE users
+        SET device_token = $1
+        WHERE email = $2
+        /*and password = $3*/
+        RETURNING id, is_employee;
+        `,
+        [device_token, email/*, password*/]
+      )
+        .then((query) => {
+          // console.log(query.rows);
+          console.log(query.rows);
+          res.status(201).send(query.rows[0]);
+        })
+        .catch((err) => {
+          console.log(err);
+          res.status(404).send(err);
+        });
+  },
 };
 
 const resetSerial = () => {

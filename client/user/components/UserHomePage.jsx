@@ -11,7 +11,7 @@ import {
 } from "react-native";
 // import { Icon } from "react-native-elements";
 import CustomButton from "./CustomButton";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRoute } from "react";
 import UserTabs from "./UserTabs.jsx";
 import axios from "axios";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -26,6 +26,9 @@ async function loadFonts() {
 
 const UHP = () => {
   const auth = FIREBASE_AUTH;
+  // const route = useRoute();
+  // const data = route.params.data;
+  // const userId = data.userId;
   const userId = 1;
   const [location, setLoc] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
@@ -87,7 +90,7 @@ const UHP = () => {
 
   const handlePush = () => {
     axios
-      .get("http://localhost:3000/garages", {
+      .get("/garages", {
         params: {
           location: location,
           start_date: sTime,
@@ -95,23 +98,14 @@ const UHP = () => {
         },
       })
       .then((result) => {
-        // console.log("hererere:", result.data);
+        console.log(result);
         navigation.navigate("Reserve", {
-          data: result.data,
+          data: result,
           id: userId,
           time: { stime: sTime, etime: eTime },
         });
-        setModalVisible(false);
-      })
-      .catch((error) => {
-        console.error("Axios error:", error.message);
-        if (error.response) {
-          console.log("Server Response:", error.response.data);
-          console.log("Status Code:", error.response.status);
-        }
       });
   };
-
   const handlePress = () => {
     setModalVisible(true);
   };
@@ -195,7 +189,7 @@ const UHP = () => {
               ...styles.commonFont,
               color: "#D0D3D2",
             }}
-            onPress={handlePush}
+            onPush={handlePush}
             color="#171412"
           />
 

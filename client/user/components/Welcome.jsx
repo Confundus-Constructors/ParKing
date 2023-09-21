@@ -91,13 +91,17 @@ const Welcome = () => {
         } else {
           // navigation.navigate('UHP');
           // ---- KURT AND JON ADD PUT ROUTE ---- //
-          const db_response = await updateUserDeviceToken( response.user, data.Password);
-          console.log('db_response: ', db_response.data);
-          setUserId(db_response.data.id);
-          if (db_response.data.is_employee) {
-            navigation.navigate('VHP'); // need to pass userId into
+          const db_response = await updateUserDeviceTokenNoPW( auth.currentUser.email, auth.currentUser.stsTokenManager);
+          if (db_response.data === "" || db_response.data === undefined) {
+            console.log('inside the if');
+            navigation.navigate('SignUpScreen');
           } else {
-            navigation.navigate('UHP', { data: userId}); // need to pass userId into
+            setUserId(db_response.data.id);
+            if (db_response.data.is_employee) {
+              navigation.navigate('VHP', {data: userId}); // need to pass userId into
+            } else {
+              navigation.navigate('UHP', { data: userId}); // need to pass userId into
+            }
           }
         }
       })
@@ -189,6 +193,13 @@ const Welcome = () => {
       stsTokenManager: obj.stsTokenManager,
     }
     return axios.put('http://localhost:3000/users', payload);
+  };
+  const updateUserDeviceTokenNoPW = (email, token) => {
+    let payload = {
+      email: email,
+      stsTokenManager: token,
+    }
+    return axios.put('http://localhost:3000/users/auth', payload);
   };
   // --- END DATABASE FUNCTIONS --- //
 
