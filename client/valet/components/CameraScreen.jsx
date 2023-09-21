@@ -8,9 +8,9 @@ import QRScanner from './QRScanner';
 import CheckIn from './CheckIn';
 import CheckOut from './CheckOut';
 
-export default CameraScreen = ({navigation}) => {
+const Stack = createStackNavigator();
 
-  const Stack = createStackNavigator();
+export default CameraScreen = () => {
 
     return (
       <Stack.Navigator screenOptions={{
