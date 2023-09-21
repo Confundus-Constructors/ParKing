@@ -41,12 +41,12 @@ const CarManage = ({navigation}) => {
       <Tab.Navigator
         tabBarOptions={{
         activeTintColor: 'white',
-        inactiveTintColor: '#a9927d',
+        inactiveTintColor: '#49111c',
         labelStyle: {
           fontSize: 16,
         },
         style: {
-          backgroundColor: 'black',
+          backgroundColor: '#a9927d',
         },
         indicatorStyle: {
           backgroundColor: 'white',
