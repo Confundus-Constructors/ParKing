@@ -7,7 +7,7 @@ const crypto = require('crypto');
 
 transactionRouter.get('/confirmation', async (req, res) => {
   try {
-    const conf_code = crypto.randomBytes(8).toString("base64");
+    const conf_code = crypto.randomBytes(8).toString("base64").replace(/[^a-zA-Z0-9]/g, '').substr(0, 8);
     res.status(201).send({conf_code});
   } catch (err) {
     console.log('an error occurred on transactions route', err);
@@ -157,6 +157,7 @@ transactionRouter.post('/:qr_code', async (req, res) => {
     await model.createTransaction(columns, values);
     // check if guest
     if (data.user_id === 15) {
+      console.log('guest fork');
       await model.updateGuestVehicle(data.license_plate);
     }
     res.status(201).send('Created')
