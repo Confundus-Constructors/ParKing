@@ -105,9 +105,7 @@ const CarCard = ({info,  buttonText, navigation}) => {
           </TouchableOpacity>
       </View>
 
-     </View>
-
-      <View style={styles.row}>
+      {/* <View style={styles.row}>
         <View>
         <Text style={styles.row}>
           <Text style={styles.boldText}>Arrival: </Text>
@@ -125,8 +123,8 @@ const CarCard = ({info,  buttonText, navigation}) => {
           <Text style={styles.boldText}>Spot ID: </Text>
           <Text>{info.parking_spot_number}</Text>
         </Text>
-        </View>
-    </View>
+      </View>
+    </View> */}
     <View style={styles.buttonContainer}>
       <TouchableOpacity style={styles.button} onPress={handleCheckCar}>
       <Text style={styles.buttonText}>{buttonText ? buttonText : 'Check Out'}</Text>
