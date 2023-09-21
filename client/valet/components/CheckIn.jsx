@@ -4,6 +4,7 @@ import { Modal, Portal, PaperProvider } from 'react-native-paper';
 import axios from 'axios';
 import moment from 'moment';
 import * as FileSystem from 'expo-file-system';
+import { Dimensions } from 'react-native'
 import {host, port} from "../../../env.js";
 
 async function loadFonts() {
@@ -19,7 +20,7 @@ export default Checkin = ({navigation, route}) => {
   const [carInfo, setCarInfo] = useState({});
   const [blob, setBlob] = useState();
   const [qrCode, setQRCode] = useState(route.params.qr_code);
-  const [check, setCheck] = useState(false);
+  const [big, setBig] = useState(false);
 
   useEffect(() => {
     if (route.params && route.params.carInfo) {
@@ -36,11 +37,8 @@ export default Checkin = ({navigation, route}) => {
   };
 
   const onPressCheck = () => {
-    console.log('hi')
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-
-    setCheck(true);
-    console.log('test')
+    setBig(!big);
   }
 
 
@@ -84,7 +82,7 @@ export default Checkin = ({navigation, route}) => {
     }
   };
 
-  var middleStyle = check === false ? {width: 20,height:20} : {width: "100%",height:"100%"};
+  // var middleStyle = check === false ? {width: 20, height:20} : {width: "100%", height:"100%"};
   // console.log(middleStyle);
 
   return (
@@ -104,10 +102,14 @@ export default Checkin = ({navigation, route}) => {
       <Modal visible={modalVisible}>
         <View style={styles.modalView}>
           <View>
-            <Text style={styles.confirmed}>Checked In ✓</Text>
-            <Text style={styles.modalText}>Please park the car and then enter the parking location</Text>
-            <Text style={styles.modalText}>{'Parking Spot: ' + carInfo.parking_spot_number} </Text>
-            <Text style={styles.modalText}>Please take a picture of the car in its spot. Include the license plate if possible</Text>
+            {!big ?
+            <View>
+               <Text style={styles.confirmed}>Checked In ✓</Text>
+               <Text style={styles.modalText}>Please park the car and then enter the parking location</Text>
+               <Text style={styles.modalText}>{'Parking Spot: ' + carInfo.parking_spot_number} </Text>
+               <Text style={styles.modalText}>Please take a picture of the car in its spot. Include the license plate if possible</Text>
+            </View>
+                : null}
             {!image?
             <TouchableOpacity style={styles.picButton} onPress={addPic}>
               <Text style={styles.buttonTitle}>Add Picture</Text>
@@ -116,7 +118,15 @@ export default Checkin = ({navigation, route}) => {
             <View>
               <TouchableOpacity onPress={onPressCheck}>
                 <Image
-                  style={[middleStyle, styles.image]}
+                  style={{
+                      marginTop: 10,
+                      height: !big ? 160 : Dimensions.get('window').height,
+                      width: !big ? 160 : Dimensions.get('window').width,
+                      alignSelf: 'center',
+                      borderRadius: 20,
+                      resizeMode: "cover",
+                    }
+                  }
                   source={{
                     uri: image,
                   }}
@@ -244,7 +254,14 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     borderRadius: 20,
     resizeMode: "cover",
-
+  },
+  bigImage: {
+    // marginTop: 10,
+    height: '100%',
+    width: '100%',
+    // alignSelf: 'center',
+    // borderRadius: 20,
+    // resizeMode: "cover",
   },
   waitingText: {
     fontSize: 20,

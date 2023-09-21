@@ -1,15 +1,16 @@
 import React, {useState, useEffect} from 'react';
-import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, Image, Button} from 'react-native';
+import { View, Text, LayoutAnimation, SafeAreaView, StyleSheet, TouchableOpacity, Image, Button} from 'react-native';
 import {launchCamera} from 'react-native-image-picker';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCamera } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
+import { Dimensions } from 'react-native'
 import {host, port} from "../../../env.js";
 
-
-
 const CarCard = ({info,  buttonText, navigation}) => {
+  
   const [imageSource, setImageSource] = useState(null);
+  const [big, setBig] = useState(false);
 
   const formatCustomDate = (date) => {
     const day = date.getDate();
@@ -25,6 +26,13 @@ const CarCard = ({info,  buttonText, navigation}) => {
 
   const date1 = new Date(info.reservation_start_time);
   const date2 = new Date(info.reservation_end_time);
+
+  const onPressCheck = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    if (imageSource) {
+      setBig(!big);
+    }
+  }
 
   useEffect(() => {
     axios.get(`http://${host}:${port}/image/${info.confirmation_id}`)
@@ -44,7 +52,6 @@ const CarCard = ({info,  buttonText, navigation}) => {
       maxHeight: 200,
       maxWidth: 200,
     };
-
 
 
     launchCamera(options, (response) => {
@@ -105,9 +112,18 @@ const CarCard = ({info,  buttonText, navigation}) => {
           </View>
         </View>
         <View>
-          <TouchableOpacity style={styles.box} onPress={selectImage}>
+          <TouchableOpacity style={styles.box} onPress={onPressCheck}>
             {imageSource ? (
-              <Image src={imageSource} style={styles.image} />
+              <Image src={imageSource} style={
+                {
+                  height: !big ? 120 : Dimensions.get('window').height,
+                  width: !big ? 180 : Dimensions.get('window').width,
+                  borderRadius: 10,
+                  resizeMode: "cover",
+                  marginRight: !big ? 0 : 200,
+                  zIndex: 100
+                }
+              } />
             ) : (
               <FontAwesomeIcon icon={faCamera} style={{color: "#a9927d"}} size={80} fade-size={'lg'}/>
 
@@ -117,6 +133,8 @@ const CarCard = ({info,  buttonText, navigation}) => {
 
      </View>
 
+      {!big ?
+      <View>
       <View style={styles.row}>
         <View>
         <Text style={styles.row}>
@@ -137,11 +155,14 @@ const CarCard = ({info,  buttonText, navigation}) => {
         </Text>
         </View>
       </View>
-    <View style={styles.buttonContainer}>
-      <TouchableOpacity style={styles.button} onPress={handleCheckCar}>
-      <Text style={styles.buttonText}>{buttonText ? buttonText : 'Check Out'}</Text>
-      </TouchableOpacity>
+
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.button} onPress={handleCheckCar}>
+        <Text style={styles.buttonText}>{buttonText ? buttonText : 'Check Out'}</Text>
+        </TouchableOpacity>
+      </View>
     </View>
+     : null}
   </SafeAreaView>
 
   );
@@ -184,8 +205,8 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   image: {
-    width: 190,
-    height: 130,
+    width: 180,
+    height: 120,
     borderRadius: 10,
     resizeMode: "cover",
   },
