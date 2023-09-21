@@ -129,15 +129,15 @@ transactionRouter.put('/:qr_code', async (req, res) => {
 
 transactionRouter.post('/:qr_code', async (req, res) => {
   try {
-    // const data = req.body;
-    const data = {
-      user_id: 3,
-      vehicle_id: 5,
-      garage_id: 1,
-      qr_code: 'asdfj8234505l',
-      reservation_start_time: "2023-09-17 02:24:00",
-      reservation_end_time: "2023-09-17 08:24:00",
-    };
+    const data = req.body;
+    // const data = {
+    //   user_id: 3,
+    //   vehicle_id: 5,
+    //   garage_id: 1,
+    //   qr_code: 'asdfj8234505l',
+    //   reservation_start_time: "2023-09-17 02:24:00",
+    //   reservation_end_time: "2023-09-17 08:24:00",
+    // };
 
     const staticData = {
       check_in_time: null,
