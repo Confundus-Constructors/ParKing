@@ -22,7 +22,7 @@ const Reserved = ({garage = 1, navigation}) => {
 
   return (
     <View>
-      {resInfo.map(res => <CarCard navigation={navigation} info={res} buttonText={buttontext}/>)}
+      {resInfo.map(res => <CarCard key={res.confirmation_id} navigation={navigation} info={res} buttonText={buttontext}/>)}
     </View>
   )
 
