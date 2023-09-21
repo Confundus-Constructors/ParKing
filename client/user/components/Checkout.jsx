@@ -29,9 +29,9 @@ const Checkout = () => {
   const [ code,setCode ] = useState("");
 
   useEffect(() => {
-    axios.get('/transactions/confirmation')
+    axios.get('http://localhost:3000/transactions/confirmation')
     .then((result) => {
-      setCode(result.conf_code);
+      setCode(result.data.conf_code);
     })
   })
 
@@ -44,7 +44,7 @@ const Checkout = () => {
       reservation_end_time: time.etime.toLocaleString(),
       qr_code: conf_code,
     };
-    axios.post(`/transactions/${code}`, { params: toBE }).then(() => {
+    axios.post(`http://localhost:3000/transactions/${code}`, { params: toBE }).then(() => {
       navigation.navigate("Reservations", { data: code, id:id });
     });
   };

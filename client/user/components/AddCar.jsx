@@ -22,7 +22,7 @@ const AddCar = ({ id,set,see }) => {
   const [ col,setColor ] = useState('');
 
   const handlePress = () => {
-    axios.post(`/vehicles/${id}`, {
+    axios.post(`http://localhost:3000/vehicles/${id}`, {
       make_model: mm,
       license_plate: license,
       color: col

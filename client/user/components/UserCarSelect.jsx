@@ -12,6 +12,7 @@ import CustomButton from "./CustomButton.jsx";
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import AddCar from './AddCar'
+import axios from 'axios'
 import { useRoute } from "@react-navigation/native";
 
 // import crypto from "./crypto";
@@ -27,9 +28,9 @@ const Select = () => {
   const [ see,setSee ] = useState(false);
 
   useEffect(() => {
-    axios.get(`/vehicles/${id}`)
+    axios.get(`http://localhost:3000/vehicles/${id}`)
       .then((result) => {
-        setCars(result);
+        setCars(result.data);
       })
   },[see])
 
@@ -41,7 +42,7 @@ const Select = () => {
   }
   return (
     <SafeAreaView style={styles.background}>
-      {arr.map((carInfo, index) => {
+      {cars.map((carInfo, index) => {
         return (
           <View style={styles.width}>
             <Car data={carInfo} key={carInfo} index={index} set={setClicked} setsel={setSelected} />

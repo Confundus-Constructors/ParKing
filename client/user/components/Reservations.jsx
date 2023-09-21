@@ -26,7 +26,7 @@ const Reservations = () => {
   const id = route.params.id;
 
   useEffect(() => {
-    axios.get(`/transactions/${data.conf_code}`).then((result) => {
+    axios.get(`http://localhost:3000/transactions/${data.conf_code}`).then((result) => {
       const monthNames = [
         "January",
         "February",
@@ -41,8 +41,8 @@ const Reservations = () => {
         "November",
         "December",
       ];
-      var sd = new Date(result.reservation_start_time);
-      var ed = new Date(result.reservation_end_time);
+      var sd = new Date(result.data.reservation_start_time);
+      var ed = new Date(result.data.reservation_end_time);
       var sdate = `${
         monthNames[sd.getUTCMonth()]
       }, ${sd.getUTCDate()} ${sd.getUTCHours()}:${sd.getUTCMinutes()}`;
@@ -51,7 +51,7 @@ const Reservations = () => {
       }, ${ed.getUTCDate()} ${ed.getUTCHours()}:${ed.getUTCMinutes()}`;
       setSDate(sdate);
       setEDate(edate);
-      setInfo(result);
+      setInfo(result.data);
     });
   }, []);
 

@@ -18,16 +18,19 @@ const Reserve = () => {
   const [spots, setSpots] = useState([]);
   //data has id, address, location, hourly rate, spot
   useEffect(() => {
+    // console.log(spots);
     if (route.params.data) {
+      // console.log(route.params.data);
       setSpots(route.params.data);
     }
   }, []);
   return (
     <View style={styles.Outer}>
       <ScrollView>
-        {spots.map((loc) => {
+        {spots.map((loc, index) => {
           return (
             <Spot
+              key={index}
               data={loc}
               passed={route.params.data}
               id={route.params.id}
