@@ -133,36 +133,36 @@ const CarCard = ({ info, buttonText, navigation }) => {
             )}
           </TouchableOpacity>
         </View>
+      </View>
 
-        <View style={styles.row}>
-          <View>
-            <Text style={styles.row}>
-              <Text style={styles.boldText}>Arrival: </Text>
-              <Text style={styles.user}>{formatCustomDate(date1)}</Text>{" "}
-            </Text>
-            <Text style={styles.row}>
-              <Text style={styles.boldText}>Depart: </Text>
-              <Text style={styles.user}>{formatCustomDate(date2)}</Text>{" "}
-            </Text>
-          </View>
-          <View>
-            <Text style={styles.row}>
-              <Text style={styles.boldText}>Garage: </Text>
-              <Text style={styles.user}>{}</Text>
-            </Text>
-            <Text style={(styles.row, { paddingRight: 60 })}>
-              <Text style={styles.boldText}>Spot ID: </Text>
-              <Text>{info.parking_spot_number}</Text>
-            </Text>
-          </View>
+      <View style={styles.row}>
+        <View>
+          <Text style={styles.row}>
+            <Text style={styles.boldText}>Arrival: </Text>
+            <Text style={styles.user}>{formatCustomDate(date1)}</Text>{" "}
+          </Text>
+          <Text style={styles.row}>
+            <Text style={styles.boldText}>Depart: </Text>
+            <Text style={styles.user}>{formatCustomDate(date2)}</Text>{" "}
+          </Text>
         </View>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={handleCheckCar}>
-            <Text style={styles.buttonText}>
-              {buttonText ? buttonText : "Check Out"}
-            </Text>
-          </TouchableOpacity>
+        <View>
+          <Text style={styles.row}>
+            <Text style={styles.boldText}>Garage: </Text>
+            <Text style={styles.user}>{}</Text>
+          </Text>
+          <Text style={(styles.row, { paddingRight: 60 })}>
+            <Text style={styles.boldText}>Spot ID: </Text>
+            <Text>{info.parking_spot_number}</Text>
+          </Text>
         </View>
+      </View>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.button} onPress={handleCheckCar}>
+          <Text style={styles.buttonText}>
+            {buttonText ? buttonText : "Check Out"}
+          </Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -239,9 +239,6 @@ const styles = StyleSheet.create({
   },
   user: {
     marginTop: 1,
-  },
-  carInfo: {
-    marginTop: 15,
   },
   buttonContainer: {
     alignItems: "center",

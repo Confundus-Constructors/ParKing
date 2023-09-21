@@ -24,6 +24,7 @@ const Reserve = () => {
       setSpots(route.params.data);
     }
   }, []);
+
   return (
     <View style={styles.Outer}>
       <ScrollView>
