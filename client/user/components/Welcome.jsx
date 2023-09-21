@@ -88,24 +88,10 @@ const Welcome = () => {
       signInWithCredential(auth, credential)
       .then((authResult) => {
         if (authResult.user.firstLogin) {  // Replace 'firstLogin' with field name you use in Firebase.
-          navigation.navigate('UserTabs', { data: userId});
+          navigation.navigate('ConfirmEmailScreen');
           // Optionally, update Firebase to set firstLogin to false for this user.
         } else {
-          // navigation.navigate('UHP');
-          // ---- KURT AND JON ADD PUT ROUTE ---- //
-          const db_response = await updateUserDeviceTokenNoPW( auth.currentUser.email, auth.currentUser.stsTokenManager);
-          if (db_response.data === "" || db_response.data === undefined) {
-            navigation.navigate('SignUpScreen');
-          } else {
-            setUserId(db_response.data.id);
-            if (db_response.data.is_employee) {
-              const employee_data = await getEmployeeFromDB( db_response.data.id);
-              const garage_id = employee_data.data.garage_id;
-              navigation.navigate('VHP', { data: garage_id}); // need to pass userId into
-            } else {
-              navigation.navigate('UserTabs', { data: db_response.data.id}); // need to pass userId into
-            }
-          }
+          navigation.navigate('UHP');
         }
       })
       .catch((error) => {
@@ -122,11 +108,10 @@ const Welcome = () => {
         signInWithCredential(auth, credential)
         .then((authResult) => {
             if (authResult.user.firstLogin) { // Replace 'firstLogin' with field name you use in Firebase.
-                navigation.navigate('UserTabs', { data: db_response.data.id});
+                navigation.navigate('ConfirmEmailScreen');
                 // Optionally, update Firebase to set firstLogin to false for this user.
             } else {
-
-                navigation.navigate('UserTabs', { data: 16});
+                navigation.navigate('UHP');
             }
         })
         .catch((error) => {
@@ -145,19 +130,8 @@ const Welcome = () => {
     setLoading(true);
     try {
       const response = await signInWithEmailAndPassword(auth, data.Email, data.Password);
-      // console.log('herererererererer', response);
-      // navigation.navigate('UHP');
-      // ---- KURT AND JON ADD PUT ROUTE ---- //
-      const db_response = await updateUserDeviceToken( response.user, data.Password);
-      setUserId(db_response.data.id);
-      if (db_response.data.is_employee) {
-        const employee_data = await getEmployeeFromDB( db_response.data.id);
-        const garage_id = employee_data.data.garage_id;
-        navigation.navigate('VHP', { data: garage_id}); // need to pass userId into
-      } else {
-        console.log('this is the user id from welcome component', db_response.data.id)
-        navigation.navigate('UserTabs', { data: db_response.data.id}); // need to pass userId into
-      }
+      console.log('herererererererer', response);
+      navigation.navigate('UHP');
     } catch (error) {
       console.log(error);
       alert('Sign in failed. Please try again.' + error.message);
@@ -182,7 +156,7 @@ const Welcome = () => {
 
   const onGuestPressed = () => {
 
-    navigation.navigate('UserTabs', { data: 16});
+    navigation.navigate('UHP');
   };
 
   const onCreatePressed = () => {

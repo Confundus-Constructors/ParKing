@@ -152,7 +152,7 @@
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */,
 				5354D3DCCEF3B0AF83F500F8 /* [CP] Embed Pods Frameworks */,
-				D1FC5121D56FD984BEA87271 /* [CP-User] [RNFB] Core Configuration */,
+				9BC7102A2CA2C4E7E53A54DC /* [CP-User] [RNFB] Core Configuration */,
 			);
 			buildRules = (
 			);
@@ -286,7 +286,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ParKing/Pods-ParKing-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D1FC5121D56FD984BEA87271 /* [CP-User] [RNFB] Core Configuration */ = {
+		9BC7102A2CA2C4E7E53A54DC /* [CP-User] [RNFB] Core Configuration */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
