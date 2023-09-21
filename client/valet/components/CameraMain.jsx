@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import axios from 'axios';
 
-export default CameraScreen = ({navigation}) => {
+export default CameraScreen = ({navigation, route}) => {
   const cameraRef = useRef();
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
@@ -29,7 +29,7 @@ export default CameraScreen = ({navigation}) => {
   }
 
   const handleUsePic = () => {
-    navigation.navigate('CheckIn', {image: image, blob: blob})
+    navigation.navigate('CheckIn', {image: image, blob: blob, list: route.params.list})
   }
 
   const handleRetake =( ) => {

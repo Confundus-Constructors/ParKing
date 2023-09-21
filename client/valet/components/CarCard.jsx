@@ -32,6 +32,23 @@ const CarCard = ({navigation, info,  buttonText}) => {
     });
   };
 
+  const capitalizeString = (string) => {
+    if (string) {
+      return string[0].toUpperCase() + string.slice(1,string.length).toLowerCase();
+    }
+    else {
+      return null;
+    }
+  };
+
+  const handleCheckCar = () => {
+    if (buttonText) {
+      navigation.navigate('CheckIn', {qr_code: info.confirmation_id, carInfo: info, list: true})
+    } else {
+      navigation.navigate('CheckOut', {qr_code: info.confirmation_id, carInfo: info, list: true})
+    }
+  }
+
   return (
     <SafeAreaView className="text-lg" style={styles.container}>
       <View style={styles.row}>
@@ -51,7 +68,7 @@ const CarCard = ({navigation, info,  buttonText}) => {
             </Text>
             <Text style={styles.row}>
               <Text style={styles.boldText}>Color: </Text>
-              <Text>{info.color}</Text>
+              <Text>{capitalizeString(info.color)}</Text>
             </Text>
             <Text style={styles.row}>
               <Text style={styles.boldText}>License Plate: </Text>
@@ -93,7 +110,7 @@ const CarCard = ({navigation, info,  buttonText}) => {
         </View>
     </View>
     <View style={styles.buttonContainer}>
-      <TouchableOpacity style={styles.button} onPress={() => {navigation.navigate('CheckIn')}}>
+      <TouchableOpacity style={styles.button} onPress={handleCheckCar}>
       <Text style={styles.buttonText}>{buttonText ? buttonText : 'Check Out'}</Text>
       </TouchableOpacity>
     </View>
