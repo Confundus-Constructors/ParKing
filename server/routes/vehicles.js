@@ -9,14 +9,14 @@ vehicleRouter.get('/:id', async (req, res) => {
 });
 
 vehicleRouter.post('/:id', async (req, res) => {
-  // const obj = req.body;
-  console.log(req.params.id);
+  let obj = req.body;
+  // console.log(req.params.id);
 
-  let obj = {
-    make_model: 'Toyota Rav4',
-    license_plate: 'ABGH3902',
-    color: 'Blue',
-  }
+  // let obj = {
+  //   make_model: 'Toyota Rav4',
+  //   license_plate: 'ABGH3902',
+  //   color: 'Blue',
+  // }
   obj.user_id = req.params.id;
 
   try {
