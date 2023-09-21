@@ -38,7 +38,7 @@ const Navigation = () => {
         <Stack.Screen name="Checkout" component={Checkout} />
         <Stack.Screen name="UserTabs" component={UserTabs} />
         <Stack.Screen name="VHP" component={ValetTabs} />
-        <Stack.Screen name="ResTabs" component={ResTabs} />
+        {/* <Stack.Screen name="ResTabs" component={ResTabs} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );
