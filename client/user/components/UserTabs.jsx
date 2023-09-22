@@ -9,6 +9,7 @@ import { signOut } from "firebase/auth";
 import MapScreens from './MapScreens';
 import HomePageScreens from './HomePageScreens';
 import { useRoute } from '@react-navigation/native';
+import SignOutScreen from './SignOutScreen';
 
 export default UserTabs = () => {
   const route = useRoute();
@@ -63,8 +64,8 @@ export default UserTabs = () => {
           }}
         />
         <Tab.Screen
-          name="Sign Out"
-          component={Welcome}
+          name="Sign Out Screen"
+          component={SignOutScreen}
           options={{
             tabBarLabel: 'Sign Out',
             barTintColor: 'white',
