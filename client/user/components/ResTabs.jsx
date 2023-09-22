@@ -44,7 +44,7 @@ export const RefreshContext = React.createContext();
 
 const ResTabs = () => {
   const route = useRoute();
-  const userId = route.params.id;
+  const userId = route.params.data;
 
   const [refreshKey, setRefreshKey] = useState(0);
 
@@ -68,8 +68,8 @@ const ResTabs = () => {
               },
             }}
           >
-            <Tab.Screen name="Upcoming" component={Upcoming} />
-            <Tab.Screen name="Current" component={Reservations} />
+            <Tab.Screen name="Upcoming" initialParams={{data: userId}} component={Upcoming} />
+            <Tab.Screen name="Current" initialParams={{data: userId}} component={Reservations} />
             {/* <Tab.Screen name="Past" component={Past} /> */}
             {/* <Tab.Screen name="Cancelled" component={Cancelled} /> */}
           </Tab.Navigator>

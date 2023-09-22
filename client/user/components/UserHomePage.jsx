@@ -20,7 +20,6 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { FIREBASE_AUTH } from '../../../FirebaseConfig.ts';
 import { signOut } from "firebase/auth";
 import {host, port} from "../../../env.js";
-// import { useRoute } from 'react'
 
 async function loadFonts() {
   await Font.loadAsync({});
@@ -29,15 +28,18 @@ async function loadFonts() {
 const UHP = () => {
   const auth = FIREBASE_AUTH;
   const route = useRoute();
-  let userId = 16; // guest account ID
-  if (route.params) {
-    userId = route.params.data;
-  }
-  console.log('userId - ', userId);
+
   const [location, setLoc] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
+  const [userId,setUserID] = useState(16);
   const imgurl = 'https://images.unsplash.com/photo-1577114995803-d8ce0e2b4aa9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1173&q=80'
+
+  useEffect(() => {
+    if (route.params) {
+      setUserID(route.params.data);
+    }
+  },[])
 
   //#region calendar date time picker
   const [sDate, setSDate] = useState(new Date());

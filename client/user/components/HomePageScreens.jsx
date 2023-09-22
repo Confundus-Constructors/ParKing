@@ -20,7 +20,7 @@ export default HomePageScreens = () => {
       >
         <Stack.Screen
           name="UHP"
-          initialParams= {data: userId}
+          initialParams= {{data: userId}}
           component={UHP}
           options={{
             title: 'ParKing',
