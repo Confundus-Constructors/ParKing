@@ -31,13 +31,17 @@ const Select = () => {
   useEffect(() => {
     if (route.params) {
       setId(route.params.id)
+      console.log(route.params.id)
       setTime(route.params.time)
     }
+  },[see])
+
+  useEffect(() => {
     axios.get(`http://${host}:${port}/vehicles/${id}`)
       .then((result) => {
         setCars(result.data);
       })
-  },[see])
+  },[id])
 
   const handleComplete = () => {
     navigation.navigate("Checkout", {data: route.params.data, vehicle: selected, id:id, time});

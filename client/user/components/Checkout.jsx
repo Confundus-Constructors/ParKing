@@ -29,13 +29,11 @@ const Checkout = () => {
   const id = route.params.id;
   const time = route.params.time;
   const [ code,setCode ] = useState("");
-  const [ qr,setQR ] = useContext('')
 
   useEffect(() => {
     axios.get(`http://${host}:${port}/transactions/confirmation`)
     .then((result) => {
       setCode(result.data.conf_code);
-      setQR(result.data.conf_code);
     })
   })
 
@@ -48,7 +46,7 @@ const Checkout = () => {
       reservation_end_time: time.etime.toUTCString(),
       qr_code: code,
     };
-    axios.post(`http://${host}:${port}/transactions/${code}`, { params: toBE })
+    axios.post(`http://${host}:${port}/transactions/${code}`, toBE)
     .then(() => {
     //   navigation.navigate("Reservations", { data: code, id:id });
       Alert.alert('Finished Reservation')
