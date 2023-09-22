@@ -20,15 +20,19 @@ import {host, port} from "../../../env.js";
 
 const Select = () => {
   const route = useRoute();
-  const id = route.params.id;
-  const time = route.params.time;
   const navigation = useNavigation();
   const [ cars,setCars ] = useState(["Tesla Model X", "Mercedes E-Class", "Tesla Model 3"]);
   const [ selected, setSelected ] = useState({});
   const [clicked, setClicked] = useState(0);
   const [ see,setSee ] = useState(false);
+  const [id,setId] = useState(16);
+  const [ time,setTime ] = useState('');
 
   useEffect(() => {
+    if (route.params) {
+      setId(route.params.id)
+      setTime(route.params.time)
+    }
     axios.get(`http://${host}:${port}/vehicles/${id}`)
       .then((result) => {
         setCars(result.data);
