@@ -101,7 +101,7 @@ const Welcome = () => {
               const garage_id = employee_data.data.garage_id;
               navigation.navigate('VHP', { data: garage_id}); // need to pass userId into
             } else {
-              navigation.navigate('UHP', { data: userId}); // need to pass userId into
+              navigation.navigate('UserTabs', { data: userId}); // need to pass userId into
             }
           }
         }
@@ -124,7 +124,7 @@ const Welcome = () => {
                 // Optionally, update Firebase to set firstLogin to false for this user.
             } else {
 
-                navigation.navigate('UHP');
+                navigation.navigate('UserTabs');
             }
         })
         .catch((error) => {
@@ -153,7 +153,7 @@ const Welcome = () => {
         const garage_id = employee_data.data.garage_id;
         navigation.navigate('VHP', { data: garage_id}); // need to pass userId into
       } else {
-        navigation.navigate('UHP', { data: userId}); // need to pass userId into
+        navigation.navigate('UserTabs', { data: userId}); // need to pass userId into
       }
     } catch (error) {
       console.log(error);
@@ -179,7 +179,7 @@ const Welcome = () => {
 
   const onGuestPressed = () => {
 
-    navigation.navigate('UHP');
+    navigation.navigate('UserTabs');
   };
 
   const onCreatePressed = () => {

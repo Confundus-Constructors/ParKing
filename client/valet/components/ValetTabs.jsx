@@ -9,16 +9,21 @@ import CarsScreen from "./CarsScreen";
 import { StatusBar } from "react-native";
 import CalendarScreen from "./CalendarScreen";
 import {SafeAreaView, View, StyleSheet} from 'react-native';
-// import { Cloudinary } from "@cloudinary/url-gen";
+import SignOutScreen from './SignOutScreen';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useRoute } from '@react-navigation/native';
+import React, {useState, useEffect} from 'react';
+
 
 export default ValetTabs = () => {
+  const [garageId, setGarageId] = useState(1);
   const route = useRoute();
-  let garageId = 1;
-  if (route.params) {
-    garageId = route.params.data;
-  }
-  console.log('garageId - ', garageId);
+  useEffect(() => {
+    if (route.params) {
+      setGarageId(route.params.data);
+    }
+  }, [route]);
+
   const theme = useTheme();
   theme.colors.secondaryContainer = "transparent";
 
@@ -39,7 +44,7 @@ export default ValetTabs = () => {
         activeColor="white"
         inactiveColor="gray"
       >
-        <Tab.Screen
+        {/* <Tab.Screen
           name="Home"
           component={HomeScreen}
           options={{
@@ -53,9 +58,12 @@ export default ValetTabs = () => {
               );
             },
           }}
-        />
+        /> */}
         <Tab.Screen
           name="Cars"
+          initialParams={
+          {garage: garageId}
+          }
           component={CarsScreen}
           options={{
             tabBarIcon: (tabInfo) => {
@@ -97,6 +105,17 @@ export default ValetTabs = () => {
                 />
               );
             },
+          }}
+        />
+        <Tab.Screen
+          name="Sign Out Screen"
+          component={SignOutScreen}
+          options={{
+            tabBarLabel: 'Sign Out',
+            barTintColor: 'white',
+            tabBarIcon: ({ color }) => (
+              <MaterialCommunityIcons name="exit-run" color={color} size={32} />
+            )
           }}
         />
       </Tab.Navigator>
