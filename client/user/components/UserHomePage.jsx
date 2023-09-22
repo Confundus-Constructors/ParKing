@@ -39,7 +39,7 @@ const UHP = () => {
     if (route.params) {
       setUserID(route.params.data);
     }
-  },[])
+  },[route.params])
 
   //#region calendar date time picker
   const [sDate, setSDate] = useState(new Date());
