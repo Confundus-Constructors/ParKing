@@ -97,6 +97,13 @@ const vehicles = [
     license_plate: 'PLKM78',
     user_id: 13,
   },
+  {
+    id: 99,
+    make_model: 'Honda',
+    color: 'red',
+    license_plate: '48lskd',
+    user_id: 15,
+  },
 ];
 
 module.exports = vehicles;

@@ -146,7 +146,7 @@ const CarCard = ({info,  buttonText, navigation}) => {
                 }
               } />
             ) : (
-              <FontAwesomeIcon icon={faCamera} style={{color: "#a9927d"}} size={80} fade-size={'lg'}/>
+              <FontAwesomeIcon icon={faCamera} style={{color: "#a9927d", opacity: 0.7}} size={80} fade-size={'lg'}/>
 
             )}
           </TouchableOpacity>
@@ -165,14 +165,14 @@ const CarCard = ({info,  buttonText, navigation}) => {
           <Text style={styles.user}>{formatCustomDate(date2)}</Text>        </Text>
         </View>
         <View>
-        <Text style={styles.row}>
+        <Text style={[styles.row, { paddingRight: 60 }, { marginTop: 5 }]}>
           <Text style={styles.boldText}>Garage: </Text>
           <Text style={styles.user}>{}</Text>
         </Text>
-        <Text style={styles.row, {paddingRight: 60}}>
-          <Text style={styles.boldText}>Spot ID: </Text>
-          <Text>{info.parking_spot_number}</Text>
-        </Text>
+        <Text style={styles.row, { paddingRight: 60 }}>
+         {info.parking_spot_number && <Text style={styles.boldText}>Spot ID: </Text>}
+        <Text>{info.parking_spot_number}</Text>
+</Text>
         </View>
       </View>
 
@@ -282,14 +282,14 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     fontWeight: 'bold',
-    fontSize: 16,
+    fontSize: 18,
 },
   user: {
     marginTop: 1,
     fontSize: 16,
     fontWeight: 'bold',
     color: '#404040',
-  }
+  },
 });
 
 export default CarCard;
