@@ -118,6 +118,126 @@ const parking_spots = [
     garage_id: 2,
     position: 10,
     is_available: true
+  },
+  {
+    id: 21,
+    garage_id: 3,
+    position: 1,
+    is_available: true
+  },
+  {
+    id: 22,
+    garage_id: 3,
+    position: 2,
+    is_available: true
+  },
+  {
+    id: 23,
+    garage_id: 3,
+    position: 3,
+    is_available: true
+  },
+  {
+    id: 24,
+    garage_id: 3,
+    position: 4,
+    is_available: true
+  },
+  {
+    id: 25,
+    garage_id: 3,
+    position: 5,
+    is_available: true
+  },
+  {
+    id: 26,
+    garage_id: 3,
+    position: 6,
+    is_available: true
+  },
+  {
+    id: 27,
+    garage_id: 3,
+    position: 7,
+    is_available: true
+  },
+  {
+    id: 28,
+    garage_id: 3,
+    position: 8,
+    is_available: true
+  },
+  {
+    id: 29,
+    garage_id: 3,
+    position: 9,
+    is_available: true
+  },
+  {
+    id: 30,
+    garage_id: 3,
+    position: 10,
+    is_available: true
+  },
+  {
+    id: 31,
+    garage_id: 4,
+    position: 1,
+    is_available: true
+  },
+  {
+    id: 32,
+    garage_id: 4,
+    position: 2,
+    is_available: true
+  },
+  {
+    id: 33,
+    garage_id: 4,
+    position: 3,
+    is_available: true
+  },
+  {
+    id: 34,
+    garage_id: 4,
+    position: 4,
+    is_available: true
+  },
+  {
+    id: 35,
+    garage_id: 4,
+    position: 5,
+    is_available: true
+  },
+  {
+    id: 36,
+    garage_id: 4,
+    position: 6,
+    is_available: true
+  },
+  {
+    id: 37,
+    garage_id: 4,
+    position: 7,
+    is_available: true
+  },
+  {
+    id: 38,
+    garage_id: 4,
+    position: 8,
+    is_available: true
+  },
+  {
+    id: 39,
+    garage_id: 4,
+    position: 9,
+    is_available: true
+  },
+  {
+    id: 40,
+    garage_id: 4,
+    position: 10,
+    is_available: true
   }
 ];
 

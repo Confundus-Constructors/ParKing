@@ -7,7 +7,7 @@ const crypto = require('crypto');
 
 transactionRouter.get('/confirmation', async (req, res) => {
   try {
-    const conf_code = crypto.randomBytes(8).toString("base64");
+    const conf_code = crypto.randomBytes(8).toString("base64").replace(/[^a-zA-Z0-9]/g, '').substr(0, 8);
     res.status(201).send({conf_code});
   } catch (err) {
     console.log('an error occurred on transactions route', err);
@@ -129,15 +129,15 @@ transactionRouter.put('/:qr_code', async (req, res) => {
 
 transactionRouter.post('/:qr_code', async (req, res) => {
   try {
-    // const data = req.body;
-    const data = {
-      user_id: 3,
-      vehicle_id: 5,
-      garage_id: 1,
-      qr_code: 'asdfj8234505l',
-      reservation_start_time: "2023-09-17 02:24:00",
-      reservation_end_time: "2023-09-17 08:24:00",
-    };
+    const data = req.body;
+    // const data = {
+    //   user_id: 3,
+    //   vehicle_id: 5,
+    //   garage_id: 1,
+    //   qr_code: 'asdfj8234505l',
+    //   reservation_start_time: "2023-09-17 02:24:00",
+    //   reservation_end_time: "2023-09-17 08:24:00",
+    // };
 
     const staticData = {
       check_in_time: null,
@@ -155,6 +155,12 @@ transactionRouter.post('/:qr_code', async (req, res) => {
     // console.log({columns, values});
 
     await model.createTransaction(columns, values);
+    // check if guest
+    if (data.user_id === 15) {
+      // console.log('guest fork');
+      // console.log(data.vehicle_id);
+      await model.updateGuestVehicle(data.vehicle_id);
+    }
     res.status(201).send('Created')
   } catch (err) {
     console.log('an error occurred on transaction/:qr_code route', err);

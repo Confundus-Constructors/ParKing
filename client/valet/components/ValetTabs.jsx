@@ -11,8 +11,15 @@ import CalendarScreen from "./CalendarScreen";
 import {SafeAreaView, View, StyleSheet} from 'react-native';
 import SignOutScreen from './SignOutScreen';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useRoute } from '@react-navigation/native';
 
 export default ValetTabs = () => {
+  const route = useRoute();
+  let garageId = 1;
+  if (route.params) {
+    garageId = route.params.data;
+  }
+  console.log('garageId - ', garageId);
   const theme = useTheme();
   theme.colors.secondaryContainer = "transparent";
 
