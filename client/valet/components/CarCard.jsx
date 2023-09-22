@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   View,
   Text,
+  LayoutAnimation,
   SafeAreaView,
   StyleSheet,
   TouchableOpacity,
@@ -12,10 +13,14 @@ import { launchCamera } from "react-native-image-picker";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+import { Dimensions } from "react-native";
+import { host, port } from "../../../env.js";
 
-const CarCard = ({ info, buttonText, navigation }) => {
-  console.log("carcard log", navigation);
+const CarCard = ({ info, buttonText, navigation, garage }) => {
   const [imageSource, setImageSource] = useState(null);
+  const [big, setBig] = useState(false);
+  const imageRef = useRef();
+  const [top, setTop] = useState(0);
 
   const formatCustomDate = (date) => {
     const day = date.getDate();
@@ -34,9 +39,19 @@ const CarCard = ({ info, buttonText, navigation }) => {
   const date1 = new Date(info.reservation_start_time);
   const date2 = new Date(info.reservation_end_time);
 
+  const onPressCheck = () => {
+    //  imageRef.current.measure((x, y, width, height, pagex, pagey) => {
+    //   setTop(-pagey);
+    //   });
+    //   LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    //   if (imageSource) {
+    //     setBig(!big);
+    //   }
+  };
+
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/image/${info.confirmation_id}`)
+      .get(`http://${host}:${port}/image/${info.confirmation_id}`)
       .then((result) => {
         if (result.data.rows[0].photo) {
           var base64 = result.data.rows[0].photo;
@@ -120,13 +135,36 @@ const CarCard = ({ info, buttonText, navigation }) => {
           </View>
         </View>
         <View>
-          <TouchableOpacity style={styles.box} onPress={selectImage}>
+          <TouchableOpacity style={styles.box} onPress={onPressCheck}>
             {imageSource ? (
-              <Image src={imageSource} style={styles.image} />
+              <Image
+                ref={imageRef}
+                // onLayout={event => {
+                //   const layout = event.nativeEvent.layout;
+                //   console.log('screen height:', Dimensions.get('window').height);
+                //   // console.log('width:', layout.width);
+                //   // XRef.current = layout.x;
+                //   // YRef.current = layout.y;
+                //   // console.log('x:', layout.x);
+                //   // console.log('y:', layout.y);
+                // }}
+                src={imageSource}
+                style={{
+                  height: !big ? 120 : Dimensions.get("window").height,
+                  width: !big ? 180 : Dimensions.get("window").width,
+                  borderRadius: 10,
+                  resizeMode: "cover",
+                  marginRight: !big ? 0 : 200,
+                  position: "absolute",
+                  top: top,
+                  left: !big ? 0 : -205,
+                  zIndex: 1,
+                }}
+              />
             ) : (
               <FontAwesomeIcon
                 icon={faCamera}
-                style={{ color: "#a9927d" }}
+                style={{ color: "#a9927d", opacity: 0.7 }}
                 size={80}
                 fade-size={"lg"}
               />
@@ -147,16 +185,19 @@ const CarCard = ({ info, buttonText, navigation }) => {
           </Text>
         </View>
         <View>
-          <Text style={styles.row}>
+          <Text style={[styles.row, { paddingRight: 59 }, { marginTop: 5 }]}>
             <Text style={styles.boldText}>Garage: </Text>
-            <Text style={styles.user}>{}</Text>
+            <Text>{garage}</Text>
           </Text>
-          <Text style={(styles.row, { paddingRight: 60 })}>
-            <Text style={styles.boldText}>Spot ID: </Text>
+          <Text style={(styles.row, { paddingRight: 58 })}>
+            {info.parking_spot_number && (
+              <Text style={styles.boldText}>Spot ID: </Text>
+            )}
             <Text>{info.parking_spot_number}</Text>
           </Text>
         </View>
       </View>
+
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button} onPress={handleCheckCar}>
           <Text style={styles.buttonText}>
@@ -182,6 +223,8 @@ const styles = StyleSheet.create({
 
     // Android shadow style
     elevation: 5,
+    zIndex: 0,
+    // position: 'absolute'
   },
   row: {
     flexDirection: "row",
@@ -204,8 +247,8 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   image: {
-    width: 190,
-    height: 130,
+    width: 180,
+    height: 120,
     borderRadius: 10,
     resizeMode: "cover",
   },
@@ -264,6 +307,15 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     fontSize: 16,
+  },
+  user: {
+    marginTop: 1,
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#404040",
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 18,
   },
   user: {
     marginTop: 1,

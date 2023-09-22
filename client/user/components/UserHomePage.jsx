@@ -15,10 +15,11 @@ import React, { useState, useEffect } from "react";
 import UserTabs from "./UserTabs.jsx";
 import axios from "axios";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { FIREBASE_AUTH } from "../../../FirebaseConfig.ts";
 import { signOut } from "firebase/auth";
+import { host, port } from "../../../env.js";
 
 async function loadFonts() {
   await Font.loadAsync({});
@@ -26,12 +27,20 @@ async function loadFonts() {
 
 const UHP = () => {
   const auth = FIREBASE_AUTH;
-  const userId = 1;
+  const route = useRoute();
+
   const [location, setLoc] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
+  const [userId, setUserID] = useState(16);
   const imgurl =
     "https://images.unsplash.com/photo-1577114995803-d8ce0e2b4aa9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1173&q=80";
+
+  useEffect(() => {
+    if (route.params) {
+      setUserID(route.params.data);
+    }
+  }, [route.params]);
 
   //#region calendar date time picker
   const [sDate, setSDate] = useState(new Date());
@@ -89,7 +98,7 @@ const UHP = () => {
 
   const handlePush = () => {
     axios
-      .get("http://localhost:3000/garages", {
+      .get(`http://${host}:${port}/garages`, {
         params: {
           location: location,
           start_date: sTime,
@@ -142,7 +151,6 @@ const UHP = () => {
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
           setModalVisible(!modalVisible);
         }}
       >
@@ -227,7 +235,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "grey",
+    backgroundColor: "#171412",
   },
   Card: {
     borderRadius: "20px",

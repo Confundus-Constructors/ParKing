@@ -17,7 +17,7 @@ async function loadFonts() {
   await Font.loadAsync({});
 }
 
-const Reservations = () => {
+const ResCopy = ({ data }) => {
   const [info, setInfo] = useState({});
   const [startDate, setSDate] = useState("");
   const [endDate, setEDate] = useState("");
@@ -27,16 +27,6 @@ const Reservations = () => {
   const id = route.params.id;
 
   useEffect(() => {
-    axios.get(`http://${host}:${port}/transactions/users/${id}`)
-    .then((result) => {
-      var curr = new Date().toUTCString();
-      for (var i = 0; i < result.data; i++) {
-        if (result.data[i].reservation_start_time >= curr && curr >= result.data[i].reservation_end_time) {
-          setInfo(result.data[i]);
-        }
-      }
-    })
-    .then((resp) => {
       const monthNames = [
         "January",
         "February",
@@ -51,8 +41,8 @@ const Reservations = () => {
         "November",
         "December",
       ];
-      var sd = new Date(resp.reservation_start_time);
-      var ed = new Date(resp.reservation_end_time);
+      var sd = new Date(data.reservation_start_time);
+      var ed = new Date(data.reservation_end_time);
       var sdate = `${
         monthNames[sd.getUTCMonth()]
       }, ${sd.getUTCDate()} ${sd.getUTCHours()}:${sd.getUTCMinutes()}`;
@@ -61,9 +51,8 @@ const Reservations = () => {
       }, ${ed.getUTCDate()} ${ed.getUTCHours()}:${ed.getUTCMinutes()}`;
       setSDate(sdate);
       setEDate(edate);
-      setInfo(resp);
-      setQR(resp.qr_code)
-    });
+      setInfo(data);
+      setQR(data.qr_code)
   }, []);
 
   return (
@@ -120,4 +109,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Reservations;
+export default ResCopy;

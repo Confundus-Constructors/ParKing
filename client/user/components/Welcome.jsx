@@ -21,7 +21,7 @@ import {
 } from "firebase/auth";
 
 import axios from 'axios';
-
+import {host, port} from "../../../env.js";
 
 import { User } from 'firebase/auth';
 
@@ -93,14 +93,15 @@ const Welcome = () => {
           // ---- KURT AND JON ADD PUT ROUTE ---- //
           const db_response = await updateUserDeviceTokenNoPW( auth.currentUser.email, auth.currentUser.stsTokenManager);
           if (db_response.data === "" || db_response.data === undefined) {
-            console.log('inside the if');
             navigation.navigate('SignUpScreen');
           } else {
             setUserId(db_response.data.id);
             if (db_response.data.is_employee) {
-              navigation.navigate('VHP', {data: userId}); // need to pass userId into
+              const employee_data = await getEmployeeFromDB( db_response.data.id);
+              const garage_id = employee_data.data.garage_id;
+              navigation.navigate('VHP', { data: garage_id}); // need to pass userId into
             } else {
-              navigation.navigate('UHP', { data: userId}); // need to pass userId into
+              navigation.navigate('UserTabs', { data: userId}); // need to pass userId into
             }
           }
         }
@@ -123,7 +124,7 @@ const Welcome = () => {
                 // Optionally, update Firebase to set firstLogin to false for this user.
             } else {
 
-                navigation.navigate('UHP');
+                navigation.navigate('UserTabs');
             }
         })
         .catch((error) => {
@@ -146,13 +147,13 @@ const Welcome = () => {
       // navigation.navigate('UHP');
       // ---- KURT AND JON ADD PUT ROUTE ---- //
       const db_response = await updateUserDeviceToken( response.user, data.Password);
-      console.log('db_response: ', db_response.data);
-      console.log(db_response.data.is_employee);
       setUserId(db_response.data.id);
       if (db_response.data.is_employee) {
-        navigation.navigate('VHP'); // need to pass userId into
+        const employee_data = await getEmployeeFromDB( db_response.data.id);
+        const garage_id = employee_data.data.garage_id;
+        navigation.navigate('VHP', { data: garage_id}); // need to pass userId into
       } else {
-        navigation.navigate('UHP', { data: userId}); // need to pass userId into
+        navigation.navigate('UserTabs', { data: userId}); // need to pass userId into
       }
     } catch (error) {
       console.log(error);
@@ -178,7 +179,7 @@ const Welcome = () => {
 
   const onGuestPressed = () => {
 
-    navigation.navigate('UHP');
+    navigation.navigate('UserTabs');
   };
 
   const onCreatePressed = () => {
@@ -188,20 +189,26 @@ const Welcome = () => {
 
   // --- START DATABASE FUNCTIONS --- //
   const updateUserDeviceToken = (obj, password) => {
+    console.log({host, port});
     let payload = {
       email: obj.email,
       password: password,
       stsTokenManager: obj.stsTokenManager,
     }
-    return axios.put('http://localhost:3000/users', payload);
+    return axios.put(`http://${host}:${port}/users`, payload);
   };
   const updateUserDeviceTokenNoPW = (email, token) => {
     let payload = {
       email: email,
       stsTokenManager: token,
     }
-    return axios.put('http://localhost:3000/users/auth', payload);
+    return axios.put(`http://${host}:${port}/users/auth`, payload);
   };
+  const getEmployeeFromDB = (user) => {
+    return axios.get(`http://${host}:${port}/users/employees/${user}`);
+    // TESTING ONLY BELOW
+    // return axios.get(`http://localhost:${port}/users/employees/${user}`);
+  }
   // --- END DATABASE FUNCTIONS --- //
 
   return (

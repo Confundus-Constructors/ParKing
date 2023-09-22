@@ -8,8 +8,8 @@ import { useNavigation } from '@react-navigation/native';
 import { useForm, Controller } from "react-hook-form";
 import { FIREBASE_AUTH } from '../../../FirebaseConfig.ts';
 import {createUserWithEmailAndPassword} from 'firebase/auth';
+import {host, port} from "../../../env.js";
 import axios from 'axios';
-
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 
@@ -68,8 +68,12 @@ const SignUpScreen = () => {
   };
 
   const addUserToDatabase = (obj) => {
-    return axios.post('http://localhost:3000/users', obj);
+    return axios.post(`http://${host}:${port}/users`, obj);
   };
+
+  const onGuestPressed = () => {
+    navigation.navigate('UserTabs');
+  }
 
 
   return (
@@ -106,7 +110,7 @@ const SignUpScreen = () => {
 
 
             <TouchableOpacity>
-              <Text style={styles.clickableText}>Continue as Guest</Text>
+              <Text style={styles.clickableText} onPress={onGuestPressed}>Continue as Guest</Text>
             </TouchableOpacity>
 
             <TouchableOpacity>

@@ -23,7 +23,7 @@ const ConfirmEmailScreen = () => {
 
   const onConfirmPressed = () => {
     // for this I will only handle case of new user for now
-    navigation.navigate('UHP', {data: userId});
+    navigation.navigate('UserTabs', {data: userId});
   };
 
   const onResendPressed = () => {

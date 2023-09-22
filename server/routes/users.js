@@ -5,6 +5,19 @@ module.exports = {
   getAll: (req, res) => {
     queryAll("users");
   },
+  getEmployeeGarage: (req, res) => {
+    const user_id = req.params.id;
+    console.log('params: ', req.params);
+    console.log(user_id);
+    client.query(`SELECT garage_id from employees WHERE user_id = $1`, [user_id])
+      .then((data) => {
+        console.log('success');
+        res.status(201).send(data.rows[0]);
+      })
+      .catch((err) =>{
+        res.status(201).send([]);
+      })
+  },
   getUser: (req, res) => {
     let { email, password } = req.query;
     console.log(email, password);
@@ -51,7 +64,7 @@ module.exports = {
         `UPDATE users
         SET device_token = $1
         WHERE email = $2
-        and password = $3
+        AND password = $3
         RETURNING id, is_employee;
         `,
         [device_token, email, password]
