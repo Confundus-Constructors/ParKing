@@ -8,6 +8,7 @@ import { FIREBASE_AUTH } from '../../../FirebaseConfig.ts';
 import { signOut } from "firebase/auth";
 import MapScreens from './MapScreens';
 import HomePageScreens from './HomePageScreens';
+import SignOutScreen from './SignOutScreen';
 
 export default UserTabs = () => {
   const theme = useTheme();
@@ -59,8 +60,8 @@ export default UserTabs = () => {
           }}
         />
         <Tab.Screen
-          name="Sign Out"
-          component={Welcome}
+          name="Sign Out Screen"
+          component={SignOutScreen}
           options={{
             tabBarLabel: 'Sign Out',
             barTintColor: 'white',
