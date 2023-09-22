@@ -20,12 +20,12 @@ const Navigation = () => {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Welcome" component={Welcome} />
-        {/* <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
-        <Stack.Screen
+       <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
+       <Stack.Screen
           name="ConfirmEmailScreen"
           component={ConfirmEmailScreen}
         />
-        <Stack.Screen
+         {/*  <Stack.Screen
           name="ForgotPasswordScreen"
           component={ForgotPasswordScreen}
         />

@@ -7,7 +7,7 @@ import axios from 'axios';
 import { Dimensions } from 'react-native'
 import {host, port} from "../../../env.js";
 
-const CarCard = ({info,  buttonText, navigation}) => {
+const CarCard = ({info,  buttonText, navigation, garage}) => {
 
   const [imageSource, setImageSource] = useState(null);
   const [big, setBig] = useState(false);
@@ -165,11 +165,11 @@ const CarCard = ({info,  buttonText, navigation}) => {
           <Text style={styles.user}>{formatCustomDate(date2)}</Text>        </Text>
         </View>
         <View>
-        <Text style={[styles.row, { paddingRight: 60 }, { marginTop: 5 }]}>
+        <Text style={[styles.row, { paddingRight: 59 }, { marginTop: 5 }]}>
           <Text style={styles.boldText}>Garage: </Text>
-          <Text style={styles.user}>{}</Text>
+          <Text>{garage}</Text>
         </Text>
-        <Text style={styles.row, { paddingRight: 60 }}>
+        <Text style={styles.row, { paddingRight: 58 }}>
          {info.parking_spot_number && <Text style={styles.boldText}>Spot ID: </Text>}
         <Text>{info.parking_spot_number}</Text>
 </Text>

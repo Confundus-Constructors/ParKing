@@ -4,8 +4,13 @@ import CarManage from './CarManage';
 import CheckIn from './CheckIn';
 import CheckOut from './CheckOut';
 import CameraMain from './CameraMain';
+import {useRoute} from '@react-navigation/native';
+
 const Stack = createStackNavigator();
+
+
 export default CarsScreen = () => {
+  const route = useRoute();
   return (
     <Stack.Navigator screenOptions={{
       headerShown: true
@@ -14,6 +19,9 @@ export default CarsScreen = () => {
     <Stack.Screen
         name="CarManage"
         component={CarManage}
+        initialParams={
+          {garage: route.params.garage}
+          }
         options={{
           title: 'ParKing',
           headerStyle: {
