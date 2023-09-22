@@ -86,7 +86,7 @@ const Welcome = () => {
       signInWithCredential(auth, credential)
       .then(async(authResult) => {
         if (authResult.user.firstLogin) {  // Replace 'firstLogin' with field name you use in Firebase.
-          navigation.navigate('ConfirmEmailScreen');
+          navigation.navigate('UserTabs', { data: userId});
           // Optionally, update Firebase to set firstLogin to false for this user.
         } else {
           // navigation.navigate('UHP');
@@ -101,7 +101,7 @@ const Welcome = () => {
               const garage_id = employee_data.data.garage_id;
               navigation.navigate('VHP', { data: garage_id}); // need to pass userId into
             } else {
-              navigation.navigate('UserTabs', { data: userId}); // need to pass userId into
+              navigation.navigate('UserTabs', { data: db_response.data.id}); // need to pass userId into
             }
           }
         }
@@ -120,11 +120,11 @@ const Welcome = () => {
         signInWithCredential(auth, credential)
         .then((authResult) => {
             if (authResult.user.firstLogin) { // Replace 'firstLogin' with field name you use in Firebase.
-                navigation.navigate('ConfirmEmailScreen');
+                navigation.navigate('UserTabs', { data: db_response.data.id});
                 // Optionally, update Firebase to set firstLogin to false for this user.
             } else {
 
-                navigation.navigate('UserTabs');
+                navigation.navigate('UserTabs', { data: 16});
             }
         })
         .catch((error) => {
@@ -153,7 +153,8 @@ const Welcome = () => {
         const garage_id = employee_data.data.garage_id;
         navigation.navigate('VHP', { data: garage_id}); // need to pass userId into
       } else {
-        navigation.navigate('UserTabs', { data: userId}); // need to pass userId into
+        console.log('this is the user id from welcome component', db_response.data.id)
+        navigation.navigate('UserTabs', { data: db_response.data.id}); // need to pass userId into
       }
     } catch (error) {
       console.log(error);
@@ -179,7 +180,7 @@ const Welcome = () => {
 
   const onGuestPressed = () => {
 
-    navigation.navigate('UserTabs');
+    navigation.navigate('UserTabs', { data: 16});
   };
 
   const onCreatePressed = () => {
