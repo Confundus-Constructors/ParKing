@@ -12,8 +12,49 @@ export default ValetCalendar = () => {
     <SafeAreaView style={{ flex: 1, justifyContent: "center" }}>
       <Agenda
         items={{
-          '2023-09-20': [{name: 'Daniel Park', car: 'Blue Toyota', license: 'DCBA321', start_time:'7:30pm', end_time:'10pm', initials:'DP' }, {name: 'Amelia Li', car: 'Black GMC', license: '321ABCD', start_time:'6:30pm', end_time:'8:30pm', initials:'AL' }],
-          '2023-09-21': [{name: 'Amelia Li', car: 'Black GMC', license: '321ABCD', start_time:'6:30pm', end_time:'8:30pm', initials:'AL' }],
+          '2023-09-25': [
+            {
+            name: 'Daniel Park',
+            car: 'Blue Toyota',
+            license: 'DCBA321',
+            start_time:'6:30pm',
+            end_time:'8:30pm',
+            initials:'DP' },
+            {
+              name: 'Amelia Li',
+              car: 'Black GMC',
+              license: '321ABCD',
+              start_time:'7:30pm',
+              end_time:'10pm',
+              initials:'AL' }
+            ],
+          '2023-09-21': [
+            {
+              name: 'Kurt Vardeman',
+              car: 'Green Honda',
+              license: '456XYZ',
+              start_time:'9:30pm',
+              end_time:'10:30pm',
+              initials:'KV' }
+            ],
+          '2023-09-22': [
+            {
+              name: 'LeDerius Franklin',
+              car: 'Green Honda',
+              license: '456XYZ',
+              start_time:'9:30pm',
+              end_time:'10:30pm',
+              initials:'KV'
+            },
+            {
+              name: 'Kurt Vardeman',
+              car: 'Green Honda',
+              license: '456XYZ',
+              start_time:'9:30pm',
+              end_time:'10:30pm',
+              initials:'KV'
+            },
+            ],
 
         }}
         markedDates={{

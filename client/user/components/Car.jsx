@@ -17,8 +17,9 @@ async function loadFonts() {
 
 const Car = ({ data, set, index,setsel }) => {
   const handlePress = () => {
+    console.log(data.id)
     set(index);
-    setsel(data)
+    setsel(data.id)
   };
   return (
     <View style={styles.tile}>

@@ -22,7 +22,7 @@ const Select = () => {
   const route = useRoute();
   const navigation = useNavigation();
   const [ cars,setCars ] = useState(["Tesla Model X", "Mercedes E-Class", "Tesla Model 3"]);
-  const [ selected, setSelected ] = useState({});
+  const [ selected, setSelected ] = useState(0);
   const [clicked, setClicked] = useState(0);
   const [ see,setSee ] = useState(false);
   const [id,setId] = useState(16);

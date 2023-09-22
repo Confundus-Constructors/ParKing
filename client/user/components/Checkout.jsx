@@ -25,7 +25,6 @@ const Checkout = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const data = route.params.data;
-  const vehicle_id = route.params.vehicle.id;
   const id = route.params.id;
   const time = route.params.time;
   const [ code,setCode ] = useState("");
@@ -40,7 +39,7 @@ const Checkout = () => {
   const handleComplete = () => {
     var toBE = {
       user_id: id,
-      vehicle_id: vehicle_id,
+      vehicle_id: route.params.vehicle,
       garage_id: data.id,
       reservation_start_time: time.stime.toUTCString(),
       reservation_end_time: time.etime.toUTCString(),
