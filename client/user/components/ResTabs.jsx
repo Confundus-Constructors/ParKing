@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, SafeAreaView} from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer,useRoute } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import Reservations from './Reservations.jsx';
+import ResCopy from './ResCopy.jsx';
 import Upcoming from './Upcoming.jsx';
 
 const Tab = createMaterialTopTabNavigator();
@@ -42,6 +43,9 @@ function Cancelled() {
 export const RefreshContext = React.createContext();
 
 const ResTabs = () => {
+  const route = useRoute();
+  const userId = route.params.id;
+
   const [refreshKey, setRefreshKey] = useState(0);
 
   return (
@@ -66,8 +70,8 @@ const ResTabs = () => {
           >
             <Tab.Screen name="Upcoming" component={Upcoming} />
             <Tab.Screen name="Current" component={Reservations} />
-            <Tab.Screen name="Past" component={Past} />
-            <Tab.Screen name="Cancelled" component={Cancelled} />
+            {/* <Tab.Screen name="Past" component={Past} /> */}
+            {/* <Tab.Screen name="Cancelled" component={Cancelled} /> */}
           </Tab.Navigator>
         </RefreshContext.Provider>
       {/* </NavigationContainer> */}

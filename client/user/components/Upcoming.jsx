@@ -1,18 +1,39 @@
+import React, { useState, useEffect,useContext } from "react";
 import {
-  SafeAreaView,
   View,
   Text,
-  Image,
-  TextInput,
-  ScrollSafeAreaView,
+  SafeAreaView,
   StyleSheet,
-  Modal,
   TouchableOpacity,
+  Image,
 } from "react-native";
+import CustomButton from "./CustomButton";
+import QRCode from "react-native-qrcode-svg";
+import { useRoute } from "@react-navigation/native";
+import {host, port} from "../../../env.js";
+import Checkout from './Checkout'
+import ResCopy from './ResCopy'
+
+async function loadFonts() {
+  await Font.loadAsync({});
+}
 
 const Upcoming = () => {
+  const [ reservations,setR ] = useState([]);
+
+  useEffect(() => {
+    axios.get(`http://${host}:${port}/transactions/users/${id}`)
+    .then((result) => {
+      setR(result.data)
+    })
+  },[])
+
   return (
-    <SafeAreaView></SafeAreaView>
+    <ScrollSafeAreaView>
+      {reservations.map((reservation) => {
+        return (<ResCopy data={reservation}/>)
+      })}
+    </ScrollSafeAreaView>
   )
 }
 

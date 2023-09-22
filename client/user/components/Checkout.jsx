@@ -1,4 +1,5 @@
 import {
+  Alert,
   SafeAreaView,
   View,
   Text,
@@ -43,12 +44,14 @@ const Checkout = () => {
       user_id: id,
       vehicle_id: vehicle_id,
       garage_id: data.id,
-      reservation_start_time: time.stime.toLocaleString(),
-      reservation_end_time: time.etime.toLocaleString(),
+      reservation_start_time: time.stime.toUTCString(),
+      reservation_end_time: time.etime.toUTCString(),
       qr_code: code,
     };
-    axios.post(`http://${host}:${port}/transactions/${code}`, { params: toBE }).then(() => {
-      navigation.navigate("Reservations", { data: code, id:id });
+    axios.post(`http://${host}:${port}/transactions/${code}`, { params: toBE })
+    .then(() => {
+    //   navigation.navigate("Reservations", { data: code, id:id });
+      Alert.alert('Finished Reservation')
     });
   };
   return (

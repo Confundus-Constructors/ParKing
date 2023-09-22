@@ -1,19 +1,19 @@
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import {NavigationContainer,useNavigation,useRoute} from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 import { useTheme } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import UHP from './UserHomePage.jsx';
-import ResTabs from './ResTabs.jsx';
-
+import Reservations from './Reservations.jsx';
 import Welcome from './Welcome.jsx';
 import { FIREBASE_AUTH } from '../../../FirebaseConfig.ts';
 import { signOut } from "firebase/auth";
-
+import MapScreens from './MapScreens';
+import HomePageScreens from './HomePageScreens';
+import { useRoute } from '@react-navigation/native';
 
 export default UserTabs = () => {
-  const theme = useTheme();
   const route = useRoute();
-  const id = route.params.data || 1;
+  const theme = useTheme();
+  const userId = route.params.data;
   theme.colors.secondaryContainer = "transparent";
 
   const navTheme = {
@@ -31,60 +31,49 @@ export default UserTabs = () => {
     }
   };
   return (
+    // <NavigationContainer theme={navTheme}>
       <Tab.Navigator
       barStyle={{ backgroundColor: 'black' }}
       activeColor="white"
-      inactiveColor="black"
-        inactiveTintColor='green'
-        activeTintColor= 'red'
+      inactiveColor="grey"
+        // inactiveTintColor='grey'
+        // activeTintColor= 'red'
       >
       <Tab.Screen
           name="Home"
-          initialParams={{ id: id }}
-          component={UHP}
+          initialParams={id: userId}
+          component={HomePageScreens}
           options={{
             tabBarLabel: 'Home',
             barTintColor: 'white',
-            // tabBarIcon: ({ color }) => (
-            //   <MaterialCommunityIcons name="home" color={color} size={32} />
-            // )
+            tabBarIcon: ({ color }) => (
+              <MaterialCommunityIcons name="home" color={color} size={32} />
+            )
           }}
         />
         <Tab.Screen
-          name="Reservations"
-          component={ResTabs}
-          initialParams={{ id: id }}
+          name="Map"
+          component={MapScreens}
           options={{
-            tabBarLabel: 'Home',
+            tabBarLabel: 'Map',
             barTintColor: 'white',
-            // tabBarIcon: ({ color }) => (
-            //   <MaterialCommunityIcons name="home" color={color} size={32} />
-            // )
+            tabBarIcon: ({ color }) => (
+              <MaterialCommunityIcons name="map" color={color} size={32} />
+            )
           }}
         />
-        {/* <Tab.Screen
-          name="Map"
-          component={UHP}
-          options={{
-            tabBarLabel: 'Home',
-            barTintColor: 'white',
-            // tabBarIcon: ({ color }) => (
-            //   <MaterialCommunityIcons name="home" color={color} size={32} />
-            // )
-          }}
-        /> */}
         <Tab.Screen
           name="Sign Out"
           component={Welcome}
           options={{
-            tabBarLabel: 'Home',
+            tabBarLabel: 'Sign Out',
             barTintColor: 'white',
-            // tabBarIcon: ({ color }) => (
-            //   <MaterialCommunityIcons name="home" color={color} size={32} />
-            // )
+            tabBarIcon: ({ color }) => (
+              <MaterialCommunityIcons name="exit-run" color={color} size={32} />
+            )
           }}
         />
       </Tab.Navigator>
-
+    // </NavigationContainer>
   )
 };
