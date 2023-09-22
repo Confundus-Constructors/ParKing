@@ -28,7 +28,7 @@ export default ValetCalendar = () => {
               end_time:'10pm',
               initials:'AL' }
             ],
-          '2023-09-21': [
+          '2023-09-23': [
             {
               name: 'Kurt Vardeman',
               car: 'Green Honda',
@@ -40,26 +40,28 @@ export default ValetCalendar = () => {
           '2023-09-22': [
             {
               name: 'LeDerius Franklin',
-              car: 'Green Honda',
+              car: 'Orange Subaru',
               license: '456XYZ',
               start_time:'9:30pm',
               end_time:'10:30pm',
-              initials:'KV'
+              initials:'LD'
             },
             {
-              name: 'Kurt Vardeman',
-              car: 'Green Honda',
-              license: '456XYZ',
-              start_time:'9:30pm',
-              end_time:'10:30pm',
-              initials:'KV'
+              name: 'Jon Wiliams',
+              car: 'Silver Kia',
+              license: '278OIK',
+              start_time:'10:30pm',
+              end_time:'11:30pm',
+              initials:'JW'
             },
             ],
 
         }}
         markedDates={{
-          '2023-09-20': {marked: true},
-          '2023-09-21': {marked: true},
+          '2023-09-22': {marked: true},
+          '2023-09-23': {marked: true},
+          '2023-09-25': {marked: true},
+          // '2023-09-21': {marked: true},
           // '2023-09-22': {disabled: true}
         }}
         showOnlySelectedDayItems={true}
@@ -117,7 +119,7 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 20,
     borderColor: 'gray',
-    paddingLeft: 50,
+    paddingLeft: 20,
     marginTop: 10,
     marginRight: 10,
     backgroundColor: 'white'
@@ -147,7 +149,7 @@ const styles = StyleSheet.create({
     height: 80,
     width: 80,
     borderRadius: 80,
-    marginRight: 30,
+    marginRight: 0,
     justifyContent: 'center',
     alignItems: 'center'
   },
