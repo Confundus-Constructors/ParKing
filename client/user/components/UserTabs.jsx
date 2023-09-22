@@ -7,7 +7,7 @@ import Welcome from './Welcome.jsx';
 import { FIREBASE_AUTH } from '../../../FirebaseConfig.ts';
 import { signOut } from "firebase/auth";
 import MapScreens from './MapScreens';
-
+import HomePageScreens from './HomePageScreens';
 
 export default UserTabs = () => {
   const theme = useTheme();
