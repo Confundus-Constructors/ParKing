@@ -71,6 +71,10 @@ const SignUpScreen = () => {
     return axios.post(`http://${host}:${port}/users`, obj);
   };
 
+  const onGuestPressed = () => {
+    navigation.navigate('UserTabs');
+  }
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -106,7 +110,7 @@ const SignUpScreen = () => {
 
 
             <TouchableOpacity>
-              <Text style={styles.clickableText}>Continue as Guest</Text>
+              <Text style={styles.clickableText} onPress={onGuestPressed}>Continue as Guest</Text>
             </TouchableOpacity>
 
             <TouchableOpacity>
