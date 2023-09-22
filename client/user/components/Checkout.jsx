@@ -1,4 +1,5 @@
 import {
+  Alert,
   SafeAreaView,
   View,
   Text,
@@ -13,7 +14,7 @@ import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { useRoute } from "@react-navigation/native";
 import CustomButton from "./CustomButton";
-import React, { useState,useEffect } from 'react';
+import React, { useState,useEffect,useContext } from 'react';
 import {host, port} from "../../../env.js";
 
 async function loadFonts() {
@@ -28,11 +29,13 @@ const Checkout = () => {
   const id = route.params.id;
   const time = route.params.time;
   const [ code,setCode ] = useState("");
+  const [ qr,setQR ] = useContext('')
 
   useEffect(() => {
     axios.get(`http://${host}:${port}/transactions/confirmation`)
     .then((result) => {
       setCode(result.data.conf_code);
+      setQR(result.data.conf_code);
     })
   })
 
@@ -41,12 +44,14 @@ const Checkout = () => {
       user_id: id,
       vehicle_id: vehicle_id,
       garage_id: data.id,
-      reservation_start_time: time.stime.toLocaleString(),
-      reservation_end_time: time.etime.toLocaleString(),
+      reservation_start_time: time.stime.toUTCString(),
+      reservation_end_time: time.etime.toUTCString(),
       qr_code: code,
     };
-    axios.post(`http://${host}:${port}/transactions/${code}`, { params: toBE }).then(() => {
-      navigation.navigate("Reservations", { data: code, id:id });
+    axios.post(`http://${host}:${port}/transactions/${code}`, { params: toBE })
+    .then(() => {
+    //   navigation.navigate("Reservations", { data: code, id:id });
+      Alert.alert('Finished Reservation')
     });
   };
   return (

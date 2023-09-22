@@ -35,7 +35,6 @@ const AddCar = ({ id,set,see }) => {
 
   return (
     <Modal
-    style={styles.Outer}
     animationType="slide"
     // transparent={true}
     visible={see}>

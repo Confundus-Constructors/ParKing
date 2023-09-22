@@ -14,7 +14,7 @@ const Tab = createMaterialTopTabNavigator();
 function ResTab() {
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>Upcoming</Text>
+      <CarCard />
     </SafeAreaView>
   )
 }
@@ -37,6 +37,7 @@ function PickTab() {
 
 export const RefreshContext = React.createContext();
 
+const noreserv = 'No Reservations'
 const CarManage = ({navigation}) => {
   const [refreshKey, setRefreshKey] = useState(0);
   const route = useRoute();

@@ -8,10 +8,13 @@ import { FIREBASE_AUTH } from '../../../FirebaseConfig.ts';
 import { signOut } from "firebase/auth";
 import MapScreens from './MapScreens';
 import HomePageScreens from './HomePageScreens';
+import { useRoute } from '@react-navigation/native';
 import SignOutScreen from './SignOutScreen';
 
 export default UserTabs = () => {
+  const route = useRoute();
   const theme = useTheme();
+  const userId = route.params.data;
   theme.colors.secondaryContainer = "transparent";
 
   const navTheme = {
@@ -39,6 +42,7 @@ export default UserTabs = () => {
       >
       <Tab.Screen
           name="Home"
+          initialParams={id: userId}
           component={HomePageScreens}
           options={{
             tabBarLabel: 'Home',
