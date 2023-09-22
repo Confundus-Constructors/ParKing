@@ -6,7 +6,8 @@ import {host, port} from "../../../env.js";
 import { RefreshContext } from './CarManage.jsx';
 import {Text, StyleSheet} from 'react-native';
 
-const Reserved = ({garage = 1, navigation}) => {
+
+const Reserved = ({garage = 2, navigation}) => {
   const refreshKey = useContext(RefreshContext);
   const [resInfo, setResInfo] = useState([])
   const buttontext = 'Check In';
@@ -17,7 +18,7 @@ const Reserved = ({garage = 1, navigation}) => {
       }
     })
     .then(res => {
-      setResInfo(res.data)
+      console.log('logger', res.data)
     })
     .catch(err => console.log('Error fetching reserved', err))
   }, [refreshKey])
@@ -30,7 +31,7 @@ const Reserved = ({garage = 1, navigation}) => {
         </View>
          :
         <View>
-         {resInfo.map(res => <CarCard key={res.confirmation_id} navigation={navigation} info={res} buttonText={buttontext}/>)}
+         {resInfo.map(res => <CarCard key={res.confirmation_id} navigation={navigation} info={res} garage={garage} buttonText={buttontext}/>)}
       </View>
       }
     </ScrollView>

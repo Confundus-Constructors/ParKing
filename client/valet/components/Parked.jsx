@@ -35,7 +35,7 @@ const Parked = ({garage = 1, navigation}) => {
        </View>
          :
         <View>
-         {resInfo.map(res => <CarCard key={res.confirmation_id} navigation={navigation} info={res}/>)}
+         {resInfo.map(res => <CarCard key={res.confirmation_id} navigation={navigation} garage={garage} info={res}/>)}
         </View>
      }
 

@@ -61,11 +61,11 @@ module.exports = {
 
     client
       .query(
-        `UPDATE users AS u
+        `UPDATE users
         SET device_token = $1
-        WHERE u.email = $2
-        AND u.password = $3
-        RETURNING u.id, u.is_employee, e.employee_id;
+        WHERE email = $2
+        AND password = $3
+        RETURNING id, is_employee;
         `,
         [device_token, email, password]
       )

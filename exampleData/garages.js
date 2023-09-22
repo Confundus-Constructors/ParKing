@@ -23,7 +23,7 @@ const garages = [
   },
   { id: 3,
     valet_company_id: 2,
-    address_line_1: '33138',
+    address_line_1: '10000 Biscayne Blvd',
     address_line_2: '',
     city: 'Miami Shores',
     state: 'FL',
