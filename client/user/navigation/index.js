@@ -10,14 +10,22 @@ import NewPasswordScreen from "../components/NewPasswordScreen";
 import UHP from "../components/UserHomePage";
 import ValetTabs from "../../valet/components/ValetTabs";
 import UserTabs from "../components/UserTabs";
+import { useTheme } from 'react-native-paper';
 import ResTabs from '../components/ResTabs.jsx'
 import Reserve from '../components/UserReserve.jsx'
 
 const Stack = createNativeStackNavigator();
 
 const Navigation = () => {
+  const theme = useTheme();
+  const navTheme = {
+    colors: {
+      background: "white"
+    }
+  };
+
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={navTheme}>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Welcome" component={Welcome} />
        <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
