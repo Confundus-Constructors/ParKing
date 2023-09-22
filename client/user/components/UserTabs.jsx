@@ -2,11 +2,11 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import {NavigationContainer} from '@react-navigation/native';
 import { useTheme } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import UHP from './UserHomePage.jsx';
 import Reservations from './Reservations.jsx';
 import Welcome from './Welcome.jsx';
 import { FIREBASE_AUTH } from '../../../FirebaseConfig.ts';
 import { signOut } from "firebase/auth";
+import MapScreens from './MapScreens';
 
 
 export default UserTabs = () => {
@@ -28,59 +28,48 @@ export default UserTabs = () => {
     }
   };
   return (
-    <NavigationContainer theme={navTheme}>
+    // <NavigationContainer theme={navTheme}>
       <Tab.Navigator
       barStyle={{ backgroundColor: 'black' }}
       activeColor="white"
-      inactiveColor="black"
-        inactiveTintColor='green'
-        activeTintColor= 'red'
+      inactiveColor="grey"
+        // inactiveTintColor='grey'
+        // activeTintColor= 'red'
       >
       <Tab.Screen
           name="Home"
-          component={UHP}
+          component={HomePageScreens}
           options={{
             tabBarLabel: 'Home',
             barTintColor: 'white',
-            // tabBarIcon: ({ color }) => (
-            //   <MaterialCommunityIcons name="home" color={color} size={32} />
-            // )
-          }}
-        />
-        <Tab.Screen
-          name="Reservations"
-          component={Reservations}
-          options={{
-            tabBarLabel: 'Home',
-            barTintColor: 'white',
-            // tabBarIcon: ({ color }) => (
-            //   <MaterialCommunityIcons name="home" color={color} size={32} />
-            // )
+            tabBarIcon: ({ color }) => (
+              <MaterialCommunityIcons name="home" color={color} size={32} />
+            )
           }}
         />
         <Tab.Screen
           name="Map"
-          component={UHP}
+          component={MapScreens}
           options={{
-            tabBarLabel: 'Home',
+            tabBarLabel: 'Map',
             barTintColor: 'white',
-            // tabBarIcon: ({ color }) => (
-            //   <MaterialCommunityIcons name="home" color={color} size={32} />
-            // )
+            tabBarIcon: ({ color }) => (
+              <MaterialCommunityIcons name="map" color={color} size={32} />
+            )
           }}
         />
         <Tab.Screen
           name="Sign Out"
           component={Welcome}
           options={{
-            tabBarLabel: 'Home',
+            tabBarLabel: 'Sign Out',
             barTintColor: 'white',
-            // tabBarIcon: ({ color }) => (
-            //   <MaterialCommunityIcons name="home" color={color} size={32} />
-            // )
+            tabBarIcon: ({ color }) => (
+              <MaterialCommunityIcons name="exit-run" color={color} size={32} />
+            )
           }}
         />
       </Tab.Navigator>
-    </NavigationContainer>
+    // </NavigationContainer>
   )
 };
