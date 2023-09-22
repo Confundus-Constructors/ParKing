@@ -153,7 +153,7 @@ const Welcome = () => {
         const garage_id = employee_data.data.garage_id;
         navigation.navigate('VHP', { data: garage_id}); // need to pass userId into
       } else {
-        navigation.navigate('UHP', { data: userId}); // need to pass userId into
+        navigation.navigate('UserTabs', { data: userId}); // need to pass userId into
       }
     } catch (error) {
       console.log(error);
