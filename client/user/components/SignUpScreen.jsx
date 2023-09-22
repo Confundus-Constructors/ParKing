@@ -9,7 +9,7 @@ import { useForm, Controller } from "react-hook-form";
 import { FIREBASE_AUTH } from '../../../FirebaseConfig.ts';
 import {createUserWithEmailAndPassword} from 'firebase/auth';
 import {host, port} from "../../../env.js";
-
+import axios from 'axios';
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 
