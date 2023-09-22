@@ -9,7 +9,8 @@ import CarsScreen from "./CarsScreen";
 import { StatusBar } from "react-native";
 import CalendarScreen from "./CalendarScreen";
 import {SafeAreaView, View, StyleSheet} from 'react-native';
-// import { Cloudinary } from "@cloudinary/url-gen";
+import SignOutScreen from './SignOutScreen';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useRoute } from '@react-navigation/native';
 
 export default ValetTabs = () => {
@@ -97,6 +98,17 @@ export default ValetTabs = () => {
                 />
               );
             },
+          }}
+        />
+        <Tab.Screen
+          name="Sign Out Screen"
+          component={SignOutScreen}
+          options={{
+            tabBarLabel: 'Sign Out',
+            barTintColor: 'white',
+            tabBarIcon: ({ color }) => (
+              <MaterialCommunityIcons name="exit-run" color={color} size={32} />
+            )
           }}
         />
       </Tab.Navigator>
