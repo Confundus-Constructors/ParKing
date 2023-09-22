@@ -50,7 +50,7 @@ export default UserTabs = () => {
       >
       <Tab.Screen
           name="Home"
-          initialParams={{id: userId}}
+          initialParams={{id: route.params.data}}
           component={HomePageScreens}
           options={{
             tabBarLabel: 'Home',

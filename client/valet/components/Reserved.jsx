@@ -7,7 +7,7 @@ import { RefreshContext } from './CarManage.jsx';
 import {Text, StyleSheet} from 'react-native';
 
 
-const Reserved = ({garage = 2, navigation}) => {
+const Reserved = ({garage = 1, navigation}) => {
   const refreshKey = useContext(RefreshContext);
   const [resInfo, setResInfo] = useState([])
   const buttontext = 'Check In';
@@ -18,7 +18,7 @@ const Reserved = ({garage = 2, navigation}) => {
       }
     })
     .then(res => {
-      console.log('logger', res.data)
+      setResInfo(res.data)
     })
     .catch(err => console.log('Error fetching reserved', err))
   }, [refreshKey])

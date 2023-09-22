@@ -22,7 +22,7 @@ const Select = () => {
   const route = useRoute();
   const navigation = useNavigation();
   const [ cars,setCars ] = useState(["Tesla Model X", "Mercedes E-Class", "Tesla Model 3"]);
-  const [ selected, setSelected ] = useState({});
+  const [ selected, setSelected ] = useState(0);
   const [clicked, setClicked] = useState(0);
   const [ see,setSee ] = useState(false);
   const [id,setId] = useState(16);
@@ -31,13 +31,17 @@ const Select = () => {
   useEffect(() => {
     if (route.params) {
       setId(route.params.id)
+      console.log(route.params.id)
       setTime(route.params.time)
     }
+  },[see])
+
+  useEffect(() => {
     axios.get(`http://${host}:${port}/vehicles/${id}`)
       .then((result) => {
         setCars(result.data);
       })
-  },[see])
+  },[id])
 
   const handleComplete = () => {
     navigation.navigate("Checkout", {data: route.params.data, vehicle: selected, id:id, time});

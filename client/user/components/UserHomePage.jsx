@@ -37,6 +37,7 @@ const UHP = () => {
 
   useEffect(() => {
     if (route.params) {
+      console.log('in homepage', route.params.data)
       setUserID(route.params.data);
     }
   },[route.params])
@@ -136,11 +137,11 @@ const UHP = () => {
   return (
     <SafeAreaView style={styles.Outer}>
       <Text style={styles.text}>Reserve Your Spot</Text>
-      {/* <Image
+      <Image
         source={{uri: imgurl}}
         style={styles.image}
         accessibilityLabel="ParKing Mascot"
-      /> */}
+      />
       <Modal
         animationType="slide"
         transparent={true}
@@ -204,9 +205,9 @@ const UHP = () => {
             color="#171412"
           />
 
-        <TouchableOpacity>
+        {/* <TouchableOpacity>
           <Text onPress={signOutUser} style={styles.clickableText}>Sign Out</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
           {/* <Icon /> */}
         </View>
       </Modal>
@@ -227,7 +228,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#171412",
+    backgroundColor: "#D0D3D2",
   },
   Card: {
     borderRadius: "20px",
