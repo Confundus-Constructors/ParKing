@@ -21,7 +21,7 @@ const NewPasswordScreen = () => {
 
 
   const onSubmitPressed = () => {
-    navigation.navigate('UHP');
+    navigation.navigate('UserTabs');
   };
 
   const onBackSignInPressed = () => {
