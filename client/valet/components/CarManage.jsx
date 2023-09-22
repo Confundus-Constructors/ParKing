@@ -6,6 +6,8 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import Reserved from './Reserved.jsx';
 import Parked from './Parked.jsx';
 import Pickups from './Pickups.jsx';
+import {useRoute} from '@react-navigation/native';
+
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -37,6 +39,8 @@ export const RefreshContext = React.createContext();
 
 const CarManage = ({navigation}) => {
   const [refreshKey, setRefreshKey] = useState(0);
+  const route = useRoute();
+  const garage = route.params.garage;
 
 
   useEffect(() => {
@@ -66,9 +70,9 @@ const CarManage = ({navigation}) => {
           backgroundColor: 'white',
         },
       }}>
-        <Tab.Screen name="Reserved" component={Reserved}/>
-        <Tab.Screen name="Parked" component={Parked} />
-        <Tab.Screen name="Pickups" component={Pickups} />
+        <Tab.Screen garage={garage} name="Reserved" component={Reserved}/>
+        <Tab.Screen garage={garage} name="Parked" component={Parked} />
+        <Tab.Screen garage={garage} name="Pickups" component={Pickups} />
       </Tab.Navigator>
       </RefreshContext.Provider>
     </SafeAreaView>
