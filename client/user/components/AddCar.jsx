@@ -37,7 +37,7 @@ const AddCar = ({ id,set,see }) => {
     <Modal
     style={styles.Outer}
     animationType="slide"
-    transparent={true}
+    // transparent={true}
     visible={see}>
       <SafeAreaView style={styles.container}>
         <Pressable onPress={() => {set(false)}}>
