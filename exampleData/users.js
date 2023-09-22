@@ -125,6 +125,24 @@ users = [
     phone: "1234567890",
     is_employee: true,
   },
+  {
+    id: 15,
+    first_name: "Guest",
+    last_name: "Guest",
+    password: "password",
+    email: "guestaccount@email.com",
+    phone: "1234567890",
+    is_employee: false,
+  },
+  {
+    id: 16,
+    first_name: "GuestArchive",
+    last_name: "GuestArchive",
+    password: "password",
+    email: "guestarchiveaccount@email.com",
+    phone: "1234567890",
+    is_employee: false,
+  },
 ];
 
 module.exports = users;

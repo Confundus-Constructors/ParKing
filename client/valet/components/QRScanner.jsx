@@ -3,6 +3,7 @@ import { Camera, CameraType } from 'expo-camera';
 import { useState, useEffect, useRef } from 'react';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import axios from 'axios';
+import {host, port} from "../../../env.js";
 
 export default QRScanner = ({navigation}) => {
   const [permission, setPermission] = useState(false);
@@ -17,7 +18,7 @@ export default QRScanner = ({navigation}) => {
 
   useEffect(() => {
     if (scanData) {
-      axios('https://051f-2603-7000-3900-7052-f0a4-43e1-9eb2-cce9.ngrok-free.app/transactions/' + scanData)
+      axios(`http://${host}:${port}/transactions/` + scanData)
       .then((result) => {
         // console.log(result.data);
         if (result.data.status === 'reserved') {
@@ -35,8 +36,8 @@ export default QRScanner = ({navigation}) => {
 
 if (!permission) {
   return (
-    <View style={styles.container}>
-      <Text>Please grant camera permissions to app.</Text>
+    <View style={{flex: 1, justifyContent: 'center', alignItems:'center'}}>
+      <Text style={{fontSize: 20}}>Please grant camera permissions to app.</Text>
     </View>
   );
 }

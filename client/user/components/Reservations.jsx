@@ -10,7 +10,7 @@ import {
 import CustomButton from "./CustomButton";
 import QRCode from "react-native-qrcode-svg";
 import { useRoute } from "@react-navigation/native";
-import axios from "axios";
+import {host, port} from "../../../env.js";
 import Checkout from './Checkout'
 
 async function loadFonts() {
@@ -27,7 +27,7 @@ const Reservations = () => {
   const id = route.params.id;
 
   useEffect(() => {
-    axios.get(`http://localhost:3000/transactions/${data}`).then((result) => {
+    axios.get(`http://${host}:${port}/transactions/${data}`).then((result) => {
       const monthNames = [
         "January",
         "February",

@@ -1,7 +1,8 @@
 import React, {useState, useEffect, useContext} from 'react';
-import { View } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import axios from 'axios';
 import CarCard from './CarCard.jsx';
+import {host, port} from "../../../env.js";
 import { RefreshContext } from './CarManage.jsx';
 import {Text, StyleSheet} from 'react-native';
 
@@ -11,7 +12,7 @@ const Parked = ({garage = 1, navigation}) => {
   const [resInfo, setResInfo] = useState([])
 
   useEffect (() => {
-    axios.get(`http://localhost:3000/reservations/${garage}`, {
+    axios.get(`http://${host}:${port}/reservations/${garage}`, {
       params: {
         filter: 'checked-in'
       }
@@ -27,7 +28,7 @@ const Parked = ({garage = 1, navigation}) => {
   }, [refreshKey])
 
   return (
-    <View>
+    <ScrollView>
       {resInfo.length === 0 ?
        <View style={styles.container}>
          <Text style={styles.nores}>No Cars Parked</Text>
@@ -38,7 +39,7 @@ const Parked = ({garage = 1, navigation}) => {
         </View>
      }
 
-    </View>
+    </ScrollView>
 
   )
 }

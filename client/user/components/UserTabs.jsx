@@ -3,7 +3,8 @@ import {NavigationContainer,useNavigation,useRoute} from '@react-navigation/nati
 import { useTheme } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import UHP from './UserHomePage.jsx';
-import Reservations from './Reservations.jsx';
+import ResTabs from './ResTabs.jsx';
+
 import Welcome from './Welcome.jsx';
 import { FIREBASE_AUTH } from '../../../FirebaseConfig.ts';
 import { signOut } from "firebase/auth";
@@ -51,7 +52,7 @@ export default UserTabs = () => {
         />
         <Tab.Screen
           name="Reservations"
-          component={Reservations}
+          component={ResTabs}
           initialParams={{ id: id }}
           options={{
             tabBarLabel: 'Home',

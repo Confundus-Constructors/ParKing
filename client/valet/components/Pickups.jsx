@@ -1,8 +1,8 @@
 import React, {useState, useEffect, useContext} from 'react';
-import { View } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import axios from 'axios';
 import CarCard from './CarCard.jsx';
-import { RefreshContext } from './CarManage.jsx';
+import {host, port} from "../../../env.js";import { RefreshContext } from './CarManage.jsx';
 import {Text, StyleSheet} from 'react-native';
 
 const Pickups = ({garage = 1, navigation}) => {
@@ -10,7 +10,7 @@ const Pickups = ({garage = 1, navigation}) => {
   const [resInfo, setResInfo] = useState([])
 
   useEffect (() => {
-    axios.get(`http://localhost:3000/reservations/${garage}`, {
+    axios.get(`http://${host}:${port}/reservations/${garage}`, {
       params: {
         filter: 'picking-up'
       }
@@ -23,7 +23,7 @@ const Pickups = ({garage = 1, navigation}) => {
   }, [refreshKey])
 
   return (
-    <View>
+    <ScrollView>
       {resInfo.length === 0 ?
        <View style={styles.container}>
          <Text style={styles.nores}>No Pickups Scheduled</Text>
@@ -34,7 +34,7 @@ const Pickups = ({garage = 1, navigation}) => {
         </View>
      }
 
-    </View>
+    </ScrollView>
 
   )
 }
