@@ -28,7 +28,7 @@ const Parked = ({garage = 1, navigation}) => {
   }, [refreshKey])
 
   return (
-    <ScrollView>
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       {resInfo.length === 0 ?
        <View style={styles.container}>
          <Text style={styles.nores}>No Cars Parked</Text>
@@ -48,6 +48,7 @@ const Parked = ({garage = 1, navigation}) => {
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
+      height: '100%',
     },
     nores: {
       color: '#49111c',

@@ -23,7 +23,7 @@ const Pickups = ({garage = 1, navigation}) => {
   }, [refreshKey])
 
   return (
-    <ScrollView>
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       {resInfo.length === 0 ?
        <View style={styles.container}>
          <Text style={styles.nores}>No Pickups Scheduled</Text>
@@ -43,6 +43,7 @@ const Pickups = ({garage = 1, navigation}) => {
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
+      height: '100%',
     },
     nores: {
       color: '#49111c',

@@ -50,7 +50,6 @@ const CarManage = ({navigation}) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-    {/* <NavigationContainer> */}
       <RefreshContext.Provider value={refreshKey}>
       <Tab.Navigator
         tabBarOptions={{
@@ -61,6 +60,7 @@ const CarManage = ({navigation}) => {
         },
         style: {
           backgroundColor: '#a9927d',
+          marginBottom: 3,
         },
         indicatorStyle: {
           backgroundColor: 'white',
@@ -71,8 +71,6 @@ const CarManage = ({navigation}) => {
         <Tab.Screen name="Pickups" component={Pickups} />
       </Tab.Navigator>
       </RefreshContext.Provider>
-
-    {/* </NavigationContainer> */}
     </SafeAreaView>
   )
 }
