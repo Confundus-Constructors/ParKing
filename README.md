@@ -29,9 +29,24 @@ Urban areas worldwide face mounting challenges with parking logistics, resulting
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 
 ## Backend Documentation
-SQL Schema:
+##SQL Schema:
 ![image](https://github.com/Confundus-Constructors/BlueOcean/assets/118305706/0f615dea-62e8-4eeb-ba34-860ae376cb56)
 
+## Api Routes:
+### Garages
+  Returns all garages with available spots at input reservation times.
+
+  `GET /garages`
+  
+  *Query Parameters*
+
+  | Parameter	 | Type      | Description                                               |
+  | ---------- | :-------: | --------------------------------------------------------- |
+  | location |  string  | Address of user destination. |
+  | start_date |  string  | reservation start datetime - UTC date in format “YYYY-MM-DD HH:MM:SS” |
+  | end_date |  string  | reservation end datetime - UTC date in format “YYYY-MM-DD HH:MM:SS” |
+
+  Response: `Status: 201 OK`
 
 
 
