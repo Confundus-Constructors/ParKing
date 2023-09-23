@@ -11,10 +11,31 @@ Urban areas worldwide face mounting challenges with parking logistics, resulting
 [Kurt Vardeman](https://github.com/kurtvardeman)\
 [LeDerius Franklin](https://github.com/lederius)\
 [Michael Cuellar](https://github.com/mcuellar98)
+
+
+## Built With
+
+![JavaScript](https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E)
+![React Native](https://img.shields.io/badge/react_native-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![NodeJS](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)
+![Expo](https://img.shields.io/badge/expo-1C1E24?style=for-the-badge&logo=expo&logoColor=#D04A37)
+![Axios](https://img.shields.io/badge/Axios-5A29E4.svg?style=for-the-badge&logo=Axios&logoColor=white)
+![Nodemon](https://img.shields.io/badge/NODEMON-%23323330.svg?style=for-the-badge&logo=nodemon&logoColor=%BBDEAD)
+![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
+![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
+![Firebase](https://img.shields.io/badge/firebase-%23039BE5.svg?style=for-the-badge&logo=firebase)
+![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+
+
+
+
 <img width="1202" alt="Screenshot 2023-09-15 at 5 36 29 PM" src="https://github.com/Confundus-Constructors/BlueOcean/assets/136006024/13443066-47f1-4972-9ab9-15e5032e6937">
 <img width="1200" alt="Screenshot 2023-09-15 at 5 36 57 PM" src="https://github.com/Confundus-Constructors/BlueOcean/assets/136006024/3acda195-3813-4b56-961b-f5fb3a186017">
 ![Screenshot 2023-09-15 at 5 34 21 PM](https://github.com/Confundus-Constructors/BlueOcean/assets/136006024/125b3f09-32f9-4f7c-9a58-ced3f0e08ffb)
 ![Screenshot 2023-09-15 at 5 34 47 PM](https://github.com/Confundus-Constructors/BlueOcean/assets/136006024/b85c205a-9bf0-40aa-80ac-e8f7c9cfc6c8)
+
 
 
 Git Work Flow
