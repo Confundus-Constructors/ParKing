@@ -86,7 +86,39 @@ Returns all reservations at garage matching filter criteria.
 
 **Response:** `Status: 200 OK`
 
+### Vehicles
 
+Returns all vehicles for given user.
+
+`GET /vehicles/:user_id`
+
+**Path Variables**
+
+| Parameter   | Type    | Description                                      |
+| ----------- | ------- | ------------------------------------------------ |
+| user_id    | integer  | Id of user.                                     |
+
+**Response:** `Status: 200 OK`
+
+Adds new vehicle for given user.
+
+`POST /vehicles/:user_id`
+
+**Path Variables**
+
+| Parameter   | Type    | Description                                      |
+| ----------- | ------- | ------------------------------------------------ |
+| user_id    | integer  | Id of user.                                     |
+
+**Query Parameters**
+
+| Parameter   | Type    | Description                                      |
+| ----------- | ------- | ------------------------------------------------ |
+| make_model    | string  | Make and model of car.                     |
+| license_plate    | string  | License plate of car.                     |
+| color    | string  | Color of car.                     |
+
+**Response:** `Status: 201 Added vehicle.`
 
 
 Git Work Flow
