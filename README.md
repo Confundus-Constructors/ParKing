@@ -1,6 +1,7 @@
-# ParKing
+# ParKing - Revolutionizing Urban Parking
 
-Urban areas worldwide face mounting challenges with parking logistics, resulting in lost time and mounting frustrations for drivers. As our cities continue to grow and vehicular traffic surges, the demand for efficient parking solutions has never been higher. Enter ParKing, a pioneering SaaS application. Our vision is to revolutionize the parking landscape in metropolitan regions, providing streamlined interactions for both drivers and valets. By harnessing the power of cutting-edge technology, ParKing aims to transform the parking experience, turning challenges into seamless, user-friendly solutions.
+## Overview
+ParKing is a pioneering SaaS application aimed at revolutionizing parking logistics in urban areas. Facing the challenges of parking in growing cities, ParKing provides streamlined interactions for drivers and valets, transforming parking experiences through cutting-edge technology.
 
 ## Authors
 
@@ -27,6 +28,21 @@ Urban areas worldwide face mounting challenges with parking logistics, resulting
 ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
 ![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+
+## Goals
+- Enable users to create accounts and reserve parking spots.
+- Implement a QR-based paperless system for expedited car handoff and receipt.
+- Allow users to track their car and make payments within the app.
+
+## Specifications
+ParKing provides:
+- **Client Authentication:** Account creation and login functionalities.
+- **Garage/Valet Finding:** Intuitive location-based search.
+- **Garage/Valet Listing:** Dynamic listing availability for space owners.
+- **Reserve Parking:** Easy reservation process with transparency.
+- **QR Code Generation:** Paperless solution for check-in and check-out.
+- **Check Car Status:** Convenient signaling and notification system.
+- **Pick up:** Streamlined retrieval and payment process with real-time availability updates.
 
 ## Backend Documentation
 
