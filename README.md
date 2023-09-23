@@ -28,6 +28,9 @@ Urban areas worldwide face mounting challenges with parking logistics, resulting
 ![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 
+## Backend Documentation
+SQL Schema:
+![image](https://github.com/Confundus-Constructors/BlueOcean/assets/118305706/0f615dea-62e8-4eeb-ba34-860ae376cb56)
 
 
 
