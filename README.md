@@ -66,6 +66,26 @@ Returns all garages with available spots at input reservation times.
 
 **Response:** `Status: 201 OK`
 
+### Reservations
+
+Returns all reservations at garage matching filter criteria.
+
+`GET /reservations/:garage_id`
+
+**Path Variables**
+
+| Parameter   | Type    | Description                                      |
+| ----------- | ------- | ------------------------------------------------ |
+| garage_id    | integer  | Id of garage.                     |
+
+**Query Parameters**
+
+| Parameter   | Type    | Description                                      |
+| ----------- | ------- | ------------------------------------------------ |
+| filter    | string  | Filter criteria for reservations - options are "reserved", "checked-in", "picking-up"                     |
+
+**Response:** `Status: 201 OK`
+
 
 
 
