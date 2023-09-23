@@ -41,6 +41,7 @@ ParKing provides:
 - **Garage/Valet Listing:** Dynamic listing availability for space owners.
 - **Reserve Parking:** Easy reservation process with transparency.
 - **QR Code Generation:** Paperless solution for check-in and check-out.
+  ![RPReplay_Final1695411599](https://github.com/Confundus-Constructors/BlueOcean/assets/100256151/cd068d37-acf2-4ecb-95dd-bb35f48a51ce)
 - **Check Car Status:** Convenient signaling and notification system.
 - **Pick up:** Streamlined retrieval and payment process with real-time availability updates.
 
