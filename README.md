@@ -64,7 +64,7 @@ Returns all garages with available spots at input reservation times.
 | start_date  | string  | Reservation start datetime - UTC date in format “YYYY-MM-DD HH:MM:SS” |
 | end_date    | string  | Reservation end datetime - UTC date in format “YYYY-MM-DD HH:MM:SS” |
 
-**Response:** `Status: 201 OK`
+**Response:** `Status: 200 OK`
 
 ### Reservations
 
@@ -84,7 +84,7 @@ Returns all reservations at garage matching filter criteria.
 | ----------- | ------- | ------------------------------------------------ |
 | filter    | string  | Filter criteria for reservations - options are "reserved", "checked-in", "picking-up"                     |
 
-**Response:** `Status: 201 OK`
+**Response:** `Status: 200 OK`
 
 
 
