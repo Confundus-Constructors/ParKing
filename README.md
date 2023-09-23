@@ -44,6 +44,14 @@ ParKing provides:
 - **Check Car Status:** Convenient signaling and notification system.
 - **Pick up:** Streamlined retrieval and payment process with real-time availability updates.
 
+## Usage
+
+- **Users:** Navigate through the app to find and reserve parking spots, track car status, and make payments.
+
+- **Garage/Valet Owners:** List availability, update details, and manage reservations.
+
+- **Developers:** Follow the contribution guidelines to contribute to the development.
+  
 ## Backend Documentation
 
 ### SQL Schema:
