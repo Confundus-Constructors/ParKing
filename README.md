@@ -52,9 +52,9 @@ ParKing provides:
 
 ### Garages
 
-Returns all garages with available spots at input reservation times.
-
 `GET /garages`
+
+Returns all garages with available spots at input reservation times.
 
 **Query Parameters**
 
@@ -68,9 +68,9 @@ Returns all garages with available spots at input reservation times.
 
 ### Reservations
 
-Returns all reservations at garage matching filter criteria.
-
 `GET /reservations/:garage_id`
+
+Returns all reservations at garage matching filter criteria.
 
 **Path Variables**
 
@@ -88,9 +88,9 @@ Returns all reservations at garage matching filter criteria.
 
 ### Vehicles
 
-Returns all vehicles for given user.
-
 `GET /vehicles/:user_id`
+
+Returns all vehicles for given user.
 
 **Path Variables**
 
@@ -100,9 +100,9 @@ Returns all vehicles for given user.
 
 **Response:** `Status: 200 OK`
 
-Adds new vehicle for given user.
-
 `POST /vehicles/:user_id`
+
+Adds new vehicle for given user.
 
 **Path Variables**
 
@@ -120,14 +120,11 @@ Adds new vehicle for given user.
 
 **Response:** `Status: 201 Added vehicle.`
 
-
-
-
 ### Transactions
 
-Interact with transaction data using these routes.
-
 `GET /transactions/:conf_code`
+
+Returns the reservation data for both client and valet, and closest parking spot.
 
 **Path Variables**
 
@@ -138,9 +135,13 @@ Interact with transaction data using these routes.
 **Response:** `Status: 201`
 
 `GET /transactions/confirmation`
-**Response:** - Returns a randomly generated string for unique confirmation code.
+
+Assigns randomly generated string for confirmation code.
+**Response:** `Status: 201 OK`
 
 `GET /parking_assignment/:conf_code`
+
+Returns a closest parking spot at time of check-in.
 
 **Path Variables**
 
@@ -148,9 +149,11 @@ Interact with transaction data using these routes.
 | ----------- | ------- | ------------------------------------------------ |
 | conf_code    | string  | Unique Id for transaction.                      |
 
-**Response:** - Returns a closest parking spot at time of check-in.
+**Response:** `Status 201 OK`
 
 `PUT /transactions/:conf_code`
+
+Updates status of transaction and other fields ased on current_status at time of call.
 
 **Path Variables**
 
@@ -161,6 +164,8 @@ Interact with transaction data using these routes.
 **Response:** `Successfully updated transactions`
 
 `POST /transactions/:conf_code`
+
+Adds new transactions at time of reservation.
 
 **Path Variables**
 
@@ -181,6 +186,8 @@ Interact with transaction data using these routes.
 
 `GET /transactions/users/:user_id`
 
+Returns all transactions associated with given user.
+
 **Path Variables**
 
 | Parameter   | Type    | Description                                      |
@@ -196,6 +203,8 @@ Interact with transaction data using these routes.
 **Response:** `Status 201 OK`
 
 `PUT /transactions/notify/:conf_code`
+
+Updates current_status of transaction to "picking-up".
 
 **Path Variables**
 
