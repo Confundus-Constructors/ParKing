@@ -96,7 +96,7 @@ Returns all vehicles for given user.
 
 | Parameter   | Type    | Description                                      |
 | ----------- | ------- | ------------------------------------------------ |
-| user_id    | integer  | Id of user.                                     |
+| user_id    | integer  | Id of user.                                      |
 
 **Response:** `Status: 200 OK`
 
@@ -108,50 +108,100 @@ Adds new vehicle for given user.
 
 | Parameter   | Type    | Description                                      |
 | ----------- | ------- | ------------------------------------------------ |
-| user_id    | integer  | Id of user.                                     |
+| user_id    | integer  | Id of user.                                      |
 
 **Query Parameters**
 
 | Parameter   | Type    | Description                                      |
 | ----------- | ------- | ------------------------------------------------ |
-| make_model    | string  | Make and model of car.                     |
-| license_plate    | string  | License plate of car.                     |
-| color    | string  | Color of car.                     |
+| make_model    | string  | Make and model of car.                         |
+| license_plate    | string  | License plate of car.                       |
+| color    | string  | Color of car.                                       |
 
 **Response:** `Status: 201 Added vehicle.`
 
 
-Git Work Flow
-## update your master branch
-```
-git checkout main
-git pull origin main
-```
-## start work on a feature
-```
-git checkout -b feature-branch
-```
 
-## write code, commit, repeat
-```
-git add .
-git commit
-```
 
-## rebase before pull request
-```
-git checkout main
-git pull origin main
-```
+### Transactions
 
-## push to a feature branch on YOUR fork
-```
-git push origin feature-branch
-```
+Interact with transaction data using these routes.
 
-## make a pull request on GitHub
+`GET /transactions/:conf_code`
 
-## if pull request is rejected
-## fix merge conflicts
+**Path Variables**
 
+| Parameter   | Type    | Description                                      |
+| ----------- | ------- | ------------------------------------------------ |
+| conf_code    | string  | Unique Id for transaction.                      |
+
+**Response:** `Status: 201`
+
+`GET /transactions/confirmation`
+**Response:** - Returns a randomly generated string for unique confirmation code.
+
+`GET /parking_assignment/:conf_code`
+
+**Path Variables**
+
+| Parameter   | Type    | Description                                      |
+| ----------- | ------- | ------------------------------------------------ |
+| conf_code    | string  | Unique Id for transaction.                      |
+
+**Response:** - Returns a closest parking spot at time of check-in.
+
+`PUT /transactions/:conf_code`
+
+**Path Variables**
+
+| Parameter   | Type    | Description                                      |
+| ----------- | ------- | ------------------------------------------------ |
+| conf_code    | string  | Unique Id for transaction.                      |
+
+**Response:** `Successfully updated transactions`
+
+`POST /transactions/:conf_code`
+
+**Path Variables**
+
+| Parameter   | Type    | Description                                      |
+| ----------- | ------- | ------------------------------------------------ |
+| conf_code    | string  | Unique Id for transaction.                      |
+
+**Query Parameters**
+
+| Parameter   | Type    | Description                                      |
+| ----------- | ------- | ------------------------------------------------ |
+| user_id    | integer  | Id of user.                                      |
+| vehicle_id    | integer  | Id of vehicle.                                |
+| garage_id    | integer  | Id of garage.                                  |
+| qr_code    | string  | Confirmation code.                                |
+
+**Response:** `Status 201 Created`
+
+`GET /transactions/users/:user_id`
+
+**Path Variables**
+
+| Parameter   | Type    | Description                                      |
+| ----------- | ------- | ------------------------------------------------ |
+| user_id    | integer  | Id of user.                                      |
+
+**Query Parameters**
+
+| Parameter   | Type    | Description                                      |
+| ----------- | ------- | ------------------------------------------------ |
+| filter    | string  | Filter criteria for reservations - options are "reserved", "checked-in", "picking-up"                                                           |
+
+**Response:** `Status 201 OK`
+
+`PUT /transactions/notify/:conf_code`
+
+**Path Variables**
+
+| Parameter   | Type    | Description                                      |
+| ----------- | ------- | ------------------------------------------------ |
+| conf_code    | string  | Unique Id for transaction.                      |
+
+**Response:** `Status 201 Notifying valets to retrieve your vehicle`
 
