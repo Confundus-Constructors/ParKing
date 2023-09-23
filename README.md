@@ -11,6 +11,10 @@ Urban areas worldwide face mounting challenges with parking logistics, resulting
 [Kurt Vardeman](https://github.com/kurtvardeman)\
 [LeDerius Franklin](https://github.com/lederius)\
 [Michael Cuellar](https://github.com/mcuellar98)
+<img width="1202" alt="Screenshot 2023-09-15 at 5 36 29 PM" src="https://github.com/Confundus-Constructors/BlueOcean/assets/136006024/13443066-47f1-4972-9ab9-15e5032e6937">
+<img width="1200" alt="Screenshot 2023-09-15 at 5 36 57 PM" src="https://github.com/Confundus-Constructors/BlueOcean/assets/136006024/3acda195-3813-4b56-961b-f5fb3a186017">
+![Screenshot 2023-09-15 at 5 34 21 PM](https://github.com/Confundus-Constructors/BlueOcean/assets/136006024/125b3f09-32f9-4f7c-9a58-ced3f0e08ffb)
+![Screenshot 2023-09-15 at 5 34 47 PM](https://github.com/Confundus-Constructors/BlueOcean/assets/136006024/b85c205a-9bf0-40aa-80ac-e8f7c9cfc6c8)
 
 
 Git Work Flow
