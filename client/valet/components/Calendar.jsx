@@ -12,13 +12,56 @@ export default ValetCalendar = () => {
     <SafeAreaView style={{ flex: 1, justifyContent: "center" }}>
       <Agenda
         items={{
-          '2023-09-20': [{name: 'Daniel Park', car: 'Blue Toyota', license: 'DCBA321', start_time:'7:30pm', end_time:'10pm', initials:'DP' }, {name: 'Amelia Li', car: 'Black GMC', license: '321ABCD', start_time:'6:30pm', end_time:'8:30pm', initials:'AL' }],
-          '2023-09-21': [{name: 'Amelia Li', car: 'Black GMC', license: '321ABCD', start_time:'6:30pm', end_time:'8:30pm', initials:'AL' }],
+          '2023-09-25': [
+            {
+            name: 'Daniel Park',
+            car: 'Blue Toyota',
+            license: 'DCBA321',
+            start_time:'6:30pm',
+            end_time:'8:30pm',
+            initials:'DP' },
+            {
+              name: 'Amelia Li',
+              car: 'Black GMC',
+              license: '321ABCD',
+              start_time:'7:30pm',
+              end_time:'10pm',
+              initials:'AL' }
+            ],
+          '2023-09-23': [
+            {
+              name: 'Kurt Vardeman',
+              car: 'Green Honda',
+              license: '456XYZ',
+              start_time:'9:30pm',
+              end_time:'10:30pm',
+              initials:'KV' }
+            ],
+          '2023-09-22': [
+            {
+              name: 'LeDerius Franklin',
+              car: 'Orange Subaru',
+              license: '456XYZ',
+              start_time:'9:30pm',
+              end_time:'10:30pm',
+              initials:'LD'
+            },
+            {
+              name: 'Jon Wiliams',
+              car: 'Silver Kia',
+              license: '278OIK',
+              start_time:'10:30pm',
+              end_time:'11:30pm',
+              initials:'JW'
+            },
+            ],
 
         }}
         markedDates={{
-          '2023-09-20': {marked: true},
-          '2023-09-21': {marked: true},
+          '2023-09-22': {marked: true},
+          '2023-09-23': {marked: true},
+          '2023-09-25': {marked: true},
+          // '2023-09-21': {marked: true},
           // '2023-09-22': {disabled: true}
         }}
         showOnlySelectedDayItems={true}
@@ -76,7 +119,7 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 20,
     borderColor: 'gray',
-    paddingLeft: 50,
+    paddingLeft: 20,
     marginTop: 10,
     marginRight: 10,
     backgroundColor: 'white'
@@ -106,7 +149,7 @@ const styles = StyleSheet.create({
     height: 80,
     width: 80,
     borderRadius: 80,
-    marginRight: 30,
+    marginRight: 0,
     justifyContent: 'center',
     alignItems: 'center'
   },

@@ -42,6 +42,7 @@ const CarManage = ({navigation}) => {
   const [refreshKey, setRefreshKey] = useState(0);
   const route = useRoute();
   const garage = route.params.garage;
+  console.log('garage logcm', garage)
 
 
   useEffect(() => {

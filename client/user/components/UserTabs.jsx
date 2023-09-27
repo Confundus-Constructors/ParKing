@@ -10,12 +10,20 @@ import MapScreens from './MapScreens';
 import HomePageScreens from './HomePageScreens';
 import { useRoute } from '@react-navigation/native';
 import SignOutScreen from './SignOutScreen';
+import {useState, useEffect} from 'react';
 
 export default UserTabs = () => {
   const route = useRoute();
   const theme = useTheme();
-  const userId = route.params.data;
+  const [userId,setId] = useState(16);
   theme.colors.secondaryContainer = "transparent";
+
+  useEffect(() => {
+    if (route.params) {
+      console.log('this is the user id', route.params.data)
+      setId(route.params.data);
+    }
+  },[])
 
   const navTheme = {
     colors: {
@@ -42,7 +50,7 @@ export default UserTabs = () => {
       >
       <Tab.Screen
           name="Home"
-          initialParams={id: userId}
+          initialParams={{id: route.params.data}}
           component={HomePageScreens}
           options={{
             tabBarLabel: 'Home',

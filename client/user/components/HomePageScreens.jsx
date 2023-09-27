@@ -12,7 +12,13 @@ const Stack = createStackNavigator();
 
 export default HomePageScreens = () => {
   const route = useRoute();
-  const userId = route.params.id;
+  const [userId,setUID] = useState(route.params.id);
+  useEffect(() => {
+    if (route.params) {
+      setUID(route.params.id);
+      console.log('in homepagescreens userid: ', route.params.id);
+    }
+  })
     return (
       <Stack.Navigator screenOptions={{
         headerShown: true

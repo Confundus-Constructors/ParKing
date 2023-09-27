@@ -8,6 +8,8 @@ import {Text, StyleSheet} from 'react-native';
 
 
 const Parked = ({garage = 1, navigation}) => {
+  console.log('garage logpu', garage)
+
   const refreshKey = useContext(RefreshContext);
   const [resInfo, setResInfo] = useState([])
 

@@ -92,18 +92,18 @@ const Welcome = () => {
           // navigation.navigate('UHP');
           // ---- KURT AND JON ADD PUT ROUTE ---- //
           const db_response = await updateUserDeviceTokenNoPW( auth.currentUser.email, auth.currentUser.stsTokenManager);
-          if (db_response.data === "" || db_response.data === undefined) {
-            navigation.navigate('SignUpScreen');
-          } else {
+          // if (db_response.data === "" || db_response.data === undefined) {
+          //   navigation.navigate('SignUpScreen');
+          // } else {
             setUserId(db_response.data.id);
             if (db_response.data.is_employee) {
               const employee_data = await getEmployeeFromDB( db_response.data.id);
               const garage_id = employee_data.data.garage_id;
               navigation.navigate('VHP', { data: garage_id}); // need to pass userId into
             } else {
-              navigation.navigate('UserTabs', { data: userId}); // need to pass userId into
+              navigation.navigate('UserTabs', { data: db_response.data.id}); // need to pass userId into
             }
-          }
+          // }
         }
       })
       .catch((error) => {
@@ -148,12 +148,13 @@ const Welcome = () => {
       // ---- KURT AND JON ADD PUT ROUTE ---- //
       const db_response = await updateUserDeviceToken( response.user, data.Password);
       setUserId(db_response.data.id);
+      console.log('userId in Welcome - ', db_response.data.id);
       if (db_response.data.is_employee) {
         const employee_data = await getEmployeeFromDB( db_response.data.id);
         const garage_id = employee_data.data.garage_id;
         navigation.navigate('VHP', { data: garage_id}); // need to pass userId into
       } else {
-        navigation.navigate('UserTabs', { data: userId}); // need to pass userId into
+        navigation.navigate('UserTabs', { data: db_response.data.id}); // need to pass userId into
       }
     } catch (error) {
       console.log(error);
