@@ -5,9 +5,10 @@ const app = express();
 const model = require('./models/index.js');
 const multer = require('multer');
 const cors = require('cors');
-const stripe = require('stripe')('sk_test_51KmkwmD8fOfZHqZlOvyeCaPbtN41kIUQBjH9MUFhK3BGMwmoZYkbJxpDJNZgl78qQVWkmgNpvoNLDAA6eGaQsC5H00Sw9RqjtE');
-// const {host, port} = require("../env.js");
 require("dotenv").config();
+const stripe = require('stripe')(`${process.env.SK}`);
+// const {host, port} = require("../env.js");
+
 // const userRoute = require('./routes/users');
 // const restRouter = require('./routes/transactions.js');
 const transactionRouter = require("./routes/transactions.js");
