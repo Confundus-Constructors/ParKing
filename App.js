@@ -19,6 +19,10 @@ import AppLoading from "expo-app-loading";
 // import { router } from 'expro-router';
 import CarManage from "./client/valet/components/CarManage.jsx";
 
+import { LogBox } from 'react-native';
+
+LogBox.ignoreAllLogs();
+
 export default function App() {
   const [isFontLoaded, setFontLoaded] = useState(false);
   const [emp, setEmp] = useState(true);

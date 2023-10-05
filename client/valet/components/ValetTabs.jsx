@@ -60,6 +60,17 @@ export default ValetTabs = () => {
           }}
         /> */}
         <Tab.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{
+            tabBarLabel: 'Home',
+            barTintColor: 'white',
+            tabBarIcon: ({ color }) => (
+              <MaterialCommunityIcons name="home" color={color} size={32} />
+            )
+          }}
+        />
+        <Tab.Screen
           name="Cars"
           initialParams={
           {garage: garageId}
@@ -105,17 +116,6 @@ export default ValetTabs = () => {
                 />
               );
             },
-          }}
-        />
-        <Tab.Screen
-          name="Sign Out Screen"
-          component={SignOutScreen}
-          options={{
-            tabBarLabel: 'Sign Out',
-            barTintColor: 'white',
-            tabBarIcon: ({ color }) => (
-              <MaterialCommunityIcons name="exit-run" color={color} size={32} />
-            )
           }}
         />
       </Tab.Navigator>

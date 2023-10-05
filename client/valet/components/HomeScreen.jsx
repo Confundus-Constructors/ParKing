@@ -1,31 +1,13 @@
-import { View,Text,Image,TextInput,ScrollView,StyleSheet } from 'react-native';
-import {createStackNavigator} from '@react-navigation/stack';
-import Home from './Home';
+import React from 'react';
+import { SafeAreaView } from 'react-native';
+import DynamicTabs from './HomeComponents/DynamicTabs';
 
-const Stack = createStackNavigator();
-
-export default HomeScreen = () => {
-
-  return (
-    <Stack.Navigator screenOptions={{
-      headerShown: true
-    }}
-    >
-    <Stack.Screen
-        name="Home"
-        component={Home}
-        options={{
-          title: 'ParKing',
-          headerStyle: {
-            backgroundColor: 'black',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontSize: 30,
-            fontWeight: 'bold'
-          }
-        }}
-        />
-    </Stack.Navigator>
-  )
+const HomeScreen = ({ navigation }) => {
+    return (
+        <SafeAreaView style={{ flex: 1 }}>
+            <DynamicTabs navigation={navigation} />
+        </SafeAreaView>
+    );
 }
+
+export default HomeScreen;

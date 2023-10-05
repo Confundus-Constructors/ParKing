@@ -5,6 +5,7 @@ const app = express();
 const model = require('./models/index.js');
 const multer = require('multer');
 const cors = require('cors');
+const stripe = require('stripe')('sk_test_51KmkwmD8fOfZHqZlOvyeCaPbtN41kIUQBjH9MUFhK3BGMwmoZYkbJxpDJNZgl78qQVWkmgNpvoNLDAA6eGaQsC5H00Sw9RqjtE');
 // const {host, port} = require("../env.js");
 require("dotenv").config();
 // const userRoute = require('./routes/users');
@@ -29,7 +30,7 @@ app.use('/vehicles', vehicleRouter);
 const port = process.env.SERVER_PORT;
 
 app.get("/users", (req, res) => {
-  req.query.length > 0 ? getUser(req, res) : getAll(req, res);
+  Object.keys(req.query).length > 0 ? getUser(req, res) : getAll(req, res);
 });
 
 app.get("/users/employees/:id", (req, res) => {
@@ -66,6 +67,17 @@ app.get("/image/:qr_code", async(req, res) => {
   }
 });
 
+app.post("/create-setup-intent", async (req, res) => {
+  try {
+      const setupIntent = await stripe.setupIntents.create();
+      res.json({ clientSecret: setupIntent.client_secret });
+  } catch (error) {
+      res.status(500).json({ error: error.message });
+  }
+});
+
+
 app.listen(port, () => {
   console.log(`Listening at port http://${process.env.HOST}:${port}`);
 });
+//
