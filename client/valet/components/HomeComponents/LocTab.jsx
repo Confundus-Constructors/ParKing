@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, TextInput, Button, Text} from 'react-native';
+import { View, StyleSheet, TextInput, Button, Text, FlatList} from 'react-native';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import { useAuth } from './Auth';
 
@@ -7,6 +7,7 @@ import { useAuth } from './Auth';
 function MyMap() {
   const { accessToken, expirationTime, setAccessToken, setExpirationTime } = useAuth();
 
+  const [suggestions, setSuggestions] = useState([]);
   const [address, setAddress] = useState('');
   const [coordinates, setCoordinates] = useState({
     latitude: 40.7128,
@@ -18,6 +19,7 @@ function MyMap() {
     latitudeDelta: 0.015,
     longitudeDelta: 0.015,
   });
+
 
   async function requestNewToken() {
     console.log('made it here')
@@ -39,12 +41,38 @@ function MyMap() {
 
   async function checkTokenExpirationAndRefresh() {
     if (!accessToken || Date.now() >= expirationTime) {
-      console.log(accessToken)
-      console.log('timelog', Date.now(), expirationTime)
       await requestNewToken();
     }
   }
 
+  const fetchAutocompleteSuggestions = async (input) => {
+    try {
+      const apiUrl = `https://maps-api.apple.com/v1/searchAutocomplete?q=${encodeURIComponent(input)}&resultTypeFilter=Address`;
+
+
+      const response = await fetch(apiUrl, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`,
+        }});
+      if (response.status === 200) {
+        const data = await response.json();
+        console.log('geolog', data.results)
+        if (data.results) {
+          const suggestions = data.results.map((results) => results.displayLines[0]);
+          console.log('suggestions', suggestions)
+          setSuggestions(suggestions);
+        } else {
+          setSuggestions([]);
+        }
+      } else {
+        console.error('Autocomplete request failed.');
+      }
+    } catch (error) {
+      console.error('Error fetching autocomplete suggestions:', error);
+    }
+  };
 
 
   const handleGeocode = async () => {
@@ -89,17 +117,29 @@ function MyMap() {
     }
   };
 
+  const handleInputChange = (text) => {
+    setAddress(text);
+    fetchAutocompleteSuggestions(text);
+  };
+
+
   return (
     <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter an address"
-        value={address}
-        onChangeText={text => setAddress(text)}
-      />
-      <Button title="Search" onPress={handleGeocode} />
-      {  console.log('logger', coordinates)
-      }
+    <TextInput
+      style={styles.input}
+      placeholder="Enter an address"
+      value={address}
+      onChangeText={handleInputChange}
+    />
+    <Button title="Search" onPress={handleGeocode} />
+
+    <FlatList
+      data={suggestions}
+      keyExtractor={(item, index) => index.toString()}
+      renderItem={({ item }) => (
+        <Text>{item}</Text>
+      )}
+    />
       <MapView
         style={styles.map}
         region={mapRegion}
