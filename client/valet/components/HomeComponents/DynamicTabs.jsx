@@ -12,6 +12,8 @@ import Payment from './Payment';
 import Summary from './Summary';
 import LocTab from './LocTab';
 
+
+
 const Tab = createMaterialTopTabNavigator();
 
 function HomeContent() {

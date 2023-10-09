@@ -1,55 +1,93 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, TextInput, Button } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
+import { View, StyleSheet, TextInput, Button, Text} from 'react-native';
+import MapView, { Marker, Callout } from 'react-native-maps';
+import { useAuth } from './Auth';
+
 
 function MyMap() {
-  const [address, setAddress] = useState(''); // State to store the user's input address
+  const { accessToken, expirationTime, setAccessToken, setExpirationTime } = useAuth();
+
+  const [address, setAddress] = useState('');
   const [coordinates, setCoordinates] = useState({
     latitude: 40.7128,
     longitude: -74.0060,
-  }); // State to store the coordinates of the geocoded address
+  });
+  const [mapRegion, setMapRegion] = useState({
+    latitude: coordinates.latitude,
+    longitude: coordinates.longitude,
+    latitudeDelta: 0.015,
+    longitudeDelta: 0.015,
+  });
+
+  async function requestNewToken() {
+    console.log('made it here')
+    try {const response = await fetch('https://maps-api.apple.com/v1/token', {
+      method: 'GET',
+      headers: {'Authorization': 'Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkRXM1JBNlE4UzMifQ.eyJpc3MiOiJUOVE5OTVGN1dLIiwiaWF0IjoxNjk2NjA1MjYxLCJleHAiOjE3MjgwMDAwMDB9.EJxpGWWxp3TGKP11u9SJ5d2KyfNGJ4J07IP8tKZ9dD_DhCc1IunM8jF2y1AdQ_1pQSxpWtyWL_SpRVcjWeeuDQ'},
+    });
+    if (response.status === 200) {
+      const data = await response.json();
+      setAccessToken(data.accessToken);
+      setExpirationTime(Date.now() + data.expiresInSeconds * 1000);
+    } else {
+      console.error('Token refresh failed');
+    }
+    } catch (error) {
+      console.error('Error refreshing token', error)
+    }
+  }
+
+  async function checkTokenExpirationAndRefresh() {
+    if (!accessToken || Date.now() >= expirationTime) {
+      console.log(accessToken)
+      console.log('timelog', Date.now(), expirationTime)
+      await requestNewToken();
+    }
+  }
+
+
 
   const handleGeocode = async () => {
     try {
-      // Encode the user's input address to be used in the query
+
+      await checkTokenExpirationAndRefresh();
+
       const encodedAddress = encodeURIComponent(address);
 
-      // Define the API endpoint URL with the address query parameter
       const apiUrl = `https://maps-api.apple.com/v1/geocode?q=${encodedAddress}`;
 
-      // Make a GET request to the Apple Maps API
       const response = await fetch(apiUrl, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkRXM1JBNlE4UzMifQ.eyJpc3MiOiJUOVE5OTVGN1dLIiwiaWF0IjoxNjk2NjA1MjYxLCJleHAiOjE3MjgwMDAwMDB9.EJxpGWWxp3TGKP11u9SJ5d2KyfNGJ4J07IP8tKZ9dD_DhCc1IunM8jF2y1AdQ_1pQSxpWtyWL_SpRVcjWeeuDQ`, // Replace with your Apple Maps API access token
-        },
-      });
+          'Authorization': `Bearer ${accessToken}`,
+      }});
 
-      // Check if the response status is OK (200)
       if (response.status === 200) {
         const data = await response.json();
 
-        // Extract the geocoded coordinates from the response
-        if (data.results && data.results[0] && data.results[0].location) {
-          const { latitude, longitude } = data.results[0].location;
+        if (data.results && data.results[0] && data.results[0].coordinate) {
+          const { latitude, longitude } = data.results[0].coordinate;
 
-          // Update the `coordinates` state with the geocoded coordinates
           setCoordinates({ latitude, longitude });
+
+          setMapRegion({
+            latitude,
+            longitude,
+            latitudeDelta: 0.015,
+            longitudeDelta: 0.015,
+          });
         } else {
-          // Handle cases where the geocoding response doesn't contain the expected data
+
           console.error('Geocoding response format is not as expected.');
         }
       } else {
-        // Handle non-OK response statuses (e.g., error handling)
         console.error(`Error: ${response.status}`);
       }
     } catch (error) {
-      // Handle any network or other errors that may occur during the request
       console.error('An error occurred:', error);
     }
   };
-
 
   return (
     <View style={styles.container}>
@@ -59,18 +97,32 @@ function MyMap() {
         value={address}
         onChangeText={text => setAddress(text)}
       />
-      <Button title="Geocode" onPress={handleGeocode} />
+      <Button title="Search" onPress={handleGeocode} />
+      {  console.log('logger', coordinates)
+      }
       <MapView
         style={styles.map}
-        initialRegion={{
-          ...coordinates,
-          latitudeDelta: 0.015,
-          longitudeDelta: 0.015,
-        }}
+        region={mapRegion}
       >
-        <Marker coordinate={coordinates} title="Geocoded Location" />
+        <Marker
+            coordinate={coordinates}
+            pinColor='black'
+            draggable={true}
+            onDragStart={(e) => {
+              console.log('Drag start', e.nativeEvent.coordinates)
+            }}
+            onDragEnd={(e) => {
+              setCoordinates({
+                latitude: e.nativeEvent.coordinate.latitude,
+                longitude: e.nativeEvent.coordinate.longitude,
+              })
+            }}
+            title="Location">
+        <Callout><Text>Service Location</Text></Callout>
+        </Marker>
       </MapView>
     </View>
+
   );
 }
 
