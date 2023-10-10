@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, TextInput, Button, Text, FlatList} from 'react-native';
+import { TouchableOpacity, View, StyleSheet, TextInput, Button, Text, FlatList} from 'react-native';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import { useAuth } from './Auth';
+
 
 
 function MyMap() {
@@ -16,8 +17,8 @@ function MyMap() {
   const [mapRegion, setMapRegion] = useState({
     latitude: coordinates.latitude,
     longitude: coordinates.longitude,
-    latitudeDelta: 0.015,
-    longitudeDelta: 0.015,
+    latitudeDelta: 0.010,
+    longitudeDelta: 0.010,
   });
 
 
@@ -60,9 +61,7 @@ function MyMap() {
         const data = await response.json();
         console.log('geolog', data.results)
         if (data.results) {
-          const suggestions = data.results.map((results) => results.displayLines[0]);
-          console.log('suggestions', suggestions)
-          setSuggestions(suggestions);
+          setSuggestions(data.results);
         } else {
           setSuggestions([]);
         }
@@ -102,8 +101,8 @@ function MyMap() {
           setMapRegion({
             latitude,
             longitude,
-            latitudeDelta: 0.015,
-            longitudeDelta: 0.015,
+            latitudeDelta: 0.010,
+            longitudeDelta: 0.010,
           });
         } else {
 
@@ -122,6 +121,19 @@ function MyMap() {
     fetchAutocompleteSuggestions(text);
   };
 
+  const handleSuggestionTap = async (suggestion) => {
+    const {latitude, longitude} = suggestion.location;
+    setCoordinates({latitude, longitude});
+    setMapRegion({
+      latitude,
+      longitude,
+      latitudeDelta: 0.010,
+      longitudeDelta: 0.010,
+    });
+
+    setSuggestions([]);
+  };
+
 
   return (
     <View style={styles.container}>
@@ -137,7 +149,10 @@ function MyMap() {
       data={suggestions}
       keyExtractor={(item, index) => index.toString()}
       renderItem={({ item }) => (
-        <Text>{item}</Text>
+        <TouchableOpacity onPress={() => handleSuggestionTap(item)}>
+          {console.log('itemlog', item)}
+          <Text>{item.displayLines.join(", ")}</Text>
+        </TouchableOpacity>
       )}
     />
       <MapView

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect} from 'react';
 import { SafeAreaView, Text, TouchableOpacity } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { useNavigation } from '@react-navigation/native';
@@ -11,6 +11,8 @@ import UploadID from './UploadID';
 import Payment from './Payment';
 import Summary from './Summary';
 import LocTab from './LocTab';
+import TabContentWrapper from './TabContentWrapper';
+
 
 
 
@@ -139,20 +141,37 @@ const DynamicTabs = ({ navigation }) => {
           }}
         />
         {userTabs.map((tab, index) => (
-          <Tab.Screen key={index} name={tab.name} component={tab.component} />
-        ))}
-        <Tab.Screen
-          name="+ Add Location"
-          listeners={{
-            tabPress: (e) => {
-              addNewTab();
-              e.preventDefault();
-            },
-          }}
-        >
-          {() => null}
-        </Tab.Screen>
-      </Tab.Navigator>
+             <Tab.Screen
+             key={index}
+             name={tab.name}
+             children={(props) => (
+               <TabContentWrapper
+                 Component={LocTab}
+                 tabName={tab.name}
+                 onRename={(oldName, newName) => {
+                   const updatedTabs = userTabs.map(t =>
+                     t.name === oldName ? {...t, name: newName} : t
+                   );
+                   setUserTabs(updatedTabs);
+                   navigation.navigate(newName);
+                 }}
+                 {...props}
+               />
+             )}
+           />
+         ))}
+         <Tab.Screen
+           name="+ Add Location"
+           listeners={{
+             tabPress: (e) => {
+               addNewTab();
+               e.preventDefault();
+             },
+           }}
+         >
+           {() => null}
+         </Tab.Screen>
+       </Tab.Navigator>
     </SafeAreaView>
   );
 };
