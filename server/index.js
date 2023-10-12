@@ -77,6 +77,31 @@ app.post("/create-setup-intent", async (req, res) => {
   }
 });
 
+app.get("/requestNewToken", async (req, res) => {
+  try {
+      const response = await fetch('https://maps-api.apple.com/v1/token', {
+          method: 'GET',
+          headers: {
+              'Authorization': `Bearer ${process.env.MAPTOKEN}`
+          },
+      });
+      if (response.status === 200) {
+          const data = await response.json();
+          res.json({
+              accessToken: data.accessToken,
+              expiresInSeconds: data.expiresInSeconds
+          });
+      } else {
+          console.error('Token refresh failed');
+          res.status(500).send('Token refresh failed');
+      }
+  } catch (error) {
+      console.error('Error refreshing token', error);
+      res.status(500).send('Error refreshing token');
+  }
+});
+
+
 
 app.listen(port, () => {
   console.log(`Listening at port http://${process.env.HOST}:${port}`);

@@ -13,10 +13,7 @@ function MyMap() {
 
   const [suggestions, setSuggestions] = useState([]);
   const [address, setAddress] = useState('');
-  const [coordinates, setCoordinates] = useState({
-    latitude: 39.8333333,
-    longitude: -98.585522,
-  });
+  const [coordinates, setCoordinates] = useState({});
   const [mapRegion, setMapRegion] = useState({
     latitude: coordinates.latitude,
     longitude: coordinates.longitude,
@@ -24,24 +21,25 @@ function MyMap() {
     longitudeDelta: 0.010,
   });
 
+  useEffect(() => {
+    checkTokenExpirationAndRefresh()
+  }, [])
 
   async function requestNewToken() {
-    console.log('made it here')
-    try {const response = await fetch('https://maps-api.apple.com/v1/token', {
-      method: 'GET',
-      headers: {'Authorization': 'Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkRXM1JBNlE4UzMifQ.eyJpc3MiOiJUOVE5OTVGN1dLIiwiaWF0IjoxNjk2NjA1MjYxLCJleHAiOjE3MjgwMDAwMDB9.EJxpGWWxp3TGKP11u9SJ5d2KyfNGJ4J07IP8tKZ9dD_DhCc1IunM8jF2y1AdQ_1pQSxpWtyWL_SpRVcjWeeuDQ'},
-    });
-    if (response.status === 200) {
-      const data = await response.json();
-      setAccessToken(data.accessToken);
-      setExpirationTime(Date.now() + data.expiresInSeconds * 1000);
-    } else {
-      console.error('Token refresh failed');
-    }
+    try {
+        const response = await fetch('/requestNewToken');
+        if (response.status === 200) {
+            const data = await response.json();
+            setAccessToken(data.accessToken);
+            setExpirationTime(Date.now() + data.expiresInSeconds * 1000);
+        } else {
+            console.error('Error fetching token from my server');
+        }
     } catch (error) {
-      console.error('Error refreshing token', error)
+        console.error('Error fetching token', error);
     }
-  }
+}
+
 
   async function checkTokenExpirationAndRefresh() {
     if (!accessToken || Date.now() >= expirationTime) {
