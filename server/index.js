@@ -7,10 +7,9 @@ const multer = require('multer');
 const cors = require('cors');
 require("dotenv").config();
 const stripe = require('stripe')(`${process.env.SK}`);
-// const {host, port} = require("../env.js");
+const axios = require('axios');
 
-// const userRoute = require('./routes/users');
-// const restRouter = require('./routes/transactions.js');
+
 const transactionRouter = require("./routes/transactions.js");
 const reservationRouter = require("./routes/reservations.js");
 const garageRouter = require("./routes/garages.js");
@@ -77,29 +76,30 @@ app.post("/create-setup-intent", async (req, res) => {
   }
 });
 
+
 app.get("/requestNewToken", async (req, res) => {
-  try {
-      const response = await fetch('https://maps-api.apple.com/v1/token', {
-          method: 'GET',
-          headers: {
-              'Authorization': `Bearer ${process.env.MAPTOKEN}`
-          },
-      });
-      if (response.status === 200) {
-          const data = await response.json();
-          res.json({
-              accessToken: data.accessToken,
-              expiresInSeconds: data.expiresInSeconds
-          });
-      } else {
-          console.error('Token refresh failed');
-          res.status(500).send('Token refresh failed');
-      }
-  } catch (error) {
-      console.error('Error refreshing token', error);
-      res.status(500).send('Error refreshing token');
-  }
+    try {
+        const response = await axios.get('https://maps-api.apple.com/v1/token', {
+            headers: {
+                'Authorization': `Bearer ${process.env.MAPTOKEN}`
+            }
+        });
+
+        if (response.status === 200) {
+            res.json({
+                accessToken: response.data.accessToken,
+                expiresInSeconds: response.data.expiresInSeconds
+            });
+        } else {
+            console.error('Token refresh failed');
+            res.status(500).send('Token refresh failed');
+        }
+    } catch (error) {
+        console.error('Error refreshing token', error);
+        res.status(500).send('Error refreshing token');
+    }
 });
+
 
 
 

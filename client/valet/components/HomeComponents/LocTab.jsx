@@ -3,7 +3,7 @@ import { TouchableOpacity, View, StyleSheet, TextInput, Button, Text, FlatList} 
 import MapView, { Marker, Callout } from 'react-native-maps';
 import { useAuth } from './Auth';
 import { MyContext } from './DynamicTabs';
-
+import AddGarages from './AddGarages';
 
 
 function MyMap() {
@@ -21,13 +21,19 @@ function MyMap() {
     longitudeDelta: 0.010,
   });
 
+  const [additionalPins, setAdditionalPins] = useState([]);
+  const handleAddPin = (coords) => {
+    setAdditionalPins(prev => [...prev, coords]);
+}
+
+
   useEffect(() => {
     checkTokenExpirationAndRefresh()
   }, [])
 
   async function requestNewToken() {
     try {
-        const response = await fetch('/requestNewToken');
+        const response = await fetch('http://localhost:3000/requestNewToken');
         if (response.status === 200) {
             const data = await response.json();
             setAccessToken(data.accessToken);
@@ -89,7 +95,6 @@ function MyMap() {
   const fetchAutocompleteSuggestions = async (input) => {
     try {
 
-      // const getLocation = await defaultLocationGeo(defaultCityState);
       const searchLocation = mapRegion.latitude + ',' + mapRegion.longitude;
 
 
@@ -194,7 +199,7 @@ function MyMap() {
     <View style={styles.container}>
     <TextInput
       style={styles.input}
-      placeholder="Enter an address"
+      placeholder="Enter Service Location Address"
       value={address}
       onChangeText={handleInputChange}
     />
@@ -230,10 +235,18 @@ function MyMap() {
             title="Location">
         <Callout><Text>Service Location</Text></Callout>
         </Marker>
-      </MapView>
-    </View>
-
-  );
+        {additionalPins.map((pin, idx) => (
+                    <Marker
+                        key={idx}
+                        coordinate={pin}
+                        pinColor='blue'
+                        title="Additional Location"
+                    />
+                ))}
+            </MapView>
+            <AddGarages mapRegion={mapRegion} onAdd={handleAddPin} accessToken={accessToken}  />
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
