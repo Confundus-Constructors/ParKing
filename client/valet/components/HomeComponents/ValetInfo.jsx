@@ -6,13 +6,16 @@ import { useRoute } from "@react-navigation/native";
 
 
 
-const ValetInfo = ({company, navigation, blur}) => {
+const ValetInfo = ({company, navigation, blur, setDefaultCityState}) => {
 
   const [seeModal, setSeeModal] = useState(false);
   const [operatorName, setOperatorName] = useState("");
+  const [address, setAddress] = useState("70 Pine St");
+  const [city, setCity] = useState('New York, NY')
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const route = useRoute();
 
-  console.log('logger', route.params)
   // const id = route.params.data;
   // console.log('this is the id', id)
 
@@ -37,13 +40,18 @@ const ValetInfo = ({company, navigation, blur}) => {
     blur();
   }
 
+  useEffect(() => {
+    setDefaultCityState (city)
+  }, [city])
+
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity onPress={handleEdit}>
       {company && <Text style={styles.infoText}>{company}</Text>}
-      <Text style={styles.infoText}>Operator Name </Text>
-      <Text style={styles.infoText}>Operator Email </Text>
-      <Text style={styles.infoText}>Operator Phone </Text>
+      <Text style={styles.infoText}>{operatorName ? operatorName : <Text>Operator Name</Text>} </Text>
+      <Text style={styles.infoText}>{address}, {city}</Text>
+      <Text style={styles.infoText}>beck@workemail.com </Text>
+      <Text style={styles.infoText}>555-555-5555</Text>
       <Text style={styles.editText}>Tap to Edit</Text></TouchableOpacity>
 
      <Modal
@@ -55,7 +63,7 @@ const ValetInfo = ({company, navigation, blur}) => {
        }}
       >
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <View style={{ width: 300, height: 200, backgroundColor: '#F5F5F5', padding: 10, borderRadius: 10}}>
+          <View style={{ width: 300, height: 270, backgroundColor: '#F5F5F5', padding: 10, borderRadius: 10}}>
 
             <TextInput style={styles.input}
             value={operatorName}
@@ -63,12 +71,20 @@ const ValetInfo = ({company, navigation, blur}) => {
             placeholder="Enter Operator Name" />
              <TextInput style={styles.input}
             value={operatorName}
-            onChangeText={setOperatorName}
-            placeholder="Enter Operator Email" />
+            onChangeText={setAddress}
+            placeholder="Enter Operator Street Address" />
              <TextInput style={styles.input}
             value={operatorName}
-            onChangeText={setOperatorName}
-            placeholder="Enter Operator Phone Number" />
+            onChangeText={setAddress}
+            placeholder="Enter Operator City, State" />
+             <TextInput style={styles.input}
+            value={operatorName}
+            onChangeText={setEmail}
+            placeholder="Enter Operator Email" />
+            <TextInput style={styles.input}
+            value={operatorName}
+            onChangeText={setPhone}
+            placeholder="Enter Phone Number" />
             <Button title="Save Changes" onPress={handleSubmit} />
             <Button title="Cancel" onPress={handleSubmit} />
 
@@ -89,7 +105,7 @@ const styles = StyleSheet.create({
     width: '80%',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
-    fontSize: 17,
+    fontSize: 15,
     marginLeft: 5,
     fontWeight: 'bold',
   },

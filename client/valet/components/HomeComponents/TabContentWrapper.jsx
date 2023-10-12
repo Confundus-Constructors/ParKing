@@ -6,7 +6,7 @@ import { BlurView } from '@react-native-community/blur';
 function TabContentWrapper({ Component, tabName, onRename }) {
   const [showRenameModal, setShowRenameModal] = useState(false);
   const [newTabName, setNewTabName] = useState('');
-  const maxCharacters = 13;
+  const maxCharacters = 12;
 
   const handleConfirmRename = () => {
     if (newTabName.trim() === '') {

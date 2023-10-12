@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { SafeAreaView, Text, TouchableOpacity } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { useNavigation } from '@react-navigation/native';
@@ -13,13 +13,13 @@ import Summary from './Summary';
 import LocTab from './LocTab';
 import TabContentWrapper from './TabContentWrapper';
 
-
-
+export const MyContext = React.createContext();
 
 const Tab = createMaterialTopTabNavigator();
 
 function HomeContent() {
   const navigation = useNavigation();
+  const { setDefaultCityState } = useContext(MyContext);
   const [seeModal, setSeeModal] = useState(false);
   const [showBlur, setShowBlur] = useState(false);
 
@@ -35,7 +35,7 @@ function HomeContent() {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
-        <ValetInfo blur={blur} />
+        <ValetInfo setDefaultCityState={setDefaultCityState} blur={blur} />
         <View style={styles.signout}>
           <SignOut variant={'home'} />
         </View>
@@ -54,7 +54,6 @@ function HomeContent() {
         <Text style={styles.subtitle}>You currently have:</Text>
         <Summary />
       </View>
-
       {showBlur && (
         <BlurView
           style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}
@@ -63,7 +62,6 @@ function HomeContent() {
           reducedTransparencyFallbackColor="white"
         />
       )}
-
       <Modal
         animationType="slide"
         transparent={true}
@@ -98,7 +96,9 @@ function HomeContent() {
   );
 }
 
-const DynamicTabs = ({ navigation }) => {
+const DynamicTabs = () => {
+  const navigation = useNavigation();
+  const { defaultCityState } = useContext(MyContext);
   const [userTabs, setUserTabs] = useState([]);
 
   const addNewTab = () => {
@@ -141,38 +141,49 @@ const DynamicTabs = ({ navigation }) => {
           }}
         />
         {userTabs.map((tab, index) => (
-             <Tab.Screen
-             key={index}
-             name={tab.name}
-             children={(props) => (
-               <TabContentWrapper
-                 Component={LocTab}
-                 tabName={tab.name}
-                 onRename={(oldName, newName) => {
-                   const updatedTabs = userTabs.map(t =>
-                     t.name === oldName ? {...t, name: newName} : t
-                   );
-                   setUserTabs(updatedTabs);
-                   navigation.navigate(newName);
-                 }}
-                 {...props}
-               />
-             )}
-           />
-         ))}
-         <Tab.Screen
-           name="+ Add Location"
-           listeners={{
-             tabPress: (e) => {
-               addNewTab();
-               e.preventDefault();
-             },
-           }}
-         >
-           {() => null}
-         </Tab.Screen>
-       </Tab.Navigator>
+          <Tab.Screen
+            key={index}
+            name={tab.name}
+            children={(props) => (
+              <TabContentWrapper
+                defaultCity={defaultCityState}
+                Component={LocTab}
+                tabName={tab.name}
+                onRename={(oldName, newName) => {
+                  const updatedTabs = userTabs.map(t =>
+                    t.name === oldName ? { ...t, name: newName } : t
+                  );
+                  setUserTabs(updatedTabs);
+                  navigation.navigate(newName);
+                }}
+                {...props}
+              />
+            )}
+          />
+        ))}
+        <Tab.Screen
+          name="+ Add Location"
+          listeners={{
+            tabPress: (e) => {
+              addNewTab();
+              e.preventDefault();
+            },
+          }}
+        >
+          {() => null}
+        </Tab.Screen>
+      </Tab.Navigator>
     </SafeAreaView>
+  );
+};
+
+export const AppWrapper = () => {
+  const [defaultCityState, setDefaultCityState] = useState('USA');
+
+  return (
+    <MyContext.Provider value={{ defaultCityState, setDefaultCityState }}>
+      <DynamicTabs />
+    </MyContext.Provider>
   );
 };
 
@@ -204,4 +215,4 @@ const styles = {
   },
 };
 
-export default DynamicTabs;
+export default AppWrapper;
