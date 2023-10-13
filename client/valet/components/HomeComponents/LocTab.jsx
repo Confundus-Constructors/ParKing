@@ -7,6 +7,7 @@ import AddGarages from './AddGarages';
 
 
 function MyMap() {
+  const [selectedPinCoordinate, setSelectedPinCoordinate] = useState(null);
   const {defaultCityState} = React.useContext(MyContext)
   const [defaultLocation, setDefaultLocation] = useState('USA')
   const { accessToken, expirationTime, setAccessToken, setExpirationTime } = useAuth();
@@ -24,6 +25,8 @@ function MyMap() {
   const [additionalPins, setAdditionalPins] = useState([]);
   const handleAddPin = (coords) => {
     setAdditionalPins(prev => [...prev, coords]);
+    setSelectedPinCoordinate(coords);
+
 }
 
 
@@ -193,6 +196,15 @@ function MyMap() {
     return displayLines[0] + ', ' + cityState.join(', ');
   };
 
+  const handleBluePinDragEnd = (event, index) => {
+    const newCoordinate = event.nativeEvent.coordinate;
+    const updatedPins = [...additionalPins];
+    updatedPins[index] = newCoordinate;
+    setAdditionalPins(updatedPins);
+
+    setSelectedPinCoordinate(newCoordinate);
+  };
+
 
 
   return (
@@ -203,7 +215,7 @@ function MyMap() {
       value={address}
       onChangeText={handleInputChange}
     />
-    <Button title="Search" onPress={handleGeocode} />
+    {/* <Button title="Search" onPress={handleGeocode} /> */}
     <View style={styles.overlay}>
     <FlatList
       data={suggestions}
@@ -223,6 +235,8 @@ function MyMap() {
             coordinate={coordinates}
             pinColor='black'
             draggable={true}
+            onPress={() => setSelectedPinCoordinate(coordinates)}
+            onDrag={(e) => setSelectedPinCoordinate(e.nativeEvent.coordinate)}
             onDragStart={(e) => {
               console.log('Drag start', e.nativeEvent.coordinates)
             }}
@@ -230,20 +244,31 @@ function MyMap() {
               setCoordinates({
                 latitude: e.nativeEvent.coordinate.latitude,
                 longitude: e.nativeEvent.coordinate.longitude,
-              })
+              });
+              setSelectedPinCoordinate(e.nativeEvent.coordinate);
             }}
             title="Location">
         <Callout><Text>Service Location</Text></Callout>
         </Marker>
         {additionalPins.map((pin, idx) => (
-                    <Marker
-                        key={idx}
-                        coordinate={pin}
-                        pinColor='blue'
-                        title="Additional Location"
-                    />
-                ))}
+            <Marker
+                key={idx}
+                coordinate={pin}
+                pinColor='blue'
+                title="Parking Location"
+                draggable
+                onPress={() => setSelectedPinCoordinate(pin)}
+                onDrag={(e) => setSelectedPinCoordinate(e.nativeEvent.coordinate)}
+                onDragEnd={(e) => handleBluePinDragEnd(e, idx)}
+            />
+          ))}
             </MapView>
+            {selectedPinCoordinate && (
+            <View style={{padding: 10}}>
+                <Text>Latitude: {selectedPinCoordinate.latitude.toFixed(6)}</Text>
+                <Text>Longitude: {selectedPinCoordinate.longitude.toFixed(6)}</Text>
+            </View>
+)}
             <AddGarages checkTokenExpirationAndRefresh={checkTokenExpirationAndRefresh} mapRegion={mapRegion} onAdd={handleAddPin} accessToken={accessToken}  />
         </View>
     );
@@ -274,6 +299,9 @@ const styles = StyleSheet.create({
     maxHeight: 520,
     backgroundColor: 'rgba(255, 255, 255, 0.9)',  // semi-transparent background
   },
+  input: {
+    marginBottom: 5,
+  }
 
 });
 
