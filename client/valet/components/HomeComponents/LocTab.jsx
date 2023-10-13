@@ -152,8 +152,8 @@ function MyMap() {
           setCoordinates({ latitude, longitude });
 
           setMapRegion({
-            latitude,
-            longitude,
+            latitude: 37.7749,
+            longitude: -122.4194,
             latitudeDelta: 0.010,
             longitudeDelta: 0.010,
           });
@@ -244,7 +244,7 @@ function MyMap() {
                     />
                 ))}
             </MapView>
-            <AddGarages mapRegion={mapRegion} onAdd={handleAddPin} accessToken={accessToken}  />
+            <AddGarages checkTokenExpirationAndRefresh={checkTokenExpirationAndRefresh} mapRegion={mapRegion} onAdd={handleAddPin} accessToken={accessToken}  />
         </View>
     );
 }
@@ -255,8 +255,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   map: {
-    width: 300,
-    height: 300,
+    width: 350,
+    height: 320,
   },
   suggestionContainer: {
     borderWidth: 0.5,
