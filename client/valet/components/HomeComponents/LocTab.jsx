@@ -21,18 +21,33 @@ function MyMap() {
     latitudeDelta: 0.010,
     longitudeDelta: 0.010,
   });
-
+  const [tempPin, setTempPin] = useState(null);
   const [additionalPins, setAdditionalPins] = useState([]);
+
   const handleAddPin = (coords) => {
-    setAdditionalPins(prev => [...prev, coords]);
+    setTempPin(coords)
+    // setAdditionalPins(prev => [...prev, coords]);
     setSelectedPinCoordinate(coords);
 
 }
 
 
-  useEffect(() => {
-    checkTokenExpirationAndRefresh()
-  }, [])
+useEffect(() => {
+  let isMounted = true;
+  async function fetchInitialData() {
+    const token = await checkTokenExpirationAndRefresh();
+      if (isMounted) {
+          defaultLocationGeo(defaultCityState, token);
+      }
+  }
+
+  fetchInitialData();
+
+  return () => {
+    isMounted = false;
+  };
+}, []);
+
 
   async function requestNewToken() {
     try {
@@ -41,6 +56,7 @@ function MyMap() {
             const data = await response.json();
             setAccessToken(data.accessToken);
             setExpirationTime(Date.now() + data.expiresInSeconds * 1000);
+            return data.accessToken;
         } else {
             console.error('Error fetching token from my server');
         }
@@ -51,20 +67,22 @@ function MyMap() {
 
 
   async function checkTokenExpirationAndRefresh() {
+    let newToken = accessToken
     if (!accessToken || Date.now() >= expirationTime) {
-      await requestNewToken();
+      newToken = await requestNewToken();
     }
+    return newToken;
   }
-  useEffect(() => {
-    console.log('useeffectlog', defaultCityState)
-    defaultLocationGeo(defaultCityState)}, [])
 
-  const defaultLocationGeo = async (searchLocation) => {
+  const defaultLocationGeo = async (searchLocation, token) => {
     try {
 
       await checkTokenExpirationAndRefresh();
 
       const encodedAddress = encodeURIComponent(searchLocation);
+
+      console.log('access', token)
+
 
       const apiUrl = `https://maps-api.apple.com/v1/geocode?q=${encodedAddress}`;
 
@@ -72,7 +90,7 @@ function MyMap() {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken}`,
+          'Authorization': `Bearer ${token}`,
       }});
 
       if (response.status === 200) {
@@ -99,10 +117,9 @@ function MyMap() {
     try {
 
       const searchLocation = mapRegion.latitude + ',' + mapRegion.longitude;
-
+      console.log('ij', searchLocation)
 
       const apiUrl = `https://maps-api.apple.com/v1/searchAutocomplete?q=${encodeURIComponent(input)}&resultTypeFilter=Address&searchLocation=${searchLocation}`;
-
 
       const response = await fetch(apiUrl, {
         method: 'GET',
@@ -227,6 +244,7 @@ function MyMap() {
       )}
     />
     </View>
+    {accessToken && (
       <MapView
         style={styles.map}
         region={mapRegion}
@@ -250,10 +268,8 @@ function MyMap() {
             title="Location">
         <Callout><Text>Service Location</Text></Callout>
         </Marker>
-        {additionalPins.map((pin, idx) => (
+        {tempPin && (
             <Marker
-                key={idx}
-                coordinate={pin}
                 pinColor='blue'
                 title="Parking Location"
                 draggable
@@ -261,15 +277,17 @@ function MyMap() {
                 onDrag={(e) => setSelectedPinCoordinate(e.nativeEvent.coordinate)}
                 onDragEnd={(e) => handleBluePinDragEnd(e, idx)}
             />
-          ))}
+          )}
             </MapView>
+             )}
             {selectedPinCoordinate && (
             <View style={{padding: 10}}>
                 <Text>Latitude: {selectedPinCoordinate.latitude.toFixed(6)}</Text>
                 <Text>Longitude: {selectedPinCoordinate.longitude.toFixed(6)}</Text>
             </View>
+
 )}
-            <AddGarages checkTokenExpirationAndRefresh={checkTokenExpirationAndRefresh} mapRegion={mapRegion} onAdd={handleAddPin} accessToken={accessToken}  />
+            <AddGarages setAdditionalPins={setAdditionalPins} setTempPin={setTempPin} tempPin={tempPin} checkTokenExpirationAndRefresh={checkTokenExpirationAndRefresh} mapRegion={mapRegion} onAdd={handleAddPin} accessToken={accessToken}  />
         </View>
     );
 }

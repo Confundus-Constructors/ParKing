@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, TextInput, Button, StyleSheet, FlatList, Text, TouchableOpacity, Modal, SafeAreaView } from 'react-native';
 
-function AddGarages({ checkTokenExpirationAndRefresh, onAdd, accessToken, mapRegion }) {
+function AddGarages({ checkTokenExpirationAndRefresh, onAdd, accessToken, mapRegion, tempPin, setTempPin, setAdditionalPins }) {
   const [isModalVisible, setModalVisible] = useState(false);
   const [locationName, setLocationName] = useState("");
   const [numOfSpots, setNumOfSpots] = useState("");
@@ -142,9 +142,13 @@ function AddGarages({ checkTokenExpirationAndRefresh, onAdd, accessToken, mapReg
                         setLocationName("");
                         setNumOfSpots("");
                         setSecondaryAddress('');
+                        if(tempPin) {
+                          setAdditionalPins(prev => [...prev, tempPin])
+                          setTempPin(null);
+                        }
                     }}
                 />
-                <Button title="Cancel" onPress={() => setModalVisible(false)} />
+                <Button title="Cancel" onPress={() => {setModalVisible(false); setTempPin(null)}} />
             </View>
         </SafeAreaView>
     </View>

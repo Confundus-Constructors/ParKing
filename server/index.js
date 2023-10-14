@@ -90,6 +90,7 @@ app.get("/requestNewToken", async (req, res) => {
                 accessToken: response.data.accessToken,
                 expiresInSeconds: response.data.expiresInSeconds
             });
+
         } else {
             console.error('Token refresh failed');
             res.status(500).send('Token refresh failed');
