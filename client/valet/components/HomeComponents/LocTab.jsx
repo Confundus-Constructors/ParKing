@@ -25,10 +25,10 @@ function MyMap() {
   const [additionalPins, setAdditionalPins] = useState([]);
 
   const handleAddPin = (coords) => {
-    setTempPin(coords)
-    // setAdditionalPins(prev => [...prev, coords]);
-    setSelectedPinCoordinate(coords);
+    console.log('Setting tempPin to:', coords);
 
+    setTempPin(coords)
+    setSelectedPinCoordinate(coords);
 }
 
 
@@ -67,6 +67,7 @@ useEffect(() => {
 
 
   async function checkTokenExpirationAndRefresh() {
+    console.log('Yo yo yo')
     let newToken = accessToken
     if (!accessToken || Date.now() >= expirationTime) {
       newToken = await requestNewToken();
@@ -80,8 +81,6 @@ useEffect(() => {
       await checkTokenExpirationAndRefresh();
 
       const encodedAddress = encodeURIComponent(searchLocation);
-
-      console.log('access', token)
 
 
       const apiUrl = `https://maps-api.apple.com/v1/geocode?q=${encodedAddress}`;
@@ -151,9 +150,6 @@ useEffect(() => {
 
       const encodedAddress = encodeURIComponent(address);
 
-      console.log('encoced', encodedAddress
-      )
-
       const apiUrl = `https://maps-api.apple.com/v1/geocode?q=${encodedAddress}`;
 
       const response = await fetch(apiUrl, {
@@ -216,23 +212,32 @@ useEffect(() => {
   const handleBluePinDragEnd = (event, index) => {
     const newCoordinate = event.nativeEvent.coordinate;
     const updatedPins = [...additionalPins];
-    updatedPins[index] = newCoordinate;
-    setAdditionalPins(updatedPins);
 
+    if (index >= 0 && index < updatedPins.length) {
+      updatedPins[index] = newCoordinate;
+    } else {
+      updatedPins.push(newCoordinate);
+    }
+
+    setAdditionalPins(updatedPins);
     setSelectedPinCoordinate(newCoordinate);
+    setTempPin(null)
   };
+
+
 
 
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior='position' enabled={true}>
+    <TouchableOpacity onPress={() => checkTokenExpirationAndRefresh()}>
     <TextInput
       style={styles.input}
       placeholder="Enter Service Location Address"
       value={address}
       onChangeText={handleInputChange}
     />
-    {/* <Button title="Search" onPress={handleGeocode} /> */}
+    </TouchableOpacity>
     <View style={styles.overlay}>
     <FlatList
       data={suggestions}
@@ -251,7 +256,7 @@ useEffect(() => {
       >
         <Marker
             coordinate={coordinates}
-            pinColor='black'
+            pinColor='#49111c'
             draggable={true}
             onPress={() => setSelectedPinCoordinate(coordinates)}
             onDrag={(e) => setSelectedPinCoordinate(e.nativeEvent.coordinate)}
@@ -270,14 +275,24 @@ useEffect(() => {
         </Marker>
         {tempPin && (
             <Marker
-                pinColor='blue'
+                pinColor='#a9927d'
                 title="Parking Location"
                 draggable
-                onPress={() => setSelectedPinCoordinate(pin)}
+                coordinate={tempPin}
+                onPress={() => setSelectedPinCoordinate(tempPin)}
                 onDrag={(e) => setSelectedPinCoordinate(e.nativeEvent.coordinate)}
-                onDragEnd={(e) => handleBluePinDragEnd(e, idx)}
+                onDragEnd={(e) => handleBluePinDragEnd(e, tempPin)}
             />
-          )}
+                )}
+            {additionalPins.map((pin, index) => (
+                <Marker
+                  key={index}
+                  pinColor='#a9927d'
+                  title="Parking Location"
+                  draggable
+                  coordinate={pin}
+                   />
+                   ))}
             </MapView>
              )}
             {selectedPinCoordinate && (

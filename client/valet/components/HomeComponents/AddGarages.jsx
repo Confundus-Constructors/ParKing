@@ -38,7 +38,6 @@ function AddGarages({ checkTokenExpirationAndRefresh, onAdd, accessToken, mapReg
 
     const handleAddressSelected = async (address) => {
       const formattedAddress = formatAddress(address.displayLines);
-
       handleGeocode(formattedAddress);
 
       setSecondaryAddress(formattedAddress);
@@ -94,7 +93,7 @@ function AddGarages({ checkTokenExpirationAndRefresh, onAdd, accessToken, mapReg
                 data={suggestions}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item }) => (
-                    <TouchableOpacity style={styles.suggestionContainer}onPress={() => handleAddressSelected(item)}>
+                    <TouchableOpacity style={styles.suggestionContainer} onPress={() => handleAddressSelected(item)}>
                         <Text>{formatAddress(item.displayLines)}</Text>
                     </TouchableOpacity>
                 )}
@@ -144,11 +143,10 @@ function AddGarages({ checkTokenExpirationAndRefresh, onAdd, accessToken, mapReg
                         setSecondaryAddress('');
                         if(tempPin) {
                           setAdditionalPins(prev => [...prev, tempPin])
-                          setTempPin(null);
                         }
                     }}
                 />
-                <Button title="Cancel" onPress={() => {setModalVisible(false); setTempPin(null)}} />
+                <Button title="Cancel" onPress={() => {setModalVisible(false); setTempPin(null); setLocationName(""); setSecondaryAddress("");}} />
             </View>
         </SafeAreaView>
     </View>
