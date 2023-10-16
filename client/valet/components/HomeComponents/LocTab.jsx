@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TouchableOpacity, View, StyleSheet, TextInput, Button, Text, FlatList} from 'react-native';
+import { TouchableOpacity, View, StyleSheet, TextInput, Button, Text, FlatList, KeyboardAvoidingView} from 'react-native';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import { useAuth } from './Auth';
 import { MyContext } from './DynamicTabs';
@@ -225,7 +225,7 @@ useEffect(() => {
 
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container} behavior='position' enabled={true}>
     <TextInput
       style={styles.input}
       placeholder="Enter Service Location Address"
@@ -287,8 +287,10 @@ useEffect(() => {
             </View>
 
 )}
+           <View style={{alignItems: 'center'}}>
             <AddGarages setAdditionalPins={setAdditionalPins} setTempPin={setTempPin} tempPin={tempPin} checkTokenExpirationAndRefresh={checkTokenExpirationAndRefresh} mapRegion={mapRegion} onAdd={handleAddPin} accessToken={accessToken}  />
-        </View>
+            </View>
+        </KeyboardAvoidingView>
     );
 }
 
@@ -296,6 +298,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
+    justifyContent: 'flex-start',
   },
   map: {
     width: 350,
@@ -318,7 +321,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.9)',  // semi-transparent background
   },
   input: {
-    marginBottom: 5,
+    height: 40,
+    borderWidth: 0.5,
+    borderColor: '#ccc',
+    marginBottom: 15,
+    paddingHorizontal: 10,
   }
 
 });

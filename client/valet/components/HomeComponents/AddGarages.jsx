@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Button, StyleSheet, FlatList, Text, TouchableOpacity, Modal, SafeAreaView } from 'react-native';
+import { View, TextInput, Button, StyleSheet, FlatList, Text, TouchableOpacity, Modal, SafeAreaView, KeyboardAvoidingView } from 'react-native';
 
 function AddGarages({ checkTokenExpirationAndRefresh, onAdd, accessToken, mapRegion, tempPin, setTempPin, setAdditionalPins }) {
   const [isModalVisible, setModalVisible] = useState(false);
@@ -79,7 +79,7 @@ function AddGarages({ checkTokenExpirationAndRefresh, onAdd, accessToken, mapReg
 
 
     return (
-        <View style={styles.secondaryInputContainer}>
+        <KeyboardAvoidingView style={styles.secondaryInputContainer} behavior='padding' enabled>
             <TextInput
                 style={styles.input}
                 placeholder="Enter parking location address"
@@ -155,7 +155,7 @@ function AddGarages({ checkTokenExpirationAndRefresh, onAdd, accessToken, mapReg
 </Modal>
 
 
-        </View>
+        </KeyboardAvoidingView>
     );
 }
 
@@ -172,11 +172,12 @@ const styles = StyleSheet.create({
     },
     input: {
       height: 40,
-      width: '90%',
-      borderColor: 'gray',
-      borderWidth: 1,
-      marginTop: 10,
+      width: '100%',
+      borderWidth: 0.5,
+      borderColor: '#ccc',
+      marginTop: 5,
       paddingHorizontal: 10,
+
     },
     overlay: {
       zIndex: 2,
