@@ -210,18 +210,18 @@ useEffect(() => {
   };
 
   const handleBluePinDragEnd = (event, index) => {
-    const newCoordinate = event.nativeEvent.coordinate;
-    const updatedPins = [...additionalPins];
+    // const newCoordinate = event.nativeEvent.coordinate;
+    // const updatedPins = [...additionalPins];
 
-    if (index >= 0 && index < updatedPins.length) {
-      updatedPins[index] = newCoordinate;
-    } else {
-      updatedPins.push(newCoordinate);
-    }
+    // if (index >= 0 && index < updatedPins.length) {
+    //   updatedPins[index] = newCoordinate;
+    // } else {
+    //   updatedPins.push(newCoordinate);
+    // }
 
-    setAdditionalPins(updatedPins);
-    setSelectedPinCoordinate(newCoordinate);
-    setTempPin(null)
+    // setAdditionalPins(updatedPins);
+    // setSelectedPinCoordinate(newCoordinate);
+    // setTempPin(null)
   };
 
 
@@ -275,7 +275,7 @@ useEffect(() => {
         </Marker>
         {tempPin && (
             <Marker
-                pinColor='#a9927d'
+                pinColor='#967d68'
                 title="Parking Location"
                 draggable
                 coordinate={tempPin}
@@ -287,7 +287,7 @@ useEffect(() => {
             {additionalPins.map((pin, index) => (
                 <Marker
                   key={index}
-                  pinColor='#a9927d'
+                  pinColor='blue'
                   title="Parking Location"
                   draggable
                   coordinate={pin}
@@ -302,9 +302,11 @@ useEffect(() => {
             </View>
 
 )}
+    <TouchableOpacity onPress={() => checkTokenExpirationAndRefresh()}>
            <View style={{alignItems: 'center'}}>
             <AddGarages setAdditionalPins={setAdditionalPins} setTempPin={setTempPin} tempPin={tempPin} checkTokenExpirationAndRefresh={checkTokenExpirationAndRefresh} mapRegion={mapRegion} onAdd={handleAddPin} accessToken={accessToken}  />
             </View>
+      </TouchableOpacity>
         </KeyboardAvoidingView>
     );
 }

@@ -133,19 +133,19 @@ function AddGarages({ checkTokenExpirationAndRefresh, onAdd, accessToken, mapReg
                     onChangeText={text => setNumOfSpots(text)}
                     keyboardType="numeric"
                 />
-                <Button
-                    title="Add Location"
-                    onPress={() => {
-                        setLocationList(prev => [...prev, secondaryAddress]);
-                        setModalVisible(false);
-                        setLocationName("");
-                        setNumOfSpots("");
-                        setSecondaryAddress('');
-                        if(tempPin) {
-                          setAdditionalPins(prev => [...prev, tempPin])
-                        }
-                    }}
-                />
+            <Button
+    title="Add Location"
+    onPress={() => {
+        setLocationList(prev => [...prev, secondaryAddress]);
+        setModalVisible(false);
+        setLocationName("");
+        setNumOfSpots("");
+        setSecondaryAddress("");
+        setAdditionalPins(prevPins => [...prevPins, tempPin]);
+        setTempPin(null);
+    }}
+/>
+
                 <Button title="Cancel" onPress={() => {setModalVisible(false); setTempPin(null); setLocationName(""); setSecondaryAddress("");}} />
             </View>
         </SafeAreaView>
