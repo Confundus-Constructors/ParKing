@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, TextInput, Button, StyleSheet, FlatList, Text, TouchableOpacity, Modal, SafeAreaView, KeyboardAvoidingView } from 'react-native';
 
-function AddGarages({ checkTokenExpirationAndRefresh, onAdd, accessToken, mapRegion, tempPin, setTempPin, setAdditionalPins }) {
+function AddGarages({ checkTokenExpirationAndRefresh, onAdd, accessToken, mapRegion, tempPin, setTempPin, setAdditionalPins, selectedPinCoordinate }) {
   const [isModalVisible, setModalVisible] = useState(false);
   const [locationName, setLocationName] = useState("");
   const [numOfSpots, setNumOfSpots] = useState("");
@@ -141,7 +141,7 @@ function AddGarages({ checkTokenExpirationAndRefresh, onAdd, accessToken, mapReg
         setLocationName("");
         setNumOfSpots("");
         setSecondaryAddress("");
-        setAdditionalPins(prevPins => [...prevPins, tempPin]);
+        setAdditionalPins(prevPins => [...prevPins, selectedPinCoordinate]);
         setTempPin(null);
     }}
 />

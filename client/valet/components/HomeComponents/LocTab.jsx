@@ -210,7 +210,7 @@ useEffect(() => {
   };
 
   const handleBluePinDragEnd = (event, index) => {
-    // const newCoordinate = event.nativeEvent.coordinate;
+    const newCoordinate = event.nativeEvent.coordinate;
     // const updatedPins = [...additionalPins];
 
     // if (index >= 0 && index < updatedPins.length) {
@@ -220,7 +220,7 @@ useEffect(() => {
     // }
 
     // setAdditionalPins(updatedPins);
-    // setSelectedPinCoordinate(newCoordinate);
+    setSelectedPinCoordinate(newCoordinate);
     // setTempPin(null)
   };
 
@@ -281,7 +281,7 @@ useEffect(() => {
                 coordinate={tempPin}
                 onPress={() => setSelectedPinCoordinate(tempPin)}
                 onDrag={(e) => setSelectedPinCoordinate(e.nativeEvent.coordinate)}
-                onDragEnd={(e) => handleBluePinDragEnd(e, tempPin)}
+                onDragEnd={(e) => handleBluePinDragEnd(e)}
             />
                 )}
             {additionalPins.map((pin, index) => (
@@ -289,7 +289,7 @@ useEffect(() => {
                   key={index}
                   pinColor='blue'
                   title="Parking Location"
-                  draggable
+                  onPress={() => setSelectedPinCoordinate(pin)}
                   coordinate={pin}
                    />
                    ))}
@@ -304,7 +304,7 @@ useEffect(() => {
 )}
     <TouchableOpacity onPress={() => checkTokenExpirationAndRefresh()}>
            <View style={{alignItems: 'center'}}>
-            <AddGarages setAdditionalPins={setAdditionalPins} setTempPin={setTempPin} tempPin={tempPin} checkTokenExpirationAndRefresh={checkTokenExpirationAndRefresh} mapRegion={mapRegion} onAdd={handleAddPin} accessToken={accessToken}  />
+            <AddGarages setAdditionalPins={setAdditionalPins} setTempPin={setTempPin} tempPin={tempPin} checkTokenExpirationAndRefresh={checkTokenExpirationAndRefresh} mapRegion={mapRegion} onAdd={handleAddPin} accessToken={accessToken} selectedPinCoordinate={selectedPinCoordinate} />
             </View>
       </TouchableOpacity>
         </KeyboardAvoidingView>
