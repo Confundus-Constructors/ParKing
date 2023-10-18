@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, TextInput, Button, StyleSheet, FlatList, Text, TouchableOpacity, Modal, SafeAreaView, KeyboardAvoidingView } from 'react-native';
+import Spot from './ParkingSpot';
 
 function AddGarages({ checkTokenExpirationAndRefresh, onAdd, accessToken, mapRegion, tempPin, setTempPin, setAdditionalPins, selectedPinCoordinate }) {
   const [isModalVisible, setModalVisible] = useState(false);
@@ -35,6 +36,8 @@ function AddGarages({ checkTokenExpirationAndRefresh, onAdd, accessToken, mapReg
             console.error('Error fetching autocomplete suggestions:', error);
         }
     };
+
+    const [spots, setSpots] = useState([]);
 
     const handleAddressSelected = async (address) => {
       const formattedAddress = formatAddress(address.displayLines);
@@ -100,15 +103,11 @@ function AddGarages({ checkTokenExpirationAndRefresh, onAdd, accessToken, mapReg
             />
             </View>
             <Button title="Add Pin" onPress={() => setModalVisible(true)} />
-            <FlatList
-                data={locationList}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={({ item }) => <Text style={styles.listItem}>{item}</Text>}
-            />
+            <Spot spots={spots}/>
 
 <Modal
     animationType="slide"
-    transparent={true}  // This should be true to allow for a transparent background
+    transparent={true}
     visible={isModalVisible}
     onRequestClose={() => {
         setModalVisible(false);
@@ -117,10 +116,11 @@ function AddGarages({ checkTokenExpirationAndRefresh, onAdd, accessToken, mapReg
     <View style={styles.modalContainer}>
         <SafeAreaView>
             <View style={styles.modal}>
+            <Text style={{fontSize: 19, color: 'gray' }}>Set Up Parking Location</Text>
             <Text style={{fontSize: 17}}>{secondaryAddress}</Text>
             <TextInput
                     style={[styles.modaltext, {marginTop: 10}]}
-                    placeholder="Parking Location Name"
+                    placeholder="Name this location"
                     value={locationName}
                     onChangeText={text => setLocationName(text)}
                 />
@@ -137,6 +137,11 @@ function AddGarages({ checkTokenExpirationAndRefresh, onAdd, accessToken, mapReg
     title="Add Location"
     onPress={() => {
         setLocationList(prev => [...prev, secondaryAddress]);
+        setSpots(prevSpots =>[...prevSpots, {
+            address: locationList,
+            title: locationName,
+            spots: numOfSpots
+        }])
         setModalVisible(false);
         setLocationName("");
         setNumOfSpots("");
@@ -201,16 +206,20 @@ const styles = StyleSheet.create({
   },
   modal: {
       width: 400,
-      height: 200,
+      height: 240,
       backgroundColor: '#F5F5F5',
       borderRadius: 10,
       padding: 20,
-      marginTop: 420,
+      marginTop: 400,
+      alignItems: 'center'
   },
   modaltext:{
     fontSize: 17,
     backgroundColor: 'white',
     margin: 3,
+    width: '100%',
+    height: 35,
+    padding: 10,
   }
 });
 export default AddGarages;

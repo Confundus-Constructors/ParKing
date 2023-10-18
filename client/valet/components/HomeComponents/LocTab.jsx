@@ -116,7 +116,6 @@ useEffect(() => {
     try {
 
       const searchLocation = mapRegion.latitude + ',' + mapRegion.longitude;
-      console.log('ij', searchLocation)
 
       const apiUrl = `https://maps-api.apple.com/v1/searchAutocomplete?q=${encodeURIComponent(input)}&resultTypeFilter=Address&searchLocation=${searchLocation}`;
 
@@ -230,7 +229,7 @@ useEffect(() => {
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior='position' enabled={true}>
-    <TouchableOpacity onPress={() => checkTokenExpirationAndRefresh()}>
+    <TouchableOpacity onPress={() => checkTokenExpirationAndRefresh}>
     <TextInput
       style={styles.input}
       placeholder="Enter Service Location Address"
