@@ -5,6 +5,8 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import Reservations from './Reservations.jsx';
 import ResCopy from './ResCopy.jsx';
 import Upcoming from './Upcoming.jsx';
+import Past from './Past.jsx';
+import Cancelled from './Cancelled.jsx';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -24,7 +26,7 @@ function Current() {
   )
 }
 
-function Past() {
+function Past_first() {
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       <Text>Past</Text>
@@ -32,7 +34,7 @@ function Past() {
   )
 }
 
-function Cancelled() {
+function Cancelled_first() {
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       <Text>Cancelled</Text>
@@ -44,7 +46,7 @@ export const RefreshContext = React.createContext();
 
 const ResTabs = () => {
   const route = useRoute();
-  const userId = route.params.data;
+  const userId = route.params.id;
 
   const [refreshKey, setRefreshKey] = useState(0);
 
@@ -70,8 +72,8 @@ const ResTabs = () => {
           >
             <Tab.Screen name="Upcoming" initialParams={{data: userId}} component={Upcoming} />
             <Tab.Screen name="Current" initialParams={{data: userId}} component={Reservations} />
-            {/* <Tab.Screen name="Past" component={Past} /> */}
-            {/* <Tab.Screen name="Cancelled" component={Cancelled} /> */}
+            <Tab.Screen name="Past" initialParams={{data: userId}} component={Past} />
+            <Tab.Screen name="Cancelled" initialParams={{data: userId}} component={Cancelled} />
           </Tab.Navigator>
         </RefreshContext.Provider>
       {/* </NavigationContainer> */}

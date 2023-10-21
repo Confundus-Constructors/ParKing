@@ -11,6 +11,7 @@ import HomePageScreens from './HomePageScreens';
 import { useRoute } from '@react-navigation/native';
 import SignOutScreen from './SignOutScreen';
 import {useState, useEffect} from 'react';
+import ResTabs from './ResTabs';
 
 export default UserTabs = () => {
   const route = useRoute();
@@ -57,6 +58,18 @@ export default UserTabs = () => {
             barTintColor: 'white',
             tabBarIcon: ({ color }) => (
               <MaterialCommunityIcons name="home" color={color} size={32} />
+            )
+          }}
+        />
+        <Tab.Screen
+          name="Reservations"
+          component={ResTabs}
+          initialParams={{id: route.params.data}}
+          options={{
+            tabBarLabel: 'Reservations',
+            barTintColor: 'white',
+            tabBarIcon: ({ color }) => (
+              <MaterialCommunityIcons name="exit-run" color={color} size={32} />
             )
           }}
         />

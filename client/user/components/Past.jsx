@@ -13,14 +13,14 @@ import QRCode from "react-native-qrcode-svg";
 import { useRoute } from "@react-navigation/native";
 import {host, port} from "../../../env.js";
 import Checkout from './Checkout';
-import ResCopy from './ResCopy';
+import ResPast from './ResPast';
 import axios from 'axios';
 
 async function loadFonts() {
   await Font.loadAsync({});
 }
 
-const Upcoming = () => {
+const Past = () => {
   const [ reservations,setR ] = useState([]);
   const route = useRoute();
   useEffect(() => {
@@ -29,7 +29,9 @@ const Upcoming = () => {
       var curr = new Date().toUTCString();
       var arr = [];
       for (var i = 0; i < result.data.length; i++) {
-        if (result.data[i].reservation_start_time > curr) {
+        console.log('aoisnrghoainht first:', result.data[i])
+        if (result.data[i].reservation_start_time < curr) {
+          console.log('aoisnrghoainht:', result.data[i])
           arr.push(result.data[i]);
         }
       }
@@ -41,10 +43,10 @@ const Upcoming = () => {
   return (
     <ScrollView>
       {reservations.map((reservation) => {
-        return (<ResCopy data={reservation}/>)
+        return (<ResPast data={reservation}/>)
       })}
     </ScrollView>
   )
 }
 
-export default Upcoming;
+export default Past;

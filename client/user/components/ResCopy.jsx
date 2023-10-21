@@ -51,29 +51,36 @@ const ResCopy = ({ data }) => {
       }, ${ed.getUTCDate()} ${ed.getUTCHours()}:${ed.getUTCMinutes()}`;
       setSDate(sdate);
       setEDate(edate);
-      setInfo(data);
-      setQR(data.qr_code)
+      // setInfo(data);
+      // setQR(data.qr_code);
+      console.log('garages: ', data.garage);
   }, []);
 
   return (
     <SafeAreaView className="text-lg" style={styles.container}>
       <Text style={styles.title}>Reservations</Text>
       <View style={styles.info}>
-        <Text style={styles.txt}>Reservation ID: {info.qr_code}</Text>
+        <Text style={styles.txt}>Reservation ID: {data.qr_code}</Text>
         <Text style={styles.txt}>Parking Address:</Text>
-        <Text style={styles.txt}>{info.garage}</Text>
+        <Text style={styles.txt}>{data.garage}</Text>
         <Text>{"\n"}</Text>
-        <Text style={styles.txt}>License Plate: {info.license_plate}</Text>
+        <Text style={styles.txt}>License Plate: {data.license_plate}</Text>
         <Text style={styles.txt}>Arrive At: {startDate}</Text>
         <Text style={styles.txt}>Depart At: {endDate}</Text>
       </View>
       <View style={styles.alignmid}>
-        <QRCode value={qr} />
+        <QRCode value={data.qr_code} />
         <Text style={styles.ltxt}>Use QR Code To Check-In And Check-Out</Text>
         <CustomButton
           style={styles.button}
           textStyle={{ ...styles.commonFont, color: "#D0D3D2" }}
           title="Notify For Early Pickup"
+          color="#171412"
+        />
+        <CustomButton
+          style={styles.button}
+          textStyle={{ ...styles.commonFont, color: "#D0D3D2" }}
+          title="Cancel Reservation"
           color="#171412"
         />
       </View>

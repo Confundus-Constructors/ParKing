@@ -11,8 +11,11 @@ import UHP from "../components/UserHomePage";
 import ValetTabs from "../../valet/components/ValetTabs";
 import UserTabs from "../components/UserTabs";
 import { useTheme } from 'react-native-paper';
-import ResTabs from '../components/ResTabs.jsx'
-import Reserve from '../components/UserReserve.jsx'
+import ResTabs from '../components/ResTabs.jsx';
+import Reserve from '../components/UserReserve.jsx';
+import MyMap from '../../valet/components/HomeComponents/MyMap';
+import {AuthProvider} from '../../valet/components/HomeComponents/Auth';
+import AppWrapper from '../../valet/components/HomeComponents/DynamicTabs'
 
 const Stack = createNativeStackNavigator();
 
@@ -25,6 +28,7 @@ const Navigation = () => {
   };
 
   return (
+    <AuthProvider>
     <NavigationContainer theme={navTheme}>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Welcome" component={Welcome} />
@@ -43,8 +47,11 @@ const Navigation = () => {
         <Stack.Screen name="UserTabs" component={UserTabs} />
         <Stack.Screen name="VHP" component={ValetTabs} />
         <Stack.Screen name="ResTabs" component={ResTabs} />
+        <Stack.Screen name="MyMap" component={MyMap} />
+        <Stack.Screen name="Account" component={AppWrapper} />
       </Stack.Navigator>
     </NavigationContainer>
+    </AuthProvider>
   );
 };
 

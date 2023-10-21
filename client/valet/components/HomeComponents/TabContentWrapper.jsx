@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, SafeAreaView, Button, View, Text, TextInput, StyleSheet } from 'react-native';
+import { Modal, SafeAreaView, Button, TouchableOpacity, View, Text, TextInput, StyleSheet } from 'react-native';
 import { BlurView } from '@react-native-community/blur';
 
 
@@ -22,7 +22,8 @@ function TabContentWrapper({ Component, tabName, onRename }) {
   return (
     <>
       <SafeAreaView style={styles.renameButtonContainer}>
-        <Button title="Rename Location" onPress={() => setShowRenameModal(true)} />
+        <Text style={styles.guide}>Set up your service location here</Text>
+        <TouchableOpacity onPress={() => setShowRenameModal(true)}><Text style={{fontSize: 15}}>Rename</Text></TouchableOpacity>
       </SafeAreaView>
       <Component />
       {showRenameModal && (
@@ -70,7 +71,7 @@ function TabContentWrapper({ Component, tabName, onRename }) {
 
 const styles = StyleSheet.create({
   renameButtonContainer: {
-    alignSelf: 'center',
+    // alignSelf: 'center',
     marginTop: 10,
   },
   modalContent: {
@@ -94,6 +95,10 @@ const styles = StyleSheet.create({
   },
   characterCountZero: {
     color: '#FF7F7F'
+  },
+  guide: {
+    fontStyle: 'italic',
+    color: 'gray'
   }
 });
 

@@ -13,23 +13,24 @@ import QRCode from "react-native-qrcode-svg";
 import { useRoute } from "@react-navigation/native";
 import {host, port} from "../../../env.js";
 import Checkout from './Checkout';
-import ResCopy from './ResCopy';
+import ResCancelled from './ResCancelled';
 import axios from 'axios';
 
 async function loadFonts() {
   await Font.loadAsync({});
 }
 
-const Upcoming = () => {
+const Cancelled = () => {
   const [ reservations,setR ] = useState([]);
   const route = useRoute();
   useEffect(() => {
     axios.get(`http://${host}:${port}/transactions/users/${route.params.data}`)
     .then((result) => {
-      var curr = new Date().toUTCString();
       var arr = [];
       for (var i = 0; i < result.data.length; i++) {
-        if (result.data[i].reservation_start_time > curr) {
+        console.log('aoisnrghoainht first:', result.data[i])
+        if (result.data[i].cancelled) {
+          console.log('aoisnrghoainht:', result.data[i])
           arr.push(result.data[i]);
         }
       }
@@ -41,10 +42,10 @@ const Upcoming = () => {
   return (
     <ScrollView>
       {reservations.map((reservation) => {
-        return (<ResCopy data={reservation}/>)
+        return (<ResCancelled data={reservation}/>)
       })}
     </ScrollView>
   )
 }
 
-export default Upcoming;
+export default Cancelled;
