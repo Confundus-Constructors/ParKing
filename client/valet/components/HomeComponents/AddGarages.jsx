@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Button, StyleSheet, FlatList, Text, TouchableOpacity, Modal, SafeAreaView, KeyboardAvoidingView } from 'react-native';
+import { View, TextInput, Button, StyleSheet, FlatList, Text, TouchableOpacity, Modal, SafeAreaView } from 'react-native';
 import Spot from './ParkingSpot';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faCar } from '@fortawesome/free-solid-svg-icons';
 
-function AddGarages({ checkTokenExpirationAndRefresh, onAdd, accessToken, mapRegion, tempPin, setTempPin, setAdditionalPins, selectedPinCoordinate }) {
+function AddGarages({ checkTokenExpirationAndRefresh, onAdd, accessToken, mapRegion, tempPin, setTempPin, setAdditionalPins, selectedPinCoordinate, formatAddress, suggestions, setSuggestions, setToggler, secondaryAddress, setSecondaryAddress, pin, garage, setGaddress, gaddress}) {
   const [isModalVisible, setModalVisible] = useState(false);
   const [locationName, setLocationName] = useState("");
   const [numOfSpots, setNumOfSpots] = useState("");
-
-    const [secondaryAddress, setSecondaryAddress] = useState('');
-    const [suggestions, setSuggestions] = useState([]);
-    const [locationList, setLocationList] = useState([]);
+  const [locationList, setLocationList] = useState([]);
 
     const fetchAutocompleteSuggestions = async (input) => {
         const searchLocation = mapRegion.latitude + ',' + mapRegion.longitude;
@@ -28,8 +27,10 @@ function AddGarages({ checkTokenExpirationAndRefresh, onAdd, accessToken, mapReg
                 const data = await response.json();
                 if (data.results) {
                     setSuggestions(data.results);
+                    setToggler(garage)
                 } else {
                     setSuggestions([]);
+                    setToggler(pin)
                 }
             }
         } catch (error) {
@@ -40,12 +41,12 @@ function AddGarages({ checkTokenExpirationAndRefresh, onAdd, accessToken, mapReg
     const [spots, setSpots] = useState([]);
 
     const handleAddressSelected = async (address) => {
-      const formattedAddress = formatAddress(address.displayLines);
+      const formattedAddress = formatAddress(address);
       handleGeocode(formattedAddress);
-
       setSecondaryAddress(formattedAddress);
       setSuggestions([]); // Clear the suggestions
-  };
+      setToggler(pin)
+    };
 
 
     const handleGeocode = async (addressToGeocode) => {
@@ -64,8 +65,6 @@ function AddGarages({ checkTokenExpirationAndRefresh, onAdd, accessToken, mapReg
 
         if (response.status === 200) {
             const data = await response.json();
-            console.log('blogger', data)
-
             const { latitude, longitude } = data.results[0].coordinate;
             onAdd({ latitude, longitude });
         } else {
@@ -73,46 +72,69 @@ function AddGarages({ checkTokenExpirationAndRefresh, onAdd, accessToken, mapReg
         }
     };
 
-    const formatAddress = (displayLines) => {
-      console.log('formatlog', displayLines)
-      const cityState = displayLines[1].split(', ').slice(0, 2);
-      return displayLines[0] + ', ' + cityState.join(', ');
-    };
-
+    // const formatAddress = (displayLines) => {
+    //   console.log('formatlog', displayLines)
+    //   const cityState = displayLines[1].split(', ').slice(0, 2);
+    //   return displayLines[0] + ', ' + cityState.join(', ');
+    // };
+    const handleInputChange = (text) => {
+        setSecondaryAddress(text);
+       fetchAutocompleteSuggestions(text);
+       setGaddress(text)
+    }
 
     return (
-        <KeyboardAvoidingView style={styles.secondaryInputContainer} behavior='padding' enabled>
+    <View style={{flex: 1, width: '100%', zIndex: 4}}>
+        <View style={styles.secondaryInputContainer}>
             <TextInput
                 style={styles.input}
-                placeholder="Enter parking location address"
-                value={secondaryAddress}
+                placeholder="Add parking location"
+                value={gaddress}
+                placeholderTextColor='#5A5A5A'
                 onChangeText={(text) => {
-                    setSecondaryAddress(text);
-                    fetchAutocompleteSuggestions(text);
+                    handleInputChange(text)
                 }}
             />
-          <View style={styles.overlay}>
-            <FlatList
-                data={suggestions}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={({ item }) => (
-                    <TouchableOpacity style={styles.suggestionContainer} onPress={() => handleAddressSelected(item)}>
-                        <Text>{formatAddress(item.displayLines)}</Text>
-                    </TouchableOpacity>
-                )}
-            />
+         </View>
+    {/* { suggestions.length > 0 && (
+        <View style={styles.overlay}>
+        <FlatList
+        style={{marginTop: '55%'}}
+        data={suggestions}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => (
+            <TouchableOpacity style={styles.suggestionContainer} onPress={() => handleAddressSelected(item)}>
+            <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <Text>{formatAddress(item)}</Text>
+                <View style={{flexDirection: 'row'}}>
+                    <View style={{marginRight: 8, marginTop:1}}>
+                    <Text style={{color:'gray'}}>{item.location.latitude.toFixed(6)} N</Text>
+                    <Text style={{color:'gray'}}>{item.location.longitude.toFixed(6)} W</Text>
+                    </View>
+                    <View style={{marginTop:7}}>
+                    <FontAwesomeIcon icon={faCar} size={22} color="#49111c" />
+                    </View>
+                </View>
             </View>
-            <Button title="Add Pin" onPress={() => setModalVisible(true)} />
-            <Spot spots={spots}/>
+            </TouchableOpacity>
+            )}
+        />
+        </View>
+    )} */}
 
-<Modal
-    animationType="slide"
-    transparent={true}
-    visible={isModalVisible}
-    onRequestClose={() => {
-        setModalVisible(false);
-    }}
->
+    {/* <View style={{margin: 50}}>
+         <Button title="Add Pin" onPress={() => setModalVisible(true)} />
+    </View> */}
+    <Spot spots={spots}/>
+
+    <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isModalVisible}
+        onRequestClose={() => {
+            setModalVisible(false);
+        }}
+    >
     <View style={styles.modalContainer}>
         <SafeAreaView>
             <View style={styles.modal}>
@@ -125,48 +147,45 @@ function AddGarages({ checkTokenExpirationAndRefresh, onAdd, accessToken, mapReg
                     onChangeText={text => setLocationName(text)}
                 />
 
-
                 <TextInput style={styles.modaltext}
-
                     placeholder="Number of Spots"
                     value={numOfSpots}
                     onChangeText={text => setNumOfSpots(text)}
                     keyboardType="numeric"
                 />
-            <Button
-    title="Add Location"
-    onPress={() => {
-        setLocationList(prev => [...prev, secondaryAddress]);
-        setSpots(prevSpots =>[...prevSpots, {
-            address: locationList,
-            title: locationName,
-            spots: numOfSpots
-        }])
-        setModalVisible(false);
-        setLocationName("");
-        setNumOfSpots("");
-        setSecondaryAddress("");
-        setAdditionalPins(prevPins => [...prevPins, selectedPinCoordinate]);
-        setTempPin(null);
-    }}
-/>
+    <Button
+        title="Add Location"
+        onPress={() => {
+            setLocationList(prev => [...prev, secondaryAddress]);
+            setSpots(prevSpots =>[...prevSpots, {
+                address: locationList,
+                title: locationName,
+                spots: numOfSpots
+            }])
+            setModalVisible(false);
+            setLocationName("");
+            setNumOfSpots("");
+            setSecondaryAddress("");
+            setAdditionalPins(prevPins => [...prevPins, selectedPinCoordinate]);
+            setTempPin(null);
+        }}
+    />
 
-                <Button title="Cancel" onPress={() => {setModalVisible(false); setTempPin(null); setLocationName(""); setSecondaryAddress("");}} />
-            </View>
-        </SafeAreaView>
+            <Button title="Cancel" onPress={() => {setModalVisible(false); setTempPin(null); setLocationName(""); setSecondaryAddress("");}} />
+        </View>
+            </SafeAreaView>
+        </View>
+    </Modal>
     </View>
-</Modal>
-
-
-        </KeyboardAvoidingView>
     );
 }
 
 const styles = StyleSheet.create({
     secondaryInputContainer: {
-        marginTop: 10,
-        width: '100%',
+        flex: 1,
         alignItems: 'center',
+        zIndex: 4
+
     },
     listItem: {
         padding: 10,
@@ -174,29 +193,43 @@ const styles = StyleSheet.create({
         borderColor: '#ccc',
     },
     input: {
-      height: 40,
-      width: '100%',
-      borderWidth: 0.5,
-      borderColor: '#ccc',
-      marginTop: 5,
-      paddingHorizontal: 10,
-
+        borderWidth: 0.5,
+        borderColor: '#ccc',
+        marginTop: 5,
+        zIndex: 4,
+        backgroundColor: 'white',
+        width: 310,
+        height: 50,
+        padding: 12,
+        paddingHorizontal: 20,
+        borderRadius: 30,
+        alignItems: 'flex-start',
+        fontSize: 20,
+        fontFamily: 'System',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.2,
+        shadowRadius: 2,
     },
-    overlay: {
-      zIndex: 2,
-      position: 'absolute',
-      top: 40,  // TextInput Height
-      left: 0,
-      right: 0,
-      maxHeight: 520,
-      backgroundColor: 'rgba(255, 255, 255, 0.9)',  // semi-transparent background
-    },
+      overlay: {
+        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+        zIndex: 2,
+        position: 'absolute',
+        marginTop: -150,
+        marginLeft: 0,
+        marginRight: 0,
+        marginBottom: 0,
+        width: '100%',
+        height: 1000,
+      },
     suggestionContainer: {
-      borderWidth: 0.5,
-      borderColor: '#ccc',
-      padding: 15,
-      backgroundColor: '#fff',
-      marginBottom: 0,
+        borderWidth: 0.5,
+        borderColor: '#ccc',
+        padding: 12,
+        backgroundColor: 'rgba(255, 255, 255, 0.2)',
+        height: 60,
+        width: '100%',
+
     },
     modalContainer: {
       flex: 1,

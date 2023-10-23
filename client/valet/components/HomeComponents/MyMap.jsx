@@ -14,25 +14,32 @@ function MyMap({route}) {
   const [selectedPinCoordinate, setSelectedPinCoordinate] = useState(null);
   const [defaultLocation, setDefaultLocation] = useState('USA')
   const { accessToken, expirationTime, setAccessToken, setExpirationTime } = useAuth();
-
+  const [zindex, setZindex] = useState()
+  const pin = ['pin', 2, 4, 0]
+  const garage = ['garage', 4, 2, 80]
+  const [coordToggle, setCoordToggle] = useState([69, 250]);
+  const [toggler, setToggler] = useState(pin);
+  console.log('toggler', toggler)
   const [suggestions, setSuggestions] = useState([]);
   const [address, setAddress] = useState('');
+  const [gaddress, setGaddress] = useState('');
   const [coordinates, setCoordinates] = useState({});
   const [mapRegion, setMapRegion] = useState({
     latitude: coordinates.latitude,
     longitude: coordinates.longitude,
-    latitudeDelta: 0.010,
-    longitudeDelta: 0.010,
+    latitudeDelta: 0.004,
+    longitudeDelta: 0.004,
   });
   const [tempPin, setTempPin] = useState(null);
   const [additionalPins, setAdditionalPins] = useState([]);
-
+  const [secondaryAddress, setSecondaryAddress] = useState('');
   const handleAddPin = (coords) => {
-    console.log('Setting tempPin to:', coords);
-
     setTempPin(coords)
     setSelectedPinCoordinate(coords);
 }
+  const onPinTap = (coords) => {
+  setSelectedPinCoordinate(coords);
+  }
 
 
 useEffect(() => {
@@ -71,7 +78,6 @@ useEffect(() => {
 
 
   async function checkTokenExpirationAndRefresh() {
-    console.log('Yo yo yo')
     let newToken = accessToken
     if (!accessToken || Date.now() >= expirationTime) {
       newToken = await requestNewToken();
@@ -82,10 +88,7 @@ useEffect(() => {
   const defaultLocationGeo = async (searchLocation, token) => {
     try {
 
-      await checkTokenExpirationAndRefresh();
-
       const encodedAddress = encodeURIComponent(searchLocation);
-
 
       const apiUrl = `https://maps-api.apple.com/v1/geocode?q=${encodedAddress}`;
 
@@ -102,8 +105,8 @@ useEffect(() => {
         if (data.results && data.results[0] && data.results[0].coordinate) {
           const { latitude, longitude } = data.results[0].coordinate;
 
-          setMapRegion({ latitude, longitude, latitudeDelta: 0.0010,
-            longitudeDelta: 0.010});
+          setMapRegion({ latitude, longitude, latitudeDelta: 0.090,
+            longitudeDelta: 0.090});
         } else {
           console.alert('There was an error with default location')
         }
@@ -131,6 +134,7 @@ useEffect(() => {
         const data = await response.json();
         if (data.results) {
           setSuggestions(data.results);
+          setToggler(pin)
         } else {
           setSuggestions([]);
         }
@@ -169,8 +173,8 @@ useEffect(() => {
           setMapRegion({
             latitude: latitude,
             longitude: longitude,
-            latitudeDelta: 0.0040,
-            longitudeDelta: 0.0040,
+            latitudeDelta: 0.010,
+            longitudeDelta: 0.010,
           });
         } else {
 
@@ -193,8 +197,13 @@ useEffect(() => {
   const handleSuggestionTap = async (suggestion) => {
     const {latitude, longitude} = suggestion.location;
     const [street] = suggestion.displayLines
+
+  if (toggler[0] === 'pin') {
+    setCoordToggle([69, 250])
+    setZindex(5)
     setAddress(street);
     setCoordinates({latitude, longitude});
+    setSelectedPinCoordinate(suggestion.location)
     setMapRegion({
       latitude,
       longitude,
@@ -202,10 +211,24 @@ useEffect(() => {
       longitudeDelta: 0.004,
     });
     setSuggestions([]);
-  };
+    } else {
+      setCoordToggle([125, 240])
+      setZindex(5)
+      setGaddress(street);
+      const formattedAddress = formatAddress(suggestion);
+      handleGeocode(formattedAddress);
+      handleAddPin(suggestion.location)
+      setSecondaryAddress(formattedAddress);
+      setSuggestions([]);
+      setToggler(garage)
+    }
+  }
+
 
   const formatAddress = (item) => {
+    if (item.displayLines) {
     const cityState = item.displayLines[1].split(', ').slice(0, 2);
+
     return (
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
 
@@ -222,6 +245,7 @@ useEffect(() => {
       {/* </View> */}
     </View>
     )
+   }
   };
   const navigation = useNavigation();
 
@@ -234,20 +258,55 @@ useEffect(() => {
     setSelectedPinCoordinate(newCoordinate);
   };
 
+  let nwComponent;
+
+if (selectedPinCoordinate) {
+  nwComponent = (
+    <View>
+      <Text style={{color:'#5A5A5A', fontSize: 13}}>{selectedPinCoordinate.latitude.toFixed(6)} N</Text>
+      <Text style={{color:'#5A5A5A', fontSize: 13}}>{selectedPinCoordinate.longitude.toFixed(6)} W</Text>
+    </View>
+  );
+}
+
+useEffect(() => {
+  if (suggestions.length > 0) {
+      setZindex(1);
+  } else {
+      setZindex(5);
+  }
+}, [suggestions]);
+
 
   return (<>
 
-    <View style={styles.container} behavior='position' enabled={true}>
+    <View style={styles.container}>
+
+    <View style={{zIndex:3, position: 'absolute', top: "93%", left: '5%'}}>
+      <Button color="#49111c"
+          titleStyle={{color: "#5A5A5A", fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}
+            buttonStyle={{
+            backgroundColor: "white",
+            borderRadius: 20,
+            height: 40,
+            width: 40,
+          }}
+          containerStyle={{ zindex: 3, position: 'absolute', marginTop: 0, left: 0}}
+          title='&#8592;' onPress={handleBack}/>
+     </View>
+
+<View style={{ position: 'absolute', zIndex: zindex, top: coordToggle[0], left: 10, marginLeft: coordToggle[1]}}>{nwComponent}</View>
+
     <TextInput
-      style={styles.input}
-      placeholder="Enter Service Location Address"
+      style={[styles.input, {zIndex: toggler[2]}]}
+      placeholder="Add service location address"
       value={address}
       onChangeText={handleInputChange}
       placeholderTextColor='#5A5A5A'
     />
 
     { suggestions.length > 0 && (
-    <View style={styles.overlay}>
+    <View style={[styles.overlay, {paddingVertical: toggler[3]}]}>
     <FlatList
       style={{marginTop: 160}}
       data={suggestions}
@@ -260,7 +319,9 @@ useEffect(() => {
               <Text style={{color:'gray'}}>{item.location.latitude.toFixed(6)} N</Text>
               <Text style={{color:'gray'}}>{item.location.longitude.toFixed(6)} W</Text>
               </View>
+              <View style={{marginTop:2}}>
               <FontAwesomeIcon icon={faMapPin} size={25} color="#49111c" />
+              </View>
             </View>
            </View>
         </TouchableOpacity>
@@ -274,35 +335,13 @@ useEffect(() => {
         style={styles.map}
         region={mapRegion}
       >
-        <SafeAreaView style={{justifyContent: 'space-between', flexDirection: 'row'}}>
-        <View style={{marginLeft: 20, marginTop: -20}}>
-          <Button color="#49111c"
-          titleStyle={{color: "#5A5A5A", fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}
-            buttonStyle={{
-            backgroundColor: "white",
-            borderRadius: 20,
-            height: 40,
-            width: 40,
-          }}
-          title='&#8592;' onPress={handleBack}/>
-        </View>
-        {selectedPinCoordinate && (
-            <View style={{marginTop: -20, marginRight: 5}}>
-                <Text>{selectedPinCoordinate.latitude.toFixed(6)} N</Text>
-                <Text>{selectedPinCoordinate.longitude.toFixed(6)} W</Text>
-            </View>
 
-)}
-        </SafeAreaView>
         <Marker
             coordinate={coordinates}
             pinColor='#49111c'
             draggable={true}
             onPress={() => setSelectedPinCoordinate(coordinates)}
             onDrag={(e) => setSelectedPinCoordinate(e.nativeEvent.coordinate)}
-            onDragStart={(e) => {
-              console.log('Drag start', e.nativeEvent.coordinates)
-            }}
             onDragEnd={(e) => {
               setCoordinates({
                 latitude: e.nativeEvent.coordinate.latitude,
@@ -310,9 +349,9 @@ useEffect(() => {
               });
               setSelectedPinCoordinate(e.nativeEvent.coordinate);
             }}
-            title="Location">
-        <Callout><Text>Service Location</Text></Callout>
+            title="Service Location">
         </Marker>
+
         {tempPin && (
             <Marker
                 pinColor='#967d68'
@@ -335,12 +374,9 @@ useEffect(() => {
                    ))}
             </MapView>
              )}
-
-    <TouchableOpacity onPress={() => checkTokenExpirationAndRefresh()}>
-           <View style={{alignItems: 'center'}}>
-            <AddGarages setAdditionalPins={setAdditionalPins} setTempPin={setTempPin} tempPin={tempPin} checkTokenExpirationAndRefresh={checkTokenExpirationAndRefresh} mapRegion={mapRegion} onAdd={handleAddPin} accessToken={accessToken} selectedPinCoordinate={selectedPinCoordinate} />
+             <View style={{flexDirection: 'row', justifyContent: 'center', zIndex: toggler[1]}}>
+            <AddGarages setAdditionalPins={setAdditionalPins} setTempPin={setTempPin} tempPin={tempPin} checkTokenExpirationAndRefresh={checkTokenExpirationAndRefresh} mapRegion={mapRegion} onAdd={handleAddPin} accessToken={accessToken} selectedPinCoordinate={selectedPinCoordinate} formatAddress={formatAddress} suggestions={suggestions} setSuggestions={setSuggestions} setToggler={setToggler} secondaryAddress={secondaryAddress} setSecondaryAddress={setSecondaryAddress} pin={pin} garage={garage} setGaddress={setGaddress}gaddress={gaddress}/>
             </View>
-         </TouchableOpacity>
       </View>
       </>
     );
@@ -364,16 +400,15 @@ const styles = StyleSheet.create({
     width: '100%'
   },
   overlay: {
-    zIndex: 2,
     marginTop: 0,
-        ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(255, 255, 255, 0.9)'
+            ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    zIndex: 3
   },
   input: {
     borderWidth: 0.5,
     borderColor: '#ccc',
-    marginTop: 100,
-    zIndex: 3,
+    marginTop: 60,
     backgroundColor: 'white',
     width: '85%',
     height: 50,
@@ -381,9 +416,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 30,
     alignItems: 'flex-start',
-    fontWeight: 'bold',
     fontSize: 20,
     fontFamily: 'System',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
   },
   backButton: {
     justifyContent: 'center',
