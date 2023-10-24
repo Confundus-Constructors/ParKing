@@ -14,10 +14,8 @@ function MyMap({route}) {
   const [selectedPinCoordinate, setSelectedPinCoordinate] = useState(null);
   const [defaultLocation, setDefaultLocation] = useState('USA')
   const { accessToken, expirationTime, setAccessToken, setExpirationTime } = useAuth();
-  const [zindex, setZindex] = useState()
   const pin = ['pin', 2, 4, 0]
   const garage = ['garage', 4, 2, 80]
-  const [coordToggle, setCoordToggle] = useState([69, 250]);
   const [toggler, setToggler] = useState(pin);
   console.log('toggler', toggler)
   const [suggestions, setSuggestions] = useState([]);
@@ -37,9 +35,10 @@ function MyMap({route}) {
     setTempPin(coords)
     setSelectedPinCoordinate(coords);
 }
-  const onPinTap = (coords) => {
-  setSelectedPinCoordinate(coords);
-  }
+   let nwComponent;
+
+
+  const [input, setInput] = useState();
 
 
 useEffect(() => {
@@ -194,33 +193,31 @@ useEffect(() => {
     fetchAutocompleteSuggestions(text);
   };
 
+
+
+
   const handleSuggestionTap = async (suggestion) => {
     const {latitude, longitude} = suggestion.location;
     const [street] = suggestion.displayLines
-
-  if (toggler[0] === 'pin') {
-    setCoordToggle([69, 250])
-    setZindex(5)
-    setAddress(street);
-    setCoordinates({latitude, longitude});
-    setSelectedPinCoordinate(suggestion.location)
     setMapRegion({
       latitude,
       longitude,
       latitudeDelta: 0.004,
       longitudeDelta: 0.004,
     });
+
+  if (toggler[0] === 'pin') {
+    setAddress(street);
+    setCoordinates({latitude, longitude});
+    setSelectedPinCoordinate(suggestion.location)
     setSuggestions([]);
     } else {
-      setCoordToggle([125, 240])
-      setZindex(5)
       setGaddress(street);
       const formattedAddress = formatAddress(suggestion);
       handleGeocode(formattedAddress);
       handleAddPin(suggestion.location)
       setSecondaryAddress(formattedAddress);
       setSuggestions([]);
-      setToggler(garage)
     }
   }
 
@@ -236,13 +233,6 @@ useEffect(() => {
           <Text style={{fontSize: 19}}>{item.displayLines[0]}</Text>
           <Text style={{fontSize: 16}}>{cityState.join(', ')}</Text>
         </View>
-
-      {/* <View style={{flexDirection: 'row'}}>
-        <View>
-          <Text style={{color:'gray'}}>{item.location.latitude.toFixed(6)} N</Text>
-          <Text style={{color:'gray'}}>{item.location.longitude.toFixed(6)} W</Text>
-        </View> */}
-      {/* </View> */}
     </View>
     )
    }
@@ -258,29 +248,69 @@ useEffect(() => {
     setSelectedPinCoordinate(newCoordinate);
   };
 
-  let nwComponent;
 
 if (selectedPinCoordinate) {
   nwComponent = (
     <View>
-      <Text style={{color:'#5A5A5A', fontSize: 13}}>{selectedPinCoordinate.latitude.toFixed(6)} N</Text>
-      <Text style={{color:'#5A5A5A', fontSize: 13}}>{selectedPinCoordinate.longitude.toFixed(6)} W</Text>
+      <Text style={{color:'#5A5A5A', fontWeight: 'bold', fontSize: 13}}>{selectedPinCoordinate.latitude.toFixed(6)} N</Text>
+      <Text style={{color:'#5A5A5A', fontWeight: 'bold', fontSize: 13}}>{selectedPinCoordinate.longitude.toFixed(6)} W</Text>
     </View>
   );
 }
 
-useEffect(() => {
-  if (suggestions.length > 0) {
-      setZindex(1);
-  } else {
-      setZindex(5);
+  let backArrow;
+  let backArrow2;
+
+
+  if (address.length > 0) {
+    backArrow = (
+      <Button color="#49111c"
+      titleStyle={{color: "#5A5A5A", fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}
+        buttonStyle={{
+        backgroundColor: "transparent",
+        borderRadius: 20,
+        height: 40,
+        width: 40,
+      }}
+      containerStyle={{ zindex: 3, position: 'absolute', marginTop: 0, left: 0}}
+      title='&#x276E;' onPress={() => clearField()}/>
+    )
   }
-}, [suggestions]);
+  if (gaddress.length > 0) {
+    backArrow2 = (
+      <Button color="#49111c"
+      titleStyle={{color: "#5A5A5A", fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}
+        buttonStyle={{
+        backgroundColor: "transparent",
+        borderRadius: 20,
+        height: 40,
+        width: 40,
+      }}
+      containerStyle={{ zindex: 3, position: 'absolute', marginTop: 0, left: 0}}
+      title='&#x276E;' onPress={() => clearField2()}/>
+    )
+  }
+
+
+const clearField = () => {
+  setAddress([])
+}
+
+
+const clearField2 = () => {
+  setGaddress([])
+}
 
 
   return (<>
 
     <View style={styles.container}>
+    <View style={{zIndex:5, position: 'absolute', top: 68, left: 30}}>
+      {backArrow}
+     </View>
+     <View style={{zIndex:5, position: 'absolute', top: 123, left: 39}}>
+      {backArrow2}
+     </View>
 
     <View style={{zIndex:3, position: 'absolute', top: "93%", left: '5%'}}>
       <Button color="#49111c"
@@ -295,7 +325,7 @@ useEffect(() => {
           title='&#8592;' onPress={handleBack}/>
      </View>
 
-<View style={{ position: 'absolute', zIndex: zindex, top: coordToggle[0], left: 10, marginLeft: coordToggle[1]}}>{nwComponent}</View>
+     <View style={styles.nwComponent}>{nwComponent}</View>
 
     <TextInput
       style={[styles.input, {zIndex: toggler[2]}]}
@@ -401,7 +431,7 @@ const styles = StyleSheet.create({
   },
   overlay: {
     marginTop: 0,
-            ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFillObject,
     backgroundColor: 'rgba(255, 255, 255, 0.9)',
     zIndex: 3
   },
@@ -413,7 +443,7 @@ const styles = StyleSheet.create({
     width: '85%',
     height: 50,
     padding: 12,
-    paddingHorizontal: 20,
+    paddingHorizontal: 34,
     borderRadius: 30,
     alignItems: 'flex-start',
     fontSize: 20,
@@ -431,6 +461,18 @@ const styles = StyleSheet.create({
     height: 33,
     borderRadius: 15,
     margin: 10,
+  },
+  nwComponent: {
+    width: 120,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    borderRadius: 30,
+    position: 'absolute',
+    zIndex: 3,
+    top: "93%",
+    left: '65%',
   }
 });
 

@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
         width: 310,
         height: 50,
         padding: 12,
-        paddingHorizontal: 20,
+        paddingHorizontal: 34,
         borderRadius: 30,
         alignItems: 'flex-start',
         fontSize: 20,
