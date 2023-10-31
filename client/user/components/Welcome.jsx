@@ -224,6 +224,7 @@ const Welcome = () => {
                     <Text style={styles.text}>Create an account to reserve your parking spot.</Text>
 
                     <CustomInput
+                        style={{margin:1}}
                         name="Email"
                         placeholder="Email"
                         autoCapitalize="none"

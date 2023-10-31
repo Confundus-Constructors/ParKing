@@ -2,22 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { TouchableOpacity, View, StyleSheet, TextInput, Text, FlatList, SafeAreaView} from 'react-native';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import { useAuth } from './Auth';
-import AddGarages from './AddGarages';
+import { AddGarages, AddPin} from './AddGarages';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faMapPin, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { faMapPin, faChevronLeft, faCar } from '@fortawesome/free-solid-svg-icons';
 import {useNavigation} from '@react-navigation/native';
 import {Button} from 'react-native-elements';
-
+import carIcon from '../../../../assets/caricon.png';
 
 function MyMap({route}) {
   const defaultCityState = route.params?.defaultCityState;
   const [selectedPinCoordinate, setSelectedPinCoordinate] = useState(null);
   const [defaultLocation, setDefaultLocation] = useState('USA')
   const { accessToken, expirationTime, setAccessToken, setExpirationTime } = useAuth();
-  const pin = ['pin', 2, 4, 0]
-  const garage = ['garage', 4, 2, 80]
+  const pin = ['pin', 2, 4, 130, 20]
+  const garage = ['garage', 4, 2, 70, 90]
   const [toggler, setToggler] = useState(pin);
-  console.log('toggler', toggler)
   const [suggestions, setSuggestions] = useState([]);
   const [address, setAddress] = useState('');
   const [gaddress, setGaddress] = useState('');
@@ -35,11 +34,8 @@ function MyMap({route}) {
     setTempPin(coords)
     setSelectedPinCoordinate(coords);
 }
-   let nwComponent;
-
-
   const [input, setInput] = useState();
-
+  const [addy, setAddy] = useState(null)
 
 useEffect(() => {
   let isMounted = true;
@@ -48,15 +44,12 @@ useEffect(() => {
       if (isMounted) {
           defaultLocationGeo(defaultCityState, token);
       }
-  }
-
+    }
   fetchInitialData();
-
   return () => {
     isMounted = false;
-  };
-}, []);
-
+    };
+  }, []);
 
   async function requestNewToken() {
     try {
@@ -218,9 +211,11 @@ useEffect(() => {
       handleAddPin(suggestion.location)
       setSecondaryAddress(formattedAddress);
       setSuggestions([]);
+      setAddy( <View style={{flexDirection: 'row', width: '100%'}}>
+        <Text style={{fontSize: 14, color: '#7f7f7f', marginTop: 5}}>{suggestion.displayLines[0]}, {suggestion.displayLines[1].split(', ').slice(0, 2).join(', ')}</Text>
+      </View>)
     }
   }
-
 
   const formatAddress = (item) => {
     if (item.displayLines) {
@@ -228,7 +223,6 @@ useEffect(() => {
 
     return (
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-
         <View>
           <Text style={{fontSize: 19}}>{item.displayLines[0]}</Text>
           <Text style={{fontSize: 16}}>{cityState.join(', ')}</Text>
@@ -248,19 +242,7 @@ useEffect(() => {
     setSelectedPinCoordinate(newCoordinate);
   };
 
-
-if (selectedPinCoordinate) {
-  nwComponent = (
-    <View>
-      <Text style={{color:'#5A5A5A', fontWeight: 'bold', fontSize: 13}}>{selectedPinCoordinate.latitude.toFixed(6)} N</Text>
-      <Text style={{color:'#5A5A5A', fontWeight: 'bold', fontSize: 13}}>{selectedPinCoordinate.longitude.toFixed(6)} W</Text>
-    </View>
-  );
-}
-
   let backArrow;
-  let backArrow2;
-
 
   if (address.length > 0) {
     backArrow = (
@@ -276,69 +258,64 @@ if (selectedPinCoordinate) {
       title='&#x276E;' onPress={() => clearField()}/>
     )
   }
-  if (gaddress.length > 0) {
-    backArrow2 = (
-      <Button color="#49111c"
-      titleStyle={{color: "#5A5A5A", fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}
-        buttonStyle={{
-        backgroundColor: "transparent",
-        borderRadius: 20,
-        height: 40,
-        width: 40,
-      }}
-      containerStyle={{ zindex: 3, position: 'absolute', marginTop: 0, left: 0}}
-      title='&#x276E;' onPress={() => clearField2()}/>
-    )
+
+  const clearField = () => {
+    setSuggestions([]);
+    setAddress([])
   }
 
+  const clearField2 = () => {
+    setSuggestions([]);
+    setGaddress([])
+    setTempPin(null)
+    setAddy(null)
+  }
 
-const clearField = () => {
-  setAddress([])
-}
-
-
-const clearField2 = () => {
-  setGaddress([])
-}
-
-
-  return (<>
-
+  return (
+    <>
     <View style={styles.container}>
-    <View style={{zIndex:5, position: 'absolute', top: 68, left: 30}}>
-      {backArrow}
-     </View>
-     <View style={{zIndex:5, position: 'absolute', top: 123, left: 39}}>
-      {backArrow2}
-     </View>
-
-    <View style={{zIndex:3, position: 'absolute', top: "93%", left: '5%'}}>
+    <View style={{zIndex:3, position: 'absolute', top: "93%", left: '5%',  shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2}}>
       <Button color="#49111c"
-          titleStyle={{color: "#5A5A5A", fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}
+          titleStyle={{color: "#5A5A5A", fontWeight: 'bold', fontSize: 16 }}
             buttonStyle={{
             backgroundColor: "white",
             borderRadius: 20,
             height: 40,
-            width: 40,
+            width: 70,
           }}
           containerStyle={{ zindex: 3, position: 'absolute', marginTop: 0, left: 0}}
-          title='&#8592;' onPress={handleBack}/>
+          title='Done' onPress={handleBack}/>
      </View>
 
-     <View style={styles.nwComponent}>{nwComponent}</View>
+{selectedPinCoordinate && <View style={styles.nwComponent}>
+      <Text style={styles.nwtext}>{selectedPinCoordinate.latitude.toFixed(6)} N</Text>
+      <Text style={styles.nwtext}>{selectedPinCoordinate.longitude.toFixed(6)} W</Text></View>}
 
+  <View style={[styles.input, {zIndex: toggler[2]}]}>
+  <View style={{zIndex:5, position: 'absolute', top: 7}}>
+      {backArrow}
+     </View>
     <TextInput
-      style={[styles.input, {zIndex: toggler[2]}]}
+      style={{fontSize: 20, padding: 15,
+        paddingHorizontal: 37}}
       placeholder="Add service location address"
       value={address}
       onChangeText={handleInputChange}
       placeholderTextColor='#5A5A5A'
     />
+  </View>
 
     { suggestions.length > 0 && (
-    <View style={[styles.overlay, {paddingVertical: toggler[3]}]}>
+    <View style={styles.overlay}>
+      <View style={{alignItems: 'center', marginTop: toggler[3]}}>
+      {toggler[0] === 'pin' ? <Text style={{color: '#3d3d3d', fontStyle: 'italic'}}>This is where your clients will drop off their  cars. </Text> : <Text style={{color: '#3d3d3d', fontStyle: 'italic'}}>This is where you will park the cars. </Text> }
+      <Text style={{color: '#3d3d3d', fontStyle: 'italic'}}>You will be able to adjust pin position.</Text>
+      </View>
     <FlatList
-      style={{marginTop: 160}}
+      style={{marginTop: toggler[4]}}
       data={suggestions}
       renderItem={({ item }) => (
         <TouchableOpacity style={styles.suggestionContainer} onPress={() => handleSuggestionTap(item)}>
@@ -350,7 +327,7 @@ const clearField2 = () => {
               <Text style={{color:'gray'}}>{item.location.longitude.toFixed(6)} W</Text>
               </View>
               <View style={{marginTop:2}}>
-              <FontAwesomeIcon icon={faMapPin} size={25} color="#49111c" />
+              {toggler[0] === 'pin' ? <FontAwesomeIcon icon={faMapPin} size={25} color="#49111c" /> : <FontAwesomeIcon icon={faCar} size={22} color="#967d68" style={{marginLeft: 7, marginTop: 5}} />}
               </View>
             </View>
            </View>
@@ -390,13 +367,15 @@ const clearField2 = () => {
                 coordinate={tempPin}
                 onPress={() => setSelectedPinCoordinate(tempPin)}
                 onDrag={(e) => setSelectedPinCoordinate(e.nativeEvent.coordinate)}
-                onDragEnd={(e) => handleBluePinDragEnd(e)}
-            />
+                onDragEnd={(e) => { handleBluePinDragEnd(e)
+                  setSelectedPinCoordinate(e.nativeEvent.coordinate)
+                }}>
+            </Marker>
                 )}
             {additionalPins.map((pin, index) => (
                 <Marker
                   key={index}
-                  pinColor='blue'
+                  image={carIcon}
                   title="Parking Location"
                   onPress={() => setSelectedPinCoordinate(pin)}
                   coordinate={pin}
@@ -405,8 +384,11 @@ const clearField2 = () => {
             </MapView>
              )}
              <View style={{flexDirection: 'row', justifyContent: 'center', zIndex: toggler[1]}}>
-            <AddGarages setAdditionalPins={setAdditionalPins} setTempPin={setTempPin} tempPin={tempPin} checkTokenExpirationAndRefresh={checkTokenExpirationAndRefresh} mapRegion={mapRegion} onAdd={handleAddPin} accessToken={accessToken} selectedPinCoordinate={selectedPinCoordinate} formatAddress={formatAddress} suggestions={suggestions} setSuggestions={setSuggestions} setToggler={setToggler} secondaryAddress={secondaryAddress} setSecondaryAddress={setSecondaryAddress} pin={pin} garage={garage} setGaddress={setGaddress}gaddress={gaddress}/>
+            <AddGarages setAdditionalPins={setAdditionalPins} setTempPin={setTempPin} tempPin={tempPin} checkTokenExpirationAndRefresh={checkTokenExpirationAndRefresh} mapRegion={mapRegion} onAdd={handleAddPin} accessToken={accessToken} selectedPinCoordinate={selectedPinCoordinate} formatAddress={formatAddress} suggestions={suggestions} setSuggestions={setSuggestions} setToggler={setToggler} secondaryAddress={secondaryAddress} setSecondaryAddress={setSecondaryAddress} pin={pin} garage={garage} setGaddress={setGaddress}gaddress={gaddress} clearField2={clearField2}/>
             </View>
+          <View style={styles.addpin}>
+            <AddPin tempPin={tempPin} setTempPin={setTempPin} secondaryAddress={secondaryAddress} setSecondaryAddress={setSecondaryAddress} addy={addy} setAddy={setAddy} setAdditionalPins={setAdditionalPins} selectedPinCoordinate={selectedPinCoordinate} suggestions={suggestions}/>
+          </View>
       </View>
       </>
     );
@@ -440,39 +422,39 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     marginTop: 60,
     backgroundColor: 'white',
-    width: '85%',
-    height: 50,
-    padding: 12,
-    paddingHorizontal: 34,
+    width: 350,
+    height: 51,
     borderRadius: 30,
     alignItems: 'flex-start',
-    fontSize: 20,
-    fontFamily: 'System',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.2,
     shadowRadius: 2,
   },
-  backButton: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    color: 'red',
-    width: 33,
-    height: 33,
-    borderRadius: 15,
-    margin: 10,
-  },
   nwComponent: {
-    width: 120,
-    height: 40,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'white',
-    borderRadius: 30,
     position: 'absolute',
     zIndex: 3,
     top: "93%",
     left: '65%',
+    backgroundColor: 'white',
+    width: 120,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 30,
+  },
+  addpin: {
+    zIndex:4,
+    position: 'absolute',
+    top: 121,
+    alignItems: 'center',
+    right: '7%',
+
+  },
+  nwtext: {
+    color:'#5A5A5A',
+    fontWeight: 'bold',
+    fontSize: 13
   }
 });
 

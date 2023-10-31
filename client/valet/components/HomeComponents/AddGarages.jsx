@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Button, StyleSheet, FlatList, Text, TouchableOpacity, Modal, SafeAreaView } from 'react-native';
+import { View, TextInput, StyleSheet, FlatList, Text, TouchableOpacity, Modal, SafeAreaView } from 'react-native';
 import Spot from './ParkingSpot';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCar } from '@fortawesome/free-solid-svg-icons';
+import {Button} from 'react-native-elements';
 
-function AddGarages({ checkTokenExpirationAndRefresh, onAdd, accessToken, mapRegion, tempPin, setTempPin, setAdditionalPins, selectedPinCoordinate, formatAddress, suggestions, setSuggestions, setToggler, secondaryAddress, setSecondaryAddress, pin, garage, setGaddress, gaddress}) {
-  const [isModalVisible, setModalVisible] = useState(false);
-  const [locationName, setLocationName] = useState("");
-  const [numOfSpots, setNumOfSpots] = useState("");
-  const [locationList, setLocationList] = useState([]);
+
+export function AddGarages({ checkTokenExpirationAndRefresh, onAdd, accessToken, mapRegion, tempPin, setTempPin, selectedPinCoordinate, formatAddress, suggestions, setSuggestions, setToggler, secondaryAddress, setSecondaryAddress, pin, garage, setGaddress, gaddress, clearField2}) {
 
     const fetchAutocompleteSuggestions = async (input) => {
         const searchLocation = mapRegion.latitude + ',' + mapRegion.longitude;
@@ -38,21 +36,10 @@ function AddGarages({ checkTokenExpirationAndRefresh, onAdd, accessToken, mapReg
         }
     };
 
-    const [spots, setSpots] = useState([]);
-
-    const handleAddressSelected = async (address) => {
-      const formattedAddress = formatAddress(address);
-      handleGeocode(formattedAddress);
-      setSecondaryAddress(formattedAddress);
-      setSuggestions([]); // Clear the suggestions
-      setToggler(pin)
-    };
-
 
     const handleGeocode = async (addressToGeocode) => {
        await checkTokenExpirationAndRefresh();
         const encodedAddress = encodeURIComponent(addressToGeocode);
-        console.log('logger', encodedAddress)
         const apiUrl = `https://maps-api.apple.com/v1/geocode?q=${encodedAddress}`;
 
         const response = await fetch(apiUrl, {
@@ -72,20 +59,37 @@ function AddGarages({ checkTokenExpirationAndRefresh, onAdd, accessToken, mapReg
         }
     };
 
-    // const formatAddress = (displayLines) => {
-    //   console.log('formatlog', displayLines)
-    //   const cityState = displayLines[1].split(', ').slice(0, 2);
-    //   return displayLines[0] + ', ' + cityState.join(', ');
-    // };
+
     const handleInputChange = (text) => {
         setSecondaryAddress(text);
        fetchAutocompleteSuggestions(text);
        setGaddress(text)
+       checkTokenExpirationAndRefresh()
     }
 
+    let backArrow2;
+    if (gaddress.length > 0) {
+        backArrow2 = (
+          <Button color="#49111c"
+          titleStyle={{color: "#5A5A5A", fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}
+            buttonStyle={{
+            backgroundColor: "transparent",
+            borderRadius: 20,
+            height: 40,
+            width: 40,
+          }}
+          containerStyle={{ zindex: 3, position: 'absolute', marginTop: 0, left: 0}}
+          title='&#x276E;' onPress={() => clearField2()}/>
+        )
+      }
+
+
+
     return (
-    <View style={{flex: 1, width: '100%', zIndex: 4}}>
         <View style={styles.secondaryInputContainer}>
+        <View style={{zIndex:5, position: 'absolute', top: '23%', left: '6%'}}>
+            {backArrow2}
+        </View>
             <TextInput
                 style={styles.input}
                 placeholder="Add parking location"
@@ -96,35 +100,32 @@ function AddGarages({ checkTokenExpirationAndRefresh, onAdd, accessToken, mapReg
                 }}
             />
          </View>
-    {/* { suggestions.length > 0 && (
-        <View style={styles.overlay}>
-        <FlatList
-        style={{marginTop: '55%'}}
-        data={suggestions}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => (
-            <TouchableOpacity style={styles.suggestionContainer} onPress={() => handleAddressSelected(item)}>
-            <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text>{formatAddress(item)}</Text>
-                <View style={{flexDirection: 'row'}}>
-                    <View style={{marginRight: 8, marginTop:1}}>
-                    <Text style={{color:'gray'}}>{item.location.latitude.toFixed(6)} N</Text>
-                    <Text style={{color:'gray'}}>{item.location.longitude.toFixed(6)} W</Text>
-                    </View>
-                    <View style={{marginTop:7}}>
-                    <FontAwesomeIcon icon={faCar} size={22} color="#49111c" />
-                    </View>
-                </View>
-            </View>
-            </TouchableOpacity>
-            )}
-        />
-        </View>
-    )} */}
+    )
+}
 
-    {/* <View style={{margin: 50}}>
-         <Button title="Add Pin" onPress={() => setModalVisible(true)} />
-    </View> */}
+export const AddPin = ({secondaryAddress, setSecondaryAddress, tempPin, setTempPin, addy, setAddy, setAdditionalPins, selectedPinCoordinate, suggestions}) => {
+    const [numOfSpots, setNumOfSpots] = useState("");
+    const [isModalVisible, setModalVisible] = useState(false);
+    const [spots, setSpots] = useState([]);
+    const [locationName, setLocationName] = useState("");
+    const [locationList, setLocationList] = useState([]);
+
+    return (
+    <View style={{zIndex: 5, flexDirection: 'column', alignItems: 'center'}}>
+    {(tempPin && suggestions.length <= 0) &&
+    <View>
+    <Button color="#49111c"
+      titleStyle={{color: "#5A5A5A", fontWeight: 'bold', fontSize: 16, marginBottom: 0 }}
+        buttonStyle={{
+        backgroundColor: "#d3d3d3",
+        borderRadius: 20,
+        height: 40,
+        width: 80
+      }}
+      title='Save' onPress={() => setModalVisible(true)}/>
+     </View>
+    }
+
     <Spot spots={spots}/>
 
     <Modal
@@ -138,24 +139,39 @@ function AddGarages({ checkTokenExpirationAndRefresh, onAdd, accessToken, mapReg
     <View style={styles.modalContainer}>
         <SafeAreaView>
             <View style={styles.modal}>
-            <Text style={{fontSize: 19, color: 'gray' }}>Set Up Parking Location</Text>
-            <Text style={{fontSize: 17}}>{secondaryAddress}</Text>
-            <TextInput
-                    style={[styles.modaltext, {marginTop: 10}]}
-                    placeholder="Name this location"
+            <Text style={{fontSize: 19, color: '#696969', fontWeight: 'bold'}}>Save This Parking Location</Text>
+            <Text>{addy}</Text>
+                <TextInput
+                    style={styles.modaltext}
+                    placeholder="Name this parking location"
                     value={locationName}
                     onChangeText={text => setLocationName(text)}
                 />
 
                 <TextInput style={styles.modaltext}
-                    placeholder="Number of Spots"
-                    value={numOfSpots}
-                    onChangeText={text => setNumOfSpots(text)}
+                    placeholder="Number of spots"
+                    value={numOfSpots.toString()}
+                    onChangeText={text => setNumOfSpots(parseInt(text))}
                     keyboardType="numeric"
                 />
-    <Button
-        title="Add Location"
-        onPress={() => {
+    <View style={{flexDirection: 'row', margin: 10, borderTopWidth: 1,  borderColor: '#dcdcdc', width: 350, justifyContent: 'space-around', paddingTop: 5, paddingHorizontal: 25}}>
+
+            <Button
+            title="Cancel"
+            containerStyle={{backgroundColor: 'transparent'}}
+            titleStyle={{color: '#49111c', fontSize: 20}}
+            buttonStyle={{ backgroundColor: 'transparent' }}
+            onPress={() => {setModalVisible(false); setLocationName(""); setSecondaryAddress("");
+        }} />
+
+            <View style={styles.separator}></View>
+
+            <Button
+            title="Save"
+            containerStyle={{backgroundColor: 'transparent'}}
+            titleStyle={{color: '#49111c', fontWeight: 'bold', fontSize: 20}}
+            buttonStyle={{ backgroundColor: 'transparent' }}
+            onPress={() => {
             setLocationList(prev => [...prev, secondaryAddress]);
             setSpots(prevSpots =>[...prevSpots, {
                 address: locationList,
@@ -168,10 +184,10 @@ function AddGarages({ checkTokenExpirationAndRefresh, onAdd, accessToken, mapReg
             setSecondaryAddress("");
             setAdditionalPins(prevPins => [...prevPins, selectedPinCoordinate]);
             setTempPin(null);
+            setAddy(null)
         }}
     />
-
-            <Button title="Cancel" onPress={() => {setModalVisible(false); setTempPin(null); setLocationName(""); setSecondaryAddress("");}} />
+            </View>
         </View>
             </SafeAreaView>
         </View>
@@ -185,7 +201,6 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         zIndex: 4
-
     },
     listItem: {
         padding: 10,
@@ -198,10 +213,10 @@ const styles = StyleSheet.create({
         marginTop: 5,
         zIndex: 4,
         backgroundColor: 'white',
-        width: 310,
+        width: 350,
         height: 50,
         padding: 12,
-        paddingHorizontal: 34,
+        paddingHorizontal: 38,
         borderRadius: 30,
         alignItems: 'flex-start',
         fontSize: 20,
@@ -232,27 +247,32 @@ const styles = StyleSheet.create({
 
     },
     modalContainer: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: 'rgba(0, 0, 0, 0.2)',  // For a semi-transparent background outside the modal
+        height: '100%',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.2)',
   },
   modal: {
-      width: 400,
-      height: 240,
-      backgroundColor: '#F5F5F5',
-      borderRadius: 10,
-      padding: 20,
-      marginTop: 400,
-      alignItems: 'center'
+    width: 350,
+    height: 215,
+    backgroundColor: '#F5F5F5',
+    borderRadius: 15,
+    padding: 20,
+    marginTop: '5',
+    alignItems: 'center'
   },
-  modaltext:{
+  modaltext: {
     fontSize: 17,
     backgroundColor: 'white',
     margin: 3,
     width: '100%',
-    height: 35,
+    height: 40,
     padding: 10,
-  }
+    borderRadius: 20
+  },
+  separator: {
+    width: 1,
+    height: 40,
+    backgroundColor: '#dcdcdc',
+  },
 });
-export default AddGarages;
