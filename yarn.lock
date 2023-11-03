@@ -4809,6 +4809,11 @@ expo-camera@~13.4.4:
   dependencies:
     invariant "^2.2.4"
 
+expo-checkbox@^2.5.0:
+  version "2.5.0"
+  resolved "https://registry.npmjs.org/expo-checkbox/-/expo-checkbox-2.5.0.tgz"
+  integrity sha512-0ilRRQ1c50wY4DEzu5Vg/gyWYOpq2j4Js3m6+zP7Y526G9yL+13fexjPd+7sMSEZhPopGGPp9y82uiIhkfVMKA==
+
 expo-constants@*, expo-constants@~14.4.2:
   version "14.4.2"
   resolved "https://registry.npmjs.org/expo-constants/-/expo-constants-14.4.2.tgz"

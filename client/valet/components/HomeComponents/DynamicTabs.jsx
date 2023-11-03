@@ -110,6 +110,11 @@ const DynamicTabs = () => {
     setUserTabs([...userTabs, newTab]);
   };
 
+  const deleteTab = (tabName) => {
+    const updatedTabs = userTabs.filter((tab) => tab.name !== tabName);
+    setUserTabs(updatedTabs);
+  };
+
   useEffect(() => {
     if (userTabs.length > 0) {
       const latestTab = userTabs[userTabs.length - 1];
@@ -156,6 +161,7 @@ const DynamicTabs = () => {
                   setUserTabs(updatedTabs);
                   navigation.navigate(newName);
                 }}
+                 onDelete={() => deleteTab(tab.name)}
                 {...props}
               />
             )}

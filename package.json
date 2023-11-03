@@ -41,6 +41,7 @@
     "expo-barcode-scanner": "~12.5.3",
     "expo-blur": "~12.4.1",
     "expo-camera": "~13.4.4",
+    "expo-checkbox": "^2.5.0",
     "expo-constants": "~14.4.2",
     "expo-crypto": "~12.4.1",
     "expo-dev-client": "~2.4.10",
