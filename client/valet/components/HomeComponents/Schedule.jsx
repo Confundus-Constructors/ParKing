@@ -79,12 +79,12 @@ const Schedule = () => {
           </View>
           <View style={{flexDirection: 'row', marginTop: 0}}>
           <Button title="Cancel" onPress={() => setShowFields(false)}
-            buttonStyle={{ backgroundColor: 'gray', width: 110}}
+            buttonStyle={{ backgroundColor: 'black', width: 110}}
             titleStyle={[styles.buttonText, {color: 'white'}, {fontWeight: '500'}]}
           />
 
           <Button title="Save" onPress={handleSavePeriod}
-            buttonStyle={{ backgroundColor: 'gray', width: 110}}
+            buttonStyle={{ backgroundColor: 'black', width: 110}}
             titleStyle={[styles.buttonText, {color: 'white'}]}
           />
           </View>
@@ -141,7 +141,7 @@ const Schedule = () => {
 
 const styles = StyleSheet.create({
   addButton: {
-    backgroundColor: 'gray',
+    backgroundColor: 'black',
     borderRadius: 20,
     padding: 10,
     width: 180,
@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
   },
   dateTime: {
     alignItems: 'center',
-    backgroundColor: 'gray',
+    backgroundColor: 'black',
     borderRadius: 15,
     shadowColor: 'black',
     shadowOffset: { width: 1, height: 2 },

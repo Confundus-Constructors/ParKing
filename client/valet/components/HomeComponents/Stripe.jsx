@@ -40,9 +40,15 @@ const Stripe = ({blur}) => {
 
   return (
     <View>
-      <TouchableOpacity style={styles.homeButton} onPress={toggleModal}>
-        <Text style={styles.homeText}>Add Payment Details</Text>
-      </TouchableOpacity>
+       <TouchableOpacity style={styles.box}>
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <View style={{ marginLeft: 10 }}>
+          <Text style={{fontWeight: 'bold', color: 'white', fontSize: 18 }}>
+            Valid  Driver's License
+          </Text>
+        </View>
+      </View>
+    </TouchableOpacity>
 
       <Modal
   animationType="slide"
@@ -93,6 +99,22 @@ homeText: {
   color: 'white',
   fontWeight: 'bold',
   fontSize: 16
+},
+box: {
+  width: 300,
+  height: 40,
+  justifyContent: 'center',
+  alignItems: 'flex-start',
+  backgroundColor: '#a9927d',
+  borderRadius: 20,
+  marginRight: 5,
+  borderWidth: 1,
+  padding: 10,
+  borderColor: 'lightgray',
+  shadowColor: '#000',
+  shadowOffset: {width: 2, height: 2 },
+  shadowOpacity: 0.6,
+  shadowRadius: 2,
 }
 })
 

@@ -22,6 +22,8 @@ function HomeContent() {
   const { setDefaultCityState } = useContext(MyContext);
   const [seeModal, setSeeModal] = useState(false);
   const [showBlur, setShowBlur] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
 
   const handleEdit = () => {
     setSeeModal(!seeModal);
@@ -32,6 +34,12 @@ function HomeContent() {
     setShowBlur(!showBlur);
   };
 
+  const handleEditButtonPress = () => {
+  // Toggle the state variable to show/hide the modal
+  setIsModalVisible(!isModalVisible);
+  blur(); // Call blur function if needed.
+};
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
@@ -40,8 +48,9 @@ function HomeContent() {
           <SignOut variant={'home'} />
         </View>
       </View>
-      <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-        <Text style={styles.title}>Upload documentation to get started - </Text>
+      <Text style={styles.title}>1. Add your details (above) to get started</Text>
+      <View style={{ flexDirection: 'row' }}>
+        <Text style={styles.title}>2. Upload documentation - </Text>
         <TouchableOpacity onPress={handleEdit}>
           <Text style={styles.editText}>Why?</Text>
         </TouchableOpacity>
@@ -126,10 +135,10 @@ const DynamicTabs = () => {
     <SafeAreaView style={{ flex: 1 }}>
       <Tab.Navigator
         tabBarOptions={{
-          activeTintColor: 'white',
-          inactiveTintColor: '#49111c',
+          activeTintColor: '#a9927d',
+          inactiveTintColor: 'white',
           labelStyle: { fontSize: 16 },
-          style: { backgroundColor: '#a9927d', marginBottom: 3 },
+          style: { backgroundColor: 'black', marginBottom: 3 },
           indicatorStyle: { backgroundColor: 'white' },
           scrollEnabled: true,
         }}
@@ -139,8 +148,8 @@ const DynamicTabs = () => {
           component={HomeContent}
           options={{
             tabBarLabel: ({ focused, color, position }) => (
-              <Text style={{ fontSize: 20, fontWeight: 'bold', color: color }}>
-                Account
+              <Text style={{ fontSize: 17, fontWeight: 'bold', color: color }}>
+                ACCOUNT
               </Text>
             ),
           }}
@@ -197,9 +206,17 @@ const styles = {
   container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    borderBottomWidth: 0.5,
+    backgroundColor: 'white',
+    borderColor: 'lightgray',
+    shadowColor: '#000',
+    shadowOffset: {height: 2 },
+    shadowOpacity: 0.4,
+    shadowRadius: 5,
   },
   signout: {
     alignItems: 'flex-start',
+    height: 35
   },
   editText: {
     fontWeight: 'bold',
@@ -212,6 +229,7 @@ const styles = {
     fontWeight: 'bold',
     fontSize: 15,
     marginBottom: 5,
+    marginLeft: '10%'
   },
   subtitle: {
     marginTop: 25,
@@ -219,6 +237,22 @@ const styles = {
     fontSize: 18,
     marginBottom: 10,
   },
+  box: {
+    width: 300,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    backgroundColor: '#a9927d',
+    borderRadius: 20,
+    marginRight: 5,
+    borderWidth: 1,
+    padding: 10,
+    borderColor: 'lightgray',
+    shadowColor: '#000',
+    shadowOffset: {width: 2, height: 2 },
+    shadowOpacity: 0.6,
+    shadowRadius: 2,
+  }
 };
 
 export default AppWrapper;

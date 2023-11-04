@@ -1,7 +1,7 @@
 import {View, Text, TouchableOpacity, StyleSheet, Image} from 'react-native';
 import React, {useState, useRef} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCamera } from '@fortawesome/free-solid-svg-icons';
+import { faCamera, faIdCard, faFileInvoice, faFolderOpen } from '@fortawesome/free-solid-svg-icons';
 import ImagePicker from 'react-native-image-picker';
 
 
@@ -41,53 +41,57 @@ const UploadID = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-    <View style={styles.row}>
     <View style={styles.uploads}>
-      <Text style={styles.littletitle}>Driver's License Front</Text>
-        <TouchableOpacity style={styles.box} onPress={addPic}>
-            {imageSource ? (
-              <Image source={imageSource} style={styles.image} />
-            ) : (
-              <FontAwesomeIcon icon={faCamera} style={{color: "#a9927d", opacity: 0.7}} size={80} fade-size={'lg'}/>
-            )}
-        </TouchableOpacity>
-    </View>
-    <View style={styles.uploads}>
-    <Text style={styles.littletitle}>Driver's License Back</Text>
-        <TouchableOpacity style={styles.box} onPress={addPic}>
-            {imageSource ? (
-              <Image source={imageSource} style={styles.image} />
-            ) : (
-              <FontAwesomeIcon icon={faCamera} style={{color: "#a9927d", opacity: 0.7}} size={80} fade-size={'lg'}/>
-            )}
-        </TouchableOpacity>
-    </View>
-    </View>
-    <View style={styles.row}>
-    <View style={styles.uploads}>
-    <Text style={styles.littletitle}>Insurance Card</Text>
-        <TouchableOpacity style={styles.box} onPress={addPic}>
-            {imageSource ? (
-              <Image source={imageSource} style={styles.image} />
-            ) : (
-              <FontAwesomeIcon icon={faCamera} style={{color: "#a9927d", opacity: 0.7}} size={80} fade-size={'lg'}/>
-            )}
-        </TouchableOpacity>
-    </View>
-    <View style={styles.uploads}>
-    <Text style={styles.littletitle}>Supplemental </Text>
-        <TouchableOpacity style={styles.box} onPress={addPic}>
-            {imageSource ? (
-              <Image source={imageSource} style={styles.image} />
-            ) : (
-              <FontAwesomeIcon icon={faCamera} style={{color: "#a9927d", opacity: 0.7}} size={80} fade-size={'lg'}/>
-            )}
-        </TouchableOpacity>
-    </View>
-    </View>
-    </View>
 
-  )
+    <TouchableOpacity style={styles.box}>
+    {imageSource ? (
+      <Image source={imageSource} style={styles.image} />
+    ) : (
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <FontAwesomeIcon icon={faIdCard} style={{ color: "white", opacity: 1 }} size={30} fade-size={'lg'} />
+        <View style={{ marginLeft: 10 }}>
+          <Text style={{fontWeight: 'bold', color: 'white', fontSize: 18 }}>
+            Add Valid  Driver's License
+          </Text>
+        </View>
+      </View>
+    )}
+    </TouchableOpacity>
+    </View>
+        <View style={styles.uploads}>
+        <TouchableOpacity style={styles.box}>
+        {imageSource ? (
+          <Image source={imageSource} style={styles.image} />
+        ) : (
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <FontAwesomeIcon icon={faFileInvoice} style={{ color: "white", opacity: 1 }} size={30} fade-size={'lg'} />
+            <View style={{ marginLeft: 10 }}>
+              <Text style={{fontWeight: 'bold', color: 'white', fontSize: 18 }}>
+                Add Proof of Car Insurance
+              </Text>
+            </View>
+          </View>
+        )}
+      </TouchableOpacity>
+        </View>
+        <View style={styles.uploads}>
+        <TouchableOpacity style={styles.box}>
+        {imageSource ? (
+          <Image source={imageSource} style={styles.image} />
+        ) : (
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <FontAwesomeIcon icon={faFolderOpen} style={{ color: "white", opacity: 1 }} size={30} fade-size={'lg'} />
+            <View style={{ marginLeft: 10 }}>
+              <Text style={{fontWeight: 'bold', color: 'white', fontSize: 18 }}>
+                Supplemental Documents
+              </Text>
+            </View>
+          </View>
+        )}
+      </TouchableOpacity>
+        </View>
+        </View>
+      )
 }
 
 const styles = StyleSheet.create({
@@ -102,19 +106,27 @@ const styles = StyleSheet.create({
     zIndex: 1
   },
   box: {
-    width: 150,
-    height: 100,
+    width: 300,
+    height: 40,
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#ffffff',
-    borderRadius: 10,
+    alignItems: 'flex-start',
+    backgroundColor: '#a9927d',
+    borderRadius: 20,
     marginRight: 5,
+    borderWidth: 1,
+    padding: 10,
+    borderColor: 'lightgray',
+    shadowColor: '#000',
+    shadowOffset: {width: 2, height: 2 },
+    shadowOpacity: 0.6,
+    shadowRadius: 2,
   },
   row: {
     flexDirection: 'row',
   },
   uploads: {
     alignItems: 'center',
+    margin: 3
   },
   littletitle: {
     color: 'grey',

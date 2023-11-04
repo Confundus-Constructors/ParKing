@@ -1,34 +1,28 @@
-import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, Button, Modal, TextInput} from 'react-native';
+import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, Modal, TextInput} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import {host, port} from "../../../../env.js";
 import { useRoute } from "@react-navigation/native";
+import {Button} from 'react-native-elements';
 
 
 
 const ValetInfo = ({company, navigation, blur, setDefaultCityState}) => {
 
   const [seeModal, setSeeModal] = useState(false);
-  const [operatorName, setOperatorName] = useState("");
-  const [address, setAddress] = useState("70 Pine St");
-  const [city, setCity] = useState('New York, NY')
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
+  const [operatorName, setOperatorName] = useState("Operator's Name");
+  const [address, setAddress] = useState("Operator Address");
+  const [city, setCity] = useState('City and State')
+  const [email, setEmail] = useState("Operator's Email");
+  const [phone, setPhone] = useState("Operator's Phone");
   const route = useRoute();
-
-  // const id = route.params.data;
-  // console.log('this is the id', id)
-
-
-  // useEffect(() => {
-  //   axios.get(`http://${host}:${port}/
-  //   .then((result) => {
-  //     if (result.data.rows[0].photo) {
-  //       var base64 = result.data.rows[0].photo;
-  //       var base64Pic = 'data:image/png;base64,' + base64;
-  //       setImageSource(base64Pic)
-
-  // })
+  const [operator, setOperator] = useState({
+    name: "Operator's Name",
+    phone: "Operator's Phone",
+    email: "Operator's Email",
+    address: "Operator's Address",
+    city: 'City and State',
+  });
 
   const handleEdit = () => {
     setSeeModal(true);
@@ -44,15 +38,33 @@ const ValetInfo = ({company, navigation, blur, setDefaultCityState}) => {
     setDefaultCityState (city)
   }, [city])
 
+  const clearField = (fieldSetter) => {
+    fieldSetter('');
+  }
+
+  const handleUpdate = () => {
+    setOperator({
+      name: operatorName,
+      phone: phone,
+      email: email,
+      address: address,
+      city: city,
+    });
+
+    handleSubmit();
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity onPress={handleEdit}>
       {company && <Text style={styles.infoText}>{company}</Text>}
-      <Text style={styles.infoText}>{operatorName ? operatorName : <Text>Operator Name</Text>} </Text>
-      <Text style={styles.infoText}>{address}, {city}</Text>
-      <Text style={styles.infoText}>beck@workemail.com </Text>
-      <Text style={styles.infoText}>555-555-5555</Text>
-      <Text style={styles.editText}>Tap to Edit</Text></TouchableOpacity>
+      <Text style={styles.infoText}>{operator.name ? operator.name : "Operator's Name"} </Text>
+      <Text style={styles.infoText}>{operator.phone ? operator.phone : "Operator's Phone"} </Text>
+      <Text style={[styles.infoText, {width: '100%'}]}>{operator.email ? operator.email : "Operator's Email"} </Text>
+      <Text style={[styles.infoText, {width: '100%'}]}>{operator.address ? (operator.address + ', ' + operator.city) : "Operator's Address, City and State"} </Text>
+      <Text style={styles.editText}>Tap to Edit</Text>
+      </TouchableOpacity>
+      <View>
 
      <Modal
        animationType='slide'
@@ -62,35 +74,61 @@ const ValetInfo = ({company, navigation, blur, setDefaultCityState}) => {
         setSeeModal(!seeModal);
        }}
       >
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <View style={{ width: 300, height: 270, backgroundColor: '#F5F5F5', padding: 10, borderRadius: 10}}>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginBottom: '30%'}}>
+          <View style={{ width: 300, height: 288, backgroundColor: '#F5F5F5', padding: 10, borderRadius: 10}}>
+          <View style={{alignItems: 'center'}}>
+            <Text style={{color: '#3d3d3d', fontStyle: 'italic'}}>Add your info to get started</Text>
+          </View>
 
-            <TextInput style={styles.input}
+            <TextInput style={[styles.input, {marginTop: 15}]}
             value={operatorName}
             onChangeText={setOperatorName}
-            placeholder="Enter Operator Name" />
-             <TextInput style={styles.input}
-            value={operatorName}
-            onChangeText={setAddress}
-            placeholder="Enter Operator Street Address" />
-             <TextInput style={styles.input}
-            value={operatorName}
-            onChangeText={setAddress}
-            placeholder="Enter Operator City, State" />
-             <TextInput style={styles.input}
-            value={operatorName}
-            onChangeText={setEmail}
-            placeholder="Enter Operator Email" />
+            placeholder="Operator's Name"
+            onFocus={() => clearField(setOperatorName)}
+            />
             <TextInput style={styles.input}
-            value={operatorName}
+            value={phone}
             onChangeText={setPhone}
-            placeholder="Enter Phone Number" />
-            <Button title="Save Changes" onPress={handleSubmit} />
-            <Button title="Cancel" onPress={handleSubmit} />
+            placeholder="Phone Number"
+            onFocus={() => clearField(setPhone)}
+            />
+             <TextInput style={styles.input}
+            value={email}
+            onChangeText={setEmail}
+            placeholder="Email Address"
+            onFocus={() => clearField(setEmail)}
+            />
+             <TextInput style={styles.input}
+            value={address}
+            onChangeText={setAddress}
+            placeholder="Home Street Address"
+            onFocus={() => clearField(setAddress)}
+            />
+             <TextInput style={styles.input}
+            value={city}
+            onChangeText={setCity}
+            placeholder="Home City, State"
+            onFocus={() => clearField(setCity)}
+            />
 
-             </View>
-             </View>
+
+
+          <View style={{flexDirection: 'row', marginTop: 2, justifyContent: 'center'}}>
+            <Button title="Cancel" onPress={handleSubmit}
+              buttonStyle={{ backgroundColor: 'transparent', width: 120}}
+              titleStyle={[styles.buttonText, {color: '#49111c', fontWeight: '500'}]}
+            />
+
+            <Button title="Save" onPress={handleUpdate}
+              buttonStyle={{ backgroundColor: 'transparent', width: 120}}
+              titleStyle={[styles.buttonText, {color: '#49111c'}]}
+            />
+          </View>
+
+        </View>
+        </View>
       </Modal>
+      </View>
     </SafeAreaView>
   )
 }
@@ -133,11 +171,19 @@ const styles = StyleSheet.create({
   },
   input: {
    marginBottom: 10,
-   height: 25,
+   height: 30,
    fontSize: 17,
    color: '#333',
    backgroundColor: '#FAFAFA',
-  }
+   borderRadius: 5,
+   paddingHorizontal: 5
+  },
+  buttonText: {
+    color: 'white',
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 17,
+  },
 })
 
 
