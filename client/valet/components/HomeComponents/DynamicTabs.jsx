@@ -12,7 +12,7 @@ import Payment from './Payment';
 import Summary from './Summary';
 import LocTab from './LocTab';
 import TabContentWrapper from './TabContentWrapper';
-
+import { UserContext } from './UserContext'
 export const MyContext = React.createContext();
 
 const Tab = createMaterialTopTabNavigator();
@@ -23,6 +23,7 @@ function HomeContent() {
   const [seeModal, setSeeModal] = useState(false);
   const [showBlur, setShowBlur] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isUploaded, setIsUploaded] = useState(false);
 
 
   const handleEdit = () => {
@@ -38,8 +39,10 @@ function HomeContent() {
   // Toggle the state variable to show/hide the modal
   setIsModalVisible(!isModalVisible);
   blur(); // Call blur function if needed.
-};
+  };
 
+  const { userId } = useContext(UserContext)
+  console.log('logger', userId)
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
@@ -48,20 +51,40 @@ function HomeContent() {
           <SignOut variant={'home'} />
         </View>
       </View>
-      <Text style={styles.title}>1. Add your details (above) to get started</Text>
+      <View style={{alignItems: 'center'}}>
+      <View style={styles.summary}>
+      <Text style={styles.subtitle}>You currently have:</Text>
+        <Summary />
+        </View>
+        </View>
+      <Text style={{textAlign: 'center', fontWeight: 'bold', marginTop: 17, fontSize: 16}}>Complete these steps to get started</Text>
+      <Text style={[styles.title, {marginTop: 10, marginBottom: -10} ]}>1. Verify accuracy of your personal info</Text>
       <View style={{ flexDirection: 'row' }}>
-        <Text style={styles.title}>2. Upload documentation - </Text>
+        <Text style={styles.title}>2. Upload driver's documentation - </Text>
         <TouchableOpacity onPress={handleEdit}>
           <Text style={styles.editText}>Why?</Text>
         </TouchableOpacity>
       </View>
-      <View style={{ marginTop: -10 }}>
-        <UploadID />
+      <View style={{ marginTop: -17 }}>
+        <UploadID setIsUploaded={setIsUploaded} isUploaded={isUploaded}/>
       </View>
       <View style={{ flexDirection: 'column', alignItems: 'center' }}>
         <Payment />
-        <Text style={styles.subtitle}>You currently have:</Text>
-        <Summary />
+        <View style={styles.uploads}>
+        <TouchableOpacity style={[styles.box, isUploaded ? null : {backgroundColor: '#d3d3d3'}]} onPress={() => {
+          if(isUploaded) {
+            console.log('submitted')
+          } else {
+            alert('Please Upload Documentation')
+          }
+        }}>
+            <View>
+              <Text style={{fontWeight: 'bold', color: 'white', fontSize: 18, alignText: 'center'}}>
+                Submit for Approval
+              </Text>
+            </View>
+        </TouchableOpacity>
+        </View>
       </View>
       {showBlur && (
         <BlurView
@@ -226,32 +249,42 @@ const styles = {
   },
   title: {
     marginTop: 25,
-    fontWeight: 'bold',
     fontSize: 15,
-    marginBottom: 5,
-    marginLeft: '10%'
+    fontWeight: 'bold',
+    marginLeft: '10%',
+    color: '#485460'
   },
   subtitle: {
-    marginTop: 25,
+    marginTop: 0,
     fontWeight: 'bold',
     fontSize: 18,
-    marginBottom: 10,
+    marginBottom: 8,
   },
   box: {
     width: 300,
-    height: 40,
+    height: 45,
     justifyContent: 'center',
-    alignItems: 'flex-start',
-    backgroundColor: '#a9927d',
+    alignItems: 'center',
+    backgroundColor: '#49111c',
     borderRadius: 20,
     marginRight: 5,
     borderWidth: 1,
-    padding: 10,
+    padding: 1,
     borderColor: 'lightgray',
     shadowColor: '#000',
     shadowOffset: {width: 2, height: 2 },
     shadowOpacity: 0.6,
     shadowRadius: 2,
+    marginTop: 32
+  },
+  summary: {
+    padding: 5, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: 'lightgray', borderRadius: 15, width: 340, marginTop: 10,
+    height: 140,
+    shadowColor: '#000',
+    shadowOffset: {width: 2, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    backgroundColor: '#d3d3d3'
   }
 };
 

@@ -15,7 +15,7 @@ import React, { useState, useEffect } from "react";
 import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
 import AppLoading from "expo-app-loading";
-
+import { UserContext } from './client/valet/components/HomeComponents/UserContext';
 
 // import { router } from 'expro-router';
 import CarManage from "./client/valet/components/CarManage.jsx";
@@ -27,6 +27,7 @@ LogBox.ignoreAllLogs();
 export default function App() {
   const [isFontLoaded, setFontLoaded] = useState(false);
   const [emp, setEmp] = useState(true);
+  const [userId, setUserId] = useState(1)
 
   const loadFonts = async () => {
     try {
@@ -61,7 +62,9 @@ export default function App() {
     // <ForgotPasswordScreen />
     // <NewPasswordScreen />
     // <CarManage />
+    <UserContext.Provider value={{userId, setUserId}}>
     <Navigation />
+    </UserContext.Provider>
     // <UHP />
     // <Welcome />
     // <SignUpScreen />

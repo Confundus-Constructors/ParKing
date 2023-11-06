@@ -1,20 +1,21 @@
 import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, Modal, TextInput} from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import axios from 'axios';
 import {host, port} from "../../../../env.js";
 import { useRoute } from "@react-navigation/native";
 import {Button} from 'react-native-elements';
-
+import { UserContext } from './UserContext';
 
 
 const ValetInfo = ({company, navigation, blur, setDefaultCityState}) => {
 
+  const { userId } = useContext(UserContext);
   const [seeModal, setSeeModal] = useState(false);
   const [operatorName, setOperatorName] = useState("Operator's Name");
-  const [address, setAddress] = useState("Operator Address");
-  const [city, setCity] = useState('City and State')
-  const [email, setEmail] = useState("Operator's Email");
-  const [phone, setPhone] = useState("Operator's Phone");
+  const [address, setAddress] = useState("Operator's Street");
+  const [city, setCity] = useState('New York, NY')
+  const [email, setEmail] = useState("operator@email.com");
+  const [phone, setPhone] = useState("555-555-5555");
   const route = useRoute();
   const [operator, setOperator] = useState({
     name: "Operator's Name",
@@ -23,6 +24,8 @@ const ValetInfo = ({company, navigation, blur, setDefaultCityState}) => {
     address: "Operator's Address",
     city: 'City and State',
   });
+
+  console.log('userid', userId)
 
   const handleEdit = () => {
     setSeeModal(true);
@@ -75,10 +78,7 @@ const ValetInfo = ({company, navigation, blur, setDefaultCityState}) => {
        }}
       >
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginBottom: '30%'}}>
-          <View style={{ width: 300, height: 288, backgroundColor: '#F5F5F5', padding: 10, borderRadius: 10}}>
-          <View style={{alignItems: 'center'}}>
-            <Text style={{color: '#3d3d3d', fontStyle: 'italic'}}>Add your info to get started</Text>
-          </View>
+          <View style={{ width: 300, height: 272, backgroundColor: '#F5F5F5', padding: 10, borderRadius: 10}}>
 
             <TextInput style={[styles.input, {marginTop: 15}]}
             value={operatorName}
@@ -146,6 +146,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     marginLeft: 5,
     fontWeight: 'bold',
+    color: '#485460'
   },
   homeButton: {
     marginTop: 25,

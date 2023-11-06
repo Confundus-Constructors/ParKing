@@ -3,10 +3,11 @@ import CustomButton from './CustomButton';
 import CustomInput from './CustomInput';
 import UserTabs from './UserTabs.jsx';
 import * as Font from 'expo-font';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useForm, Controller } from "react-hook-form";
 import { FIREBASE_AUTH } from '../../../FirebaseConfig.ts';
+import { UserContext } from '../../valet/components/HomeComponents/UserContext';
 
 import * as Google from 'expo-auth-session/providers/google';
 import * as WebBrowser from 'expo-web-browser';
@@ -41,10 +42,11 @@ const Welcome = () => {
   const [loading, setLoading] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
-  const [ userId, setUserId ] = useState(1);
   const { control, handleSubmit, formState: {errors}, } = useForm();
 
   const navigation = useNavigation();
+  const { userId, setUserId } = useContext(UserContext);
+
 
 
   const [request, response, promptAsync] = Google.useAuthRequest({

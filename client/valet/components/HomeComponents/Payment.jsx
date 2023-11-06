@@ -57,7 +57,7 @@ async function handleSavePaymentMethodPress() {
     <View>
        <Text style={styles.title}>3. Provide a way for us to pay you </Text>
        <TouchableOpacity onPress={handleSavePaymentMethodPress} style={styles.box}>
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center'}}>
         <FontAwesomeIcon icon={faCreditCard} style={{ color: "white", opacity: 1 }} size={30} fade-size={'lg'} />
         <View style={{ marginLeft: 10 }}>
           <Text style={{fontWeight: 'bold', color: 'white', fontSize: 18 }}>
@@ -96,6 +96,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#a9927d',
     borderRadius: 20,
     marginRight: 5,
+    paddingHorizontal: 9,
     borderWidth: 1,
     padding: 10,
     borderColor: 'lightgray',
@@ -109,6 +110,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 15,
     marginBottom: 5,
+    color: '#485460'
   },
   })
 export default Payment;

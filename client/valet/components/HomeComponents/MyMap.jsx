@@ -55,7 +55,6 @@ useEffect(() => {
     try {
         const response = await fetch('http://localhost:3000/requestNewToken');
         if (response.status === 200) {
-          console.log('response', response)
             const data = await response.json();
             setAccessToken(data.accessToken);
             setExpirationTime(Date.now() + data.expiresInSeconds * 1000);
@@ -81,7 +80,6 @@ useEffect(() => {
     try {
 
       const encodedAddress = encodeURIComponent(searchLocation);
-
       const apiUrl = `https://maps-api.apple.com/v1/geocode?q=${encodedAddress}`;
 
       const response = await fetch(apiUrl, {
@@ -93,14 +91,13 @@ useEffect(() => {
 
       if (response.status === 200) {
         const data = await response.json();
-
         if (data.results && data.results[0] && data.results[0].coordinate) {
           const { latitude, longitude } = data.results[0].coordinate;
 
           setMapRegion({ latitude, longitude, latitudeDelta: 0.090,
             longitudeDelta: 0.090});
         } else {
-          console.alert('There was an error with default location')
+          console.log('There was an error with default location')
         }
       }}
       catch (error) {

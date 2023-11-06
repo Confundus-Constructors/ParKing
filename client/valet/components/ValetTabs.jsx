@@ -40,7 +40,7 @@ export default ValetTabs = () => {
     {/* // <NavigationContainer theme={navTheme}> */}
       <StatusBar barStyle="light-content" translucent={true} />
       <Tab.Navigator
-        barStyle={{ backgroundColor: "black" }}
+        barStyle={{ backgroundColor: "black", height: 80 }}
         activeColor="white"
         inactiveColor="gray"
       >

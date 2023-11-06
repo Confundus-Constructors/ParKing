@@ -7,7 +7,7 @@ const Summary = () => {
       <View style={{flexDirection: 'row', justifyContent: 'space-between',}} >
         <View>
           <Text>
-            Total Earned:
+            Total Earnings:
           </Text>
           <Text>
             Service Locations:
